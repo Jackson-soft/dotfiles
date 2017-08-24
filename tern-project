@@ -1,0 +1,24 @@
+{
+    "ecmaVersion": 6,
+    "libs": [
+        "browser",
+        "ecma6",
+        "underscore",
+        "jquery"
+    ],
+    "loadEagerly": [
+        "importantfile.js"
+    ],
+    "plugins": {
+        "requirejs": {
+            "baseURL": "./",
+            "paths": {}
+        },
+        "node": {},
+        "es_modules": {},
+        "doc_comment": {
+            "fullDocs": true,
+            "strong": true
+        }
+    }
+}

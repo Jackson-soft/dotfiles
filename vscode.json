@@ -1,0 +1,16 @@
+{
+    "editor.fontFamily": "YaHei Monaco",
+    "editor.fontSize": 18,
+    "workbench.iconTheme": "vscode-icons",
+    "python.pythonPath": "/usr/bin/python3",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "workbench.colorTheme": "One Dark Pro",
+    "go.docsTool": "gogetdoc",
+    "go.lintTool": "gometalinter",
+    "go.formatTool": "goimports",
+    "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+    "C_Cpp.clang_format_formatOnSave": true,
+    "lua.luacheckPath": "/usr/bin/luacheck",
+    "lua.preferLuaCheckErrors": true
+}
