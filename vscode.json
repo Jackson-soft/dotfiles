@@ -1,7 +1,6 @@
 {
     "editor.fontFamily": "YaHei Monaco",
     "editor.fontSize": 18,
-    "workbench.iconTheme": "vscode-icons",
     "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
