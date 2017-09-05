@@ -77,9 +77,12 @@ This function should only modify configuration layer settings."
      javascript
      (typescript :variables
                  typescript-fmt-on-save t
+                 tide-tsserver-executable "/usr/bin/tsserver"
                  typescript-fmt-tool 'typescript-formatter)
      sql
      (ycmd :variables
+           ycmd-server-command '("python3" "/home/jacksoncy/library/ycmd/ycmd")
+           ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py"
            ycmd-force-semantic-completion t)
      semantic
      )
@@ -375,8 +378,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (set-variable 'ycmd-server-command '("python3" "/home/jacksoncy/library/ycmd/ycmd"))
-  (set-variable 'ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py")
+  ;;(set-variable 'ycmd-server-command '("python3" "/home/jacksoncy/library/ycmd/ycmd"))
+  ;;(set-variable 'ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py")
   (add-hook 'python-mode-hook 'ycmd-mode)
   (add-hook 'js2-mode-hook 'ycmd-mode)
   (add-hook 'go-mode-hook 'ycmd-mode)
@@ -396,7 +399,7 @@ before packages are loaded."
   ;; 设置回跳快捷键
   (global-set-key "\C-o" 'evil-jump-backward)
 
-  (defun fengche-comment (arg)
+  (defun jinfo-comment (arg)
     ;;符合个人风格的注释行为
     (interactive "*P")
     (comment-normalize-vars)
@@ -406,7 +409,7 @@ before packages are loaded."
       (comment-dwim arg)))
 
   ;;自定义注释行为
-  (global-set-key "\M-;" 'fengche-comment)
+  (global-set-key "\M-;" 'jinfo-comment)
 
   ;;org-mode export to latex
   (require 'ox-latex)

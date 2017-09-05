@@ -1,27 +1,19 @@
 {
+    "compileOnSave": false,
     "compilerOptions": {
-        "module": "commonjs",
-        "noImplicitAny": true,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "moduleResolution": "node",
-        "target": "es5",
+        "outDir": "./dist/out-tsc",
         "sourceMap": true,
-        "allowJs": true
-    },
-    "files": [
-        "core.ts",
-        "sys.ts",
-        "types.ts",
-        "scanner.ts",
-        "parser.ts",
-        "utilities.ts",
-        "binder.ts",
-        "checker.ts",
-        "emitter.ts",
-        "program.ts",
-        "commandLineParser.ts",
-        "tsc.ts",
-        "diagnosticInformationMap.generated.ts"
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "typeRoots": [
+      "node_modules/@types"
+    ],
+        "lib": [
+      "es2017",
+      "dom"
     ]
+    }
 }
