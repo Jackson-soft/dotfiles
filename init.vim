@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged/')
 
     "代码补全
     Plug 'roxma/nvim-completion-manager'
-    Plug 'roxma/clang_complete'
     Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer --gocode-completer --tern-completer --system-libclang' }
 
     "自动括号匹配
@@ -17,8 +16,6 @@ call plug#begin('~/.vim/plugged/')
     Plug 'sheerun/vim-polyglot'
 
     Plug 'junegunn/vim-easy-align'
-    "代码片段
-    Plug 'SirVer/ultisnips'
 
     "语法检测
     Plug 'w0rp/ale'
@@ -38,9 +35,8 @@ call plug#begin('~/.vim/plugged/')
     Plug 'gorodinskiy/vim-coloresque'
     Plug 'mattn/emmet-vim'
 
-    "Javascript Bundles
-    Plug 'pangloss/vim-javascript'
-    Plug 'mhartington/nvim-typescript'
+    "LSP
+    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 syntax on
@@ -100,14 +96,6 @@ let g:NERDTreeIndicatorMapCustom = {
 
 "let g:nerdtree_tabs_open_on_console_startup=1
 
-
-"Neomake
-let g:neomake_cpp_enabled_makers=['clang']
-let g:neomake_cpp_clang_args = ["-std=c++14"]
-let g:neomake_javascript_enabled_makers = ['eslint']
-autocmd! BufWritePost * Neomake
-
-
 " airline
 let g:airline_powerline_fonts=1
 let g:airline_theme='powerlineish'
@@ -162,7 +150,13 @@ let g:use_emmet_complete_tag = 1
 "deoplete
 let g:deoplete#enable_at_startup = 1
 
-"javascript
-let g:javascript_plugin_jsdoc = 1
-let g:javascript_plugin_ngdoc = 1
-let g:javascript_plugin_flow = 1
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'go': ['/home/jacksoncy/code/go/bin/go-langserver', 'run'],
+    \ 'javascript': ['/usr/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
+    \ }
+
+" Automatically start language servers.
+let g:LanguageClient_autoStart = 1

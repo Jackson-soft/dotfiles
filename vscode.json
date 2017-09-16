@@ -8,6 +8,8 @@
     "go.docsTool": "gogetdoc",
     "go.lintTool": "gometalinter",
     "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
+    "go.languageServerFlags": ["-trace"],
     "C_Cpp.clang_format_path": "/usr/bin/clang-format",
     "C_Cpp.clang_format_formatOnSave": true,
     "lua.luacheckPath": "/usr/bin/luacheck",
