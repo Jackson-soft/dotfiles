@@ -36,29 +36,32 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
+     semantic
      (auto-completion :variables
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t)
+     (syntax-checking :variables
+                      syntax-checking-use-original-bitmaps t)
+     version-control
      better-defaults
+     treemacs
      chinese
      emacs-lisp
      git
-     (markdown :variables
-               markdown-live-preview-engine 'vmd)
      bibtex
      (latex :variables
             latex-build-command "LaTeX"
             latex-enable-auto-fill t
-            latex-enable-folding t)
+            latex-enable-folding t
+            latex-enable-magic t)
      (org :variables
           org-want-todo-bindings t)
+     (markdown :variables
+               markdown-live-preview-engine 'vmd)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     (syntax-checking :variables
-                      syntax-checking-use-original-bitmaps t)
-     version-control
      (go :variables
          go-tab-width 4
          gofmt-command "goimports"
@@ -68,6 +71,10 @@ This function should only modify configuration layer settings."
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-format-on-save t
             c-c++-enable-clang-support t)
+     (ycmd :variables
+           ycmd-server-command '("python3" "/home/jacksoncy/library/ycmd/ycmd")
+           ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py"
+           ycmd-force-semantic-completion t)
      (python :variables
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
@@ -80,11 +87,8 @@ This function should only modify configuration layer settings."
                  tide-tsserver-executable "/usr/bin/tsserver"
                  typescript-fmt-tool 'typescript-formatter)
      sql
-     (ycmd :variables
-           ycmd-server-command '("python3" "/home/jacksoncy/library/ycmd/ycmd")
-           ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py"
-           ycmd-force-semantic-completion t)
-     semantic
+     protobuf
+     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
