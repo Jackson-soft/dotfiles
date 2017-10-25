@@ -18,11 +18,13 @@ cmds = [
     "go get -u -v github.com/tpng/gopkgs",
     "go get -u -v github.com/newhook/go-symbols",
     "go get -u -v golang.org/x/tools/cmd/guru",
-    "go get -u -v github.com/Masterminds/glide",
     "go get -u -v github.com/josharian/impl",
     "go get -u -v github.com/godoctor/godoctor",
     "go get -u -v github.com/fatih/gomodifytags",
-    "go get -u -v github.com/cweill/gotests/...", ]
+    "go get -u -v github.com/cweill/gotests/...",
+    "go get -u github.com/golang/dep/cmd/dep",
+    "go get -u github.com/sourcegraph/go-langserver",
+]
 
 for i in cmds:
     print("start:==========", i)
