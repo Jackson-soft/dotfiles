@@ -1,10 +1,10 @@
 {
     "editor.fontFamily": "YaHei Monaco",
     "editor.fontSize": 18,
+    "editor.formatOnSave": true,
     "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.formatting.formatOnSave": true,
     "html.trace.server": "verbose",
     "eslint.trace.server": "verbose",
     "typescript.useCodeSnippetsOnMethodSuggest": true,
@@ -14,9 +14,9 @@
     "go.lintTool": "gometalinter",
     "go.formatTool": "goimports",
     "go.useLanguageServer": true,
-    "go.languageServerFlags": ["-trace"],
-    "C_Cpp.clang_format_path": "/usr/bin/clang-format",
-    "C_Cpp.clang_format_formatOnSave": true,
+    "go.languageServerFlags": [
+        "-trace"
+    ],
     "lua.luacheckPath": "/usr/bin/luacheck",
     "lua.preferLuaCheckErrors": true
 }
