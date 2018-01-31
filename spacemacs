@@ -71,8 +71,9 @@ This function should only modify configuration layer settings."
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-format-on-save t
             c-c++-enable-clang-support t
-            c-c++-enable-c++11 t
-            c-c++-enable-cmake-ide-support t)
+            c-c++-enable-c++11 t)
+     (cmake :variables
+            cmake-enable-cmake-ide-support t)
      (ycmd :variables
            ycmd-server-command '("python3" "/home/jacksoncy/library/ycmd/ycmd")
            ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py"
