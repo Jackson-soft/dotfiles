@@ -62,6 +62,7 @@ This function should only modify configuration layer settings."
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
+     lsp
      (go :variables
          go-tab-width 4
          gofmt-command "goimports"
@@ -79,6 +80,7 @@ This function should only modify configuration layer settings."
            ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py"
            ycmd-force-semantic-completion t)
      (python :variables
+             python-backend 'lsp
              python-sort-imports-on-save t
              python-enable-yapf-format-on-save t)
      lua

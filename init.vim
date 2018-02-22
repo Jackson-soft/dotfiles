@@ -5,7 +5,6 @@ call plug#begin('~/.vim/plugged/')
 
     "代码补全
     Plug 'roxma/nvim-completion-manager'
-    Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer --gocode-completer --tern-completer --system-libclang' }
 
     "自动括号匹配
     Plug 'jiangmiao/auto-pairs'
@@ -36,7 +35,10 @@ call plug#begin('~/.vim/plugged/')
     Plug 'mattn/emmet-vim'
 
     "LSP
-    Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'autozimu/LanguageClient-neovim', {
+        \ 'branch': 'next',
+        \ 'do': 'bash install.sh',
+        \ }
 call plug#end()
 
 syntax on
@@ -116,32 +118,6 @@ let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 
-"YouCompleteMe
-let g:ycm_server_python_interpreter = '/usr/bin/python3'
-"let g:ycm_python_binary_path = '/usr/lib64/python3.5'
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-" 补全功能在注释中同样有效
-let g:ycm_complete_in_comments=1
-" 允许 vim 加载 .ycm_extra_conf.py 文件,不再提示
-let g:ycm_confirm_extra_conf=0
-" 开启 YCM 基于标签引擎
-let g:ycm_collect_identifiers_from_tags_files=1
-" YCM 集成 OmniCppComplete 补全引擎,设置其快捷键
-inoremap <leader>; <C-x><C-o>
-" 补全内容不以分割子窗口形式出现,只显示补全列表
-set completeopt-=preview
-" 从第一个键入字符就开始罗列匹配项
-let g:ycm_min_num_of_chars_for_completion=1
-" 禁止缓存匹配项,每次都重新生成匹配项
-let g:ycm_cache_omnifunc=0
-" 语法关键字补全
-let g:ycm_seed_identifiers_with_syntax=1
-" 设置转到定义处的快捷键为ALT + G，这个功能非常赞
-"nmap <M-g> :YcmCompleter GoToDefinitionElseDeclaration <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>jc :YcmCompleter GoToDeclaration<CR>
-" 只能是 #include 或已打开的文件
-nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-
 "Emmet
 let g:user_emmet_expandabbr_key = '<c-e>'
 "let g:user_emmet_leader_key = '<c-e>'
@@ -155,8 +131,17 @@ set hidden
 
 let g:LanguageClient_serverCommands = {
     \ 'go': ['/home/jacksoncy/code/go/bin/go-langserver', 'run'],
-    \ 'javascript': ['/usr/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'], 
+    \ 'lua': ['lua-lsp'],
+    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
+    \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+    \ 'python': ['pyls'],
     \ }
 
 " Automatically start language servers.
 let g:LanguageClient_autoStart = 1
+let g:LanguageClient_settingsPath = '/home/jacksoncy/.config/nvim/settings.json'
+set completefunc=LanguageClient#complete
+set formatexpr=LanguageClient_textDocument_rangeFormatting()
