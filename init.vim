@@ -34,6 +34,9 @@ call plug#begin('~/.vim/plugged/')
     Plug 'gorodinskiy/vim-coloresque'
     Plug 'mattn/emmet-vim'
 
+    "format
+    Plug 'Chiel92/vim-autoformat'
+
     "LSP
     Plug 'autozimu/LanguageClient-neovim', {
         \ 'branch': 'next',
@@ -129,6 +132,9 @@ let g:deoplete#enable_at_startup = 1
 " Required for operations modifying multiple buffers like rename.
 set hidden
 
+" autoformat
+au BufWrite * :Autoformat
+
 let g:LanguageClient_serverCommands = {
     \ 'go': ['/home/jacksoncy/code/go/bin/go-langserver', 'run'],
     \ 'javascript': ['javascript-typescript-stdio'],
@@ -141,7 +147,5 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 " Automatically start language servers.
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_settingsPath = '/home/jacksoncy/.config/nvim/settings.json'
 set completefunc=LanguageClient#complete
 set formatexpr=LanguageClient_textDocument_rangeFormatting()
