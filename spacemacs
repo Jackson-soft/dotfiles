@@ -66,13 +66,12 @@ This function should only modify configuration layer settings."
      (go :variables
          go-tab-width 4
          gofmt-command "goimports"
-         godoc-gogetdoc t
+         godoc-at-point-function 'godoc-gogetdoc
          go-use-gometalinter t)
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-format-on-save t
-            c-c++-enable-clang-support t
-            c-c++-enable-c++11 t)
+            c-c++-enable-clang-support t)
      (cmake :variables
             cmake-enable-cmake-ide-support t)
      (ycmd :variables
@@ -86,10 +85,12 @@ This function should only modify configuration layer settings."
      lua
      nginx
      html
-     javascript
+     (javascript :variables
+                 javascript-backend 'lsp
+                 node-add-modules-path t)
      (typescript :variables
+                 typescript-backend 'lsp
                  typescript-fmt-on-save t
-                 tide-tsserver-executable "/usr/bin/tsserver"
                  typescript-fmt-tool 'typescript-formatter)
      sql
      protobuf
