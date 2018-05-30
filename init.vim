@@ -2,6 +2,7 @@
 call plug#begin('~/.vim/plugged/')
     "文件管理
     Plug 'Shougo/denite.nvim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
     "代码补全
     Plug 'roxma/nvim-completion-manager'
@@ -78,6 +79,9 @@ set nowrap           "no line wrapping
 set background=dark
 colorscheme solarized
 
+"使得terminal的光标变为细线，而不是默认的粗条。这个在vim的普通模式和插入模式都会生效。
+set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor
+
 "NERDTree
 map <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeDirArrowExpandable = '▸'
@@ -100,6 +104,7 @@ let g:NERDTreeIndicatorMapCustom = {
 
 
 "let g:nerdtree_tabs_open_on_console_startup=1
+
 
 " airline
 let g:airline_powerline_fonts=1
@@ -136,16 +141,18 @@ set hidden
 au BufWrite * :Autoformat
 
 let g:LanguageClient_serverCommands = {
-    \ 'go': ['/home/jacksoncy/code/go/bin/go-langserver', 'run'],
+    \ 'go': ['/home/jacksoncy/work/go/bin/go-langserver', 'run'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'javascript.jsx': ['javascript-typescript-stdio'],
     \ 'typescript': ['javascript-typescript-stdio'], 
     \ 'lua': ['lua-lsp'],
-    \ 'cpp': ['cquery', '--log-file=/tmp/cq.log'],
-    \ 'c': ['cquery', '--log-file=/tmp/cq.log'],
+    \ 'cpp': ['ccls', '--log-file=/tmp/cq.log'],
+    \ 'c': ['ccls', '--log-file=/tmp/cq.log'],
     \ 'python': ['pyls'],
     \ }
 
 " Automatically start language servers.
+let g:LanguageClient_loadSettings = 1 " Use an absolute configuration path if you want system-wide settings 
+let g:LanguageClient_settingsPath = '/home/jacksoncy/.config/nvim/settings.json'
 set completefunc=LanguageClient#complete
 set formatexpr=LanguageClient_textDocument_rangeFormatting()
