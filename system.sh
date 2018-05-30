@@ -8,6 +8,5 @@ sudo dnf install -y emacs-auctex texlive-collection-mathextra texlive-hyphenat t
 
 git clone https://github.com/Valloric/ycmd.git ~/library/ycmd
 
-sudo npm install -g tern eslint remark remark-lint-first-heading-level remark-lint typescript tslint typescript-formatter yaml-language-server tslint-language-service javascript-typescript-langserver vscode-html-languageservice vmd
 
-sudo python3 -m pip install flake8 autoflake hy mycli python-language-server pyls-mypy
+
