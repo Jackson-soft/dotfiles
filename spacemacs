@@ -70,8 +70,8 @@ This function should only modify configuration layer settings."
          go-use-gometalinter t)
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
-            c-c++-enable-clang-format-on-save t
-            c-c++-enable-clang-support t)
+            c-c++-enable-clang-support t
+            c-c++-enable-clang-format-on-save t)
      (cmake :variables
             cmake-enable-cmake-ide-support t)
      (ycmd :variables
@@ -84,6 +84,8 @@ This function should only modify configuration layer settings."
              python-enable-yapf-format-on-save t)
      lua
      nginx
+     web-beautify
+     json
      html
      (javascript :variables
                  javascript-backend 'lsp
@@ -92,7 +94,8 @@ This function should only modify configuration layer settings."
                  typescript-backend 'lsp
                  typescript-fmt-on-save t
                  typescript-fmt-tool 'typescript-formatter)
-     sql
+     (sql :variables
+          sql-capitalize-keywords t)
      protobuf
      yaml
      )
@@ -323,7 +326,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
