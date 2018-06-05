@@ -2,21 +2,26 @@
     "editor.fontFamily": "YaHei Monaco",
     "editor.fontSize": 18,
     "editor.formatOnSave": true,
-    "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "html.trace.server": "verbose",
     "eslint.trace.server": "verbose",
     "typescript.useCodeSnippetsOnMethodSuggest": true,
     "typescript.tsserver.trace": "verbose",
-    "workbench.colorTheme": "One Dark Pro",
     "go.docsTool": "gogetdoc",
-    "go.lintTool": "gometalinter",
+    "go.lintTool": "golangci-lint",
     "go.formatTool": "goimports",
     "go.useLanguageServer": true,
+    "go.languageServerExperimentalFeatures": {
+        "format": true,
+        "autoComplete": true
+    },
     "go.languageServerFlags": [
         "-trace"
     ],
+    "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+    "C_Cpp.default.cppStandard": "c++17",
+    "workbench.iconTheme": "material-icon-theme",
     "lua.luacheckPath": "/usr/bin/luacheck",
     "lua.preferLuaCheckErrors": true
 }

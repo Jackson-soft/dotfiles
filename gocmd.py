@@ -9,7 +9,7 @@ cmds = [
     "go get -u -v golang.org/x/tools/cmd/goimports",
     "go get -u -v golang.org/x/tools/cmd/gorename",
     "go get -u -v golang.org/x/tools/cmd/guru",
-    "go get -u github.com/alecthomas/gometalinter",
+    "go get -u github.com/golangci/golangci-lint/cmd/golangci-lint",
     "go get -u github.com/derekparker/delve/cmd/dlv",
     "go get -u -v github.com/rogpeppe/godef",
     "go get -u -v github.com/golang/lint/golint",
