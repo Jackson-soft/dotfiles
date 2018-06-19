@@ -4,7 +4,7 @@
 import os
 
 cmds = [
-    "go get -u -v github.com/nsf/gocode",
+    "go get -u -v github.com/mdempsky/gocode",
     "go get -u -v golang.org/x/tools/cmd/oracle",
     "go get -u -v golang.org/x/tools/cmd/goimports",
     "go get -u -v golang.org/x/tools/cmd/gorename",
