@@ -4,24 +4,18 @@
     "editor.formatOnSave": true,
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "html.trace.server": "verbose",
-    "eslint.trace.server": "verbose",
+    "html.trace.server": "messages",
+    "eslint.trace.server": "messages",
     "typescript.useCodeSnippetsOnMethodSuggest": true,
-    "typescript.tsserver.trace": "verbose",
+    "typescript.tsserver.trace": "messages",
     "go.docsTool": "gogetdoc",
     "go.lintTool": "golangci-lint",
     "go.formatTool": "goimports",
     "go.useLanguageServer": true,
-    "go.languageServerExperimentalFeatures": {
-        "format": true,
-        "autoComplete": true
-    },
-    "go.languageServerFlags": [
-        "-trace"
+    "go.testFlags": [
+        "-v"
     ],
     "C_Cpp.clang_format_path": "/usr/bin/clang-format",
     "C_Cpp.default.cppStandard": "c++17",
-    "workbench.iconTheme": "material-icon-theme",
-    "lua.luacheckPath": "/usr/bin/luacheck",
-    "lua.preferLuaCheckErrors": true
+    "workbench.iconTheme": "material-icon-theme"
 }

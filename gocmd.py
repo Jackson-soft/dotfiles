@@ -9,7 +9,7 @@ cmds = [
     "go get -u -v golang.org/x/tools/cmd/goimports",
     "go get -u -v golang.org/x/tools/cmd/gorename",
     "go get -u -v golang.org/x/tools/cmd/guru",
-    "go get -u github.com/golangci/golangci-lint/cmd/golangci-lint",
+    "go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint",
     "go get -u github.com/derekparker/delve/cmd/dlv",
     "go get -u -v github.com/rogpeppe/godef",
     "go get -u -v github.com/golang/lint/golint",
@@ -25,6 +25,9 @@ cmds = [
     "go get -u github.com/sourcegraph/go-langserver",
     "go get -u -v github.com/acroca/go-symbols",
     "go get -u -v github.com/haya14busa/goplay/cmd/goplay",
+    "go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct",
+    "go get -u -v github.com/alecthomas/gometalinter",
+    "gometalinter --install",
 ]
 
 for i in cmds:
