@@ -76,7 +76,7 @@ This function should only modify configuration layer settings."
             cmake-enable-cmake-ide-support t)
      (ycmd :variables
            ycmd-server-command '("python3" "/home/jacksoncy/library/ycmd/ycmd")
-           ycmd-global-config "/home/jacksoncy/library/ycmd/cpp/ycm/.ycm_extra_conf.py"
+           ycmd-global-config "/home/jacksoncy/library/ycmd/.ycm_extra_conf.py"
            ycmd-force-semantic-completion t)
      (python :variables
              python-backend 'lsp
