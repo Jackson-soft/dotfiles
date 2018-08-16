@@ -64,6 +64,8 @@ This function should only modify configuration layer settings."
             shell-default-position 'bottom)
      lsp
      (go :variables
+         go-backend 'lsp
+         go-format-before-save t
          go-tab-width 4
          gofmt-command "goimports"
          godoc-at-point-function 'godoc-gogetdoc
