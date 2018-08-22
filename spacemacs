@@ -69,7 +69,7 @@ This function should only modify configuration layer settings."
          go-tab-width 4
          gofmt-command "goimports"
          godoc-at-point-function 'godoc-gogetdoc
-         go-use-gometalinter t)
+         go-use-golangci-lint t)
      (c-c++ :variables
             c-c++-default-mode-for-headers 'c++-mode
             c-c++-enable-clang-support t
@@ -86,11 +86,14 @@ This function should only modify configuration layer settings."
              python-enable-yapf-format-on-save t)
      lua
      nginx
-     web-beautify
-     json
-     html
+     prettier
+     (json :variables
+           json-fmt-tool 'prettier)
+     (html :variables
+           web-fmt-tool 'prettier)
      (javascript :variables
                  javascript-backend 'lsp
+                 javascript-fmt-tool 'prettier
                  node-add-modules-path t)
      (typescript :variables
                  typescript-backend 'lsp
