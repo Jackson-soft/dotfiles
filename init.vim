@@ -5,7 +5,10 @@ call plug#begin('~/.vim/plugged/')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
     "代码补全
-    Plug 'roxma/nvim-completion-manager'
+    Plug 'ncm2/ncm2'
+    Plug 'ncm2/ncm2-pyclang'
+    Plug 'ncm2/ncm2-bufword'
+    Plug 'ncm2/ncm2-path'
 
     "自动括号匹配
     Plug 'jiangmiao/auto-pairs'
@@ -141,7 +144,7 @@ set hidden
 au BufWrite * :Autoformat
 
 let g:LanguageClient_serverCommands = {
-    \ 'go': ['/home/jacksoncy/work/go/bin/go-langserver', 'run'],
+    \ 'go': ['go-langserver', 'run'],
     \ 'javascript': ['javascript-typescript-stdio'],
     \ 'javascript.jsx': ['javascript-typescript-stdio'],
     \ 'typescript': ['javascript-typescript-stdio'], 
