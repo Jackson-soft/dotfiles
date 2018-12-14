@@ -8,6 +8,7 @@ cmds = [
     "go get -u golang.org/x/tools/cmd/goimports",
     "go get -u golang.org/x/tools/cmd/gorename",
     "go get -u golang.org/x/tools/cmd/guru",
+    "go get -u golang.org/x/tools/cmd/golsp",
     "go get -u github.com/golangci/golangci-lint/cmd/golangci-lint",
     "go get -u github.com/derekparker/delve/cmd/dlv",
     "go get -u github.com/rogpeppe/godef",
