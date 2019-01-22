@@ -35,13 +35,16 @@ Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-vim' | Plug 'Shougo/neco-vim'
-Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
+Plug 'ncm2/ncm2-vim'
+Plug 'ncm2/ncm2-syntax'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'SirVer/ultisnips'
 
 "format
 Plug 'Chiel92/vim-autoformat'
+
+" vsc
+Plug 'airblade/vim-gitgutter'
 
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
@@ -74,6 +77,9 @@ set autochdir       "自动切换工作目录
 set noundofile "不生成un~文件
 set nobackup
 set noswapfile
+set cindent
+set nocp
+set showcmd
 
 " Lookings
 set number           "line number
@@ -140,12 +146,14 @@ set hidden
 let g:LanguageClient_serverCommands = {
             \ 'javascript': ['typescript-language-server'],
             \ 'typescript': ['typescript-language-server'],
-            \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+            \ 'javascript.jsx': ['typescript-language-server'],
             \ 'sh': ['bash-language-server', 'start'],
             \ 'lua': ['lua-lsp'],
-            \ 'python': ['/usr/local/bin/pyls'],
+            \ 'python': ['pyls'],
+            \ 'go': ['gopls'],
+            \ 'yaml': ['node', 'yaml-language-server/out/server/src/server.js', '--stdio'],
             \ 'c': ['ccls', '--log-file=/tmp/cc.log'],
-            \ 'cpp': ['ccls', '--log-file=/tmp/cc.log'],
+            \ 'cpp': ['clangd'],
             \ }
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
