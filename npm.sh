@@ -1,5 +1,5 @@
-sudo npm install -g eslint remark remark-lint-first-heading-level remark-lint typescript tslint
-sudo npm install -g yaml-language-server tslint-language-service
-sudo npm install -g javascript-typescript-langserver prettier vscode-json-languageservice
-sudo npm install -g vscode-html-languageserver-bin vscode-css-languageserver-bin
-sudo npm install -g vmd --unsafe-perm=true --allow-root
+sudo npm i -g eslint markdownlint-cli markdownlint typescript
+sudo npm i -g yaml-language-server typescript-language-server
+sudo npm i -g vscode-html-languageserver-bin vscode-css-languageserver-bin
+sudo npm i -g vmd bash-language-server --unsafe-perm=true --allow-root
+sudo npm i -g prettier @prettier/plugin-lua
