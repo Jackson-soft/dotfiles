@@ -1,21 +1,36 @@
 {
-    "editor.fontFamily": "YaHei Monaco",
+    "editor.fontFamily": "Source Code Pro",
     "editor.fontSize": 18,
     "editor.formatOnSave": true,
-    "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": true,
-    "html.trace.server": "messages",
-    "eslint.trace.server": "messages",
-    "typescript.useCodeSnippetsOnMethodSuggest": true,
-    "typescript.tsserver.trace": "messages",
     "go.docsTool": "gogetdoc",
-    "go.lintTool": "golangci-lint",
     "go.formatTool": "goimports",
+    "go.lintTool": "golangci-lint",
+    "go.testFlags": ["-v"],
     "go.useLanguageServer": true,
-    "go.testFlags": [
-        "-v"
-    ],
-    "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+    "go.alternateTools": {
+        "go-langserver": "bingo"
+    },
+    "go.languageServerFlags": ["-enhance-signature-help", "-trace", "-format-style=goimports"],
+    "go.languageServerExperimentalFeatures": {
+        "format": true,
+        "autoComplete": true
+    },
+    "python.pythonPath": "/usr/local/bin/python3",
+    "python.formatting.provider": "black",
+    "python.linting.pylintEnabled": false,
+    "python.linting.mypyEnabled": true,
+    "workbench.colorTheme": "Monokai Dimmed",
+    "workbench.iconTheme": "material-icon-theme",
+    "yaml.trace.server": "verbose",
+    "[yaml]": {
+        "editor.formatOnSave": true
+    },
+    "prettier.tabWidth": 4,
+    "json.trace.server": "verbose",
+    "C_Cpp.clang_format_sortIncludes": true,
     "C_Cpp.default.cppStandard": "c++17",
-    "workbench.iconTheme": "material-icon-theme"
+    "C_Cpp.default.cStandard": "c11",
+    "C_Cpp.default.intelliSenseMode": "clang-x64",
+    "eslint.autoFixOnSave": true,
+    "eslint.trace.server": "verbose"
 }
