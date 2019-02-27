@@ -1,1 +1,1 @@
-#+TITLE:  Fedora 平台上用的各种配置文件
+#+TITLE:  Manjaro && Mac OS 平台上用的各种配置文件

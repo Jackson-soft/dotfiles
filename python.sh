@@ -1,1 +1,3 @@
-sudo pip install importmagic epc flake8 autoflake mycli 'python-language-server[all]'
+#!/bin/bash
+
+python3 -m pip install 'python-language-server[all]' pyls-black pyls-isort pyls-mypy ptvsd

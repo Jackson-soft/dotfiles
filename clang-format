@@ -41,7 +41,7 @@ BreakBeforeBinaryOperators:                     All
 BreakBeforeBraces:                              Linux
 BreakBeforeTernaryOperators:                    true
 BreakConstructorInitializersBeforeComma:        false
-ColumnLimit:                                    100
+ColumnLimit:                                    120
 CommentPragmas:                                 '^ IWYU pragma:'
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
 ConstructorInitializerIndentWidth:              4
@@ -90,7 +90,7 @@ Standard:                                       Cpp11
 
 ---
 Language:                                       JavaScript
-ColumnLimit:                                    100
+ColumnLimit:                                    120
 JavaScriptQuotes:                               Single
 BasedOnStyle:                                   LLVM
 IndentWidth:                                    4
@@ -104,7 +104,7 @@ UseTab: Never
 SortIncludes: true
 IndentWidth: 4
 TabWidth: 4
-ColumnLimit: 100
+ColumnLimit: 120
 BasedOnStyle: LLVM
 AlignConsecutiveAssignments: true
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cp ./eslintrc.yml ~/.eslintrc.yml
 cp ./prettierrc.yml ~/.prettierrc.yml
 cp ./clang-format ~/.clang-format
