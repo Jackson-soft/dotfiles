@@ -167,4 +167,5 @@ au BufWrite * :Autoformat
 
 let g:ale_linters = {
             \ 'sh': ['language_server'],
+            \ 'go': ['golangci-lint'],
             \ }

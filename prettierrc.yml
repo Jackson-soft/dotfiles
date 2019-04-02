@@ -2,7 +2,8 @@ printWidth: 120
 trailingComma: "es5"
 useTabs: false
 tabWidth: 4
-semi: false
+semi: true
+bracketSpacing: false
 singleQuote: false
 jsxSingleQuote: false
 jsxBracketSameLine: true
