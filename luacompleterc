@@ -1,0 +1,4 @@
+{
+	"luaVersion": "5.1",
+	"packagePath": "./?.lua;/usr/local/opt/openresty/lualib/?.lua;/usr/local/lib/luarocks/rocks-5.3/?.lua;/usr/local/opt/openresty/site/lualib/?.lua"
+}

@@ -21,11 +21,11 @@ rules:
     indent:
         - error
         - 4
-        - { SwitchCase: 4 }
+        - {SwitchCase: 4}
     quotes:
         - error
         - double
-        - { avoidEscape: true, allowTemplateLiterals: false }
+        - {avoidEscape: true, allowTemplateLiterals: false}
     semi:
         - error
         - always

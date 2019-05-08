@@ -57,8 +57,7 @@ Plug 'ncm2/ncm2-ultisnips'
 Plug 'SirVer/ultisnips'
 
 "format
-Plug 'Chiel92/vim-autoformat'
-au BufWrite * :Autoformat
+Plug 'sbdchd/neoformat'
 
 Plug 'terryma/vim-multiple-cursors'
 
@@ -99,6 +98,12 @@ colorscheme gruvbox
 
 "使得terminal的光标变为细线，而不是默认的粗条。这个在vim的普通模式和插入模式都会生效。
 set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor
+
+"format
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 
 "Defx
 call defx#custom#option('_', {
