@@ -89,16 +89,6 @@ SpacesInSquareBrackets:                         false
 Standard:                                       Cpp11
 
 ---
-Language:                                       JavaScript
-ColumnLimit:                                    120
-JavaScriptQuotes:                               Single
-BasedOnStyle:                                   LLVM
-IndentWidth:                                    4
-SortIncludes:                                   true
-TabWidth:                                       4
-UseTab:                                         Never
-
----
 Language: Proto
 UseTab: Never
 SortIncludes: true

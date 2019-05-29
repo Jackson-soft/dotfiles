@@ -5,15 +5,16 @@
     "go.docsTool": "gogetdoc",
     "go.formatTool": "goimports",
     "go.lintTool": "golangci-lint",
-    "go.testFlags": ["-v"],
+    "go.lintFlags": ["--fast"],
+    "go.testFlags": ["-v", "-count=1"],
     "go.useLanguageServer": true,
-    "go.alternateTools": {
-        "go-langserver": "bingo"
-    },
-    "go.languageServerFlags": ["-enhance-signature-help", "-trace", "-format-style=goimports"],
     "go.languageServerExperimentalFeatures": {
-        "format": true,
-        "autoComplete": true
+        "diagnostics": true
+    },
+    "gopls": {
+        "enablePlaceholders": true,
+        "usePlaceholders": true,
+        "enhancedHover": true
     },
     "python.pythonPath": "/usr/local/bin/python3",
     "python.formatting.provider": "black",
@@ -24,6 +25,9 @@
     "yaml.trace.server": "verbose",
     "[yaml]": {
         "editor.formatOnSave": true
+    },
+    "[cmake]": {
+        "editor.defaultFormatter": "cheshirekow.cmake-format"
     },
     "prettier.tabWidth": 4,
     "json.trace.server": "verbose",
