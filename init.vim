@@ -11,6 +11,7 @@ Plug 'Shougo/denite.nvim'
 
 "自动括号匹配
 Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -36,7 +37,6 @@ Plug 'morhetz/gruvbox'
 Plug 'WolfgangMehner/lua-support'
 
 "HTML Bundles
-Plug 'alvan/vim-closetag'
 Plug 'gorodinskiy/vim-coloresque'
 
 "bash
@@ -46,15 +46,18 @@ Plug 'vim-scripts/bash-support.vim'
 Plug 'fatih/vim-go'
 
 Plug 'ncm2/ncm2'
-"Plug 'ncm2/float-preview.nvim'
+Plug 'ncm2/ncm2-match-highlight'
+Plug 'ncm2/float-preview.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-path'
 Plug 'ncm2/ncm2-vim'
 Plug 'ncm2/ncm2-syntax'
+Plug 'Shougo/neco-syntax'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'SirVer/ultisnips'
+Plug 'fgrsnau/ncm2-aspell'
 
 "format
 Plug 'sbdchd/neoformat'
@@ -95,6 +98,9 @@ set nowrap           "no line wrapping
 set termguicolors
 set modeline            " Enable modeline.
 colorscheme gruvbox
+set background=dark
+
+set guifont=Fira\ Code\ 16
 
 "使得terminal的光标变为细线，而不是默认的粗条。这个在vim的普通模式和插入模式都会生效。
 set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor

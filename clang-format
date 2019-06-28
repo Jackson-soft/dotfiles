@@ -80,13 +80,14 @@ SpaceAfterTemplateKeyword:                      false
 SpaceBeforeAssignmentOperators:                 true
 SpaceBeforeParens:                              ControlStatements
 SpaceInEmptyParentheses:                        false
-SpacesBeforeTrailingComments:                   1
+SpacesBeforeTrailingComments:                   2
 SpacesInAngles:                                 false
 SpacesInContainerLiterals:                      true
 SpacesInCStyleCastParentheses:                  false
 SpacesInParentheses:                            false
 SpacesInSquareBrackets:                         false
 Standard:                                       Cpp11
+ReflowComments:	true
 
 ---
 Language: Proto
