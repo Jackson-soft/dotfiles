@@ -38,9 +38,6 @@ Plug 'morhetz/gruvbox'
 "lua
 Plug 'WolfgangMehner/lua-support'
 
-"HTML Bundles
-Plug 'gorodinskiy/vim-coloresque'
-
 "bash
 Plug 'vim-scripts/bash-support.vim'
 
@@ -61,6 +58,7 @@ Plug 'google/vim-searchindex'
 
 " vsc
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -143,6 +141,7 @@ call defx#custom#option('_', {
 let g:airline_powerline_fonts=1
 let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#coc#enabled = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
@@ -261,7 +260,7 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+set statusline^=%{coc#status()}
 
 " Using CocList
 " Show all diagnostics
