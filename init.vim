@@ -141,6 +141,7 @@ call defx#custom#option('_', {
 let g:airline_powerline_fonts=1
 let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#coc#enabled = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -156,7 +157,6 @@ let g:airline_symbols.crypt = '🔒'
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
-let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 " Required for operations modifying multiple buffers like rename.
 set hidden
@@ -258,9 +258,6 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " use `:OR` for organize import of current buffer
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}
 
 " Using CocList
 " Show all diagnostics
