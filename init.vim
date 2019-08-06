@@ -25,6 +25,12 @@ Plug 'w0rp/ale'
 
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 
+" Defx git
+Plug 'kristijanhusak/defx-git'
+
+Plug 'ryanoasis/vim-devicons'
+Plug 'kristijanhusak/defx-icons'
+
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
 " 快速注释
@@ -43,6 +49,20 @@ Plug 'vim-scripts/bash-support.vim'
 
 "go
 Plug 'fatih/vim-go'
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+
+let g:go_def_reuse_buffer = 1
+let g:go_def_mode = 'gopls'
+let g:go_info_mode = 'gopls'
+let g:go_fmt_command = 'goimports'
+let g:go_metalinter_command = 'golangci-lint'
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
 Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -126,17 +146,6 @@ augroup fmt
   autocmd BufWritePre * undojoin | Neoformat
 augroup END
 
-"Defx
-call defx#custom#option('_', {
-            \ 'winwidth': 30,
-            \ 'split': 'vertical',
-            \ 'direction': 'topleft',
-            \ 'show_ignored_files': 0,
-            \ 'buffer_name': '',
-            \ 'toggle': 1,
-            \ 'resume': 1
-            \ })
-
 " airline
 let g:airline_powerline_fonts=1
 let g:airline_theme='powerlineish'
@@ -160,11 +169,6 @@ let g:airline_symbols.whitespace = 'Ξ'
 
 " Required for operations modifying multiple buffers like rename.
 set hidden
-
-let g:ale_linters = {
-            \ 'sh': ['language_server'],
-            \ 'go': ['golangci-lint'],
-            \ }
 
 set nowritebackup
 
@@ -277,9 +281,82 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
+" Ale
+let g:ale_linters = {
+      \ 'sh': ['language_server'],
+      \   'python': ['mypy'],
+      \   'go': ['golangci-lint'],
+      \ }
+let g:ale_go_golangci_lint_package = 1
+let g:ale_go_golangci_lint_options = '--fast -E golint --exclude-use-default=false'
+let g:ale_python_flake8_options = '--ignore=F821,E501'
+let g:ale_python_pylint_options = '--disable=C0111,C0301,R0902,R0903,R0913,R0914,R0915,E1101,E1004'
+let g:ale_sign_error = '⤫'
+let g:ale_sign_warning = '⚠'
+
+" virtual text, conflicts with coc-git
+let g:ale_virtualtext_cursor = 1
+let g:ale_virtualtext_prefix = ' > '
+hi link ALEError ALEErrorSign
+hi link ALEWarning ALEWarningSign
+
 " Defx
-call defx#custom#column('icon', {
-	      \ 'directory_icon': '▸',
-	      \ 'opened_icon': '▾',
-	      \ 'root_icon': ' ',
-	      \ })
+call defx#custom#option('_', {
+            \ 'winwidth': 30,
+            \ 'columns': 'indent:git:icons:filename:type',
+            \ 'split': 'vertical',
+            \ 'direction': 'topleft',
+            \ 'show_ignored_files': 0,
+            \ 'buffer_name': '',
+            \ 'toggle': 1,
+            \ 'resume': 1
+            \ })
+
+autocmd FileType defx call s:defx_my_settings()
+function! s:defx_my_settings() abort
+  setl nospell
+  setl signcolumn=no
+  setl nonumber
+  nnoremap <silent><buffer><expr> <CR>
+  \ defx#is_directory() ?
+  \ defx#do_action('open_or_close_tree') :
+  \ defx#do_action('drop',)
+  nmap <silent><buffer><expr> <2-LeftMouse>
+  \ defx#is_directory() ?
+  \ defx#do_action('open_or_close_tree') :
+  \ defx#do_action('drop',)
+  nnoremap <silent><buffer><expr> s defx#do_action('drop', 'split')
+  nnoremap <silent><buffer><expr> v defx#do_action('drop', 'vsplit')
+  nnoremap <silent><buffer><expr> t defx#do_action('drop', 'tabe')
+  nnoremap <silent><buffer><expr> o defx#do_action('open_tree')
+  nnoremap <silent><buffer><expr> O defx#do_action('open_tree_recursive')
+  nnoremap <silent><buffer><expr> C defx#do_action('copy')
+  nnoremap <silent><buffer><expr> P defx#do_action('paste')
+  nnoremap <silent><buffer><expr> M defx#do_action('rename')
+  nnoremap <silent><buffer><expr> D defx#do_action('remove_trash')
+  nnoremap <silent><buffer><expr> A defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> U defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select')
+  nnoremap <silent><buffer><expr> R defx#do_action('redraw')
+endfunction
+
+" Defx git
+call defx#custom#column('git', 'indicators', {
+  \ 'Modified'  : '✹',
+  \ 'Staged'    : '✚',
+  \ 'Untracked' : '✭',
+  \ 'Renamed'   : '➜',
+  \ 'Unmerged'  : '═',
+  \ 'Ignored'   : '☒',
+  \ 'Deleted'   : '✖',
+  \ 'Unknown'   : '?'
+  \ })
+let g:defx_git#column_length = 0
+hi def link Defx_filename_directory NERDTreeDirSlash
+hi def link Defx_git_Modified Special
+hi def link Defx_git_Staged Function
+hi def link Defx_git_Renamed Title
+hi def link Defx_git_Unmerged Label
+hi def link Defx_git_Untracked Tag
+hi def link Defx_git_Ignored Comment
