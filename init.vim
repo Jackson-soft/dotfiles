@@ -20,14 +20,18 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'junegunn/vim-easy-align'
 
+" 浮窗终端
+Plug 'voldikss/vim-floaterm'
+noremap  <silent> <F12>           :FloatermToggle<CR>i
+noremap! <silent> <F12>           <Esc>:FloatermToggle<CR>i
+tnoremap <silent> <F12>           <C-\><C-n>:FloatermToggle<CR>
+
 "语法检测
 Plug 'w0rp/ale'
 
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-
 " Defx git
 Plug 'kristijanhusak/defx-git'
-
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
 
@@ -280,6 +284,46 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+" coc extensions
+let g:coc_global_extensions = [
+  \ 'coc-css',
+  \ 'coc-marketplace',
+  \ 'coc-angular',
+  \ 'coc-tabnine',
+  \ 'coc-dictionary',
+  \ 'coc-emoji',
+  \ 'coc-emmet',
+  \ 'coc-eslint',
+  \ 'coc-explorer',
+  \ 'coc-git',
+  \ 'coc-highlight',
+  \ 'coc-html',
+  \ 'coc-lists',
+  \ 'coc-json',
+  \ 'coc-pairs',
+  \ 'coc-post',
+  \ 'coc-prettier',
+  \ 'coc-python',
+  \ 'coc-snippets',
+  \ 'coc-syntax',
+  \ 'coc-tag',
+  \ 'coc-template',
+  \ 'coc-tslint-plugin',
+  \ 'coc-tsserver',
+  \ 'coc-vimlsp',
+  \ 'coc-yank',
+  \ 'coc-yaml',
+  \ 'coc-go',
+  \ 'coc-snippets',
+  \ 'coc-sh',
+  \ 'coc-lua',
+  \ 'coc-sql',
+  \ 'coc-word'
+\ ]
+if matchstr(&rtp, 'coc.nvim') != ''
+  call coc#add_extension()
+endif
 
 " Ale
 let g:ale_linters = {
