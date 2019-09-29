@@ -27,7 +27,7 @@ noremap! <silent> <F12>           <Esc>:FloatermToggle<CR>i
 tnoremap <silent> <F12>           <C-\><C-n>:FloatermToggle<CR>
 
 "语法检测
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 " Defx git
@@ -44,12 +44,16 @@ Plug 'tpope/vim-commentary'
 "主题
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
 
 "lua
 Plug 'WolfgangMehner/lua-support'
 
 "bash
 Plug 'vim-scripts/bash-support.vim'
+
+" cmake
+Plug 'vhdirk/vim-cmake'
 
 "go
 Plug 'fatih/vim-go'
@@ -105,8 +109,8 @@ set cursorcolumn     "hilight the column that the cursor exists in
 set nowrap           "no line wrapping
 set termguicolors
 set modeline            " Enable modeline.
-colorscheme gruvbox
-set background=dark
+colorscheme onedark
+" set background=dark
 
 set guifont=Fira\ Code\ 16
 
@@ -156,6 +160,7 @@ let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#ale#enabled = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
@@ -328,13 +333,17 @@ endif
 " Ale
 let g:ale_linters = {
       \ 'sh': ['language_server'],
-      \   'python': ['mypy'],
-      \   'go': ['golangci-lint'],
+      \ 'python': ['mypy'],
+      \ 'go': ['golangci-lint'],
+      \ 'javascript': ['eslint'],
       \ }
 let g:ale_go_golangci_lint_package = 1
 let g:ale_go_golangci_lint_options = '--fast -E golint --exclude-use-default=false'
-let g:ale_sign_error = '⤫'
-let g:ale_sign_warning = '⚠'
+"自定义error和warning图标
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚡'
+"在vim自带的状态栏中整合ale
+let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
 
 " virtual text, conflicts with coc-git
 let g:ale_virtualtext_cursor = 1
