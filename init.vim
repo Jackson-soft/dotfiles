@@ -20,6 +20,8 @@ Plug 'sheerun/vim-polyglot'
 
 Plug 'junegunn/vim-easy-align'
 
+Plug 'voldikss/vim-translate-me'
+
 " 浮窗终端
 Plug 'voldikss/vim-floaterm'
 noremap  <silent> <F12>           :FloatermToggle<CR>i
@@ -322,7 +324,6 @@ let g:coc_global_extensions = [
   \ 'coc-go',
   \ 'coc-snippets',
   \ 'coc-sh',
-  \ 'coc-lua',
   \ 'coc-sql',
   \ 'coc-word'
 \ ]
