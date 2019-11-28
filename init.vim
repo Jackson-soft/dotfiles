@@ -24,9 +24,10 @@ Plug 'voldikss/vim-translate-me'
 
 " 浮窗终端
 Plug 'voldikss/vim-floaterm'
-noremap  <silent> <F12>           :FloatermToggle<CR>i
-noremap! <silent> <F12>           <Esc>:FloatermToggle<CR>i
+noremap  <silent> <F12>           :FloatermToggle<CR>
+noremap! <silent> <F12>           <Esc>:FloatermToggle<CR>
 tnoremap <silent> <F12>           <C-\><C-n>:FloatermToggle<CR>
+let g:floaterm_position = 'center'
 
 "语法检测
 Plug 'dense-analysis/ale'
@@ -36,6 +37,7 @@ Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'kristijanhusak/defx-git'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kristijanhusak/defx-icons'
+let g:defx_icons_enable_syntax_highlight = 1
 
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 
@@ -47,12 +49,21 @@ Plug 'tpope/vim-commentary'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'kaicataldo/material.vim'
 
 "lua
 Plug 'WolfgangMehner/lua-support'
+Plug 'spacewander/openresty-vim'
 
 "bash
 Plug 'vim-scripts/bash-support.vim'
+
+"markdown
+Plug 'plasticboy/vim-markdown'
+let g:vim_markdown_toc_autofit = 1
+let g:vim_markdown_follow_anchor = 1
+let g:vim_markdown_math = 1
+let g:vim_markdown_strikethrough = 1
 
 " cmake
 Plug 'vhdirk/vim-cmake'
@@ -74,6 +85,9 @@ let g:go_fmt_command = 'goimports'
 let g:go_metalinter_command = 'golangci-lint'
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
+let g:go_auto_type_info = 1         " auto show the type info of cusor
+let g:go_doc_keywordprg_enabled = 1 " map K to :GoDoc, use coc-action-doHover instead
+
 Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -84,6 +98,9 @@ Plug 'terryma/vim-multiple-cursors'
 
 Plug 'Yggdroot/indentLine'
 
+" fzf
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'google/vim-searchindex'
 
 " vsc
@@ -104,6 +121,10 @@ set noswapfile
 set cindent
 set nocp
 
+" 自动加载修改过的文件
+set autoread
+au FocusGained * :checktime
+
 " Lookings
 set number           "line number
 set cursorline       "hilight the line that the cursor exists in
@@ -111,7 +132,10 @@ set cursorcolumn     "hilight the column that the cursor exists in
 set nowrap           "no line wrapping
 set termguicolors
 set modeline            " Enable modeline.
-colorscheme onedark
+" colorscheme onedark
+let g:material_terminal_italics = 1
+let g:material_theme_style = 'palenight'
+colorscheme material
 " set background=dark
 
 set guifont=Fira\ Code\ 16
@@ -310,18 +334,15 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ 'coc-pairs',
   \ 'coc-post',
-  \ 'coc-prettier',
   \ 'coc-python',
   \ 'coc-snippets',
   \ 'coc-syntax',
   \ 'coc-tag',
   \ 'coc-template',
-  \ 'coc-tslint-plugin',
   \ 'coc-tsserver',
   \ 'coc-vimlsp',
   \ 'coc-yank',
   \ 'coc-yaml',
-  \ 'coc-go',
   \ 'coc-snippets',
   \ 'coc-sh',
   \ 'coc-sql',
@@ -412,3 +433,14 @@ hi def link Defx_git_Renamed Title
 hi def link Defx_git_Unmerged Label
 hi def link Defx_git_Untracked Tag
 hi def link Defx_git_Ignored Comment
+
+" Prettier for Lua
+function PrettierLuaCursor()
+  let save_pos = getpos(".")
+  %! prettier --stdin --parser=lua
+  call setpos('.', save_pos)
+endfunction
+" define custom command
+command PrettierLua call PrettierLuaCursor()
+" format on save
+autocmd BufwritePre *.lua PrettierLua
