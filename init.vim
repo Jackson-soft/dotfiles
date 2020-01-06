@@ -24,10 +24,8 @@ Plug 'voldikss/vim-translate-me'
 
 " 浮窗终端
 Plug 'voldikss/vim-floaterm'
-noremap  <silent> <F12>           :FloatermToggle<CR>
-noremap! <silent> <F12>           <Esc>:FloatermToggle<CR>
-tnoremap <silent> <F12>           <C-\><C-n>:FloatermToggle<CR>
 let g:floaterm_position = 'center'
+let g:floaterm_keymap_toggle = '<F12>'
 
 "语法检测
 Plug 'dense-analysis/ale'
@@ -93,15 +91,18 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "format
 Plug 'sbdchd/neoformat'
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
 
 Plug 'terryma/vim-multiple-cursors'
 
 Plug 'Yggdroot/indentLine'
 
-" fzf
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+" search
 Plug 'google/vim-searchindex'
+Plug 'liuchengxu/vim-clap'
 
 " vsc
 Plug 'airblade/vim-gitgutter'
@@ -172,13 +173,6 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " Enable NERDCommenterToggle to check all selected lines is commented or not 
 let g:NERDToggleCheckAllLines = 1
-
-
-"format
-augroup fmt
-  autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
-augroup END
 
 " airline
 let g:airline_powerline_fonts=1
@@ -434,13 +428,3 @@ hi def link Defx_git_Unmerged Label
 hi def link Defx_git_Untracked Tag
 hi def link Defx_git_Ignored Comment
 
-" Prettier for Lua
-function PrettierLuaCursor()
-  let save_pos = getpos(".")
-  %! prettier --stdin --parser=lua
-  call setpos('.', save_pos)
-endfunction
-" define custom command
-command PrettierLua call PrettierLuaCursor()
-" format on save
-autocmd BufwritePre *.lua PrettierLua
