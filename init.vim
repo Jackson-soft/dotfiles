@@ -29,6 +29,24 @@ let g:floaterm_keymap_toggle = '<F12>'
 
 "语法检测
 Plug 'dense-analysis/ale'
+" Ale
+let g:ale_linters = {
+    \ 'sh': ['language_server'],
+    \ 'python': ['mypy'],
+    \ 'go': ['golangci-lint'],
+    \ 'javascript': ['eslint'],
+    \ }
+let g:ale_go_golangci_lint_package = 1
+let g:ale_go_golangci_lint_options = '--fast -E golint --exclude-use-default=false'
+                                                                                                                                                                                        
+" virtual text, conflicts with coc-git
+let g:ale_virtualtext_cursor = 1
+let g:ale_virtualtext_prefix = ' > '
+"自定义error和warning图标
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚡'
+hi link ALEError ALEErrorSign
+hi link ALEWarning ALEWarningSign
 
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 " Defx git
@@ -38,6 +56,7 @@ Plug 'kristijanhusak/defx-icons'
 let g:defx_icons_enable_syntax_highlight = 1
 
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
 " 快速注释
 Plug 'scrooloose/nerdcommenter'
@@ -345,27 +364,6 @@ let g:coc_global_extensions = [
 if matchstr(&rtp, 'coc.nvim') != ''
   call coc#add_extension()
 endif
-
-" Ale
-let g:ale_linters = {
-      \ 'sh': ['language_server'],
-      \ 'python': ['mypy'],
-      \ 'go': ['golangci-lint'],
-      \ 'javascript': ['eslint'],
-      \ }
-let g:ale_go_golangci_lint_package = 1
-let g:ale_go_golangci_lint_options = '--fast -E golint --exclude-use-default=false'
-"自定义error和warning图标
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚡'
-"在vim自带的状态栏中整合ale
-let g:ale_statusline_format = ['✗ %d', '⚡ %d', '✔ OK']
-
-" virtual text, conflicts with coc-git
-let g:ale_virtualtext_cursor = 1
-let g:ale_virtualtext_prefix = ' > '
-hi link ALEError ALEErrorSign
-hi link ALEWarning ALEWarningSign
 
 " Defx
 call defx#custom#option('_', {
