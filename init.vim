@@ -76,11 +76,13 @@ Plug 'spacewander/openresty-vim'
 Plug 'vim-scripts/bash-support.vim'
 
 "markdown
+Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_toc_autofit = 1
 let g:vim_markdown_follow_anchor = 1
 let g:vim_markdown_math = 1
 let g:vim_markdown_strikethrough = 1
+let g:vim_markdown_folding_disabled = 1  "不折叠显示，默认是折叠显示，看个人习惯
 
 " cmake
 Plug 'vhdirk/vim-cmake'
