@@ -1,20 +1,16 @@
 #!/bin/bash
 
-go get -u golang.org/x/tools/cmd/goimports
-go get -u golang.org/x/tools/cmd/gorename
-go get -u golang.org/x/tools/cmd/guru
-go get -u golang.org/x/tools/gopls
-go get -u github.com/stamblerre/gocode
-go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-go get -u github.com/go-delve/delve/cmd/dlv
-go get -u github.com/rogpeppe/godef
-go get -u github.com/zmb3/gogetdoc
-go get -u github.com/ramya-rao-a/go-outline
-go get -u github.com/uudashr/gopkgs/cmd/gopkgs
-go get -u github.com/josharian/impl
-go get -u github.com/godoctor/godoctor
-go get -u github.com/fatih/gomodifytags
-go get -u github.com/cweill/gotests/...
-go get -u github.com/acroca/go-symbols
-go get -u github.com/haya14busa/goplay/cmd/goplay
-go get -u github.com/davidrjenni/reftools/cmd/fillstruct
+go get golang.org/x/tools/cmd/goimports@latest
+go get golang.org/x/tools/cmd/gorename@latest
+go get golang.org/x/tools/cmd/guru@latest
+go get golang.org/x/tools/gopls@latest
+go get github.com/stamblerre/gocode@latest
+go get github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+go get github.com/go-delve/delve/cmd/dlv@latest
+go get github.com/zmb3/gogetdoc@latest
+go get github.com/ramya-rao-a/go-outline@latest
+go get github.com/uudashr/gopkgs/cmd/gopkgs@latest
+go get github.com/josharian/impl@latest
+go get github.com/fatih/gomodifytags@latest
+go get github.com/acroca/go-symbols@latest
+go get github.com/davidrjenni/reftools/cmd/fillstruct@latest

@@ -59,8 +59,11 @@ Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
 " 快速注释
-Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-commentary'
+"为python和shell等添加注释
+autocmd FileType python,shell,coffee set commentstring=#\ %s
+"修改注释风格
+autocmd FileType java,c,cpp set commentstring=//\ %s
 
 "主题
 Plug 'joshdick/onedark.vim'
@@ -122,8 +125,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'Yggdroot/indentLine'
 
 " search
-Plug 'google/vim-searchindex'
 Plug 'liuchengxu/vim-clap'
+Plug 'google/vim-searchindex'
 
 " vsc
 Plug 'airblade/vim-gitgutter'
@@ -164,36 +167,6 @@ set guifont=Fira\ Code\ 16
 
 "使得terminal的光标变为细线，而不是默认的粗条。这个在vim的普通模式和插入模式都会生效。
 set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor
-
-"为python和shell等添加注释
-autocmd FileType python,shell,coffee set commentstring=#\ %s
-"修改注释风格
-autocmd FileType java,c,cpp set commentstring=//\ %s
-
-"注释
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-
-" Set a language to use its alternate delimiters by default
-let g:NERDAltDelims_java = 1
-
-" Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines = 1
-
-" Enable trimming of trailing whitespace when uncommenting
-let g:NERDTrimTrailingWhitespace = 1
-
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
-let g:NERDToggleCheckAllLines = 1
 
 " airline
 let g:airline_powerline_fonts=1
