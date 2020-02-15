@@ -147,7 +147,6 @@ set cindent
 set nocp
 
 " 自动加载修改过的文件
-set autoread
 au FocusGained * :checktime
 
 " Lookings
