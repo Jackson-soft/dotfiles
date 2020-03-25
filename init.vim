@@ -66,9 +66,6 @@ autocmd FileType python,shell,coffee set commentstring=#\ %s
 autocmd FileType java,c,cpp set commentstring=//\ %s
 
 "主题
-Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'kaicataldo/material.vim'
 
 "lua
@@ -86,6 +83,7 @@ let g:vim_markdown_follow_anchor = 1
 let g:vim_markdown_math = 1
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_folding_disabled = 1  "不折叠显示，默认是折叠显示，看个人习惯
+let g:vim_markdown_autowrite = 1
 
 " cmake
 Plug 'vhdirk/vim-cmake'
