@@ -3,6 +3,7 @@ Language:                                       Cpp
 BasedOnStyle:                                   LLVM
 IndentWidth:                                    4
 SortIncludes:                                   true
+SortUsingDeclarations: true
 TabWidth:                                       4
 UseTab:                                         Never
 AccessModifierOffset:                           -4
@@ -51,6 +52,7 @@ DerivePointerAlignment:                         false
 DisableFormat:                                  false
 ExperimentalAutoDetectBinPacking:               false
 ForEachMacros:                                  [ foreach, Q_FOREACH, BOOST_FOREACH ]
+IncludeBlocks: IBS_Regroup
 IncludeCategories:
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
@@ -78,6 +80,8 @@ ReflowComments:                                 true
 SpaceAfterCStyleCast:                           false
 SpaceAfterTemplateKeyword:                      false
 SpaceBeforeAssignmentOperators:                 true
+SpaceBeforeCtorInitializerColon: false
+SpaceBeforeInheritanceColon: false
 SpaceBeforeParens:                              ControlStatements
 SpaceInEmptyParentheses:                        false
 SpacesBeforeTrailingComments:                   2
@@ -86,7 +90,7 @@ SpacesInContainerLiterals:                      true
 SpacesInCStyleCastParentheses:                  false
 SpacesInParentheses:                            false
 SpacesInSquareBrackets:                         false
-Standard:                                       Cpp11
+Standard:                                       Latest
 ReflowComments:	true
 
 ---
