@@ -52,7 +52,6 @@ DerivePointerAlignment:                         false
 DisableFormat:                                  false
 ExperimentalAutoDetectBinPacking:               false
 ForEachMacros:                                  [ foreach, Q_FOREACH, BOOST_FOREACH ]
-IncludeBlocks: IBS_Regroup
 IncludeCategories:
   - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
     Priority:        2
