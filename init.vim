@@ -331,6 +331,8 @@ let g:coc_global_extensions = [
   \ 'coc-snippets',
   \ 'coc-sh',
   \ 'coc-sql',
+  \ 'coc-go',
+  \ 'coc-clangd',
   \ 'coc-word'
 \ ]
 if matchstr(&rtp, 'coc.nvim') != ''

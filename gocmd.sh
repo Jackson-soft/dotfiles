@@ -4,7 +4,6 @@ go get golang.org/x/tools/cmd/goimports@latest
 go get golang.org/x/tools/cmd/gorename@latest
 go get golang.org/x/tools/cmd/guru@latest
 go get golang.org/x/tools/gopls@latest
-go get github.com/stamblerre/gocode@latest
 go get github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 go get github.com/go-delve/delve/cmd/dlv@latest
 go get github.com/ramya-rao-a/go-outline@latest
