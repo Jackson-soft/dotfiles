@@ -27,27 +27,6 @@ Plug 'voldikss/vim-floaterm'
 let g:floaterm_position = 'center'
 let g:floaterm_keymap_toggle = '<F12>'
 
-"语法检测
-Plug 'dense-analysis/ale'
-" Ale
-let g:ale_linters = {
-    \ 'sh': ['language_server'],
-    \ 'python': ['mypy'],
-    \ 'go': ['golangci-lint'],
-    \ 'javascript': ['eslint'],
-    \ }
-let g:ale_go_golangci_lint_package = 1
-let g:ale_go_golangci_lint_options = '--fast -E golint --exclude-use-default=false'
-                                                                                                                                                                                        
-" virtual text, conflicts with coc-git
-let g:ale_virtualtext_cursor = 1
-let g:ale_virtualtext_prefix = ' > '
-"自定义error和warning图标
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚡'
-hi link ALEError ALEErrorSign
-hi link ALEWarning ALEWarningSign
-
 Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
 " Defx git
 Plug 'kristijanhusak/defx-git'
@@ -69,11 +48,8 @@ autocmd FileType java,c,cpp set commentstring=//\ %s
 Plug 'kaicataldo/material.vim'
 
 "lua
-Plug 'WolfgangMehner/lua-support'
+Plug 'tbastos/vim-lua'
 Plug 'spacewander/openresty-vim'
-
-"bash
-Plug 'vim-scripts/bash-support.vim'
 
 "markdown
 Plug 'godlygeek/tabular'
@@ -84,9 +60,6 @@ let g:vim_markdown_math = 1
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_folding_disabled = 1  "不折叠显示，默认是折叠显示，看个人习惯
 let g:vim_markdown_autowrite = 1
-
-" cmake
-Plug 'vhdirk/vim-cmake'
 
 "go
 Plug 'fatih/vim-go'
@@ -319,7 +292,7 @@ let g:coc_global_extensions = [
   \ 'coc-json',
   \ 'coc-pairs',
   \ 'coc-post',
-  \ 'coc-python',
+  \ 'coc-pyright',
   \ 'coc-snippets',
   \ 'coc-syntax',
   \ 'coc-tag',
@@ -332,6 +305,7 @@ let g:coc_global_extensions = [
   \ 'coc-sh',
   \ 'coc-sql',
   \ 'coc-go',
+  \ 'coc-docker',
   \ 'coc-clangd',
   \ 'coc-word'
 \ ]
