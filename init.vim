@@ -45,7 +45,7 @@ autocmd FileType python,shell,coffee set commentstring=#\ %s
 autocmd FileType java,c,cpp set commentstring=//\ %s
 
 "主题
-Plug 'kaicataldo/material.vim'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 
 "lua
 Plug 'tbastos/vim-lua'
@@ -131,7 +131,9 @@ set modeline            " Enable modeline.
 let g:material_terminal_italics = 1
 let g:material_theme_style = 'palenight'
 colorscheme material
-" set background=dark
+if (has('termguicolors'))
+  set termguicolors
+endif
 
 set guifont=Fira\ Code\ 16
 
@@ -140,7 +142,8 @@ set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cur
 
 " airline
 let g:airline_powerline_fonts=1
-let g:airline_theme='powerlineish'
+" let g:airline_theme='powerlineish'
+let g:airline_theme = 'material'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#coc#enabled = 1
