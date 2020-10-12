@@ -2,6 +2,8 @@ env:
     browser: true
     es6: true
     node: true
+    commonjs: true
+    amd: true
 extends:
     - eslint:recommended
     - plugin:@typescript-eslint/eslint-recommended
@@ -17,7 +19,6 @@ parserOptions:
     sourceType: module
 parser: "@typescript-eslint/parser"
 plugins:
-    - vue
     - "@typescript-eslint"
 rules:
     indent:

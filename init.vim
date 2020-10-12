@@ -351,6 +351,7 @@ let g:coc_global_extensions = [
   \ 'coc-go',
   \ 'coc-docker',
   \ 'coc-clangd',
+  \ 'coc-markdownlint',
   \ 'coc-word'
 \ ]
 if matchstr(&rtp, 'coc.nvim') != ''
