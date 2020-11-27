@@ -22,9 +22,6 @@ Plug 'junegunn/vim-easy-align'
 
 Plug 'voldikss/vim-translate-me'
 
-" 标识行尾空白
-Plug 'bronson/vim-trailing-whitespace'
-
 " 彩虹括号
 Plug 'luochen1990/rainbow'
 let g:rainbow_active = 1
@@ -110,6 +107,7 @@ let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
 let g:go_auto_type_info = 1         " auto show the type info of cusor
 let g:go_doc_keywordprg_enabled = 1 " map K to :GoDoc, use coc-action-doHover instead
+let g:go_def_mapping_enabled = 0
 
 Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -351,6 +349,7 @@ let g:coc_global_extensions = [
   \ 'coc-go',
   \ 'coc-docker',
   \ 'coc-clangd',
+  \ 'coc-cmake',
   \ 'coc-markdownlint',
   \ 'coc-word'
 \ ]
