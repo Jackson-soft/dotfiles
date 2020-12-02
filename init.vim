@@ -31,13 +31,6 @@ Plug 'voldikss/vim-floaterm'
 let g:floaterm_position = 'center'
 let g:floaterm_keymap_toggle = '<F12>'
 
-Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' }
-" Defx git
-Plug 'kristijanhusak/defx-git'
-Plug 'ryanoasis/vim-devicons'
-Plug 'kristijanhusak/defx-icons'
-let g:defx_icons_enable_syntax_highlight = 1
-
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
@@ -232,15 +225,17 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos
+" GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -252,8 +247,10 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
   else
-    call CocAction('doHover')
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
@@ -284,37 +281,49 @@ nmap <leader>ac  <Plug>(coc-codeaction)
 " Fix autofix problem of current line
 nmap <leader>qf  <Plug>(coc-fix-current)
 
-" Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-nmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <TAB> <Plug>(coc-range-select)
-xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+" NeoVim-only mapping for visual mode scroll
+" Useful on signatureHelp after jump placeholder of snippet expansion
+if has('nvim')
+  vnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-f>"
+  vnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-b>"
+endif
 
-" Use `:Format` to format current buffer
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
 command! -nargs=0 Format :call CocAction('format')
 
-" Use `:Fold` to fold current buffer
+" Add `:Fold` command to fold current buffer.
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
-" use `:OR` for organize import of current buffer
+" Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
 " Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " coc extensions
 let g:coc_global_extensions = [
@@ -357,64 +366,6 @@ if matchstr(&rtp, 'coc.nvim') != ''
   call coc#add_extension()
 endif
 
-" Defx
-call defx#custom#option('_', {
-            \ 'winwidth': 30,
-            \ 'columns': 'indent:git:icons:filename:type',
-            \ 'split': 'vertical',
-            \ 'direction': 'topleft',
-            \ 'show_ignored_files': 0,
-            \ 'buffer_name': '',
-            \ 'toggle': 1,
-            \ 'resume': 1
-            \ })
 
-autocmd FileType defx call s:defx_my_settings()
-function! s:defx_my_settings() abort
-  setl nospell
-  setl signcolumn=no
-  setl nonumber
-  nnoremap <silent><buffer><expr> <CR>
-  \ defx#is_directory() ?
-  \ defx#do_action('open_or_close_tree') :
-  \ defx#do_action('drop',)
-  nmap <silent><buffer><expr> <2-LeftMouse>
-  \ defx#is_directory() ?
-  \ defx#do_action('open_or_close_tree') :
-  \ defx#do_action('drop',)
-  nnoremap <silent><buffer><expr> s defx#do_action('drop', 'split')
-  nnoremap <silent><buffer><expr> v defx#do_action('drop', 'vsplit')
-  nnoremap <silent><buffer><expr> t defx#do_action('drop', 'tabe')
-  nnoremap <silent><buffer><expr> o defx#do_action('open_tree')
-  nnoremap <silent><buffer><expr> O defx#do_action('open_tree_recursive')
-  nnoremap <silent><buffer><expr> C defx#do_action('copy')
-  nnoremap <silent><buffer><expr> P defx#do_action('paste')
-  nnoremap <silent><buffer><expr> M defx#do_action('rename')
-  nnoremap <silent><buffer><expr> D defx#do_action('remove_trash')
-  nnoremap <silent><buffer><expr> A defx#do_action('new_multiple_files')
-  nnoremap <silent><buffer><expr> U defx#do_action('cd', ['..'])
-  nnoremap <silent><buffer><expr> . defx#do_action('toggle_ignored_files')
-  nnoremap <silent><buffer><expr> <Space> defx#do_action('toggle_select')
-  nnoremap <silent><buffer><expr> R defx#do_action('redraw')
-endfunction
-
-" Defx git
-call defx#custom#column('git', 'indicators', {
-  \ 'Modified'  : '✹',
-  \ 'Staged'    : '✚',
-  \ 'Untracked' : '✭',
-  \ 'Renamed'   : '➜',
-  \ 'Unmerged'  : '═',
-  \ 'Ignored'   : '☒',
-  \ 'Deleted'   : '✖',
-  \ 'Unknown'   : '?'
-  \ })
-let g:defx_git#column_length = 0
-hi def link Defx_filename_directory NERDTreeDirSlash
-hi def link Defx_git_Modified Special
-hi def link Defx_git_Staged Function
-hi def link Defx_git_Renamed Title
-hi def link Defx_git_Unmerged Label
-hi def link Defx_git_Untracked Tag
-hi def link Defx_git_Ignored Comment
-
+" coc-explorer
+nmap <space>e :CocCommand explorer<CR>
