@@ -6,9 +6,6 @@ env:
     amd: true
 extends:
     - eslint:recommended
-    - plugin:@typescript-eslint/eslint-recommended
-    - plugin:@typescript-eslint/recommended
-    - plugin:@typescript-eslint/recommended-requiring-type-checking
 globals:
     Atomics: readonly
     SharedArrayBuffer: readonly
@@ -17,9 +14,6 @@ parserOptions:
     ecmaFeatures:
         jsx: true
     sourceType: module
-parser: "@typescript-eslint/parser"
-plugins:
-    - "@typescript-eslint"
 rules:
     indent:
         - error
