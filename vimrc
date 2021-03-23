@@ -29,7 +29,8 @@ let g:rainbow_active = 1
 " 浮窗终端
 Plug 'voldikss/vim-floaterm'
 let g:floaterm_position = 'center'
-let g:floaterm_keymap_toggle = '<F12>'
+let g:floaterm_keymap_new = '<F7>'
+let g:floaterm_keymap_kill = '<F8>'
 
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
