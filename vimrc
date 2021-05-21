@@ -8,8 +8,7 @@ endif
 call plug#begin()
 
 "自动括号匹配
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-surround'
+Plug 'LunarWatcher/auto-pairs'
 
 "modeline
 Plug 'vim-airline/vim-airline'
@@ -18,13 +17,7 @@ Plug 'vim-airline/vim-airline-themes'
 " 支持大多数语言代码高亮
 Plug 'sheerun/vim-polyglot'
 
-Plug 'junegunn/vim-easy-align'
-
 Plug 'voldikss/vim-translate-me'
-
-" 彩虹括号
-Plug 'luochen1990/rainbow'
-let g:rainbow_active = 1
 
 " 浮窗终端
 Plug 'voldikss/vim-floaterm'
@@ -65,12 +58,19 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not 
 let g:NERDToggleCheckAllLines = 1
 
-"主题
+" 主题
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 
-"lua
+" lua
 Plug 'tbastos/vim-lua'
 Plug 'spacewander/openresty-vim'
+Plug 'chr4/nginx.vim'
+
+" bash
+Plug 'WolfgangMehner/bash-support'
+
+" yaml
+Plug 'stephpy/vim-yaml'
 
 "format
 Plug 'sbdchd/neoformat'
@@ -81,7 +81,6 @@ augroup END
 
 Plug 'terryma/vim-multiple-cursors'
 let g:multi_cursor_use_default_mapping=0
-
 " Default mapping
 let g:multi_cursor_start_word_key      = '<C-n>'
 let g:multi_cursor_select_all_word_key = '<A-n>'
@@ -96,7 +95,6 @@ Plug 'Yggdroot/indentLine'
 
 " search
 Plug 'liuchengxu/vim-clap'
-Plug 'google/vim-searchindex'
 
 " vsc
 Plug 'airblade/vim-gitgutter'
