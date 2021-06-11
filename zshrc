@@ -56,10 +56,6 @@ zinit light junegunn/fzf
 zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light Aloxaf/fzf-tab
 
-# powerlevel10k theme
-zinit ice depth=1
-zinit light romkatv/powerlevel10k
-
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w -w'
@@ -80,6 +76,8 @@ export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
 export FZF_ALT_C_OPTS="--preview 'tree -NC {} | head -200'"
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+zinit ice lucid atload'source ~/.p10k.zsh; _p9k_precmd' nocd
+zinit light romkatv/powerlevel10k
 
 ### End of Zinit's installer chunk
+(( ! ${+functions[p10k]} )) || p10k finalize
