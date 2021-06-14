@@ -39,7 +39,7 @@ zinit ice as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" m
 zinit light tj/git-extras
 
 zinit as"null" wait lucid from"gh-r" for \
-      atload"alias ls='exa --color=auto --group-directories-first'; alias la='ls -laFh'" cp"**/exa.1 -> $ZPFX/share/man/man1" mv"**/autocomplete/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
+      atload"alias ls='exa --color=auto --group-directories-first'; alias la='ls -laFh'" cp"**/man/exa.1 -> $ZPFX/share/man/man1" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
       cp"**/bat.1 -> $ZPFX/share/man/man1" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
       cp"**/fd.1 -> $ZPFX/share/man/man1" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" sbin"**/fd" @sharkdp/fd \
       cp"**/doc/rg.1 -> $ZPFX/share/man/man1" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" sbin"**/rg" BurntSushi/ripgrep \
