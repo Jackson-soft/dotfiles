@@ -25,7 +25,7 @@ zinit light-mode for \
     zinit-zsh/z-a-readurl
 
 zinit wait lucid light-mode for \
-  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+  atinit"zicompinit; zicdreplay" \
       zdharma/fast-syntax-highlighting \
       zdharma/history-search-multi-word \
   atload"_zsh_autosuggest_start" \
@@ -47,7 +47,7 @@ zinit as"null" wait lucid from"gh-r" for \
       sbin"fzf"  junegunn/fzf \
       mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
-zinit ice from"gh-r" as"program" sbin"**/vivid"
+zinit ice from"gh-r" sbin"*/vivid"
 zinit light sharkdp/vivid
 
 export LS_COLORS="$(vivid generate molokai)"
