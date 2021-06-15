@@ -35,7 +35,7 @@ zinit wait lucid light-mode for \
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-zinit ice as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX install"
+zinit ice as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX"
 zinit light tj/git-extras
 
 zinit as"null" wait lucid from"gh-r" for \
@@ -44,10 +44,13 @@ zinit as"null" wait lucid from"gh-r" for \
       cp"**/fd.1 -> $ZPFX/share/man/man1" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" sbin"**/fd" @sharkdp/fd \
       cp"**/doc/rg.1 -> $ZPFX/share/man/man1" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" sbin"**/rg" BurntSushi/ripgrep \
       atload"alias ps=procs" sbin"**/procs" dalance/procs \
-      sbin"fzf"  junegunn/fzf
+      sbin"fzf"  junegunn/fzf \
+      mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
-zinit ice from"gh-r" as"program" mv"shfmt* -> shfmt"
-zinit light mvdan/sh
+zinit ice from"gh-r" as"program" sbin"**/vivid"
+zinit light sharkdp/vivid
+
+export LS_COLORS="$(vivid generate molokai)"
 
 zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light Aloxaf/fzf-tab
