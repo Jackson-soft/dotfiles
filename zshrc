@@ -24,35 +24,44 @@ zinit light-mode for \
     zinit-zsh/z-a-bin-gem-node \
     zinit-zsh/z-a-readurl
 
-zinit wait lucid light-mode for \
-  atinit"zicompinit; zicdreplay" \
-      zdharma/fast-syntax-highlighting \
-      zdharma/history-search-multi-word \
-  atload"_zsh_autosuggest_start" \
-      zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-      zsh-users/zsh-completions
+# Fast-syntax-highlighting & autosuggestions
+zinit wait lucid for \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
+        zdharma/fast-syntax-highlighting \
+    atload"!_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    blockf \
+        zsh-users/zsh-completions
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-zinit light agkozak/zsh-z
+# A few wait"1 plugins
+zinit wait"1" lucid for \
+    atinit'zstyle ":history-search-multi-word" page-size "7"' \
+        zdharma/history-search-multi-word \
+    agkozak/zsh-z \
+    wfxr/forgit
 
-zinit ice as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX"
-zinit light tj/git-extras
+# A few wait'2' git extensions
+zinit as"null" wait"2" lucid for \
+    src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
 
 zinit as"null" wait lucid from"gh-r" for \
-      atload"alias ls='exa --color=auto --group-directories-first';alias ll='ls -lh' alias la='ls -laFh'" cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
-      cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
-      cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]/_fd" sbin"**/fd" @sharkdp/fd \
-      cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]/_rg" sbin"**/rg" BurntSushi/ripgrep \
-      atload"alias ps=procs" sbin"**/procs" dalance/procs \
-      sbin"fzf"  junegunn/fzf \
-      mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
+    atload"alias ls='exa --color=auto --group-directories-first';alias ll='ls -lh' alias la='ls -laFh'" cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
+    cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
+    cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]/_fd" sbin"**/fd" @sharkdp/fd \
+    cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]/_rg" sbin"**/rg" BurntSushi/ripgrep \
+    atload"alias ps=procs" sbin"**/procs" dalance/procs \
+    sbin"fzf"  junegunn/fzf \
+    mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
 zinit ice from"gh-r" sbin"*/vivid"
 zinit light sharkdp/vivid
 
 export LS_COLORS="$(vivid generate molokai)"
+
+zinit ice as"completion"
+zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
 zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light Aloxaf/fzf-tab
@@ -77,6 +86,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || tree -NC {}) 2> /dev/null | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
 export FZF_ALT_C_OPTS="--preview 'tree -NC {} | head -200'"
+export FZF_DEFAULT_OPTS="--height=40% --exact --cycle --layout=reverse --info=inline --border --margin=1 --padding=1"
 
 ### End of Zinit's installer chunk
 
