@@ -53,6 +53,7 @@ zinit as"null" wait lucid from"gh-r" for \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]/_rg" sbin"**/rg" BurntSushi/ripgrep \
     atload"alias ps=procs" sbin"**/procs" dalance/procs \
     sbin"fzf"  junegunn/fzf \
+    sbin"**/delta" dandavison/delta \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
 zinit ice from"gh-r" sbin"*/vivid"
