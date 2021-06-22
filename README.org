@@ -1,1 +1,76 @@
-#+TITLE:  Manjaro && Mac OS 平台上用的各种配置文件
+#+TITLE:  ~Linux~ && Mac OS 平台上用的各种配置文件
+* 简要
+目前在用的一些工具的配置文件
+** 安装
+#+begin_src shell
+git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git && cd dotfiles && sh ./link.sh
+#+end_src
+* ~Emacs~
+* ~Zsh~
+** 实用工具
+*** ~fzf~
+[[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，我曾经也用过一段时间，奈何周边生态不如 ~fzf~ ，后面切回到 ~fzf~ 。
+*** ~fd~
+[[https://github.com/sharkdp/fd][fd]] 是 ~find~ 命令的替代品。
+*** ~bat~
+[[https://github.com/sharkdp/bat][bat]] 是 ~cat~ 命令的替代品。
+*** ~delta~
+[[https://github.com/dandavison/delta][delta]] 是文件对比工具，主要是用来替换 ~git diff~ 用的。可以在 ~~/.gitconfig~ 文件中做以下配置：
+#+begin_src conf
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    features = side-by-side line-numbers decorations
+    whitespace-error-style = 22 reverse
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+#+end_src
+*** ~ripgrep~
+[[https://github.com/BurntSushi/ripgrep][ripgrep]] 是一个文本搜索工具。
+*** ~procs~
+[[https://github.com/dalance/procs][procs]] 是 ~ps~ 命令的替代品。
+*** ~exa~
+[[https://github.com/ogham/exa][exa]] 是 ~ls~ 命令的替代品。
+*** ~vivid~
+[[https://github.com/sharkdp/vivid][vivid]] 是环境变量 ~LS_COLORS~ 的数据源。可以做以下配置:
+#+begin_src shell
+export LS_COLORS="$(vivid generate molokai)"
+#+end_src
+** 插件管理
+[[https://github.com/zdharma/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的有两点：
+- 性能不错；
+- 用什么插件就配置什么插件，不必像 ~Oh My Zsh~ 或 ~Prezto~ 一样，插件不管你用不用都下载下来。
+*** 插件
+**** ~fzf-tab~
+[[https://github.com/Aloxaf/fzf-tab][fzf-tab]] 依赖于 ~fzf~ 的 ~Tab~ 补全插件，强烈推荐。一个基本配置如下：
+#+begin_src shell
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
+#+end_src
+**** ~zsh-z~
+[[https://github.com/agkozak/zsh-z][zsh-z]] 快速跳转目录。
+**** ~forgit~
+[[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
+**** ~git-extras~
+[[https://github.com/tj/git-extras][git-extras]] ~git~ 的扩展工具包。
+
+* ~Vim~
+~Vim~ 主要是满足日常配置脚本之用。
