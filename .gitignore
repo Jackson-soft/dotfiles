@@ -1,1 +1,35 @@
 .mypy_cache/
+
+# Compiled
+*.elc
+
+# Packaging
+.cask
+
+# Backup files
+*~
+
+elpa/
+auto-save-list/
+snippets
+.cache/
+*.eld
+recentf*
+var/
+url/
+semanticdb/
+srecode-map.el
+eshell/
+.lsp-session-v1
+projects
+.mc-lists.el
+*.sqlite
+transient/
+.DS_Store
+places
+.historian
+*.log
+.dap-breakpoints
+history
+org-roam.db
+custom.el
