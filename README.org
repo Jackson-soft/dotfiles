@@ -9,7 +9,12 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git && cd dotfiles 
 * ~Zsh~
 ** 实用工具
 *** ~fzf~
-[[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，我曾经也用过一段时间，奈何周边生态不如 ~fzf~ ，后面切回到 ~fzf~ 。
+[[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，曾经也用过一段时间，奈何周边生态不如 ~fzf~ ，后面切回到 ~fzf~ 。
+
+基本键位：
+- ~CTRL-T~ :: Paste the selected files and directories onto the command-line
+- ~CTRL-R~ :: Paste the selected command from history onto the command-line
+- ~ALT-C~ :: cd into the selected directory
 *** ~fd~
 [[https://github.com/sharkdp/fd][fd]] 是 ~find~ 命令的替代品。
 *** ~bat~
@@ -46,13 +51,17 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git && cd dotfiles 
 #+begin_src shell
 export LS_COLORS="$(vivid generate molokai)"
 #+end_src
+
+主要是不同格式的文件显示不同的颜色，相比单一的白色会更好区分。
 ** 插件管理
 [[https://github.com/zdharma/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的有两点：
 - 性能不错；
 - 用什么插件就配置什么插件，不必像 ~Oh My Zsh~ 或 ~Prezto~ 一样，插件不管你用不用都下载下来。
 *** 插件
 **** ~fzf-tab~
-[[https://github.com/Aloxaf/fzf-tab][fzf-tab]] 依赖于 ~fzf~ 的 ~Tab~ 补全插件，强烈推荐。一个基本配置如下：
+[[https://github.com/Aloxaf/fzf-tab][fzf-tab]] 依赖于 ~fzf~ 的 ~Tab~ 补全插件，强烈推荐。
+
+基本配置如下：
 #+begin_src shell
 # disable sort when completing `git checkout`
 zstyle ':completion:*:git-checkout:*' sort false
@@ -65,10 +74,32 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 #+end_src
+
+基本的键位：
+- ~Ctrl+Space~ :: select multiple results, can be configured by ~fzf-bindings~ tag
+- ~F1/F2~ :: switch between groups, can be configured by ~switch-group~ tag
+- ~/~ :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
 **** ~zsh-z~
 [[https://github.com/agkozak/zsh-z][zsh-z]] 快速跳转目录。
 **** ~forgit~
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
+
+一些默认的简写：
+#+begin_src conf
+forgit_log=glo
+forgit_diff=gd
+forgit_add=ga
+forgit_reset_head=grh
+forgit_ignore=gi
+forgit_checkout_file=gcf
+forgit_checkout_branch=gcb
+forgit_checkout_commit=gco
+forgit_clean=gclean
+forgit_stash_show=gss
+forgit_cherry_pick=gcp
+forgit_rebase=grb
+forgit_fixup=gfu
+#+end_src
 **** ~git-extras~
 [[https://github.com/tj/git-extras][git-extras]] ~git~ 的扩展工具包。
 
