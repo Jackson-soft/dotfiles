@@ -22,7 +22,8 @@ autoload -Uz _zinit
 # (this is currently required for annexes)
 zinit light-mode for \
     zinit-zsh/z-a-bin-gem-node \
-    zinit-zsh/z-a-readurl
+    zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-readurl 
 
 # Fast-syntax-highlighting & autosuggestions
 zinit wait lucid for \
@@ -52,9 +53,13 @@ zinit as"null" wait lucid from"gh-r" for \
     cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]/_fd" sbin"**/fd" @sharkdp/fd \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]/_rg" sbin"**/rg" BurntSushi/ripgrep \
     atload"alias ps=procs" sbin"**/procs" dalance/procs \
-    sbin"fzf"  junegunn/fzf \
     sbin"**/delta" dandavison/delta \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
+
+zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion; https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh; https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
+    src'key-bindings.zsh'
+zinit light junegunn/fzf
 
 zinit ice from"gh-r" sbin"*/vivid"
 zinit light sharkdp/vivid
