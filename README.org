@@ -24,9 +24,9 @@ zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
 zinit light junegunn/fzf
 #+end_src
 
-这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 ~from"gh-r"~ 即（github-release）下载的二进制包里是没有
-~key-bindings.zsh~ 这个文件的，所以需要单独来下载这个文件，
-即添加 ~dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' src'key-bindings.zsh'~ 。
+这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 ~from"gh-r"~ 即（github-release）下载的二进制包里是
+没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添
+加 =dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' src'key-bindings.zsh'= 。
 
 如果 ~Mac~ 有用 ~iterm2~ 的同学要注意， ~ALT-C~ 有可能会失效，解决方法是：
 
@@ -67,7 +67,7 @@ For most users, Esc+ will be the best choice.
 *** ~exa~
 [[https://github.com/ogham/exa][exa]] 是 ~ls~ 命令的替代品。它同样有一个竞品 [[https://github.com/Peltoche/lsd][lsd]] ，两者功能性上差不多，看个人口味来取舍。
 *** ~vivid~
-[[https://github.com/sharkdp/vivid][vivid]] 是环境变量 ~LS_COLORS~ 的数据源。可以做以下配置:
+[[https://github.com/sharkdp/vivid][vivid]] 是环境变量 =LS_COLORS= 的数据源。可以做以下配置:
 #+begin_src shell
 export LS_COLORS="$(vivid generate molokai)"
 #+end_src
