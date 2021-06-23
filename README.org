@@ -24,7 +24,7 @@ zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
 zinit light junegunn/fzf
 #+end_src
 
-这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 ~from"gh-r"~ 即 （github-release） 下载的二进制包里是
+这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 /from"gh-r"/ 即 ~github-release~ 下载的二进制包里是
 没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添加
 #+begin_src shell
 dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
