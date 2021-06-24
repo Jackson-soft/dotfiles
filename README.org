@@ -24,7 +24,7 @@ zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
 zinit light junegunn/fzf
 #+end_src
 
-这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 /from"gh-r"/ 即 ~github-release~ 下载的二进制包里是
+这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 ~from"gh-r"~ 即 ~github-release~ 下载的二进制包里是
 没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添加
 #+begin_src shell
 dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
@@ -43,7 +43,7 @@ For most users, Esc+ will be the best choice.
 *** ~bat~
 [[https://github.com/sharkdp/bat][bat]] 是 ~cat~ 命令的替代品。
 *** ~delta~
-[[https://github.com/dandavison/delta][delta]] 是文件对比工具，主要是用来替换 ~git diff~ 用的。可以在 ~~/.gitconfig~ 文件中做以下配置：
+[[https://github.com/dandavison/delta][delta]] 是文件对比工具，主要是用来替换 ~git diff~ 用的。可以在 =~/.gitconfig= 文件中做以下配置：
 #+begin_src conf
 [pager]
     diff = delta
@@ -103,7 +103,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 - ~F1/F2~ :: switch between groups, can be configured by ~switch-group~ tag
 - ~/~ :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
 **** ~zsh-z~
-[[https://github.com/agkozak/zsh-z][zsh-z]] 快速跳转使用过的目录，有点类似于搜索历史记录，数据存在 ~~/.z~ 目录下。
+[[https://github.com/agkozak/zsh-z][zsh-z]] 快速跳转使用过的目录，有点类似于搜索历史记录，数据存在 =~/.z= 目录下。
 **** ~forgit~
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
 

@@ -28,7 +28,6 @@
   :hook (prog-mode . flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit
-        flycheck-indication-mode 'right-fringe
         flycheck-check-syntax-automatically '(save mode-enabled))
   )
 
