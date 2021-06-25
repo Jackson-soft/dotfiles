@@ -59,7 +59,7 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 " 主题
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'arcticicestudio/nord-vim'
 
 " lua
 Plug 'tbastos/vim-lua'
@@ -74,6 +74,7 @@ Plug 'stephpy/vim-yaml'
 
 "format
 Plug 'sbdchd/neoformat'
+let g:shfmt_opt="-ci"
 augroup fmt
   autocmd!
   autocmd BufWritePre * undojoin | Neoformat
@@ -134,12 +135,7 @@ set termguicolors
 set modeline            " Enable modeline.
 
 " colorscheme onedark
-let g:material_terminal_italics = 1
-let g:material_theme_style = 'palenight'
-colorscheme material
-if (has('termguicolors'))
-  set termguicolors
-endif
+colorscheme nord
 
 "使得terminal的光标变为细线，而不是默认的粗条。这个在vim的普通模式和插入模式都会生效。
 set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cursor/lCursor
@@ -147,7 +143,7 @@ set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cur
 " airline
 let g:airline_powerline_fonts=1
 " let g:airline_theme='powerlineish'
-let g:airline_theme = 'material'
+let g:airline_theme = 'nord_minimal'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#coc#enabled = 1

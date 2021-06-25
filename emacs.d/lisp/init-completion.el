@@ -25,8 +25,10 @@
 ;; Enable `partial-completion' for files to allow path expansion.
 ;; You may prefer to use `initials' instead of `partial-completion'.
 (use-package orderless
-  :config
-  (setq completion-styles (cons 'orderless completion-styles))
+  :init
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion)))))
   )
 
 (use-package consult

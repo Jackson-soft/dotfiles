@@ -44,8 +44,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # A few wait"1 plugins
 zinit wait"1" lucid for \
-    atinit'zstyle ":history-search-multi-word" page-size "7"' \
-        zdharma/history-search-multi-word \
+    zdharma/history-search-multi-word \
     agkozak/zsh-z \
     wfxr/forgit
 

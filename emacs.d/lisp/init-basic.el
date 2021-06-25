@@ -39,6 +39,9 @@
   ;; Display dividers between windows
   (setq window-divider-default-bottom-width 1
         window-divider-default-right-width 1)
+
+  (setq-default window-resize-pixelwise t)
+  (setq-default frame-resize-pixelwise t)
   )
 
 (use-package emacs
@@ -49,6 +52,7 @@
                 indicate-empty-lines t  ;; 如果文件末尾有空行， 以可视地形式提醒
                 indent-tabs-mode nil
                 fill-column 120
+                window-combination-resize t
                 major-mode 'text-mode)
 
   (setq frame-title-format '("GUN Emacs: %b")      ;; Name of current buffer in window title
@@ -71,7 +75,6 @@
   :ensure nil
   :config
   (setq confirm-kill-processes nil
-        auto-save-default nil              ;; 不生成 #fname# 格式的临时文件
         create-lockfiles nil               ;; No lock files
         make-backup-files nil)             ;; Forbide to make backup files
   )
