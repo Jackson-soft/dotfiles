@@ -142,8 +142,7 @@ set gcr=n-v-c:ver25-Cursor/lCursor,ve:ver35-Cursor,o:hor50-Cursor,i-ci:ver25-Cur
 
 " airline
 let g:airline_powerline_fonts=1
-" let g:airline_theme='powerlineish'
-let g:airline_theme = 'nord_minimal'
+let g:airline_theme = 'violet'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#coc#enabled = 1

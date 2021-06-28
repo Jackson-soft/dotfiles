@@ -57,6 +57,7 @@
 
   (setq frame-title-format '("GUN Emacs: %b")      ;; Name of current buffer in window title
         scroll-margin 2           ;; better scrolling experience
+        scroll-step 1
         scroll-conservatively 101 ;; > 100
         scroll-preserve-screen-position t
         auto-window-vscroll nil
@@ -74,9 +75,9 @@
 (use-package files
   :ensure nil
   :config
-  (setq confirm-kill-processes nil
-        create-lockfiles nil               ;; No lock files
-        make-backup-files nil)             ;; Forbide to make backup files
+  (setq confirm-kill-processes nil      ;; 关闭emacs 时无需额外确认
+        create-lockfiles nil            ;; No lock files
+        make-backup-files nil)          ;; Forbide to make backup files
   )
 
 (use-package simple
@@ -119,10 +120,8 @@
   :hook (after-init . mouse-wheel-mode)
   :config
   (setq mouse-wheel-scroll-amount
-        '(1
-          ((shift) . 5)
-          ((meta) . 0.5)
-          ((control) . text-scale))
+        '(2
+          ((shift) . 1))
         mouse-drag-copy-region nil
         mouse-yank-at-point t
         make-pointer-invisible t

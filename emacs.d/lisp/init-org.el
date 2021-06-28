@@ -40,9 +40,30 @@
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
   (org-return-follows-link t)
   :config
-  ;; org 文档中显示内嵌图片
-  (org-display-inline-images)
   (add-to-list 'org-modules 'org-tempo t)
+
+  ;; 快速插入截图到文件
+  (defun org-insert-image ()
+    "insert a image from clipboard"
+    (interactive)
+    (let* ((path (concat default-directory "./"))
+           (fname (read-string "Enter file name: "))
+           (image-file (concat path fname)))
+      (if (not (file-exists-p path))
+          (mkdir path))
+      (do-applescript (concat
+                       "set the_path to \"" image-file "\" \n"
+                       "set png_data to the clipboard as «class PNGf» \n"
+                       "set the_file to open for access (POSIX file the_path as string) with write permission \n"
+                       "write png_data to the_file \n"
+                       "close access the_file"))
+      ;; (shell-command (concat "pngpaste " image-file))
+      (org-insert-link nil
+                       (concat "file:" image-file)
+                       "")
+      (message image-file))
+    (org-display-inline-images)
+    )
 
   (use-package org-id
     :ensure nil
