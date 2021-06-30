@@ -10,5 +10,4 @@ ln -s $(pwd)/stylelintrc.yaml $HOME/.stylelintrc.yaml
 ln -s $(pwd)/clang-format.yaml $HOME/.clang-format
 ln -s $(pwd)/clang-tidy.yaml $HOME/.clang-tidy
 
-ln -s $(pwd)/gitconfig_global $HOME/.gitconfig_global
 ln -s $(pwd)/emacs.d $HOME/.emacs.d

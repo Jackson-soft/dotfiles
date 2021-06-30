@@ -45,12 +45,12 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # A few wait"1 plugins
 zinit wait"1" lucid for \
     zdharma/history-search-multi-word \
-    agkozak/zsh-z \
-    wfxr/forgit
+    agkozak/zsh-z 
 
 # A few wait'2' git extensions
 zinit as"null" wait"2" lucid for \
-    src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
+    src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
+    sbin"bin/git-fuzzy" bigH/git-fuzzy
 
 zinit as"null" wait lucid from"gh-r" for \
     cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \

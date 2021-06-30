@@ -63,6 +63,8 @@ For most users, Esc+ will be the best choice.
     file-style = bold yellow ul
     file-decoration-style = none
 #+end_src
+
+如果是使用 ~git-fuzzy~ 的话，是不用配置这些的。
 *** ~ripgrep~
 [[https://github.com/BurntSushi/ripgrep][ripgrep]] 是一个文本搜索工具。
 *** ~procs~
@@ -104,7 +106,18 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 - ~/~ :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
 **** ~zsh-z~
 [[https://github.com/agkozak/zsh-z][zsh-z]] 快速跳转使用过的目录，有点类似于搜索历史记录，数据存在 =~/.z= 目录下。
-**** ~forgit~
+**** ~git-fuzzy~
+[[https://github.com/bigH/git-fuzzy][git-fuzzy]] 是一个基于 ~fzf~ 扩展 ~git~ 的工具。
+
+目前支持的子命令：
+- ~git fuzzy status~
+- ~git fuzzy branch~
+- ~git fuzzy log~
+- ~git fuzzy reflog~
+- ~git fuzzy stash~
+- ~git fuzzy diff~
+- ~git fuzzy pr~
+**** +forgit+ (目前用 [[https://github.com/bigH/git-fuzzy][git-fuzzy]] 替代)
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
 
 一些默认的简写：
