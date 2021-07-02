@@ -78,6 +78,20 @@ export LS_COLORS="$(vivid generate molokai)"
 #+end_src
 
 主要是不同格式的文件显示不同的颜色，相比单一的白色会更好区分。
+*** ~zoxide~
+[[https://github.com/ajeetdsouza/zoxide][zoxide]] 是一个快速目录跳转工具，支持模糊匹配和历史纪录。配置如下：
+#+begin_src shell
+# 快速跳转目录
+zinit ice wait"2" as"null" from"gh-r" lucid \
+    mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" \
+    atclone"zoxide init zsh > init.zsh" \
+    atpull"%atclone" src"init.zsh" nocompile'!'
+zinit light ajeetdsouza/zoxide
+#+end_src
+
+它延伸出两个命令：
+- ~z~ :: 这个应该叫 ~cd~ 命令的智能版；
+- ~zi~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
 ** 插件管理
 [[https://github.com/zdharma/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的有两点：
 - 性能不错；
@@ -104,8 +118,6 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 - ~Ctrl+Space~ :: select multiple results, can be configured by ~fzf-bindings~ tag
 - ~F1/F2~ :: switch between groups, can be configured by ~switch-group~ tag
 - ~/~ :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
-**** ~zsh-z~
-[[https://github.com/agkozak/zsh-z][zsh-z]] 快速跳转使用过的目录，有点类似于搜索历史记录，数据存在 =~/.z= 目录下。
 **** ~git-fuzzy~
 [[https://github.com/bigH/git-fuzzy][git-fuzzy]] 是一个基于 ~fzf~ 扩展 ~git~ 的工具。
 
