@@ -20,6 +20,8 @@ setopt auto_cd
 setopt pushd_ignore_dups
 setopt pushdminus
 
+alias -g ...='../..'
+
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -59,16 +61,17 @@ zinit as"null" wait"2" lucid for \
     sbin"bin/git-fuzzy" bigH/git-fuzzy
 
 zinit as"null" wait lucid from"gh-r" for \
-    cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
-    cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
-    cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]/_fd" sbin"**/fd" @sharkdp/fd \
-    cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]/_rg" sbin"**/rg" BurntSushi/ripgrep \
+    atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -laFh';alias tree='ls -T'" cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
+    atload"alias cat=bat" cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
+    cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" sbin"**/fd" @sharkdp/fd \
+    cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" sbin"**/rg" BurntSushi/ripgrep \
+    atload"alias top=btm" mv"**/completion/_btm -> $ZINIT[COMPLETIONS_DIR]" sbin"**/btm" ClementTsang/bottom \
     atload"alias ps=procs" sbin"**/procs" dalance/procs \
-    sbin"**/delta" dandavison/delta \
+    atload"alias diff=delta" sbin"**/delta" dandavison/delta \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
 zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf; https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh; https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion; https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh; https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
     src'key-bindings.zsh'
 zinit light junegunn/fzf
 
@@ -97,12 +100,6 @@ zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
            ps --pid=$word -o cmd --no-headers -w -w
         fi'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
-
-alias -g ...='../..'
-alias ls='exa --color=auto --group-directories-first --time-style=long-iso'
-alias ll='ls -lh'
-alias la='ls -laFh'
-alias tree='ls -T'
 
 export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git || git ls-tree -r --name-only HEAD || rg --hidden --files || find ."
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
