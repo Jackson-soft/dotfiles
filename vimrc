@@ -17,16 +17,21 @@ Plug 'vim-airline/vim-airline-themes'
 " 支持大多数语言代码高亮
 Plug 'sheerun/vim-polyglot'
 
+" 轻量补全
+Plug 'skywind3000/vim-auto-popmenu'
+let g:apc_enable_ft = {'*':1}
+set cpt=.,k,w,b
+set completeopt=menu,menuone,noselect
+
+" 翻译
 Plug 'voldikss/vim-translate-me'
+nmap <silent> <Leader>w <Plug>TranslateW
 
 " 浮窗终端
 Plug 'voldikss/vim-floaterm'
 let g:floaterm_position = 'center'
 let g:floaterm_keymap_new = '<F7>'
 let g:floaterm_keymap_kill = '<F8>'
-
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
 " 快速注释
 Plug 'preservim/nerdcommenter'

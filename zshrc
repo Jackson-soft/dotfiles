@@ -27,8 +27,8 @@ autoload -Uz _zinit
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-    zinit-zsh/z-a-bin-gem-node \
     zinit-zsh/z-a-patch-dl \
+    zinit-zsh/z-a-bin-gem-node \
     zinit-zsh/z-a-readurl
 
 # Fast-syntax-highlighting & autosuggestions
@@ -44,8 +44,14 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # A few wait"1 plugins
 zinit wait"1" lucid for \
-    zdharma/history-search-multi-word \
-    agkozak/zsh-z 
+    zdharma/history-search-multi-word
+
+# 快速跳转目录
+zinit ice wait"2" as"null" from"gh-r" lucid \
+    mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" \
+    atclone"zoxide init zsh > init.zsh" \
+    atpull"%atclone" src"init.zsh" nocompile'!'
+zinit light ajeetdsouza/zoxide
 
 # A few wait'2' git extensions
 zinit as"null" wait"2" lucid for \
@@ -62,11 +68,11 @@ zinit as"null" wait lucid from"gh-r" for \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
 zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion; https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh; https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf; https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh; https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
     src'key-bindings.zsh'
 zinit light junegunn/fzf
 
-zinit ice from"gh-r" sbin"*/vivid"
+zinit ice as"null" wait lucid from"gh-r" sbin"*/vivid"
 zinit light sharkdp/vivid
 
 export LS_COLORS="$(vivid generate molokai)"

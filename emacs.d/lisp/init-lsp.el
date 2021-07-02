@@ -49,12 +49,13 @@
   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
         company-minimum-prefix-length 1
         company-tooltip-limit 12
-        company-backends '(company-capf company-ispell
-                                        company-files
-                                        (company-dabbrev-code company-etags company-keywords)
-                                        company-clang
-                                        company-cmake
-                                        ))
+        company-backends '(company-capf
+                           (company-dabbrev-code company-etags company-keywords)
+                           company-clang
+                           company-cmake
+                           company-ispell
+                           company-files
+                           ))
   )
 
 (use-package lsp-mode
