@@ -7,10 +7,10 @@ endif
 " # Plugins Beginning
 call plug#begin()
 
-"自动括号匹配
+" 自动括号匹配
 Plug 'LunarWatcher/auto-pairs'
 
-"modeline
+" modeline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -77,7 +77,7 @@ Plug 'WolfgangMehner/bash-support'
 " yaml
 Plug 'stephpy/vim-yaml'
 
-"format
+" format
 Plug 'sbdchd/neoformat'
 let g:shfmt_opt="-ci"
 augroup fmt
@@ -85,17 +85,8 @@ augroup fmt
   autocmd BufWritePre * undojoin | Neoformat
 augroup END
 
-Plug 'terryma/vim-multiple-cursors'
-let g:multi_cursor_use_default_mapping=0
-" Default mapping
-let g:multi_cursor_start_word_key      = '<C-n>'
-let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-n>'
-let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-n>'
-let g:multi_cursor_prev_key            = '<C-p>'
-let g:multi_cursor_skip_key            = '<C-x>'
-let g:multi_cursor_quit_key            = '<Esc>'
+" 多光标
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 Plug 'Yggdroot/indentLine'
 
@@ -150,8 +141,6 @@ let g:airline_powerline_fonts=1
 let g:airline_theme = 'violet'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#coc#enabled = 1
-let g:airline#extensions#ale#enabled = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
