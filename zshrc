@@ -48,13 +48,6 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit wait"1" lucid for \
     atinit'zstyle :history-search-multi-word page-size 7;' zdharma/history-search-multi-word
 
-# 快速跳转目录
-zinit ice wait"2" as"null" from"gh-r" lucid \
-    mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" \
-    atclone"zoxide init zsh > init.zsh" \
-    atpull"%atclone" src"init.zsh" nocompile'!'
-zinit light ajeetdsouza/zoxide
-
 # A few wait'2' git extensions
 zinit as"null" wait"2" lucid for \
     src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
@@ -63,7 +56,8 @@ zinit as"null" wait"2" lucid for \
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit as"null" wait lucid from"gh-r" for \
-    atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -laFh';alias tree='ls -T'" cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
+    atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -laFh';alias tree='ls -T'" \
+    cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
     atload"alias cat=bat" cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
     cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" sbin"**/fd" @sharkdp/fd \
     atload'export LS_COLORS="$(vivid generate molokai)"' sbin"**/vivid" @sharkdp/vivid \
@@ -71,10 +65,13 @@ zinit as"null" wait lucid from"gh-r" for \
     atload"alias top=btm" mv"**/completion/_btm -> $ZINIT[COMPLETIONS_DIR]" sbin"**/btm" ClementTsang/bottom \
     atload"alias ps=procs" sbin"**/procs" dalance/procs \
     atload"alias diff=delta" sbin"**/delta" dandavison/delta \
+    mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" atclone"zoxide init zsh > init.zsh" atpull"%atclone" src"init.zsh" nocompile'!' ajeetdsouza/zoxide \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
 zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion; https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh; https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion' \
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
     src'key-bindings.zsh'
 zinit light junegunn/fzf
 
