@@ -81,6 +81,9 @@ zinit light junegunn/fzf
 zinit ice as"completion"
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
+zinit ice mv="*.zsh -> _fzf" as="completion"
+zinit snippet 'https://github.com/junegunn/fzf/blob/master/shell/completion.zsh'
+
 zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light Aloxaf/fzf-tab
 
@@ -98,6 +101,8 @@ zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
            ps --pid=$word -o cmd --no-headers -w -w
         fi'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
+# cd 不区分大小写
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git || git ls-tree -r --name-only HEAD || rg --hidden --files || find ."
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -107,6 +112,20 @@ export FZF_ALT_C_OPTS="--preview 'exa -T {} | head -200'"
 export FZF_DEFAULT_OPTS="--height=40% --exact --cycle --layout=reverse --info=inline --border --margin=1 --padding=1"
 
 ### End of Zinit's installer chunk
+
+# colored-man-pages
+function man() {
+	env \
+        LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
+        LESS_TERMCAP_me=$(tput sgr0) \
+        LESS_TERMCAP_mb=$(tput blink) \
+        LESS_TERMCAP_us=$(tput setaf 2) \
+        LESS_TERMCAP_ue=$(tput sgr0) \
+        LESS_TERMCAP_so=$(tput smso) \
+        LESS_TERMCAP_se=$(tput rmso) \
+		PAGER="${commands[less]:-$PAGER}" \
+		man "$@"
+}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
