@@ -48,7 +48,9 @@
          ("M-s l" . consult-line)
          ("M-s f" . consult-find)
          ("M-s r" . consult-ripgrep)
-         ("M-s e" . consult-isearch))
+         ("M-s m" . consult-multi-occur)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines))
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :init
   ;; Optionally configure the register formatting. This improves the register
@@ -60,6 +62,8 @@
   ;; Optionally tweak the register preview window.
   ;; This adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
+  ;; Optionally replace `completing-read-multiple' with an enhanced version.
+  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
   :config
   (setq consult-project-root-function
         (lambda ()
@@ -67,7 +71,7 @@
             (project-root project))))
 
   ;; use fd instead of find
-  (setq consult-find-command "fd --color=never --full-path ARG OPTS"
+  (setq consult-find-command "fd -p ARG OPTS"
         consult-preview-key (kbd "M-p")
         consult-narrow-key (kbd "C-+"))
   )
@@ -77,7 +81,7 @@
   )
 
 (use-package embark
-  :bind (("C-S-a" . embark-act)       ;; pick some comfortable binding
+  :bind (("C-." . embark-act)       ;; pick some comfortable binding
          ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
   :init
   ;; Optionally replace the key help with a completing-read interface

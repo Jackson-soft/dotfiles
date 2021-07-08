@@ -11,8 +11,9 @@
 (use-package hl-todo
   :hook (after-init . global-hl-todo-mode)
   :bind (:map hl-todo-mode-map
-              ("C-c m" . hl-todo-previous)
+              ("C-c p" . hl-todo-previous)
               ("C-c n" . hl-todo-next)
+              ("C-c i" . hl-todo-insert)
               ("C-c o" . hl-todo-occur))
   )
 
