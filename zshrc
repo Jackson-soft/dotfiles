@@ -34,12 +34,12 @@ zinit light-mode for \
     zinit-zsh/z-a-readurl
 
 # Fast-syntax-highlighting & autosuggestions
-zinit wait lucid for \
-    atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
+zinit wait lucid light-mode for \
+    atinit"zpcompinit; zpcdreplay" \
         zdharma/fast-syntax-highlighting \
-    atload"!_zsh_autosuggest_start" \
+    atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
-    blockf \
+    blockf atpull'zinit creinstall -q .' \
         zsh-users/zsh-completions
 
 zinit ice depth=1; zinit light romkatv/powerlevel10k
@@ -58,14 +58,14 @@ zinit as"null" wait"2" lucid for \
 zinit as"null" wait lucid from"gh-r" for \
     atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -laFh';alias tree='ls -T'" \
     cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
-    atload"alias cat=bat" cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
+    atload"alias cat='bat -pp'" cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
     cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" sbin"**/fd" @sharkdp/fd \
     atload'export LS_COLORS="$(vivid generate molokai)"' sbin"**/vivid" @sharkdp/vivid \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" sbin"**/rg" BurntSushi/ripgrep \
     atload"alias top=btm" mv"**/completion/_btm -> $ZINIT[COMPLETIONS_DIR]" sbin"**/btm" ClementTsang/bottom \
     atload"alias ps=procs" sbin"**/procs" dalance/procs \
-    atload"alias diff=delta" sbin"**/delta" dandavison/delta \
-    mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" atclone"zoxide init zsh > init.zsh" atpull"%atclone" src"init.zsh" nocompile'!' ajeetdsouza/zoxide \
+    atload"alias diff='delta -n'" sbin"**/delta" dandavison/delta \
+    mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
 zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
