@@ -12,4 +12,5 @@ ln -s $(pwd)/clang-tidy.yaml $HOME/.clang-tidy
 
 ln -s $(pwd)/emacs.d/ $HOME/.emacs.d/
 
-ln -s $(pwd)/nvim/ $HOME/.config/nvim/
+mkdir -p $HOME/.config/nvim
+ln -s $(pwd)/init.lua $HOME/.config/nvim/init.lua
