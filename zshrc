@@ -64,6 +64,7 @@ zinit as"null" wait lucid from"gh-r" for \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" sbin"**/rg" BurntSushi/ripgrep \
     atload"alias top=btm" mv"**/completion/_btm -> $ZINIT[COMPLETIONS_DIR]" sbin"**/btm" ClementTsang/bottom \
     atload"alias ps=procs" sbin"**/procs" dalance/procs \
+    sbin"stylua" JohnnyMorganz/StyLua \
     atload"alias diff='delta -n'" sbin"**/delta" dandavison/delta \
     mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
@@ -126,3 +127,5 @@ function man() {
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+alias luamake=/Users/jacksoncy/.emacs.d/.cache/lsp/lua-language-server/3rd/luamake/luamake
