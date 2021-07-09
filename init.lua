@@ -19,6 +19,8 @@ vim.api.nvim_exec(
     false
 )
 
+---- Plugins ----
+
 local use = require("packer").use
 require("packer").startup(function()
     use("wbthomason/packer.nvim") -- Package manager
@@ -50,7 +52,10 @@ require("packer").startup(function()
     use("spacewander/openresty-vim")
 end)
 
+---- Settings ----
+
 local o, wo, bo = vim.o, vim.wo, vim.bo
+-- Global Options
 --Incremental live completion
 o.inccommand = "nosplit"
 
@@ -67,6 +72,7 @@ o.shiftwidth = 4
 --Do not save when switching buffers
 o.hidden = true
 
+-- Buffer Local Options
 --Enable mouse mode
 o.mouse = "a"
 --Enable break indent
@@ -79,6 +85,7 @@ bo.smartindent = true
 o.ignorecase = true
 o.smartcase = true
 
+-- Window Local Options
 --Decrease update time
 o.updatetime = 250
 wo.signcolumn = "yes:1"
@@ -101,8 +108,10 @@ vim.g.maplocalleader = [[,]]
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
 vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
+---- Plugin Settings ----
+
 -- floaterm
-vim.api.nvim_set_keymap("n", "F12", "<cmd>FloatermToggle<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F12>", ":FloatermToggle<CR>", { noremap = true, silent = true })
 
 -- Telescope
 require("telescope").setup({
