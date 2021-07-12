@@ -24,30 +24,74 @@ vim.api.nvim_exec(
 local use = require("packer").use
 require("packer").startup(function()
     use("wbthomason/packer.nvim") -- Package manager
-    use("airblade/vim-gitgutter")
-    use("tpope/vim-fugitive") -- Git commands in nvim
-    use("tpope/vim-rhubarb") -- Fugitive-companion to interact with github
+
+    -- git
+    use({ "airblade/vim-gitgutter", "tpope/vim-fugitive", "tpope/vim-rhubarb" })
+
     use("tpope/vim-commentary") -- "gc" to comment visual regions/lines
+
     -- UI to select things (files, grep results, open buffers...)
     use({ "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } } })
-    use("joshdick/onedark.vim") -- Theme inspired by Atom
+
+    use({
+        "navarasu/onedark.nvim",
+        config = function()
+            -- Lua:
+            require("onedark").setup()
+        end,
+    })
+
     -- Add indentation guides even on blank lines
-    use("lukas-reineke/indent-blankline.nvim")
-    use("nvim-lua/completion-nvim")
+    use({
+        "lukas-reineke/indent-blankline.nvim",
+        config = function()
+            require("indent_blankline").setup({})
+        end,
+    })
+
+    -- Highlights
     use({
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
     })
-    use("sbdchd/neoformat")
-    use("neovim/nvim-lspconfig") -- Collection of configurations for built-in LSP client
-    use("folke/lsp-colors.nvim")
-    use("cohama/lexima.vim")
-    use("hoob3rt/lualine.nvim")
-    use("kyazdani42/nvim-web-devicons")
+    use("mhartington/formatter.nvim")
+
+    -- Completion and linting
+    use({
+        "nvim-lua/completion-nvim",
+        "neovim/nvim-lspconfig",
+        "folke/lsp-colors.nvim",
+        "glepnir/lspsaga.nvim",
+        {
+            "folke/trouble.nvim",
+            config = function()
+                require("trouble").setup({})
+            end,
+        },
+    })
+
+    -- Auto close parentheses
+    use({
+        "windwp/nvim-autopairs",
+        config = function()
+            require("nvim-autopairs").setup()
+        end,
+    })
+
+    -- statusline
+    use({
+        "hoob3rt/lualine.nvim",
+        requires = { "kyazdani42/nvim-web-devicons", opt = true },
+    })
+
+    -- lua
     use("tjdevries/nlua.nvim")
-    use("glepnir/lspsaga.nvim")
+    use("folke/lua-dev.nvim")
+
     -- 多光标
     use("mg979/vim-visual-multi")
+
+    -- Terminal
     use("voldikss/vim-floaterm")
     use("spacewander/openresty-vim")
 end)
@@ -94,15 +138,12 @@ wo.signcolumn = "yes:1"
 o.termguicolors = true
 o.shortmess = o.shortmess .. "c"
 
-vim.g.onedark_terminal_italics = 2
-vim.cmd([[colorscheme onedark]])
-
 o.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o:hor50]]
 
 --Remap space as leader key
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
-vim.g.mapleader = [[ ]]
-vim.g.maplocalleader = [[,]]
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 --Remap for dealing with word wrap
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
@@ -110,8 +151,48 @@ vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { noremap = true,
 
 ---- Plugin Settings ----
 
+-- Format
+local function clangformat()
+    return { exe = "clang-format", args = { "-assume-filename=" .. vim.fn.expand("%:t") }, stdin = true }
+end
+
+local function prettier()
+    return {
+        exe = "prettier",
+        args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0), "--single-quote" },
+        stdin = true,
+    }
+end
+
+require("formatter").setup({
+    logging = false,
+    filetype = {
+        c = { clangformat },
+        cpp = { clangformat },
+        json = { prettier },
+        javascript = { prettier },
+        lua = {
+            -- stylua
+            function()
+                return { exe = "stylua", args = { "--search-parent-directories", "-" }, stdin = true }
+            end,
+        },
+    },
+})
+
+vim.api.nvim_exec(
+    [[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost * FormatWrite
+augroup END
+]],
+    true
+)
+
 -- floaterm
-vim.api.nvim_set_keymap("n", "<F12>", ":FloatermToggle<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F7>", ":FloatermNew<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<F12>", "<cmd>FloatermToggle<CR>", { noremap = true, silent = true })
 
 -- Telescope
 require("telescope").setup({
@@ -182,17 +263,6 @@ vim.api.nvim_set_keymap(
 -- Change preview window location
 vim.g.splitbelow = true
 
-vim.api.nvim_exec(
-    [[
-let g:shfmt_opt="-ci"
-augroup fmt
-  autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
-augroup END
-]],
-    false
-)
-
 -- LSP settings
 local nvim_lsp = require("lspconfig")
 local protocol = require("vim.lsp.protocol")
@@ -238,6 +308,13 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_command([[augroup END]])
     end
 
+    if client.resolved_capabilities.document_highlight == true then
+        vim.cmd("augroup lsp_aucmds")
+        vim.cmd("au CursorHold <buffer> lua vim.lsp.buf.document_highlight()")
+        vim.cmd("au CursorMoved <buffer> lua vim.lsp.buf.clear_references()")
+        vim.cmd("augroup END")
+    end
+
     require("completion").on_attach(client, bufnr)
 
     --protocol.SymbolKind = { }
@@ -273,6 +350,7 @@ end
 -- icon
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
+    signs = true,
     -- This sets the spacing and the prefix, obviously.
     virtual_text = {
         spacing = 4,
@@ -336,6 +414,7 @@ require("nlua.lsp.nvim").setup(nvim_lsp, {
 -- Set completeopt to have a better completion experience
 o.completeopt = "menuone,noinsert"
 
+-- " Use <Tab> and <S-Tab> to navigate through popup menu
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -349,9 +428,6 @@ local check_back_space = function()
     end
 end
 
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
 _G.tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t("<C-n>")
@@ -361,6 +437,7 @@ _G.tab_complete = function()
         return vim.fn["compe#complete"]()
     end
 end
+
 _G.s_tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t("<C-p>")
