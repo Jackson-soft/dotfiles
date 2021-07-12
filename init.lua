@@ -37,7 +37,6 @@ require("packer").startup(function()
     use({
         "navarasu/onedark.nvim",
         config = function()
-            -- Lua:
             require("onedark").setup()
         end,
     })
@@ -47,6 +46,24 @@ require("packer").startup(function()
         "lukas-reineke/indent-blankline.nvim",
         config = function()
             vim.g.indent_blankline_char = "│"
+            vim.g.indent_blankline_use_treesitter = true
+            vim.g.indent_blankline_show_current_context = true
+            vim.g.indent_blankline_context_patterns = {
+                "class",
+                "function",
+                "method",
+                "^if",
+                "while",
+                "for",
+                "with",
+                "func_literal",
+                "block",
+                "try",
+                "except",
+                "argument_list",
+                "object",
+                "dictionary",
+            }
         end,
     })
 
@@ -160,7 +177,7 @@ require("packer").startup(function()
                         }
                         return alias[vim.fn.mode()]
                     end,
-                    separator = "",
+                    separator = " ",
                     separator_highlight = {
                         colors.purple,
                         function()
@@ -219,7 +236,7 @@ require("packer").startup(function()
                 DiffAdd = {
                     provider = "DiffAdd",
                     condition = checkwidth,
-                    icon = "  ",
+                    icon = "   ",
                     highlight = { colors.green, colors.purple },
                 },
             }
@@ -274,7 +291,7 @@ require("packer").startup(function()
             gls.right[1] = {
                 FileFormat = {
                     provider = "FileFormat",
-                    separator = "",
+                    separator = " ",
                     separator_highlight = { colors.bg, colors.purple },
                     highlight = { colors.grey, colors.purple },
                 },
