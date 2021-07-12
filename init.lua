@@ -28,7 +28,8 @@ require("packer").startup(function()
     -- git
     use({ "airblade/vim-gitgutter", "tpope/vim-fugitive", "tpope/vim-rhubarb" })
 
-    use("tpope/vim-commentary") -- "gc" to comment visual regions/lines
+    -- comment
+    use({ "b3nj5m1n/kommentary" })
 
     -- UI to select things (files, grep results, open buffers...)
     use({ "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } } })
@@ -53,6 +54,20 @@ require("packer").startup(function()
     use({
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+                highlight = {
+                    enable = true, -- false will disable the whole extension
+                },
+                matchip = { enable = true },
+                rainbow = {
+                    enable = true,
+                    extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+                    -- max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
+                },
+            })
+        end,
     })
     use("mhartington/formatter.nvim")
 
@@ -61,7 +76,12 @@ require("packer").startup(function()
         "nvim-lua/completion-nvim",
         "neovim/nvim-lspconfig",
         "folke/lsp-colors.nvim",
-        "glepnir/lspsaga.nvim",
+        {
+            "glepnir/lspsaga.nvim",
+            config = function()
+                require("lspsaga").init_lsp_saga()
+            end,
+        },
         {
             "folke/trouble.nvim",
             config = function()
@@ -80,7 +100,217 @@ require("packer").startup(function()
 
     -- statusline
     use({
-        "hoob3rt/lualine.nvim",
+        "glepnir/galaxyline.nvim",
+        branch = "main",
+        config = function()
+            local gl = require("galaxyline")
+            -- local condition = require("galaxyline.condition")
+            local gls = gl.section
+            gl.short_line_list = { "LuaTree", "vista", "dbui" }
+
+            local colors = {
+                bg = "#282c34",
+                yellow = "#fabd2f",
+                cyan = "#008080",
+                darkblue = "#081633",
+                green = "#afd700",
+                orange = "#FF8800",
+                purple = "#5d4d7a",
+                magenta = "#d16d9e",
+                grey = "#c0c0c0",
+                blue = "#0087d7",
+                red = "#ec5f67",
+            }
+
+            local buffer_not_empty = function()
+                if vim.fn.empty(vim.fn.expand("%:t")) ~= 1 then
+                    return true
+                end
+                return false
+            end
+
+            gls.left[1] = {
+                FirstElement = {
+                    provider = function()
+                        return "▋"
+                    end,
+                    highlight = { colors.blue, colors.yellow },
+                },
+            }
+            gls.left[2] = {
+                ViMode = {
+                    provider = function()
+                        local alias = {
+                            n = "NORMAL",
+                            i = "INSERT",
+                            c = "COMMAND",
+                            v = "VISUAL",
+                            V = "VISUAL LINE",
+                            [""] = "VISUAL BLOCK",
+                        }
+                        return alias[vim.fn.mode()]
+                    end,
+                    separator = "",
+                    separator_highlight = {
+                        colors.purple,
+                        function()
+                            if not buffer_not_empty() then
+                                return colors.purple
+                            end
+                            return colors.darkblue
+                        end,
+                    },
+                    highlight = { colors.darkblue, colors.purple, "bold" },
+                },
+            }
+            gls.left[3] = {
+                FileIcon = {
+                    provider = "FileIcon",
+                    condition = buffer_not_empty,
+                    highlight = { require("galaxyline.provider_fileinfo").get_file_icon_color, colors.darkblue },
+                },
+            }
+            gls.left[4] = {
+                FileName = {
+                    provider = { "FileName", "FileSize" },
+                    condition = buffer_not_empty,
+                    separator = "",
+                    separator_highlight = { colors.purple, colors.darkblue },
+                    highlight = { colors.magenta, colors.darkblue },
+                },
+            }
+
+            gls.left[5] = {
+                GitIcon = {
+                    provider = function()
+                        return "  "
+                    end,
+                    condition = buffer_not_empty,
+                    highlight = { colors.orange, colors.purple },
+                },
+            }
+            gls.left[6] = {
+                GitBranch = {
+                    provider = "GitBranch",
+                    condition = buffer_not_empty,
+                    highlight = { colors.grey, colors.purple },
+                },
+            }
+
+            local checkwidth = function()
+                local squeeze_width = vim.fn.winwidth(0) / 2
+                if squeeze_width > 40 then
+                    return true
+                end
+                return false
+            end
+
+            gls.left[7] = {
+                DiffAdd = {
+                    provider = "DiffAdd",
+                    condition = checkwidth,
+                    icon = " ",
+                    highlight = { colors.green, colors.purple },
+                },
+            }
+            gls.left[8] = {
+                DiffModified = {
+                    provider = "DiffModified",
+                    condition = checkwidth,
+                    icon = " ",
+                    highlight = { colors.orange, colors.purple },
+                },
+            }
+            gls.left[9] = {
+                DiffRemove = {
+                    provider = "DiffRemove",
+                    condition = checkwidth,
+                    icon = " ",
+                    highlight = { colors.red, colors.purple },
+                },
+            }
+            gls.left[10] = {
+                LeftEnd = {
+                    provider = function()
+                        return ""
+                    end,
+                    separator = "",
+                    separator_highlight = { colors.purple, colors.bg },
+                    highlight = { colors.purple, colors.purple },
+                },
+            }
+            gls.left[11] = {
+                DiagnosticError = {
+                    provider = "DiagnosticError",
+                    icon = "  ",
+                    highlight = { colors.red, colors.bg },
+                },
+            }
+            gls.left[12] = {
+                Space = {
+                    provider = function()
+                        return " "
+                    end,
+                },
+            }
+            gls.left[13] = {
+                DiagnosticWarn = {
+                    provider = "DiagnosticWarn",
+                    icon = "  ",
+                    highlight = { colors.blue, colors.bg },
+                },
+            }
+
+            gls.right[1] = {
+                FileFormat = {
+                    provider = "FileFormat",
+                    separator = "",
+                    separator_highlight = { colors.bg, colors.purple },
+                    highlight = { colors.grey, colors.purple },
+                },
+            }
+            gls.right[2] = {
+                LineInfo = {
+                    provider = "LineColumn",
+                    separator = " | ",
+                    separator_highlight = { colors.darkblue, colors.purple },
+                    highlight = { colors.grey, colors.purple },
+                },
+            }
+            gls.right[3] = {
+                PerCent = {
+                    provider = "LinePercent",
+                    separator = "",
+                    separator_highlight = { colors.darkblue, colors.purple },
+                    highlight = { colors.grey, colors.darkblue },
+                },
+            }
+            gls.right[4] = {
+                ScrollBar = {
+                    provider = "ScrollBar",
+                    highlight = { colors.yellow, colors.purple },
+                },
+            }
+
+            gls.short_line_left[1] = {
+                BufferType = {
+                    provider = "FileTypeName",
+                    separator = "",
+                    separator_highlight = { colors.purple, colors.bg },
+                    highlight = { colors.grey, colors.purple },
+                },
+            }
+
+            gls.short_line_right[1] = {
+                BufferIcon = {
+                    provider = "BufferIcon",
+                    separator = "",
+                    separator_highlight = { colors.purple, colors.bg },
+                    highlight = { colors.grey, colors.purple },
+                },
+            }
+        end,
+        -- some optional icons
         requires = { "kyazdani42/nvim-web-devicons", opt = true },
     })
 
@@ -92,7 +322,24 @@ require("packer").startup(function()
     use("mg979/vim-visual-multi")
 
     -- Terminal
-    use("voldikss/vim-floaterm")
+    use({
+        "akinsho/nvim-toggleterm.lua",
+        config = function()
+            require("toggleterm").setup({
+                size = 20,
+                open_mapping = [[<c-t>]],
+                hide_numbers = true, -- hide the number column in toggleterm buffers
+                shade_filetypes = {},
+                shade_terminals = true,
+                start_in_insert = true,
+                insert_mappings = true, -- whether or not the open mapping applies in insert mode
+                persist_size = true,
+                direction = "float",
+                close_on_exit = true, -- close the terminal window when the process exits
+                shell = vim.o.shell, -- change the default shell
+            })
+        end,
+    })
     use("spacewander/openresty-vim")
 end)
 
@@ -171,6 +418,7 @@ require("formatter").setup({
         cpp = { clangformat },
         json = { prettier },
         javascript = { prettier },
+        yaml = { prettier },
         lua = {
             -- stylua
             function()
@@ -189,10 +437,6 @@ augroup END
 ]],
     true
 )
-
--- floaterm
-vim.api.nvim_set_keymap("n", "<F7>", ":FloatermNew<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<F12>", "<cmd>FloatermToggle<CR>", { noremap = true, silent = true })
 
 -- Telescope
 require("telescope").setup({
@@ -358,7 +602,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     },
 })
 
-local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "vimls", "yamlls" }
+local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd" }
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({ on_attach = on_attach })
@@ -450,48 +694,3 @@ vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
-
--- lualine
-require("lualine").setup({
-    options = {
-        icons_enabled = true,
-        theme = "gruvbox",
-        lower = true,
-        component_separators = { "", "" },
-        section_separators = { "", "" },
-        disabled_filetypes = {},
-    },
-    sections = {
-        lualine_a = { "mode" },
-        lualine_b = { "branch" },
-        lualine_c = { { "filename", file_status = true } },
-        lualine_x = {
-            {
-                "diagnostics",
-                sources = { "nvim_lsp" },
-                symbols = { error = " ", warn = " ", info = " ", hint = " " },
-            },
-            "encoding",
-            { "filetype", colored = true },
-        },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
-    },
-    inactive_sections = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = { "filename" },
-        lualine_x = { "location" },
-        lualine_y = {},
-        lualine_z = {},
-    },
-    tabline = {},
-    extensions = { "fugitive" },
-})
-
-require("nvim-treesitter.configs").setup({
-    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-    highlight = {
-        enable = true, -- false will disable the whole extension
-    },
-})
