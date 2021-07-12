@@ -46,7 +46,7 @@ require("packer").startup(function()
     use({
         "lukas-reineke/indent-blankline.nvim",
         config = function()
-            require("indent_blankline").setup({})
+            vim.g.indent_blankline_char = "│"
         end,
     })
 
@@ -75,7 +75,17 @@ require("packer").startup(function()
     use({
         "nvim-lua/completion-nvim",
         "neovim/nvim-lspconfig",
-        "folke/lsp-colors.nvim",
+        {
+            "folke/lsp-colors.nvim",
+            config = function()
+                require("lsp-colors").setup({
+                    Error = "#db4b4b",
+                    Warning = "#e0af68",
+                    Information = "#0db9d7",
+                    Hint = "#10B981",
+                })
+            end,
+        },
         {
             "glepnir/lspsaga.nvim",
             config = function()
@@ -209,7 +219,7 @@ require("packer").startup(function()
                 DiffAdd = {
                     provider = "DiffAdd",
                     condition = checkwidth,
-                    icon = " ",
+                    icon = "  ",
                     highlight = { colors.green, colors.purple },
                 },
             }
@@ -406,9 +416,13 @@ end
 local function prettier()
     return {
         exe = "prettier",
-        args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0), "--single-quote" },
+        args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
         stdin = true,
     }
+end
+
+local function shfmt()
+    return { exe = "shfmt", args = { "-" }, stdin = true }
 end
 
 require("formatter").setup({
@@ -419,10 +433,12 @@ require("formatter").setup({
         json = { prettier },
         javascript = { prettier },
         yaml = { prettier },
+        sh = { shfmt },
+        dockerfile = { shfmt },
         lua = {
             -- stylua
             function()
-                return { exe = "stylua", args = { "--search-parent-directories", "-" }, stdin = true }
+                return { exe = "stylua", args = { "--indent-type=Spaces", "-" }, stdin = true }
             end,
         },
     },
