@@ -1,28 +1,25 @@
 -- Install packer
-local execute = vim.api.nvim_command
 local fn = vim.fn
 
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({ "git", "clone", "https://github.com/wbthomason/packer.nvim", install_path })
-    execute("packadd packer.nvim")
 end
 
-vim.api.nvim_exec(
-    [[
-  augroup Packer
-    autocmd!
-    autocmd BufWritePost init.lua PackerCompile
-  augroup end
-]],
-    false
-)
+vim.cmd([[packadd packer.nvim]])
+
+vim.cmd([[command! PackerInstall packadd packer.nvim | lua require('plugins').install()]])
+vim.cmd([[command! PackerUpdate packadd packer.nvim | lua require('plugins').update()]])
+vim.cmd([[command! PackerSync packadd packer.nvim | lua require('plugins').sync()]])
+vim.cmd([[command! PackerClean packadd packer.nvim | lua require('plugins').clean()]])
+vim.cmd([[command! PackerCompile packadd packer.nvim | lua require('plugins').compile()]])
 
 ---- Plugins ----
-
-local use = require("packer").use
-require("packer").startup(function()
+local packer = require("packer")
+local use = packer.use
+packer.reset()
+packer.startup(function()
     use("wbthomason/packer.nvim") -- Package manager
 
     -- git
@@ -376,6 +373,7 @@ local o, wo, bo = vim.o, vim.wo, vim.bo
 -- Global Options
 --Incremental live completion
 o.inccommand = "nosplit"
+o.encoding = "utf-8"
 
 --Set highlight on search
 o.hlsearch = true
