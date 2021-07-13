@@ -20,10 +20,24 @@ packer.startup(function()
     use("wbthomason/packer.nvim") -- Package manager
 
     -- git
-    use({ "airblade/vim-gitgutter", "tpope/vim-fugitive", "tpope/vim-rhubarb" })
+    use({
+        {
+            "lewis6991/gitsigns.nvim",
+            config = function()
+                require("gitsigns").setup()
+            end,
+        },
+        "tpope/vim-fugitive",
+        "tpope/vim-rhubarb",
+    })
 
     -- comment
-    use({ "b3nj5m1n/kommentary" })
+    use({
+        "terrortylor/nvim-comment",
+        config = function()
+            require("nvim_comment").setup()
+        end,
+    })
 
     -- UI to select things (files, grep results, open buffers...)
     use({ "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } } })
@@ -127,6 +141,26 @@ packer.startup(function()
         "windwp/nvim-autopairs",
         config = function()
             require("nvim-autopairs").setup()
+        end,
+    })
+
+    -- icons
+    use({
+        "kyazdani42/nvim-web-devicons",
+        config = function()
+            require("nvim-web-devicons").setup({
+                -- DevIcon will be appended to `name`
+                override = {
+                    zsh = {
+                        icon = "",
+                        color = "#428850",
+                        name = "Zsh",
+                    },
+                },
+                -- globally enable default icons (default to false)
+                -- will get overriden by `get_icons` option
+                default = true,
+            })
         end,
     })
 
@@ -343,53 +377,25 @@ packer.startup(function()
         end,
     })
 
-    use({
-        "kyazdani42/nvim-web-devicons",
-        config = function()
-            require("nvim-web-devicons").setup({
-                -- your personnal icons can go here (to override)
-                -- DevIcon will be appended to `name`
-                override = {
-                    zsh = {
-                        icon = "",
-                        color = "#428850",
-                        name = "Zsh",
-                    },
-                },
-                -- globally enable default icons (default to false)
-                -- will get overriden by `get_icons` option
-                default = true,
-            })
-        end,
-    })
-
     -- lua
     use("tjdevries/nlua.nvim")
+    use("spacewander/openresty-vim")
 
     -- 多光标
     use("mg979/vim-visual-multi")
 
     -- Terminal
     use({
-        "akinsho/nvim-toggleterm.lua",
+        "numtostr/FTerm.nvim",
         config = function()
-            require("toggleterm").setup({
-                size = 20,
-                open_mapping = [[<c-t>]],
-                hide_numbers = true, -- hide the number column in toggleterm buffers
-                shade_filetypes = {},
-                shade_terminals = true,
-                start_in_insert = true,
-                insert_mappings = true, -- whether or not the open mapping applies in insert mode
-                persist_size = true,
-                direction = "float",
-                close_on_exit = true, -- close the terminal window when the process exits
-                shell = vim.o.shell, -- change the default shell
-            })
+            require("FTerm").setup()
+            local map = vim.api.nvim_set_keymap
+            local opts = { noremap = true, silent = true }
+
+            map("n", "<A-i>", '<CMD>lua require("FTerm").toggle()<CR>', opts)
+            map("t", "<A-i>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', opts)
         end,
     })
-
-    use("spacewander/openresty-vim")
 end)
 
 ---- Settings ----
