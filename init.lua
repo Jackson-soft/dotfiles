@@ -9,11 +9,8 @@ end
 
 vim.cmd([[packadd packer.nvim]])
 
-vim.cmd([[command! PackerInstall packadd packer.nvim | lua require('plugins').install()]])
-vim.cmd([[command! PackerUpdate packadd packer.nvim | lua require('plugins').update()]])
-vim.cmd([[command! PackerSync packadd packer.nvim | lua require('plugins').sync()]])
-vim.cmd([[command! PackerClean packadd packer.nvim | lua require('plugins').clean()]])
-vim.cmd([[command! PackerCompile packadd packer.nvim | lua require('plugins').compile()]])
+-- Auto compile when there are changes
+vim.cmd("autocmd BufWritePost init.lua PackerCompile")
 
 ---- Plugins ----
 local packer = require("packer")
@@ -83,11 +80,20 @@ packer.startup(function()
             })
         end,
     })
+
+    -- spell check
+    use({
+        "lewis6991/spellsitter.nvim",
+        config = function()
+            require("spellsitter").setup()
+        end,
+    })
+
     use("mhartington/formatter.nvim")
 
     -- Completion and linting
     use({
-        "nvim-lua/completion-nvim",
+        "hrsh7th/nvim-compe",
         "neovim/nvim-lspconfig",
         {
             "folke/lsp-colors.nvim",
@@ -113,6 +119,8 @@ packer.startup(function()
             end,
         },
     })
+    -- zsh
+    use({ "tamago324/compe-zsh", "Shougo/deol.nvim" })
 
     -- Auto close parentheses
     use({
@@ -128,7 +136,6 @@ packer.startup(function()
         branch = "main",
         config = function()
             local gl = require("galaxyline")
-            -- local condition = require("galaxyline.condition")
             local gls = gl.section
             gl.short_line_list = { "LuaTree", "vista", "dbui" }
 
@@ -370,47 +377,44 @@ end)
 ---- Settings ----
 
 local o, wo, bo = vim.o, vim.wo, vim.bo
+local indent = 4
 -- Global Options
 --Incremental live completion
 o.inccommand = "nosplit"
-o.encoding = "utf-8"
 
+--Set colorscheme (order is important here)
+o.termguicolors = true
 --Set highlight on search
-o.hlsearch = true
-o.incsearch = true
+o.showmatch = true
+o.completeopt = "menuone,noinsert"
 
---Make line numbers default
-wo.number = true
-wo.cursorline = true
-o.tabstop = 4
-o.expandtab = true
-o.shiftwidth = 4
 --Do not save when switching buffers
 o.hidden = true
-
--- Buffer Local Options
+o.shortmess = o.shortmess .. "c"
+o.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o:hor50]]
+--Decrease update time
+o.updatetime = 250
+--Case insensitive searching UNLESS /C or capital in search
+o.ignorecase = true
+o.smartcase = true
 --Enable mouse mode
 o.mouse = "a"
 --Enable break indent
 o.breakindent = true
 --Save undo history
 o.undofile = true
-bo.smartindent = true
 
---Case insensitive searching UNLESS /C or capital in search
-o.ignorecase = true
-o.smartcase = true
+-- Buffer Local Options
+bo.smartindent = true
+bo.tabstop = indent
+bo.shiftwidth = indent
+bo.expandtab = true
 
 -- Window Local Options
---Decrease update time
-o.updatetime = 250
-wo.signcolumn = "yes:1"
-
---Set colorscheme (order is important here)
-o.termguicolors = true
-o.shortmess = o.shortmess .. "c"
-
-o.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o:hor50]]
+wo.signcolumn = "yes"
+--Make line numbers default
+wo.number = true
+wo.cursorline = true
 
 --Remap space as leader key
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
@@ -576,12 +580,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     -- formatting
-    if client.resolved_capabilities.document_formatting then
-        vim.api.nvim_command([[augroup Format]])
-        vim.api.nvim_command([[autocmd! * <buffer>]])
-        vim.api.nvim_command([[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()]])
-        vim.api.nvim_command([[augroup END]])
-    end
+    vim.cmd([[ command! Format execute 'lua vim.lsp.buf.formatting()' ]])
 
     if client.resolved_capabilities.document_highlight == true then
         vim.cmd("augroup lsp_aucmds")
@@ -590,7 +589,7 @@ local on_attach = function(client, bufnr)
         vim.cmd("augroup END")
     end
 
-    require("completion").on_attach(client, bufnr)
+    -- require("completion").on_attach(client, bufnr)
 
     --protocol.SymbolKind = { }
     protocol.CompletionItemKind = {
@@ -633,10 +632,13 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     },
 })
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd" }
 
 for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup({ on_attach = on_attach })
+    nvim_lsp[lsp].setup({ on_attach = on_attach, capabilities = capabilities })
 end
 
 -- lua
@@ -686,8 +688,39 @@ require("nlua.lsp.nvim").setup(nvim_lsp, {
     },
 })
 
--- Set completeopt to have a better completion experience
-o.completeopt = "menuone,noinsert"
+require("compe").setup({
+    enabled = true,
+    autocomplete = true,
+    debug = false,
+    min_length = 1,
+    preselect = "enable",
+    throttle_time = 80,
+    source_timeout = 200,
+    resolve_timeout = 800,
+    incomplete_delay = 400,
+    max_abbr_width = 100,
+    max_kind_width = 100,
+    max_menu_width = 100,
+    documentation = {
+        border = { "", "", "", " ", "", "", "", " " }, -- the border option is the same as `|help nvim_open_win|`
+        winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+        max_width = 120,
+        min_width = 60,
+        max_height = math.floor(vim.o.lines * 0.3),
+        min_height = 1,
+    },
+
+    source = {
+        path = true,
+        zsh = true,
+        buffer = true,
+        calc = true,
+        nvim_lsp = true,
+        nvim_lua = true,
+        luasnip = true,
+        treesitter = true,
+    },
+})
 
 -- " Use <Tab> and <S-Tab> to navigate through popup menu
 local t = function(str)
@@ -696,11 +729,7 @@ end
 
 local check_back_space = function()
     local col = vim.fn.col(".") - 1
-    if col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-        return true
-    else
-        return false
-    end
+    return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 end
 
 _G.tab_complete = function()
