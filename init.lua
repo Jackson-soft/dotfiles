@@ -17,18 +17,14 @@ local packer = require("packer")
 local use = packer.use
 packer.reset()
 packer.startup(function()
-    use("wbthomason/packer.nvim") -- Package manager
+    use({ "wbthomason/packer.nvim" }) -- Package manager
 
     -- git
     use({
-        {
-            "lewis6991/gitsigns.nvim",
-            config = function()
-                require("gitsigns").setup()
-            end,
-        },
-        "tpope/vim-fugitive",
-        "tpope/vim-rhubarb",
+        "lewis6991/gitsigns.nvim",
+        config = function()
+            require("gitsigns").setup()
+        end,
     })
 
     -- comment
@@ -40,7 +36,9 @@ packer.startup(function()
     })
 
     -- UI to select things (files, grep results, open buffers...)
-    use({ "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } } })
+    use({ "nvim-lua/popup.nvim" })
+    use({ "nvim-lua/plenary.nvim" })
+    use({ "nvim-telescope/telescope.nvim" })
 
     use({
         "navarasu/onedark.nvim",
@@ -49,12 +47,31 @@ packer.startup(function()
         end,
     })
 
+    -- icons
+    use({
+        "kyazdani42/nvim-web-devicons",
+        config = function()
+            require("nvim-web-devicons").setup({
+                -- DevIcon will be appended to `name`
+                override = {
+                    zsh = {
+                        icon = "",
+                        color = "#428850",
+                        name = "Zsh",
+                    },
+                },
+                -- globally enable default icons (default to false)
+                -- will get overriden by `get_icons` option
+                default = true,
+            })
+        end,
+    })
+
     -- Add indentation guides even on blank lines
     use({
         "lukas-reineke/indent-blankline.nvim",
         config = function()
             vim.g.indent_blankline_char = "│"
-            vim.g.indent_blankline_use_treesitter = true
         end,
     })
 
@@ -78,63 +95,16 @@ packer.startup(function()
         end,
     })
 
-    -- spell check
-    use({
-        "lewis6991/spellsitter.nvim",
-        config = function()
-            require("spellsitter").setup({
-                hl = "SpellBad",
-            })
-        end,
-    })
-
-    use("mhartington/formatter.nvim")
+    use({ "mhartington/formatter.nvim" })
 
     -- Completion and linting
-    use({
-        "hrsh7th/nvim-compe",
-        "L3MON4D3/LuaSnip",
-        "neovim/nvim-lspconfig",
-        {
-            "folke/lsp-colors.nvim",
-            config = function()
-                require("lsp-colors").setup({
-                    Error = "#db4b4b",
-                    Warning = "#e0af68",
-                    Information = "#0db9d7",
-                    Hint = "#10B981",
-                })
-            end,
-        },
-        {
-            "glepnir/lspsaga.nvim",
-            config = function()
-                require("lspsaga").init_lsp_saga()
-            end,
-        },
-        {
-            "folke/trouble.nvim",
-            config = function()
-                require("trouble").setup({
-                    height = 20,
-                    icons = true,
-                    fold_open = " ",
-                    fold_close = " ",
-                    signs = {
-                        error = " ",
-                        warning = " ",
-                        hint = " ",
-                        information = "󿯦 ",
-                        other = "",
-                    },
-                    mode = "lsp_document_diagnostics",
-                })
-            end,
-        },
-    })
+    use({ "hrsh7th/nvim-compe" })
+    use({ "L3MON4D3/LuaSnip" })
+    use({ "neovim/nvim-lspconfig" })
 
     -- zsh
-    use({ "tamago324/compe-zsh", "Shougo/deol.nvim" })
+    use({ "tamago324/compe-zsh" })
+    use({ "Shougo/deol.nvim" })
 
     -- Auto close parentheses
     use({
@@ -144,23 +114,11 @@ packer.startup(function()
         end,
     })
 
-    -- icons
+    -- Lua
     use({
-        "kyazdani42/nvim-web-devicons",
+        "folke/which-key.nvim",
         config = function()
-            require("nvim-web-devicons").setup({
-                -- DevIcon will be appended to `name`
-                override = {
-                    zsh = {
-                        icon = "",
-                        color = "#428850",
-                        name = "Zsh",
-                    },
-                },
-                -- globally enable default icons (default to false)
-                -- will get overriden by `get_icons` option
-                default = true,
-            })
+            require("which-key").setup({})
         end,
     })
 
@@ -378,11 +336,8 @@ packer.startup(function()
     })
 
     -- lua
-    use("tjdevries/nlua.nvim")
-    use("spacewander/openresty-vim")
-
-    -- 多光标
-    use("mg979/vim-visual-multi")
+    use({ "tjdevries/nlua.nvim" })
+    use({ "spacewander/openresty-vim" })
 
     -- Terminal
     use({
