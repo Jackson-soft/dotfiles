@@ -41,23 +41,6 @@ packer.startup(function()
         config = function()
             vim.g.indent_blankline_char = "│"
             vim.g.indent_blankline_use_treesitter = true
-            vim.g.indent_blankline_show_current_context = true
-            vim.g.indent_blankline_context_patterns = {
-                "class",
-                "function",
-                "method",
-                "^if",
-                "while",
-                "for",
-                "with",
-                "func_literal",
-                "block",
-                "try",
-                "except",
-                "argument_list",
-                "object",
-                "dictionary",
-            }
         end,
     })
 
@@ -85,7 +68,9 @@ packer.startup(function()
     use({
         "lewis6991/spellsitter.nvim",
         config = function()
-            require("spellsitter").setup()
+            require("spellsitter").setup({
+                hl = "SpellBad",
+            })
         end,
     })
 
@@ -94,6 +79,7 @@ packer.startup(function()
     -- Completion and linting
     use({
         "hrsh7th/nvim-compe",
+        "L3MON4D3/LuaSnip",
         "neovim/nvim-lspconfig",
         {
             "folke/lsp-colors.nvim",
@@ -115,10 +101,24 @@ packer.startup(function()
         {
             "folke/trouble.nvim",
             config = function()
-                require("trouble").setup({})
+                require("trouble").setup({
+                    height = 20,
+                    icons = true,
+                    fold_open = " ",
+                    fold_close = " ",
+                    signs = {
+                        error = " ",
+                        warning = " ",
+                        hint = " ",
+                        information = "󿯦 ",
+                        other = "",
+                    },
+                    mode = "lsp_document_diagnostics",
+                })
             end,
         },
     })
+
     -- zsh
     use({ "tamago324/compe-zsh", "Shougo/deol.nvim" })
 
@@ -341,13 +341,30 @@ packer.startup(function()
                 },
             }
         end,
-        -- some optional icons
-        requires = { "kyazdani42/nvim-web-devicons", opt = true },
+    })
+
+    use({
+        "kyazdani42/nvim-web-devicons",
+        config = function()
+            require("nvim-web-devicons").setup({
+                -- your personnal icons can go here (to override)
+                -- DevIcon will be appended to `name`
+                override = {
+                    zsh = {
+                        icon = "",
+                        color = "#428850",
+                        name = "Zsh",
+                    },
+                },
+                -- globally enable default icons (default to false)
+                -- will get overriden by `get_icons` option
+                default = true,
+            })
+        end,
     })
 
     -- lua
     use("tjdevries/nlua.nvim")
-    use("folke/lua-dev.nvim")
 
     -- 多光标
     use("mg979/vim-visual-multi")
@@ -371,6 +388,7 @@ packer.startup(function()
             })
         end,
     })
+
     use("spacewander/openresty-vim")
 end)
 
@@ -722,7 +740,7 @@ require("compe").setup({
     },
 })
 
--- " Use <Tab> and <S-Tab> to navigate through popup menu
+-- Utility functions for compe and luasnip
 local t = function(str)
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
@@ -732,9 +750,17 @@ local check_back_space = function()
     return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 end
 
+-- Use (s-)tab to:
+--- move to prev/next item in completion menu
+--- jump to prev/next snippet's placeholder
+
+local luasnip = require("luasnip")
+
 _G.tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t("<C-n>")
+    elseif luasnip.expand_or_jumpable() then
+        return t("<Plug>luasnip-expand-or-jump")
     elseif check_back_space() then
         return t("<Tab>")
     else
@@ -745,12 +771,19 @@ end
 _G.s_tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t("<C-p>")
+    elseif luasnip.jumpable(-1) then
+        return t("<Plug>luasnip-jump-prev")
     else
         return t("<S-Tab>")
     end
 end
 
+-- Map tab to the above tab complete functions
 vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
+
+-- Map compe confirm and complete functions
+vim.api.nvim_set_keymap("i", "<cr>", 'compe#confirm("<cr>")', { expr = true })
+vim.api.nvim_set_keymap("i", "<c-space>", "compe#complete()", { expr = true })
