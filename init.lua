@@ -38,7 +38,30 @@ packer.startup(function()
     -- UI to select things (files, grep results, open buffers...)
     use({ "nvim-lua/popup.nvim" })
     use({ "nvim-lua/plenary.nvim" })
-    use({ "nvim-telescope/telescope.nvim" })
+    use({
+        "nvim-telescope/telescope.nvim",
+        config = function()
+            require("telescope").setup({
+                defaults = {
+                    set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+                },
+            })
+
+            --Add leader shortcuts
+            vim.api.nvim_set_keymap(
+                "n",
+                "<leader>ff",
+                [[<cmd>lua require('telescope.builtin').find_files()<cr>]],
+                { noremap = true, silent = true }
+            )
+            vim.api.nvim_set_keymap(
+                "n",
+                "<leader>fg",
+                [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],
+                { noremap = true, silent = true }
+            )
+        end,
+    })
 
     use({
         "navarasu/onedark.nvim",
@@ -77,22 +100,41 @@ packer.startup(function()
 
     -- Highlights
     use({
-        "nvim-treesitter/nvim-treesitter",
-        run = ":TSUpdate",
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-                highlight = {
-                    enable = true, -- false will disable the whole extension
-                },
-                matchip = { enable = true },
-                rainbow = {
-                    enable = true,
-                    extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-                    -- max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
-                },
-            })
-        end,
+        { "nvim-treesitter/nvim-treesitter-refactor" },
+        {
+            "nvim-treesitter/nvim-treesitter",
+            run = ":TSUpdate",
+            config = function()
+                require("nvim-treesitter.configs").setup({
+                    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+                    highlight = {
+                        enable = true, -- false will disable the whole extension
+                    },
+                    indent = {
+                        enable = true,
+                    },
+                    refactor = {
+                        highlight_definitions = { enable = true },
+                        smart_rename = {
+                            enable = true,
+                            keymaps = {
+                                smart_rename = "grr",
+                            },
+                        },
+                        navigation = {
+                            enable = true,
+                            keymaps = {
+                                goto_definition = "gnd",
+                                list_definitions = "gnD",
+                                list_definitions_toc = "gO",
+                                goto_next_usage = "<a-*>",
+                                goto_previous_usage = "<a-#>",
+                            },
+                        },
+                    },
+                })
+            end,
+        },
     })
 
     use({ "mhartington/formatter.nvim" })
@@ -399,6 +441,8 @@ wo.cursorline = true
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+-- Change preview window location
+vim.g.splitbelow = true
 
 --Remap for dealing with word wrap
 vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
@@ -452,75 +496,6 @@ augroup END
     true
 )
 
--- Telescope
-require("telescope").setup({
-    defaults = {
-        vimgrep_arguments = {
-            "rg",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-        },
-        prompt_prefix = "> ",
-        selection_caret = "> ",
-        entry_prefix = "  ",
-        initial_mode = "insert",
-        selection_strategy = "reset",
-        sorting_strategy = "descending",
-        layout_strategy = "horizontal",
-        layout_config = {
-            horizontal = {
-                mirror = false,
-            },
-            vertical = {
-                mirror = false,
-            },
-        },
-        file_sorter = require("telescope.sorters").get_fuzzy_file,
-        file_ignore_patterns = {},
-        generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-        winblend = 0,
-        border = {},
-        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-        color_devicons = true,
-        use_less = true,
-        path_display = {},
-        set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-        grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-        qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-
-        -- Developer configurations: Not meant for general override
-        buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
-    },
-})
-
---Add leader shortcuts
-vim.api.nvim_set_keymap(
-    "n",
-    "<leader>ff",
-    [[<cmd>lua require('telescope.builtin').find_files()<cr>]],
-    { noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "<leader>fb",
-    [[<cmd>lua require('telescope.builtin').buffers()<cr>]],
-    { noremap = true, silent = true }
-)
-vim.api.nvim_set_keymap(
-    "n",
-    "<leader>fg",
-    [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],
-    { noremap = true, silent = true }
-)
-
--- Change preview window location
-vim.g.splitbelow = true
-
 -- LSP settings
 local nvim_lsp = require("lspconfig")
 local protocol = require("vim.lsp.protocol")
@@ -570,7 +545,7 @@ local on_attach = function(client, bufnr)
         "", -- Text
         "", -- Method
         "", -- Function
-        " ", -- Constructor
+        "", -- Constructor
         "", -- Field
         "", -- Variable
         "", -- Class
