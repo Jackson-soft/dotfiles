@@ -140,7 +140,24 @@ packer.startup(function()
     use({ "mhartington/formatter.nvim" })
 
     -- Completion and linting
-    use({ "hrsh7th/nvim-compe" })
+    use({
+        "hrsh7th/nvim-compe",
+        config = function()
+            require("compe").setup({
+                source = {
+                    path = true,
+                    spell = true,
+                    zsh = true,
+                    buffer = true,
+                    calc = true,
+                    nvim_lsp = true,
+                    nvim_lua = true,
+                    luasnip = true,
+                    treesitter = true,
+                },
+            })
+        end,
+    })
     use({ "L3MON4D3/LuaSnip" })
     use({ "neovim/nvim-lspconfig" })
 
@@ -400,6 +417,7 @@ end)
 local o, wo, bo = vim.o, vim.wo, vim.bo
 local indent = 4
 -- Global Options
+o.title = true
 --Incremental live completion
 o.inccommand = "nosplit"
 
@@ -407,7 +425,7 @@ o.inccommand = "nosplit"
 o.termguicolors = true
 --Set highlight on search
 o.showmatch = true
-o.completeopt = "menuone,noinsert"
+o.completeopt = "menuone,noselect"
 
 --Do not save when switching buffers
 o.hidden = true
@@ -438,15 +456,9 @@ wo.number = true
 wo.cursorline = true
 
 --Remap space as leader key
-vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 -- Change preview window location
 vim.g.splitbelow = true
-
---Remap for dealing with word wrap
-vim.api.nvim_set_keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
-vim.api.nvim_set_keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { noremap = true, expr = true, silent = true })
 
 ---- Plugin Settings ----
 
@@ -464,7 +476,7 @@ local function prettier()
 end
 
 local function shfmt()
-    return { exe = "shfmt", args = { "-" }, stdin = true }
+    return { exe = "shfmt", args = {}, stdin = true }
 end
 
 require("formatter").setup({
@@ -579,6 +591,13 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+        "documentation",
+        "detail",
+        "additionalTextEdits",
+    },
+}
 
 local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd" }
 
@@ -630,40 +649,6 @@ require("nlua.lsp.nvim").setup(nvim_lsp, {
                 enable = false,
             },
         },
-    },
-})
-
-require("compe").setup({
-    enabled = true,
-    autocomplete = true,
-    debug = false,
-    min_length = 1,
-    preselect = "enable",
-    throttle_time = 80,
-    source_timeout = 200,
-    resolve_timeout = 800,
-    incomplete_delay = 400,
-    max_abbr_width = 100,
-    max_kind_width = 100,
-    max_menu_width = 100,
-    documentation = {
-        border = { "", "", "", " ", "", "", "", " " }, -- the border option is the same as `|help nvim_open_win|`
-        winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-        max_width = 120,
-        min_width = 60,
-        max_height = math.floor(vim.o.lines * 0.3),
-        min_height = 1,
-    },
-
-    source = {
-        path = true,
-        zsh = true,
-        buffer = true,
-        calc = true,
-        nvim_lsp = true,
-        nvim_lua = true,
-        luasnip = true,
-        treesitter = true,
     },
 })
 
