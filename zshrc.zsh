@@ -14,11 +14,15 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
+export EDITOR="vim" LESS="-iRFX" CVS_RSH="ssh"
+
 # Changing/making/removing directory
 setopt auto_pushd
 setopt auto_cd
 setopt pushd_ignore_dups
 setopt pushdminus
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
 
 alias -g ...='../..'
 
@@ -85,6 +89,12 @@ zinit snippet 'https://github.com/junegunn/fzf/blob/master/shell/completion.zsh'
 zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light Aloxaf/fzf-tab
 
+# Use caching so that commands like apt and dpkg complete are useable
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+# cd 不区分大小写
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
+
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -99,8 +109,6 @@ zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
            ps --pid=$word -o cmd --no-headers -w -w
         fi'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
-# cd 不区分大小写
-zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
 
 export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git || git ls-tree -r --name-only HEAD || rg --hidden --files || find ."
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

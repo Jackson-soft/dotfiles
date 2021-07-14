@@ -2,8 +2,7 @@
 
 set -o nounset # Treat unset variables as an error
 
-ln -s $(pwd)/zshrc $HOME/.zshrc
-#ln -s $(pwd)/vimrc $HOME/.vimrc
+ln -s $(pwd)/zshrc.zsh $HOME/.zshrc
 ln -s $(pwd)/eslintrc.yaml $HOME/.eslintrc.yaml
 ln -s $(pwd)/prettierrc.yaml $HOME/.prettierrc.yaml
 ln -s $(pwd)/stylelintrc.yaml $HOME/.stylelintrc.yaml
