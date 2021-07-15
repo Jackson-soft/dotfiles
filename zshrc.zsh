@@ -23,6 +23,7 @@ setopt pushd_ignore_dups
 setopt pushdminus
 setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
+setopt promptsubst
 
 alias -g ...='../..'
 
@@ -50,7 +51,12 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 
 # A few wait"1 plugins
 zinit wait"1" lucid for \
-    atinit'zstyle :history-search-multi-word page-size 7;' zdharma/history-search-multi-word
+    atinit'
+        zstyle :history-search-multi-word page-size 10
+        zstyle :history-search-multi-word highlight-color fg=red,bold
+        zstyle :plugin:history-search-multi-word reset-prompt-protect 1
+        '\
+    zdharma/history-search-multi-word
 
 # A few wait'2' git extensions
 zinit as"null" wait"2" lucid for \

@@ -10,14 +10,21 @@ end
 vim.cmd([[packadd packer.nvim]])
 
 -- Auto compile when there are changes
-vim.cmd("autocmd BufWritePost init.lua PackerCompile")
+vim.cmd([[autocmd BufWritePost init.lua PackerCompile]])
 
 ---- Plugins ----
 local packer = require("packer")
 local use = packer.use
 packer.reset()
 packer.startup(function()
-    use({ "wbthomason/packer.nvim" }) -- Package manager
+    -- Package manager
+    use({ "wbthomason/packer.nvim" })
+
+    -- Some requied Lua plugins
+    use({
+        "nvim-lua/popup.nvim",
+        "nvim-lua/plenary.nvim",
+    })
 
     -- git
     use({
@@ -36,17 +43,23 @@ packer.startup(function()
     })
 
     -- UI to select things (files, grep results, open buffers...)
-    use({ "nvim-lua/popup.nvim" })
-    use({ "nvim-lua/plenary.nvim" })
+    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
     use({
         "nvim-telescope/telescope.nvim",
         config = function()
-            require("telescope").setup({
-                defaults = {
-                    set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
+            local telescope = require("telescope")
+            telescope.setup({
+                extensions = {
+                    fzf = {
+                        fuzzy = true, -- false will only do exact matching
+                        override_generic_sorter = false, -- override the generic sorter
+                        override_file_sorter = true, -- override the file sorter
+                        case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+                        -- the default case_mode is "smart_case"
+                    },
                 },
             })
-
+            telescope.load_extension("fzf")
             --Add leader shortcuts
             vim.api.nvim_set_keymap(
                 "n",
@@ -74,19 +87,7 @@ packer.startup(function()
     use({
         "kyazdani42/nvim-web-devicons",
         config = function()
-            require("nvim-web-devicons").setup({
-                -- DevIcon will be appended to `name`
-                override = {
-                    zsh = {
-                        icon = "",
-                        color = "#428850",
-                        name = "Zsh",
-                    },
-                },
-                -- globally enable default icons (default to false)
-                -- will get overriden by `get_icons` option
-                default = true,
-            })
+            require("nvim-web-devicons").setup()
         end,
     })
 
@@ -160,6 +161,7 @@ packer.startup(function()
     })
     use({ "L3MON4D3/LuaSnip" })
     use({ "neovim/nvim-lspconfig" })
+    use({ "ray-x/lsp_signature.nvim" })
 
     -- zsh
     use({ "tamago324/compe-zsh" })
@@ -177,7 +179,7 @@ packer.startup(function()
     use({
         "folke/which-key.nvim",
         config = function()
-            require("which-key").setup({})
+            require("which-key").setup()
         end,
     })
 
@@ -544,6 +546,8 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
     buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
     buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+    require("lsp_signature").on_attach()
 
     if client.resolved_capabilities.document_highlight == true then
         vim.cmd("augroup lsp_aucmds")
