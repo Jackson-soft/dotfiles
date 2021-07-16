@@ -15,8 +15,6 @@
   :config
   (setq dired-dwim-target t    ;; Quickly copy/move file in Dired
         delete-by-moving-to-trash t  ;; Move files to trash when deleting
-        ;; Show directory first
-        dired-listing-switches "-AFhlv --group-directories-first --time-style=long-iso"
         dired-auto-revert-buffer 'dired-directory-changed-p
         dired-recursive-copies t   ;; 可以递归的进行拷贝
         dired-recursive-deletes t)  ;; 可以递归的删除目录

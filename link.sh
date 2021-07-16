@@ -13,3 +13,8 @@ ln -s $(pwd)/emacs.d/ $HOME/.emacs.d/
 
 mkdir -p $HOME/.config/nvim
 ln -s $(pwd)/init.lua $HOME/.config/nvim/init.lua
+
+mkdir -p $HOME/.config/kitty
+ln -s $(pwd)/kitty.conf $HOME/.config/kitty/kitty.conf
+
+ln -s $(pwd)/starship.toml $HOME/.config/starship.toml

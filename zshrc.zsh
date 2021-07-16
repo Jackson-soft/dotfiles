@@ -14,8 +14,6 @@ if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
 
-export EDITOR="vim" LESS="-iRFX" CVS_RSH="ssh"
-
 # Changing/making/removing directory
 setopt auto_pushd
 setopt auto_cd
@@ -24,6 +22,9 @@ setopt pushdminus
 setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
 setopt promptsubst
+
+# emacs key bindings
+# bindkey -e
 
 alias -g ...='../..'
 
@@ -47,7 +48,13 @@ zinit wait lucid light-mode for \
     blockf atpull'zinit creinstall -q .' \
         zsh-users/zsh-completions
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
+# zinit ice depth=1 atload'!source $HOME/.p10k.zsh' nocd lucid
+# zinit light romkatv/powerlevel10k
+
+# Load starship theme
+zinit ice as"null" wait lucid from"gh-r" sbin"starship" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" \
+    atpull"%atclone" src"init.zsh"
+zinit light @starship/starship
 
 # A few wait"1 plugins
 zinit wait"1" lucid for \
@@ -68,7 +75,7 @@ zinit as"null" wait"2" lucid for \
 zinit as"null" wait lucid from"gh-r" for \
     atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -laFh';alias tree='ls -T'" \
     cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
-    atload"alias cat='bat -pp'" cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
+    atload"alias cat='bat'" cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
     cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" sbin"**/fd" @sharkdp/fd \
     atload'export LS_COLORS="$(vivid generate molokai)"' sbin"**/vivid" @sharkdp/vivid \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" sbin"**/rg" BurntSushi/ripgrep \
@@ -140,6 +147,7 @@ function man() {
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-alias luamake=/Users/jacksoncy/.emacs.d/.cache/lsp/lua-language-server/3rd/luamake/luamake
+
+alias luamake=/Users/jacksoncy/myDoc/lua-language-server/3rd/luamake/luamake
