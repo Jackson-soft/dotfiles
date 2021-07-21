@@ -12,8 +12,7 @@
   )
 
 (use-package yaml-mode
-  :mode (("\\.yaml\\'" . yaml-mode)
-         ("\\.yml\\'" . yaml-mode))
+  :mode ("\\.ya?ml\\'" . yaml-mode)
   )
 
 (use-package protobuf-mode)

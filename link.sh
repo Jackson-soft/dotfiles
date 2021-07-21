@@ -9,7 +9,7 @@ ln -s $(pwd)/stylelintrc.yaml $HOME/.stylelintrc.yaml
 ln -s $(pwd)/clang-format.yaml $HOME/.clang-format
 ln -s $(pwd)/clang-tidy.yaml $HOME/.clang-tidy
 
-ln -s $(pwd)/emacs.d/ $HOME/.emacs.d/
+ln -s $(pwd)/emacs.d $HOME/.emacs.d
 
 mkdir -p $HOME/.config/nvim
 ln -s $(pwd)/init.lua $HOME/.config/nvim/init.lua

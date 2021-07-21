@@ -181,19 +181,20 @@
   )
 
 (use-package org-roam
-  :hook (org-mode . org-roam-mode)
-  :bind (:map org-roam-mode-map
-              ("C-c n l" . org-roam)
-              ("C-c n f" . org-roam-find-file)
-              ("C-c n g" . org-roam-graph)
-              :map org-mode-map
-              ("C-c n i" . org-roam-insert)
-              ("C-c n I" . org-roam-insert-immediate))
+  :hook (org-mode . org-roam-setup)
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :init
+  (setq org-roam-directory (file-truename "~/myDoc/myBlog")
+        org-roam-v2-ack t)
   :config
-  (setq org-roam-directory "~/myDoc/myBlog"
-        org-roam-buffer-window-parameters '((no-delete-other-windows . t))
-        org-roam-completion-everywhere t
-        org-roam-db-update-method 'immediate)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol)
   )
 
 ;; dot
