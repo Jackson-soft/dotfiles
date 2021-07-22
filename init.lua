@@ -605,7 +605,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
     },
 }
 
-local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd" }
+local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd", "jsonls" }
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({ on_attach = on_attach, capabilities = capabilities })
