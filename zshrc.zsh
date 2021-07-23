@@ -89,9 +89,6 @@ zinit light junegunn/fzf
 zinit ice as"completion"
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
-zinit ice mv="*.zsh -> _fzf" as="completion"
-zinit snippet 'https://github.com/junegunn/fzf/blob/master/shell/completion.zsh'
-
 zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light Aloxaf/fzf-tab
 
