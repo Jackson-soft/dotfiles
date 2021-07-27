@@ -4,10 +4,11 @@
 配置主要以简洁够用为主，不追求好看（当然，曾经也是配置了很多不太必要的东西）。
 
 * 系统及版本
-- OS: ~Manjaro~ && ~macOS~
-- Emacs vesrion: 27.2
+- =OS= : ~Manjaro~ && ~macOS~
+- =Emacs vesrion= : =28.0.50=
 
-这份配置很大程度上参照了 [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]] ，补全主要是 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] ，涵盖我用的一些语言（ ~C++~ 、 ~Go~ 、 ~Lua~ 、 ~Typescript~ 、 ~Yaml~ 、 ~Nginx~ ）。
+这份配置很大程度上参照了 [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]] ，补全主要是 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] ,
+涵盖我用的一些语言（ ~C++~ 、 ~Go~ 、 ~Lua~ 、 ~Typescript~ 、 ~Yaml~ 、 ~Nginx~ ）。
 
 基本准则：
 - 保持着尽量使用 ~Emacs~ 自带功能的原则，能用自带的就用自带的。
@@ -41,3 +42,4 @@
 | whitespace | 显示空白空格  |
 | hideshow | 函数折叠 |
 | ediff | 对比 |
+| xref | 声明、实现之间跳转 |
