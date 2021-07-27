@@ -133,7 +133,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 **** 主题
 [[https://github.com/starship/starship][starship]] 是一个 ~Rust~ 写的跨 ~shell~ 的主题。相比于 [[https://github.com/romkatv/powerlevel10k][Powerlevel10k]]
 比较简洁，配置也相对简单，具体参见 [[file:starship.toml][starship.toml]] 。
-**** +forgit+ (目前用 [[git-fuzzy][git-fuzzy]] 替代)
+**** +forgit+ (目前用 [[*git-fuzzy][git-fuzzy]] 替代)
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
 
 一些默认的简写：
