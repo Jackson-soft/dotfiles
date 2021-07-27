@@ -119,7 +119,10 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 - ~Ctrl+Space~ :: select multiple results, can be configured by ~fzf-bindings~ tag
 - ~F1/F2~ :: switch between groups, can be configured by ~switch-group~ tag
 - ~/~ :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
-**** <<git-fuzzy>>
+**** ~git-fuzzy~
+:PROPERTIES:
+:ID:       BACD11B8-5ABD-4651-8584-FAAD5CB56D97
+:END:
 [[https://github.com/bigH/git-fuzzy][git-fuzzy]] 是一个基于 ~fzf~ 扩展 ~git~ 的工具。
 
 目前支持的子命令：
@@ -133,7 +136,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 **** 主题
 [[https://github.com/starship/starship][starship]] 是一个 ~Rust~ 写的跨 ~shell~ 的主题。相比于 [[https://github.com/romkatv/powerlevel10k][Powerlevel10k]]
 比较简洁，配置也相对简单，具体参见 [[file:starship.toml][starship.toml]] 。
-**** +forgit+ (目前用 [[git-fuzzy][git-fuzzy]] 替代)
+**** +forgit+ (目前用 [[id:BACD11B8-5ABD-4651-8584-FAAD5CB56D97][git-fuzzy]] 替代)
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
 
 一些默认的简写：
