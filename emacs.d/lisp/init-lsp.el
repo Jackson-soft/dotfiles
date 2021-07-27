@@ -59,7 +59,7 @@
   )
 
 (use-package lsp-mode
-  :hook (((web-mode json-mode go-mode dockerfile-mode c-mode c++-mode
+  :hook (((web-mode json-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
                     css-mode sh-mode yaml-mode sql-mode markdown-mode gfm-mode) . lsp-deferred)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
@@ -82,6 +82,18 @@
                                     "--pch-storage=memory"
                                     "--header-insertion=iwyu"
                                     "--header-insertion-decorators"))
+    )
+
+  (use-package lsp-lua
+    :ensure nil
+    :config
+    (setq lsp-clients-lua-language-server-install-dir (f-join (getenv "HOME") "myDoc/lua-language-server/")
+          lsp-clients-lua-language-server-bin (f-join lsp-clients-lua-language-server-install-dir
+                                                      (pcase system-type
+                                                        ('gnu/linux "bin/Linux/lua-language-server")
+                                                        ('darwin "bin/macOS/lua-language-server")))
+          lsp-clients-lua-language-server-main-location (f-join lsp-clients-lua-language-server-install-dir "main.lua")
+          lsp-lua-hint-enable t)
     )
   )
 

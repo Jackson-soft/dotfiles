@@ -9,18 +9,13 @@
 (use-package dired
   :ensure nil
   :hook (dired-mode . dired-hide-details-mode)
-  :bind (:map dired-mode-map
-              ("RET" . dired-find-alternate-file)
-              ("^" . (lambda () (interactive) (find-alternate-file ".."))))
   :config
   (setq dired-dwim-target t    ;; Quickly copy/move file in Dired
         delete-by-moving-to-trash t  ;; Move files to trash when deleting
         dired-auto-revert-buffer 'dired-directory-changed-p
+        dired-kill-when-opening-new-dired-buffer t
         dired-recursive-copies t   ;; 可以递归的进行拷贝
         dired-recursive-deletes t)  ;; 可以递归的删除目录
-
-  ;; 在当前窗口打开dired视图
-  (put 'dired-find-alternate-file 'disabled nil)
   ;; Listing directory failed but access-file worked 消除
   (use-package ls-lisp
     :ensure nil
