@@ -468,7 +468,12 @@ vim.g.splitbelow = true
 
 -- Format
 local function clangformat()
-    return { exe = "clang-format", args = { "-assume-filename=" .. vim.fn.expand("%:t") }, stdin = true }
+    return {
+        exe = "clang-format",
+        args = { "--assume-filename", vim.api.nvim_buf_get_name(0) },
+        stdin = true,
+        cwd = vim.fn.expand("%:p:h"),  -- Run clang-format in cwd of the file.
+    }
 end
 
 local function prettier()
