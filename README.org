@@ -10,7 +10,8 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git && cd dotfiles 
 * ~Zsh~
 ** 实用工具
 *** ~fzf~
-[[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，曾经也用过一段时间，奈何周边生态不如 ~fzf~ ，后面切回到 ~fzf~ 。
+[[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，曾经也用过一段时间，奈何周边生态不
+如 =fzf= ，后面切回到 ~fzf~ 。
 
 基本键位：
 - ~CTRL-T~ :: Paste the selected files and directories onto the command-line
@@ -118,8 +119,8 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 基本的键位：
 - ~Ctrl+Space~ :: select multiple results, can be configured by ~fzf-bindings~ tag
 - ~F1/F2~ :: switch between groups, can be configured by ~switch-group~ tag
-- ~/~ :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
-**** =git-fuzzy=
+- =/= :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
+**** git-fuzzy
 [[https://github.com/bigH/git-fuzzy][git-fuzzy]] 是一个基于 =fzf= 扩展 ~git~ 的工具。
 
 目前支持的子命令：
@@ -133,7 +134,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 **** 主题
 [[https://github.com/starship/starship][starship]] 是一个 ~Rust~ 写的跨 ~shell~ 的主题。相比于 [[https://github.com/romkatv/powerlevel10k][Powerlevel10k]]
 比较简洁，配置也相对简单，具体参见 [[file:starship.toml][starship.toml]] 。
-**** +forgit+ (目前用 [[file:README.org::=git-fuzzy=][git-fuzzy]] 替代)
+**** +forgit+ (目前用 [[file:README.org::*git-fuzzy][git-fuzzy]] 替代)
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
 
 一些默认的简写：
@@ -170,3 +171,18 @@ forgit_fixup=gfu
 
 ~PS~ : ~kitty~ 还有一个 ~Rust~ 写的竞品 [[https://github.com/alacritty/alacritty][Alacritty]] ，但它的作者对于有些功能的执拗，不愿实现有些对我来说比较实用的功能，
 故没用（比如：标签，作者对于标签一直觉得可以搭配 ~tmux~ 来实现，具体参见 [[https://github.com/alacritty/alacritty/issues/1544][Investigate macOS tabs]] ）。
+
+这里纪录一些常用的默认快捷键：
+
+| 键位             | 功能            |
+|------------------+-----------------|
+| ctrl+shift+enter | =new_window=      |
+| ctrl+shift+w     | =close_window=    |
+| ctrl+shift+]     | =next_window=     |
+| ctrl+shift+[     | =previous_window= |
+| ctrl+shift+right | =next_tab=        |
+| ctrl+shift+left  | =previous_tab=    |
+| ctrl+shift+t     | =new_tab=         |
+| ctrl+shift+q     | =close_tab=       |
+| F5               | 横向分隔        |
+| F6               | 纵向分隔            |

@@ -21,6 +21,9 @@ setopt promptsubst
 
 alias -g ...='../..'
 
+# kitty ssh 登录服务器时删除键的问题
+alias ssh="kitty +kitten ssh"
+
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit

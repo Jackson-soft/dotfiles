@@ -4,7 +4,6 @@ add_newline = false
 format = """
 $character\
 $directory\
-$vcsh\
 $git_branch\
 $git_commit\
 $git_state\
