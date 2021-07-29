@@ -63,13 +63,13 @@ packer.startup(function()
             --Add leader shortcuts
             vim.api.nvim_set_keymap(
                 "n",
-                "<leader>ff",
+                "<leader>sf",
                 [[<cmd>lua require('telescope.builtin').find_files()<cr>]],
                 { noremap = true, silent = true }
             )
             vim.api.nvim_set_keymap(
                 "n",
-                "<leader>fg",
+                "<leader>sg",
                 [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],
                 { noremap = true, silent = true }
             )
@@ -91,6 +91,22 @@ packer.startup(function()
         end,
     })
 
+    -- file explorer
+    use({
+        "kyazdani42/nvim-tree.lua",
+        config = function()
+            vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", {
+                noremap = true,
+                silent = true,
+            })
+
+            vim.api.nvim_set_keymap("n", "<leader>r", ":NvimTreeRefresh<CR>", {
+                noremap = true,
+                silent = true,
+            })
+        end,
+    })
+
     -- Add indentation guides even on blank lines
     use({
         "lukas-reineke/indent-blankline.nvim",
@@ -103,6 +119,7 @@ packer.startup(function()
     -- Highlights
     use({
         { "nvim-treesitter/nvim-treesitter-refactor" },
+        { "nvim-treesitter/nvim-treesitter-textobjects" },
         {
             "nvim-treesitter/nvim-treesitter",
             run = ":TSUpdate",
@@ -132,6 +149,27 @@ packer.startup(function()
                                 list_definitions_toc = "gO",
                                 goto_next_usage = "<a-*>",
                                 goto_previous_usage = "<a-#>",
+                            },
+                        },
+                    },
+                    textobjects = {
+                        select = {
+                            enable = true,
+                            -- Automatically jump forward to textobj, similar to targets.vim
+                            lookahead = true,
+                            keymaps = {
+                                -- You can use the capture groups defined in textobjects.scm
+                                ["af"] = "@function.outer",
+                                ["if"] = "@function.inner",
+                                ["ac"] = "@class.outer",
+                                ["ic"] = "@class.inner",
+                                -- Or you can define your own textobjects like this
+                                ["iF"] = {
+                                    python = "(function_definition) @function",
+                                    cpp = "(function_definition) @function",
+                                    c = "(function_definition) @function",
+                                    java = "(method_declaration) @function",
+                                },
                             },
                         },
                     },
@@ -177,7 +215,7 @@ packer.startup(function()
         end,
     })
 
-    -- Lua
+    -- Whichkey
     use({
         "folke/which-key.nvim",
         config = function()
@@ -402,16 +440,39 @@ packer.startup(function()
     use({ "tjdevries/nlua.nvim" })
     use({ "spacewander/openresty-vim" })
 
+    -- http
+    use({
+        "NTBBloodbath/rest.nvim",
+        config = function()
+            require("rest-nvim").setup()
+        end,
+    })
+
+    -- go
+    use({
+        "ray-x/go.nvim",
+        config = function()
+            require("go").setup()
+        end,
+    })
+
     -- Terminal
     use({
-        "numtostr/FTerm.nvim",
+        "akinsho/nvim-toggleterm.lua",
         config = function()
-            require("FTerm").setup()
-            local map = vim.api.nvim_set_keymap
-            local opts = { noremap = true, silent = true }
-
-            map("n", "<A-i>", '<CMD>lua require("FTerm").toggle()<CR>', opts)
-            map("t", "<A-i>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', opts)
+            require("toggleterm").setup({
+                open_mapping = [[<c-\>]],
+                shade_filetypes = { "none" },
+                direction = "horizontal",
+                float_opts = { border = "curved" },
+                size = function(term)
+                    if term.direction == "horizontal" then
+                        return 12
+                    elseif term.direction == "vertical" then
+                        return math.floor(vim.o.columns * 0.4)
+                    end
+                end,
+            })
         end,
     })
 end)
@@ -472,7 +533,7 @@ local function clangformat()
         exe = "clang-format",
         args = { "--assume-filename", vim.api.nvim_buf_get_name(0) },
         stdin = true,
-        cwd = vim.fn.expand("%:p:h"),  -- Run clang-format in cwd of the file.
+        cwd = vim.fn.expand("%:p:h"), -- Run clang-format in cwd of the file.
     }
 end
 

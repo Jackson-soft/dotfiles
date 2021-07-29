@@ -8,6 +8,11 @@
 
 (use-package elisp-mode
   :ensure nil
+  :config
+  (defun fmt-hook()
+    (add-hook 'before-save-hook #'(lambda () (indent-region (point-min) (point-max)))))
+
+  (add-hook 'elisp-mode-hook 'fmt-hook)
   )
 
 ;; A better *Help* buffer

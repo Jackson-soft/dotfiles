@@ -51,16 +51,30 @@
   )
 
 ;; format
-(use-package format-all
-  :bind ("C-c C-f" . format-all-buffer)
-  :hook (((prog-mode protobuf-mode markdown-mode yaml-mode) . format-all-mode)
-         (format-all-mode . format-all-ensure-formatter))
+(use-package apheleia
+  :ensure nil
+  :hook (after-init . apheleia-global-mode)
+  :bind ("C-c C-f" . apheleia-format-buffer)
   :config
-  (setq-default format-all-formatters '(("SQL" pgformatter)
-                                        ("HTML" prettier)
-                                        ("Shell" shfmt)
-                                        ("Lua" prettier)))
+  (push '((stylua . ("stylua" "--indent-type=Spaces" "-"))
+          (shfmt . ("shfmt"))
+           (clang-format . ("clang-format"))) apheleia-formatters)
+
+  (push '((lua-mode . stylua)
+          (markdown-mode . prettier)
+          (sh-mode . shfmt)
+          (cc-mode . clang-format)) apheleia-mode-alist)
   )
+;; (use-package format-all
+;;   :bind ("C-c C-f" . format-all-buffer)
+;;   :hook (((prog-mode protobuf-mode markdown-mode yaml-mode) . format-all-mode)
+;;          (format-all-mode . format-all-ensure-formatter))
+;;   :config
+;;   (setq-default format-all-formatters '(("SQL" pgformatter)
+;;                                         ("HTML" prettier)
+;;                                         ("Shell" shfmt)
+;;                                         ("Lua" prettier)))
+;;   )
 
 ;; 注释
 (use-package newcomment

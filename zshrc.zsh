@@ -32,8 +32,7 @@ autoload -Uz _zinit
 # (this is currently required for annexes)
 zinit light-mode for \
     zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node \
-    zinit-zsh/z-a-readurl
+    zinit-zsh/z-a-bin-gem-node
 
 # Fast-syntax-highlighting & autosuggestions
 zinit wait lucid light-mode for \
