@@ -58,11 +58,17 @@
   :config
   (push '((stylua . ("stylua" "--indent-type=Spaces" "-"))
           (shfmt . ("shfmt"))
-           (clang-format . ("clang-format"))) apheleia-formatters)
+          (pgfmt . ("pg_format"))
+          (cmake-format . ("cmake-format" "-"))
+          (clang-format . ("clang-format"))) apheleia-formatters)
 
   (push '((lua-mode . stylua)
           (markdown-mode . prettier)
+           (gfm-mode . prettier)
           (sh-mode . shfmt)
+          (dockerfile-mode . shfmt)
+          (cmake-mode . cmake-format)
+          (sql-mode . pgfmt)
           (cc-mode . clang-format)) apheleia-mode-alist)
   )
 ;; (use-package format-all

@@ -8,11 +8,16 @@
 
 (use-package elisp-mode
   :ensure nil
+  ;; :hook (elisp-mode . (lambda()
+  ;;                       (add-hook 'before-save-hook 'indent-buffer)))
   :config
-  (defun fmt-hook()
-    (add-hook 'before-save-hook #'(lambda () (indent-region (point-min) (point-max)))))
+  (defun indent-buffer ()
+    "Call the 'indent-region' function on the entire content of the current buffer."
+     (interactive)
+    (indent-region (point-min) (point-max)))
 
-  (add-hook 'elisp-mode-hook 'fmt-hook)
+  (add-hook 'elisp-mode-hook #'(lambda()
+                                 (add-hook 'before-save-hook #'indent-buffer)))
   )
 
 ;; A better *Help* buffer
