@@ -512,6 +512,7 @@ o.undofile = true
 bo.smartindent = true
 bo.tabstop = indent
 bo.shiftwidth = indent
+bo.softtabstop = indent
 bo.expandtab = true
 
 -- Window Local Options

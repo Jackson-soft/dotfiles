@@ -69,7 +69,8 @@
                                (dockerfile-mode . shfmt)
                                (cmake-mode . cmake-format)
                                (sql-mode . pgfmt)
-                               (cc-mode . clang-format)))
+                               (c-mode . clang-format)
+                               (c++-mode . clang-format)))
   )
 
 ;; 注释

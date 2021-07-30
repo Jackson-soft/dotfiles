@@ -18,12 +18,12 @@ AlignTrailingComments: true
 AllowAllArgumentsOnNextLine: false
 AllowAllConstructorInitializersOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: Always
+AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: WithoutElse
-AllowShortLambdasOnASingleLine: All
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
@@ -32,22 +32,23 @@ AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
 BitFieldColonSpacing: Both
-BreakBeforeBraces: Custom
 BraceWrapping:
-    AfterCaseLabel: true
+    AfterCaseLabel: false
     AfterClass: true
     AfterControlStatement: Never
-    AfterEnum: true
-    AfterFunction: true
+    AfterEnum: false
+    AfterFunction: false
     AfterNamespace: false
-    AfterStruct: true
-    AfterUnion: true
-    AfterExternBlock: true
+    AfterStruct: false
+    AfterUnion: false
+    AfterExternBlock: false
     BeforeCatch: false
     BeforeElse: false
     BeforeLambdaBody: false
     BeforeWhile: false
     SplitEmptyFunction: false
+BreakBeforeBraces: Stroustrup
+BreakBeforeConceptDeclarations: false
 BreakBeforeBinaryOperators: All
 BreakBeforeTernaryOperators: true
 ColumnLimit: 120
