@@ -178,8 +178,6 @@ packer.startup(function()
         },
     })
 
-    use({ "mhartington/formatter.nvim" })
-
     -- Completion and linting
     use({
         "hrsh7th/nvim-compe",
@@ -202,6 +200,7 @@ packer.startup(function()
     use({ "L3MON4D3/LuaSnip" })
     use({ "neovim/nvim-lspconfig" })
     use({ "ray-x/lsp_signature.nvim" })
+    use({ "jose-elias-alvarez/null-ls.nvim" })
 
     -- zsh
     use({ "tamago324/compe-zsh" })
@@ -528,57 +527,6 @@ vim.g.splitbelow = true
 
 ---- Plugin Settings ----
 
--- Format
-local function clangformat()
-    return {
-        exe = "clang-format",
-        args = { "--assume-filename", vim.api.nvim_buf_get_name(0) },
-        stdin = true,
-        cwd = vim.fn.expand("%:p:h"), -- Run clang-format in cwd of the file.
-    }
-end
-
-local function prettier()
-    return {
-        exe = "prettier",
-        args = { "--stdin-filepath", vim.api.nvim_buf_get_name(0) },
-        stdin = true,
-    }
-end
-
-local function shfmt()
-    return { exe = "shfmt", args = {}, stdin = true }
-end
-
-require("formatter").setup({
-    logging = false,
-    filetype = {
-        c = { clangformat },
-        cpp = { clangformat },
-        json = { prettier },
-        javascript = { prettier },
-        yaml = { prettier },
-        sh = { shfmt },
-        dockerfile = { shfmt },
-        lua = {
-            -- stylua
-            function()
-                return { exe = "stylua", args = { "--indent-type=Spaces", "-" }, stdin = true }
-            end,
-        },
-    },
-})
-
-vim.api.nvim_exec(
-    [[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost * FormatWrite
-augroup END
-]],
-    true
-)
-
 -- LSP settings
 local nvim_lsp = require("lspconfig")
 local protocol = require("vim.lsp.protocol")
@@ -614,9 +562,13 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
     buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
     buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+    -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting_sync()<CR>", opts)
 
     require("lsp_signature").on_attach()
+
+    if client.resolved_capabilities.document_formatting then
+        vim.cmd("autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting_sync()")
+    end
 
     if client.resolved_capabilities.document_highlight == true then
         vim.cmd("augroup lsp_aucmds")
@@ -677,6 +629,28 @@ local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "ya
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({ on_attach = on_attach, capabilities = capabilities })
 end
+
+local null_ls = require("null-ls")
+
+-- register any number of sources simultaneously
+local sources = {
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.stylua.with({
+        args = { "--indent-type=Spaces", "-" },
+    }),
+    null_ls.builtins.formatting.shfmt,
+
+    null_ls.builtins.diagnostics.selene,
+    null_ls.builtins.diagnostics.hadolint,
+    null_ls.builtins.diagnostics.shellcheck,
+
+    null_ls.builtins.code_actions.gitsigns,
+}
+
+null_ls.config({ sources = sources })
+require("lspconfig")["null-ls"].setup({
+    on_attach = on_attach,
+})
 
 -- lua
 local system_name

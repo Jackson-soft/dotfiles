@@ -21,9 +21,6 @@ setopt promptsubst
 
 alias -g ...='../..'
 
-# kitty ssh 登录服务器时删除键的问题
-alias ssh="kitty +kitten ssh"
-
 source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -79,6 +76,9 @@ zinit as"null" wait lucid from"gh-r" for \
     sbin"stylua" JohnnyMorganz/StyLua \
     atload"alias diff='delta -n'" sbin"**/delta" dandavison/delta \
     mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
+    mv"jq* -> jq" sbin"jq" @stedolan/jq \
+    sbin"**/shellcheck" koalaman/shellcheck \
+    sbin"**/selene" Kampfkarren/selene \
     mv"shfmt* -> shfmt" sbin"shfmt" @mvdan/sh
 
 zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \

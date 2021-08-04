@@ -24,6 +24,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(fset 'list-buffers 'ibuffer)
 
 ;; 启动emacs时窗口最大化
 (use-package frame

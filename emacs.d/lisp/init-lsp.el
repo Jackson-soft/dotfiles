@@ -6,8 +6,7 @@
 ;;; Code:
 
 ;; lsp tools
-;; npm i -g vscode-css-languageserver-bin
-;; npm i -g vscode-html-languageserver-bin
+;; npm i -g vscode-langservers-extracted
 ;; npm i -g bash-language-server
 
 ;; company-ispell dictionary
