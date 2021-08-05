@@ -10,7 +10,10 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git ~/myDoc/dotfile
 * ~Emacs~
 具体参见： [[file:emacs.d/README.org][Emacs]]
 
-* ~Zsh~
+* =Zsh=
+** 整体配置
+具体可见： [[file:zshrc.zsh][zshrc]]
+
 ** 实用工具
 *** ~fzf~
 [[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，曾经也用过一段时间，奈何周边生态不
@@ -29,7 +32,7 @@ zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
 zinit light junegunn/fzf
 #+end_src
 
-这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 =from"gh-r"=  即  =github-release= 下载的二进制包里是
+这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 =from"gh-r"= 即 ( =github-release= ) 下载的二进制包里是
 没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添加
 #+begin_src shell
 dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
