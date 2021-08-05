@@ -1,12 +1,15 @@
 #+TITLE: ~Linux~ && ~Mac OS~ 平台上用的各种配置文件
 * 简要
 目前在用的一些工具的配置文件，工具的选择尽量考虑跨平台，共用同一套配置。
+
 ** 安装
 #+begin_src shell
-git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git && cd dotfiles && sh ./link.sh
+git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git ~/myDoc/dotfiles && cd ~/myDoc/dotfiles && sh ./link.sh
 #+end_src
+
 * ~Emacs~
 具体参见： [[file:emacs.d/README.org][Emacs]]
+
 * ~Zsh~
 ** 实用工具
 *** ~fzf~
@@ -26,12 +29,18 @@ zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
 zinit light junegunn/fzf
 #+end_src
 
-这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 ~from"gh-r"~ 即 ~github-release~ 下载的二进制包里是
+这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 =from"gh-r"=  即  =github-release= 下载的二进制包里是
 没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添加
 #+begin_src shell
 dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
-  src'key-bindings.zsh'
+src'key-bindings.zsh'
 #+end_src
+
+*注意：*
+- =sbin= 关键字需要 [[https://github.com/zinit-zsh/z-a-bin-gem-node][zinit-zsh/z-a-bin-gem-node]] 插件来支持。
+- =dl= 关键字需要 [[https://github.com/zinit-zsh/z-a-patch-dl][zinit-zsh/z-a-patch-dl]] 插件来支持。
+- 二进制的安装如果要放到 =$PATH= 里可以用 =as"program"= 或 =as"null"= 两种方式，区别在于 =as"program"= 是每个二进制的安装都是单独的目录,
+  而 =as"null"= 是统一在  =~/.zinit/polaris/bin= 目录下。个人建议是用 =as"null"= 这种方式，这样 =$PATH= 相对比较简洁。
 
 如果 ~Mac~ 有用 ~iterm2~ 的同学要注意， ~ALT-C~ 有可能会失效，解决方法是：
 
@@ -40,10 +49,13 @@ At the bottom is a set of buttons that lets you select the behavior of the Optio
 For most users, Esc+ will be the best choice.
 
 以上是方法是取自 [[https://github.com/junegunn/fzf/issues/164][Alt-C not working on OSX ]] 。
+
 *** ~fd~
 [[https://github.com/sharkdp/fd][fd]] 是 ~find~ 命令的替代品。
+
 *** ~bat~
 [[https://github.com/sharkdp/bat][bat]] 是 ~cat~ 命令的替代品。
+
 *** ~delta~
 [[https://github.com/dandavison/delta][delta]] 是文件对比工具，主要是用来替换 ~git diff~ 用的。可以在 =~/.gitconfig= 文件中做以下配置：
 #+begin_src conf
@@ -67,12 +79,16 @@ For most users, Esc+ will be the best choice.
 #+end_src
 
 如果是使用 ~git-fuzzy~ 的话，是不用配置这些的。
+
 *** ~ripgrep~
 [[https://github.com/BurntSushi/ripgrep][ripgrep]] 是一个文本搜索工具。
-*** ~procs~
+
+*** =procs=
 [[https://github.com/dalance/procs][procs]] 是 ~ps~ 命令的替代品。
+
 *** ~exa~
 [[https://github.com/ogham/exa][exa]] 是 ~ls~ 命令的替代品。它同样有一个竞品 [[https://github.com/Peltoche/lsd][lsd]] ，两者功能性上差不多，看个人口味来取舍。
+
 *** ~vivid~
 [[https://github.com/sharkdp/vivid][vivid]] 是环境变量 =LS_COLORS= 的数据源。可以做以下配置:
 #+begin_src shell
@@ -80,6 +96,7 @@ export LS_COLORS="$(vivid generate molokai)"
 #+end_src
 
 主要是不同格式的文件显示不同的颜色，相比单一的白色会更好区分。
+
 *** ~zoxide~
 [[https://github.com/ajeetdsouza/zoxide][zoxide]] 是一个快速目录跳转工具，支持模糊匹配和历史纪录。配置如下：
 #+begin_src shell
@@ -94,10 +111,12 @@ zinit light ajeetdsouza/zoxide
 它延伸出两个命令：
 - ~z~ :: 这个应该叫 ~cd~ 命令的智能版；
 - ~zi~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
+
 ** 插件管理
 [[https://github.com/zdharma/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的有两点：
 - 性能不错；
 - 用什么插件就配置什么插件，不必像 ~Oh My Zsh~ 或 ~Prezto~ 一样，插件不管你用不用都下载下来。
+
 *** 插件
 **** ~fzf-tab~
 [[https://github.com/Aloxaf/fzf-tab][fzf-tab]] 依赖于 ~fzf~ 的 ~Tab~ 补全插件，强烈推荐。
@@ -120,6 +139,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 - ~Ctrl+Space~ :: select multiple results, can be configured by ~fzf-bindings~ tag
 - ~F1/F2~ :: switch between groups, can be configured by ~switch-group~ tag
 - =/= :: trigger continuous completion (useful when completing a deep path), can be configured by ~continuous-trigger~ tag
+
 **** git-fuzzy
 [[https://github.com/bigH/git-fuzzy][git-fuzzy]] 是一个基于 =fzf= 扩展 ~git~ 的工具。
 
@@ -131,9 +151,11 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 - ~git fuzzy stash~
 - ~git fuzzy diff~
 - ~git fuzzy pr~
+
 **** 主题
 [[https://github.com/starship/starship][starship]] 是一个 ~Rust~ 写的跨 ~shell~ 的主题。相比于 [[https://github.com/romkatv/powerlevel10k][Powerlevel10k]]
 比较简洁，配置也相对简单，具体参见 [[file:starship.toml][starship.toml]] 。
+
 **** +forgit+ (目前用 [[file:README.org::*git-fuzzy][git-fuzzy]] 替代)
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
 
@@ -153,6 +175,7 @@ forgit_cherry_pick=gcp
 forgit_rebase=grb
 forgit_fixup=gfu
 #+end_src
+
 **** ~git-extras~
 [[https://github.com/tj/git-extras][git-extras]] ~git~ 的扩展工具包。
 
@@ -186,3 +209,7 @@ forgit_fixup=gfu
 | ctrl+shift+q     | =close_tab=       |
 | F5               | 横向分隔        |
 | F6               | 纵向分隔            |
+
+* 一些 =GUI= 工具
+** 对比工具
+[[https://github.com/yousseb/meld][Meld]] 是一个跨平台的文件对比工具，可以比较文件、目录和版本控制项目。
