@@ -26,9 +26,7 @@
 ;; You may prefer to use `initials' instead of `partial-completion'.
 (use-package orderless
   :init
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion)))))
+  (setq completion-styles '(orderless))
   )
 
 (use-package consult

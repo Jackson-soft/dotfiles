@@ -17,7 +17,7 @@ setopt complete_in_word
 setopt promptsubst
 
 # emacs key bindings
-# bindkey -e
+bindkey -e
 
 alias -g ...='../..'
 
@@ -94,18 +94,18 @@ zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_
 zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
 zinit light Aloxaf/fzf-tab
 
-# Use caching so that commands like apt and dpkg complete are useable
-zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' cache-path $ZSH_CACHE_DIR
+# see https://thevaluable.dev/zsh-completion-guide-examples
 # cd 不区分大小写
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
-
-zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' file-sort modification
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w -w'
-zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:complete:(cd|exa|ls|bat|cat|emacs|nvim|vim):*' fzf-preview 'exa -1 --color=always $realpath'
+
+# fzf-tab
+zstyle ':fzf-tab:*' fzf-pad 10
+zstyle ':fzf-tab:*' popup-pad 30 10 # 宽内缩值, 高内缩值, 也可认为是扩展区域值
+zstyle ":fzf-tab:*" fzf-flags --color=bg+:23
+zstyle ':fzf-tab:complete:(z|cd|exa|ls|bat|cat|emacs|nvim|vim):*' fzf-preview 'exa -1 --color=always $realpath'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
        '[[ $group == "[process ID]" ]] &&
         if [[ $OSTYPE == darwin* ]]; then
@@ -115,7 +115,8 @@ zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
         fi'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
 
-export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git || git ls-tree -r --name-only HEAD || rg --hidden --files || find ."
+# fzf
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git || git ls-tree -r --name-only HEAD || rg --files --hidden --follow --glob '!.git' || find ."
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || exa -T {}) 2> /dev/null | head -200'"
 export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
