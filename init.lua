@@ -29,8 +29,11 @@ packer.startup(function()
     -- git
     use({
         "lewis6991/gitsigns.nvim",
+        branch = "main",
         config = function()
-            require("gitsigns").setup()
+            require("gitsigns").setup({
+                numhl = true,
+            })
         end,
     })
 
@@ -111,8 +114,9 @@ packer.startup(function()
     use({
         "lukas-reineke/indent-blankline.nvim",
         config = function()
-            vim.g.indent_blankline_char = "│"
-            vim.g.indent_blankline_show_current_context = true
+            require("indent_blankline").setup({
+                buftype_exclude = { "terminal" },
+            })
         end,
     })
 
@@ -180,31 +184,50 @@ packer.startup(function()
 
     -- Completion and linting
     use({
-        "hrsh7th/nvim-compe",
+        "hrsh7th/nvim-cmp",
         config = function()
-            require("compe").setup({
-                source = {
-                    path = true,
-                    spell = true,
-                    zsh = true,
-                    buffer = true,
-                    calc = true,
-                    nvim_lsp = true,
-                    nvim_lua = true,
-                    luasnip = true,
-                    treesitter = true,
+            require("cmp").setup({
+                snippet = {
+                    expand = function(args)
+                        require("luasnip").lsp_expand(args.body)
+                    end,
+                },
+
+                sources = {
+                    { name = "buffer" },
+                    { name = "luasnip" },
+                    { name = "nvim_lsp" },
+                    { name = "path" },
+                    { name = "zsh" },
                 },
             })
         end,
+        requires = {
+            { "L3MON4D3/LuaSnip" },
+            { "saadparwaiz1/cmp_luasnip" },
+            { "hrsh7th/cmp-path" },
+            { "hrsh7th/cmp-buffer" },
+            {
+                "hrsh7th/cmp-nvim-lsp",
+                after = "nvim-cmp",
+                config = function()
+                    require("cmp_nvim_lsp").setup()
+                end,
+            },
+            -- zsh
+            { "tamago324/compe-zsh" },
+            { "Shougo/deol.nvim" },
+        },
     })
-    use({ "L3MON4D3/LuaSnip" })
-    use({ "neovim/nvim-lspconfig" })
-    use({ "ray-x/lsp_signature.nvim" })
-    use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    -- zsh
-    use({ "tamago324/compe-zsh" })
-    use({ "Shougo/deol.nvim" })
+    use({
+        "neovim/nvim-lspconfig",
+        requires = {
+            { "ray-x/lsp_signature.nvim" },
+        },
+    })
+
+    use({ "jose-elias-alvarez/null-ls.nvim" })
 
     -- Auto close parentheses
     use({
@@ -229,7 +252,10 @@ packer.startup(function()
         config = function()
             local gl = require("galaxyline")
             local gls = gl.section
-            gl.short_line_list = { "LuaTree", "vista", "dbui" }
+            gl.short_line_list = { "NvimTree", "help", "tagbar" }
+
+            local condition = require("galaxyline.condition")
+            local fileinfo = require("galaxyline.provider_fileinfo")
 
             local colors = {
                 bg = "#282c34",
@@ -244,13 +270,6 @@ packer.startup(function()
                 blue = "#0087d7",
                 red = "#ec5f67",
             }
-
-            local buffer_not_empty = function()
-                if vim.fn.empty(vim.fn.expand("%:t")) ~= 1 then
-                    return true
-                end
-                return false
-            end
 
             gls.left[1] = {
                 FirstElement = {
@@ -277,7 +296,7 @@ packer.startup(function()
                     separator_highlight = {
                         colors.purple,
                         function()
-                            if not buffer_not_empty() then
+                            if not condition.buffer_not_empty() then
                                 return colors.purple
                             end
                             return colors.darkblue
@@ -289,14 +308,14 @@ packer.startup(function()
             gls.left[3] = {
                 FileIcon = {
                     provider = "FileIcon",
-                    condition = buffer_not_empty,
-                    highlight = { require("galaxyline.provider_fileinfo").get_file_icon_color, colors.darkblue },
+                    condition = condition.buffer_not_empty,
+                    highlight = { fileinfo.get_file_icon_color, colors.darkblue },
                 },
             }
             gls.left[4] = {
                 FileName = {
                     provider = { "FileName", "FileSize" },
-                    condition = buffer_not_empty,
+                    condition = condition.buffer_not_empty,
                     separator = "",
                     separator_highlight = { colors.purple, colors.darkblue },
                     highlight = { colors.magenta, colors.darkblue },
@@ -308,30 +327,22 @@ packer.startup(function()
                     provider = function()
                         return "  "
                     end,
-                    condition = buffer_not_empty,
+                    condition = condition.check_git_workspace,
                     highlight = { colors.orange, colors.purple },
                 },
             }
             gls.left[6] = {
                 GitBranch = {
                     provider = "GitBranch",
-                    condition = buffer_not_empty,
+                    condition = condition.buffer_not_empty,
                     highlight = { colors.grey, colors.purple },
                 },
             }
 
-            local checkwidth = function()
-                local squeeze_width = vim.fn.winwidth(0) / 2
-                if squeeze_width > 40 then
-                    return true
-                end
-                return false
-            end
-
             gls.left[7] = {
                 DiffAdd = {
                     provider = "DiffAdd",
-                    condition = checkwidth,
+                    condition = condition.hide_in_width,
                     icon = "   ",
                     highlight = { colors.green, colors.purple },
                 },
@@ -339,7 +350,7 @@ packer.startup(function()
             gls.left[8] = {
                 DiffModified = {
                     provider = "DiffModified",
-                    condition = checkwidth,
+                    condition = condition.hide_in_width,
                     icon = " ",
                     highlight = { colors.orange, colors.purple },
                 },
@@ -347,7 +358,7 @@ packer.startup(function()
             gls.left[9] = {
                 DiffRemove = {
                     provider = "DiffRemove",
-                    condition = checkwidth,
+                    condition = condition.hide_in_width,
                     icon = " ",
                     highlight = { colors.red, colors.purple },
                 },
@@ -370,13 +381,6 @@ packer.startup(function()
                 },
             }
             gls.left[12] = {
-                Space = {
-                    provider = function()
-                        return " "
-                    end,
-                },
-            }
-            gls.left[13] = {
                 DiagnosticWarn = {
                     provider = "DiagnosticWarn",
                     icon = "  ",
@@ -443,7 +447,9 @@ packer.startup(function()
     use({
         "NTBBloodbath/rest.nvim",
         config = function()
-            require("rest-nvim").setup()
+            require("rest-nvim").setup({
+                result_split_horizontal = true,
+            })
         end,
     })
 
@@ -615,7 +621,14 @@ for type, icon in pairs(signs) do
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown" }
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.preselectSupport = true
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
 capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {
         "documentation",
@@ -639,6 +652,13 @@ local sources = {
         args = { "--indent-type=Spaces", "-" },
     }),
     null_ls.builtins.formatting.shfmt,
+    null_ls.builtins.formatting.cmake_format.with({
+        args = { "--tab-size=4", "-" },
+    }),
+    null_ls.builtins.formatting.sqlformat.with({
+        command = "pg_format",
+        args = { "-" },
+    }),
 
     null_ls.builtins.diagnostics.selene,
     null_ls.builtins.diagnostics.hadolint,
@@ -718,7 +738,7 @@ local luasnip = require("luasnip")
 _G.tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t("<C-n>")
-    elseif luasnip.expand_or_jumpable() then
+    elseif luasnip and luasnip.expand_or_jumpable() then
         return t("<Plug>luasnip-expand-or-jump")
     elseif check_back_space() then
         return t("<Tab>")
@@ -730,7 +750,7 @@ end
 _G.s_tab_complete = function()
     if vim.fn.pumvisible() == 1 then
         return t("<C-p>")
-    elseif luasnip.jumpable(-1) then
+    elseif luasnip and luasnip.jumpable(-1) then
         return t("<Plug>luasnip-jump-prev")
     else
         return t("<S-Tab>")
@@ -742,7 +762,5 @@ vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
-
--- Map compe confirm and complete functions
-vim.api.nvim_set_keymap("i", "<cr>", 'compe#confirm("<cr>")', { expr = true })
-vim.api.nvim_set_keymap("i", "<c-space>", "compe#complete()", { expr = true })
+vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})

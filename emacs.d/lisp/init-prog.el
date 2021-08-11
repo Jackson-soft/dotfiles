@@ -59,8 +59,7 @@
   (nconc apheleia-formatters '((stylua . ("stylua" "--indent-type=Spaces" "-"))
                                (shfmt . ("shfmt"))
                                (pgfmt . ("pg_format" "-"))
-                               (cmake-format . ("cmake-format" "--tab-size=4" "-"))
-                               (clang-format . ("clang-format"))))
+                               (cmake-format . ("cmake-format" "--tab-size=4" "-"))))
 
   (nconc apheleia-mode-alist '((lua-mode . stylua)
                                (markdown-mode . prettier)
@@ -68,9 +67,7 @@
                                (sh-mode . shfmt)
                                (dockerfile-mode . shfmt)
                                (cmake-mode . cmake-format)
-                               (sql-mode . pgfmt)
-                               (c-mode . clang-format)
-                               (c++-mode . clang-format)))
+                               (sql-mode . pgfmt)))
   )
 
 ;; 注释

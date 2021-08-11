@@ -47,6 +47,7 @@
   :config
   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
         company-minimum-prefix-length 1
+        company-require-match #'company-explicit-action-p
         company-tooltip-limit 12
         company-backends '(company-capf
                            (company-dabbrev-code company-etags company-keywords)
