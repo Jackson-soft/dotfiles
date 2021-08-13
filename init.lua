@@ -4,18 +4,23 @@ local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ "git", "clone", "https://github.com/wbthomason/packer.nvim", install_path })
+    fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
 end
 
-vim.cmd([[packadd packer.nvim]])
-
 -- Auto compile when there are changes
-vim.cmd([[autocmd BufWritePost init.lua PackerCompile]])
+vim.api.nvim_exec(
+    [[
+  augroup Packer
+    autocmd!
+    autocmd BufWritePost init.lua PackerCompile
+  augroup end
+]],
+    false
+)
 
 ---- Plugins ----
 local packer = require("packer")
 local use = packer.use
-packer.reset()
 packer.startup(function()
     -- Package manager
     use({ "wbthomason/packer.nvim" })
@@ -33,6 +38,13 @@ packer.startup(function()
         config = function()
             require("gitsigns").setup({
                 numhl = true,
+                signs = {
+                    add = { hl = "GitGutterAdd", text = "+" },
+                    change = { hl = "GitGutterChange", text = "~" },
+                    delete = { hl = "GitGutterDelete", text = "_" },
+                    topdelete = { hl = "GitGutterDelete", text = "‾" },
+                    changedelete = { hl = "GitGutterChange", text = "~" },
+                },
             })
         end,
     })
@@ -134,6 +146,15 @@ packer.startup(function()
                         enable = true, -- false will disable the whole extension
                         language_tree = true,
                     },
+                    incremental_selection = {
+                        enable = true,
+                        keymaps = {
+                            init_selection = "gnn",
+                            node_incremental = "grn",
+                            scope_incremental = "grc",
+                            node_decremental = "grm",
+                        },
+                    },
                     indent = {
                         enable = true,
                     },
@@ -167,13 +188,34 @@ packer.startup(function()
                                 ["if"] = "@function.inner",
                                 ["ac"] = "@class.outer",
                                 ["ic"] = "@class.inner",
-                                -- Or you can define your own textobjects like this
-                                ["iF"] = {
-                                    python = "(function_definition) @function",
-                                    cpp = "(function_definition) @function",
-                                    c = "(function_definition) @function",
-                                    java = "(method_declaration) @function",
-                                },
+                            },
+                        },
+                        move = {
+                            enable = true,
+                            set_jumps = true, -- whether to set jumps in the jumplist
+                            goto_next_start = {
+                                ["]m"] = "@function.outer",
+                                ["]]"] = "@class.outer",
+                            },
+                            goto_next_end = {
+                                ["]M"] = "@function.outer",
+                                ["]["] = "@class.outer",
+                            },
+                            goto_previous_start = {
+                                ["[m"] = "@function.outer",
+                                ["[["] = "@class.outer",
+                            },
+                            goto_previous_end = {
+                                ["[M"] = "@function.outer",
+                                ["[]"] = "@class.outer",
+                            },
+                        },
+                        lsp_interop = {
+                            enable = true,
+                            border = "none",
+                            peek_definition_code = {
+                                ["df"] = "@function.outer",
+                                ["dF"] = "@class.outer",
                             },
                         },
                     },
@@ -186,11 +228,25 @@ packer.startup(function()
     use({
         "hrsh7th/nvim-cmp",
         config = function()
-            require("cmp").setup({
+            local cmp = require("cmp")
+            cmp.setup({
                 snippet = {
                     expand = function(args)
                         require("luasnip").lsp_expand(args.body)
                     end,
+                },
+
+                mapping = {
+                    ["<C-p>"] = cmp.mapping.prev_item(),
+                    ["<C-n>"] = cmp.mapping.next_item(),
+                    ["<C-d>"] = cmp.mapping.scroll(-4),
+                    ["<C-f>"] = cmp.mapping.scroll(4),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-e>"] = cmp.mapping.close(),
+                    ["<CR>"] = cmp.mapping.confirm({
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true,
+                    }),
                 },
 
                 sources = {
@@ -388,15 +444,40 @@ packer.startup(function()
                 },
             }
 
+            -- right
             gls.right[1] = {
-                FileFormat = {
-                    provider = "FileFormat",
-                    separator = " ",
-                    separator_highlight = { colors.bg, colors.purple },
-                    highlight = { colors.grey, colors.purple },
+                ShowLspClient = {
+                    provider = "GetLspClient",
+                    condition = function()
+                        local tbl = { ["dashboard"] = true, [""] = true }
+                        if tbl[vim.bo.filetype] then
+                            return false
+                        end
+                        return true
+                    end,
+                    icon = "LSP:",
+                    highlight = { colors.blue, colors.bg },
                 },
             }
             gls.right[2] = {
+                FileEncode = {
+                    provider = "FileEncode",
+                    condition = condition.hide_in_width,
+                    separator = "",
+                    separator_highlight = { colors.bg, colors.purple },
+                    highlight = { colors.grey, colors.purple, "bold" },
+                },
+            }
+            gls.right[3] = {
+                FileFormat = {
+                    provider = "FileFormat",
+                    condition = condition.hide_in_width,
+                    separator = " ",
+                    separator_highlight = { colors.bg, colors.purple },
+                    highlight = { colors.grey, colors.purple, "bold" },
+                },
+            }
+            gls.right[4] = {
                 LineInfo = {
                     provider = "LineColumn",
                     separator = " | ",
@@ -404,7 +485,7 @@ packer.startup(function()
                     highlight = { colors.grey, colors.purple },
                 },
             }
-            gls.right[3] = {
+            gls.right[5] = {
                 PerCent = {
                     provider = "LinePercent",
                     separator = "",
@@ -412,7 +493,7 @@ packer.startup(function()
                     highlight = { colors.grey, colors.darkblue },
                 },
             }
-            gls.right[4] = {
+            gls.right[6] = {
                 ScrollBar = {
                     provider = "ScrollBar",
                     highlight = { colors.yellow, colors.purple },
@@ -440,7 +521,6 @@ packer.startup(function()
     })
 
     -- lua
-    use({ "tjdevries/nlua.nvim" })
     use({ "spacewander/openresty-vim" })
 
     -- http
@@ -527,9 +607,25 @@ wo.number = true
 wo.cursorline = true
 
 --Remap space as leader key
+vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 -- Change preview window location
 vim.g.splitbelow = true
+
+-- Highlight on yank
+vim.api.nvim_exec(
+    [[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank()
+  augroup end
+]],
+    false
+)
+
+-- Y yank until the end of line
+vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
 ---- Plugin Settings ----
 
@@ -640,7 +736,10 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd", "jsonls" }
 
 for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup({ on_attach = on_attach, capabilities = capabilities })
+    nvim_lsp[lsp].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+    })
 end
 
 local null_ls = require("null-ls")
@@ -691,10 +790,10 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
--- nvim_lsp.sumneko_lua.setup({
-require("nlua.lsp.nvim").setup(nvim_lsp, {
+nvim_lsp.sumneko_lua.setup({
     cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
     on_attach = on_attach,
+    capabilities = capabilities,
     settings = {
         Lua = {
             runtime = {
@@ -718,49 +817,3 @@ require("nlua.lsp.nvim").setup(nvim_lsp, {
         },
     },
 })
-
--- Utility functions for compe and luasnip
-local t = function(str)
-    return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col(".") - 1
-    return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menu
---- jump to prev/next snippet's placeholder
-
-local luasnip = require("luasnip")
-
-_G.tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-        return t("<C-n>")
-    elseif luasnip and luasnip.expand_or_jumpable() then
-        return t("<Plug>luasnip-expand-or-jump")
-    elseif check_back_space() then
-        return t("<Tab>")
-    else
-        return vim.fn["compe#complete"]()
-    end
-end
-
-_G.s_tab_complete = function()
-    if vim.fn.pumvisible() == 1 then
-        return t("<C-p>")
-    elseif luasnip and luasnip.jumpable(-1) then
-        return t("<Plug>luasnip-jump-prev")
-    else
-        return t("<S-Tab>")
-    end
-end
-
--- Map tab to the above tab complete functions
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
-vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
-vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
