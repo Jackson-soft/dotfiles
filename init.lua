@@ -57,6 +57,14 @@ packer.startup(function()
         end,
     })
 
+    -- project management
+    use({
+        "ahmedkhalf/project.nvim",
+        config = function()
+            require("project_nvim").setup({})
+        end,
+    })
+
     -- UI to select things (files, grep results, open buffers...)
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
     use({
@@ -75,6 +83,8 @@ packer.startup(function()
                 },
             })
             telescope.load_extension("fzf")
+            telescope.load_extension("projects")
+
             --Add leader shortcuts
             vim.api.nvim_set_keymap(
                 "n",
@@ -229,6 +239,7 @@ packer.startup(function()
         "hrsh7th/nvim-cmp",
         config = function()
             local cmp = require("cmp")
+            local luasnip = require("luasnip")
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -237,6 +248,30 @@ packer.startup(function()
                 },
 
                 mapping = {
+                    ["<Tab>"] = cmp.mapping.mode({ "i", "s" }, function(core, fallback)
+                        if vim.fn.pumvisible() == 1 then
+                            vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-n>", true, true, true), "n")
+                        elseif luasnip.expand_or_jumpable() then
+                            vim.fn.feedkeys(
+                                vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true),
+                                ""
+                            )
+                        else
+                            fallback()
+                        end
+                    end),
+                    ["<S-Tab>"] = cmp.mapping.mode({ "i", "s" }, function(core, fallback)
+                        if vim.fn.pumvisible() == 1 then
+                            vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-p>", true, true, true), "n")
+                        elseif luasnip.jumpable(-1) then
+                            vim.fn.feedkeys(
+                                vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true),
+                                ""
+                            )
+                        else
+                            fallback()
+                        end
+                    end),
                     ["<C-p>"] = cmp.mapping.prev_item(),
                     ["<C-n>"] = cmp.mapping.next_item(),
                     ["<C-d>"] = cmp.mapping.scroll(-4),
@@ -575,7 +610,7 @@ o.inccommand = "nosplit"
 o.termguicolors = true
 --Set highlight on search
 o.showmatch = true
-o.completeopt = "menuone,noselect"
+-- o.completeopt = "menuone,noselect"
 
 --Do not save when switching buffers
 o.hidden = true
