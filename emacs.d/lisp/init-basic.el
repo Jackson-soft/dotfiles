@@ -32,8 +32,6 @@
   :hook (after-init . window-divider-mode)
   :bind ("<f10>" . toggle-frame-fullscreen)
   :config
-  ;; Disable cursor blink
-  (blink-cursor-mode nil)
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
   (add-to-list 'default-frame-alist '(font . "Fira Code-17"))
 
@@ -41,8 +39,8 @@
   (setq window-divider-default-bottom-width 1
         window-divider-default-right-width 1)
 
-  (setq-default window-resize-pixelwise t)
-  (setq-default frame-resize-pixelwise t)
+  (setq-default window-resize-pixelwise t
+                frame-resize-pixelwise t)
   )
 
 (use-package emacs
@@ -123,11 +121,8 @@
   (setq mouse-wheel-scroll-amount
         '(2
           ((shift) . 1))
-        mouse-drag-copy-region nil
         mouse-yank-at-point t
-        make-pointer-invisible t
-        mouse-wheel-progressive-speed nil
-        mouse-wheel-follow-mouse t)
+        make-pointer-invisible t)
   )
 
 ;; Workaround with minified source files
@@ -141,8 +136,7 @@
   :ensure nil
   :hook (after-init . global-auto-revert-mode)
   :config
-  (setq auto-revert-interval 3
-        auto-revert-avoid-polling t ;; don't do pooling for autorevert (use notifications).
+  (setq auto-revert-avoid-polling t ;; don't do pooling for autorevert (use notifications).
         auto-revert-verbose nil ;; not show message when file changes
         auto-revert-check-vc-info t
         global-auto-revert-non-file-buffers t)

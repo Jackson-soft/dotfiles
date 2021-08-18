@@ -9,9 +9,10 @@
 
 (use-package minibuffer
   :ensure nil
-  :hook (minibuffer-setup . cursor-intangible-mode)
   :custom
   (minibuffer-eldef-shorten-default t)
+  (minibuffer-electric-default-mode t)   ;;当输入内容后，prompt的default值就会被隐藏
+  (minibuffer-depth-indicate-mode t)   ;;显示minibuffer深度
   :config
   (setq history-delete-duplicates t        ;;minibuffer 删除重复历史
         enable-recursive-minibuffers t     ;;在minibuffer 中也可以再次使用minibuffer
@@ -21,18 +22,11 @@
         ;; Do not allow the cursor in the minibuffer prompt
         minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)
 
-        ;; completion-styles '(basic partial-completion substring flex initials)
-        ;; completion-category-overrides '((file (styles basic substring)))
         completion-pcm-complete-word-inserts-delimiters t
         completion-cycle-threshold 3
-        completions-format 'one-column
         completions-detailed t
         ;; Ignore case when complete
         completion-ignore-case t)
-
-  (minibuffer-electric-default-mode t)   ;;当输入内容后，prompt的default值就会被隐藏
-  (minibuffer-depth-indicate-mode t)   ;;显示minibuffer深度
-  (file-name-shadow-mode t)
   )
 
 ;; minibuffer history
@@ -46,7 +40,7 @@
                                         search-ring
                                         regexp-search-ring
                                         extended-command-history)
-        savehist-autosave-interval 300)
+        )
   )
 
 (use-package ibuffer

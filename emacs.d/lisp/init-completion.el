@@ -4,21 +4,9 @@
 
 (use-package icomplete
   :ensure nil
-  :hook (after-init . icomplete-mode)
-  :bind (:map icomplete-minibuffer-map
-              ("RET" . icomplete-fido-ret)
-              ("C-n" . icomplete-forward-completions)
-              ("C-p" . icomplete-backward-completions)
-              ("C-v" . icomplete-vertical-toggle)
-              ("DEL" . icomplete-fido-backward-updir))
-  :custom
-  (icomplete-vertical-mode t)
+  :hook (after-init . fido-vertical-mode)
   :config
-  (setq icomplete-compute-delay 0
-        icomplete-in-buffer t
-        icomplete-scroll t
-        icomplete-show-matches-on-no-input t
-        icomplete-tidy-shadowed-file-names t)
+  (setq icomplete-in-buffer t)
   )
 
 ;; Use the `orderless' completion style.
@@ -33,19 +21,18 @@
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ;; C-x bindings (ctl-x-map)
-         ("C-x C-r" . consult-recent-file)
          ([remap switch-to-buffer] . consult-buffer) ;; C-x b
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line) ;; M-g g
-         ("M-g i" . consult-imenu)
-         ("M-g I" . consult-project-imenu)
          ("M-g o" . consult-outline)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
          ;; Other custom bindings
          ([remap yank-pop] . consult-yank-pop)  ;; M-y
          ;; M-s bindings (search-map)
-         ("M-s l" . consult-line)
          ("M-s f" . consult-find)
          ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines))
@@ -69,8 +56,7 @@
             (project-root project))))
 
   ;; use fd instead of find
-  (setq consult-find-command "fd -p ARG OPTS"
-        consult-preview-key (kbd "M-p")
+  (setq consult-preview-key (kbd "M-p")
         consult-narrow-key (kbd "C-+"))
   )
 

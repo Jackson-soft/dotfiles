@@ -7,11 +7,6 @@
 
 ;; sudo pacman -S aspell-en
 
-;; UTF-8 as default encoding
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8-unix)
-
-
 (defun kill-lines (line)
   "Call delete range line form LINE."
   (interactive "s:")
@@ -21,7 +16,8 @@
          )
     (save-excursion
       (goto-line begin)
-      (kill-line (- end begin)))))
+      (kill-line (- end begin))))
+  )
 
 (global-set-key (kbd "C-c C-k") 'kill-lines)
 
@@ -59,8 +55,6 @@
   :ensure nil
   :config
   (setq uniquify-buffer-name-style 'forward
-        uniquify-separator "/"
-        uniquify-after-kill-buffer-p t     ; rename after killing uniquified
         uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
   )
 
@@ -73,16 +67,11 @@
               ;; Edit the search string instead of jumping back
               ([remap isearch-delete-char] . isearch-del-char))
   :config
-  (setq search-highlight t
-        ;; One space can represent a sequence of whitespaces
-        isearch-lax-whitespace t
-        isearch-yank-on-move 'shift
+  (setq isearch-yank-on-move 'shift
         isearch-allow-scroll 'unlimited
-        isearch-lazy-highlight t
         ;; lazy isearch
         isearch-lazy-count t
-        lazy-count-prefix-format nil
-        lazy-count-suffix-format " [%s/%s]"
+        isearch-repeat-on-direction-change t
         lazy-highlight-buffer t)
   )
 
@@ -132,9 +121,7 @@
   :hook (((text-mode outline-mode) . flyspell-mode)
          (prog-mode . flyspell-prog-mode))
   :config
-  ;; Use M-C-i instead if M-TAB is shadowed by your window manager
-  (setq flyspell-use-meta-tab t
-        flyspell-issue-welcome-flag nil
+  (setq flyspell-issue-welcome-flag nil
         flyspell-issue-message-flag nil)
   )
 

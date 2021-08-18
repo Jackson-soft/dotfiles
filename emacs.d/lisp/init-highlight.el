@@ -39,12 +39,8 @@
          (magit-post-refresh . diff-hl-magit-post-refresh)
          (dired-mode . diff-hl-dired-mode))
   :config
-  (setq diff-hl-draw-borders nil
-        fringes-outside-margins t)
-
-  (diff-hl-margin-mode t)
-  (diff-hl-amend-mode t)
-  (diff-hl-flydiff-mode t)
+  (diff-hl-margin-mode)
+  (diff-hl-flydiff-mode)
   )
 
 ;; 缩进标识

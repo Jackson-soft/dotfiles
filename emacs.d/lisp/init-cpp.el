@@ -11,9 +11,9 @@
   :mode (("\\.h\\'" . c++-mode)
          ("\\.cxx\\'" . c++-mode))
   :config
-  (setq-default c-basic-offset tab-width)
-  (setq c-doc-comment-style '((c-mode . doxygen)
-                              (c++-mode . doxygen)))
+  (setq-default c-basic-offset tab-width
+                c-doc-comment-style '((c-mode . doxygen)
+                                      (c++-mode . doxygen)))
   )
 
 ;; Highlight "#if 0" as comments

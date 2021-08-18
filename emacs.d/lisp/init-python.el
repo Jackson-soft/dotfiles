@@ -7,12 +7,6 @@
 
 ;; sudo npm i -g pyright
 
-(use-package python
-  :ensure nil
-  :config
-  (setq python-shell-interpreter "python3")
-  )
-
 (use-package lsp-pyright
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)

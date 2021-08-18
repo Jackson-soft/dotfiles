@@ -14,6 +14,17 @@
   (setq prettify-symbols-unprettify-at-point 'right-edge)
   )
 
+(use-package tree-sitter
+  :ensure t
+  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+  :config
+
+  (use-package tree-sitter-langs
+    :ensure t)
+
+  (global-tree-sitter-mode)
+  )
+
 (use-package xref
   :ensure nil
   :config
