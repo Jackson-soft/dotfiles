@@ -4,18 +4,25 @@
 
 (use-package icomplete
   :ensure nil
-  :hook (after-init . fido-vertical-mode)
+  :hook (after-init . icomplete-vertical-mode)
+  :bind (:map icomplete-minibuffer-map
+              ("RET" . icomplete-fido-ret)
+              ("C-k" . icomplete-fido-kill)
+              ("C-d" . icomplete-fido-delete-char)
+              ("DEL" . icomplete-fido-backward-updir))
   :config
-  (setq icomplete-in-buffer t)
+  (setq icomplete-in-buffer t
+        icomplete-tidy-shadowed-file-names t
+        icomplete-show-matches-on-no-input t
+        icomplete-scroll t)
   )
 
 ;; Use the `orderless' completion style.
-;; Enable `partial-completion' for files to allow path expansion.
-;; You may prefer to use `initials' instead of `partial-completion'.
 (use-package orderless
-  :init
-  (setq completion-styles '(orderless))
+  :custom
+  (completion-styles '(orderless))
   )
+
 
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)
