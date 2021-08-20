@@ -7,11 +7,6 @@
 
 (use-package go-mode
   :config
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook 'lsp-format-buffer t t)
-    (add-hook 'before-save-hook 'lsp-organize-imports t t))
-  (add-hook 'go-mode-hook 'lsp-go-install-save-hooks)
-
   (use-package gotest
     :bind (:map go-mode-map
                 ("C-c g f" . go-test-current-file)

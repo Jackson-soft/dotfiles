@@ -8,8 +8,6 @@
 ;; C/C++ mode
 (use-package cc-mode
   :ensure nil
-  :mode (("\\.h\\'" . c++-mode)
-         ("\\.cxx\\'" . c++-mode))
   :config
   (setq-default c-basic-offset tab-width
                 c-doc-comment-style '((c-mode . doxygen)
@@ -23,10 +21,6 @@
   :config
   (setq hide-ifdef-initially t
         hide-ifdef-shadow t)
-  )
-
-(use-package modern-cpp-font-lock
-  :hook (c++-mode . modern-c++-font-lock-mode)
   )
 
 ;; cmake mode

@@ -47,7 +47,7 @@
   :config
   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
         company-minimum-prefix-length 1
-        company-require-match #'company-explicit-action-p
+        company-require-match 'company-explicit-action-p
         company-tooltip-limit 12
         company-backends '(company-capf
                            (company-dabbrev-code company-etags company-keywords)
@@ -59,8 +59,13 @@
   )
 
 (use-package lsp-mode
+  :commands (lsp-enable-which-key-integration
+             lsp-format-buffer
+             lsp-organize-imports)
   :hook (((web-mode json-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
                     css-mode sh-mode yaml-mode sql-mode markdown-mode gfm-mode) . lsp-deferred)
+         (before-save . lsp-format-buffer)
+         (before-save . lsp-organize-imports)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
   :config

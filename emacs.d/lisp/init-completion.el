@@ -23,7 +23,6 @@
   (completion-styles '(orderless))
   )
 
-
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)

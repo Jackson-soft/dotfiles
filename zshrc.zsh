@@ -139,4 +139,4 @@ function man() {
 		man "$@"
 }
 
-alias luamake=/Users/jacksoncy/myDoc/lua-language-server/3rd/luamake/luamake
+alias luamake=$HOME/myDoc/lua-language-server/3rd/luamake/luamake

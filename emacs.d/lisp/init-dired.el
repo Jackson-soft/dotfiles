@@ -14,16 +14,9 @@
         delete-by-moving-to-trash t  ;; Move files to trash when deleting
         dired-auto-revert-buffer 'dired-directory-changed-p
         dired-kill-when-opening-new-dired-buffer t
+        dired-ls-F-marks-symlinks t
         dired-recursive-copies t   ;; 可以递归的进行拷贝
         dired-recursive-deletes t)  ;; 可以递归的删除目录
-  ;; Listing directory failed but access-file worked 消除
-  (use-package ls-lisp
-    :ensure nil
-    :if (eq system-type 'darwin)
-    :config
-    (setq ls-lisp-dirs-first t
-          ls-lisp-use-insert-directory-program nil)
-    )
 
   (use-package dired-aux
     :ensure nil
@@ -43,7 +36,7 @@
   (setq dired-clean-confirm-killing-deleted-buffers nil
         dired-omit-verbose nil
         dired-omit-files (concat dired-omit-files
-                                 "\\|^.DS_Store$\\|^.cache$\\|^.git*\\|^.idea$\\|^.vscode$\\|\\.meta$\\|\\.elc$\\|^.emacs.*"))
+                                 "\\|^.DS_Store$\\|^.cache$\\|^.git*\\|^.idea$\\|^.vscode$\\|\\.elc$"))
   )
 
 (use-package all-the-icons-dired

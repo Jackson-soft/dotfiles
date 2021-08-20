@@ -73,6 +73,7 @@
                                (cmake-format . ("cmake-format" "--tab-size=4" "-"))))
 
   (nconc apheleia-mode-alist '((lua-mode . stylua)
+                               ;; (c++-mode . clang-format)
                                (markdown-mode . prettier)
                                (gfm-mode . prettier)
                                (sh-mode . shfmt)
