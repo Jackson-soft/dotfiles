@@ -289,7 +289,6 @@ packer.startup(function()
                     { name = "luasnip" },
                     { name = "nvim_lsp" },
                     { name = "path" },
-                    { name = "zsh" },
                 },
             })
         end,
@@ -305,9 +304,6 @@ packer.startup(function()
                     require("cmp_nvim_lsp").setup()
                 end,
             },
-            -- zsh
-            { "tamago324/compe-zsh" },
-            { "Shougo/deol.nvim" },
         },
     })
 
@@ -360,13 +356,6 @@ packer.startup(function()
         end,
     })
 
-    -- go
-    use({
-        "ray-x/go.nvim",
-        config = function()
-            require("go").setup()
-        end,
-    })
 
     -- Terminal
     use({
@@ -596,6 +585,7 @@ local sources = {
 null_ls.config({ sources = sources })
 nvim_lsp["null-ls"].setup({
     on_attach = on_attach,
+    capabilities = capabilities,
 })
 
 -- lua
