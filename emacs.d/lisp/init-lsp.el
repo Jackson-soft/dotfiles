@@ -59,13 +59,9 @@
   )
 
 (use-package lsp-mode
-  :commands (lsp-enable-which-key-integration
-             lsp-format-buffer
-             lsp-organize-imports)
   :hook (((web-mode json-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
                     css-mode sh-mode yaml-mode sql-mode markdown-mode gfm-mode) . lsp-deferred)
-         (before-save . lsp-format-buffer)
-         (before-save . lsp-organize-imports)
+         ((go-mode c++-mode c-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
   :config
@@ -75,6 +71,10 @@
         lsp-semantic-tokens-enable t
         lsp-lens-enable t               ;; enable lens
         )
+
+  (defun lsp-save-hooks ()
+    (add-hook 'before-save-hook 'lsp-format-buffer t t)
+    (add-hook 'before-save-hook 'lsp-organize-imports t t))
 
   (use-package lsp-clangd
     :ensure nil
