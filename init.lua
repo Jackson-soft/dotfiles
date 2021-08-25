@@ -248,7 +248,17 @@ packer.startup(function()
                 },
 
                 mapping = {
-                    ["<Tab>"] = cmp.mapping.mode({ "i", "s" }, function(_, fallback)
+                    ["<C-p>"] = cmp.mapping.select_prev_item(),
+                    ["<C-n>"] = cmp.mapping.select_next_item(),
+                    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-e>"] = cmp.mapping.close(),
+                    ["<CR>"] = cmp.mapping.confirm({
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true,
+                    }),
+                    ["<Tab>"] = function(fallback)
                         if vim.fn.pumvisible() == 1 then
                             vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-n>", true, true, true), "n")
                         elseif luasnip.expand_or_jumpable() then
@@ -259,35 +269,14 @@ packer.startup(function()
                         else
                             fallback()
                         end
-                    end),
-                    ["<S-Tab>"] = cmp.mapping.mode({ "i", "s" }, function(_, fallback)
-                        if vim.fn.pumvisible() == 1 then
-                            vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-p>", true, true, true), "n")
-                        elseif luasnip.jumpable(-1) then
-                            vim.fn.feedkeys(
-                                vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true),
-                                ""
-                            )
-                        else
-                            fallback()
-                        end
-                    end),
-                    ["<C-p>"] = cmp.mapping.prev_item(),
-                    ["<C-n>"] = cmp.mapping.next_item(),
-                    ["<C-d>"] = cmp.mapping.scroll(-4),
-                    ["<C-f>"] = cmp.mapping.scroll(4),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<C-e>"] = cmp.mapping.close(),
-                    ["<CR>"] = cmp.mapping.confirm({
-                        behavior = cmp.ConfirmBehavior.Replace,
-                        select = true,
-                    }),
+                    end,
                 },
 
                 sources = {
                     { name = "buffer" },
-                    { name = "luasnip" },
                     { name = "nvim_lsp" },
+                    { name = "nvim_lua" },
+                    { name = "luasnip" },
                     { name = "path" },
                 },
             })
@@ -297,13 +286,8 @@ packer.startup(function()
             { "saadparwaiz1/cmp_luasnip" },
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-buffer" },
-            {
-                "hrsh7th/cmp-nvim-lsp",
-                after = "nvim-cmp",
-                config = function()
-                    require("cmp_nvim_lsp").setup()
-                end,
-            },
+            { "hrsh7th/cmp-nvim-lua" },
+            { "hrsh7th/cmp-nvim-lsp" },
         },
     })
 
@@ -355,7 +339,6 @@ packer.startup(function()
             })
         end,
     })
-
 
     -- Terminal
     use({
@@ -533,7 +516,6 @@ for type, icon in pairs(signs) do
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown" }
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.preselectSupport = true
 capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
