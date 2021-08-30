@@ -19,14 +19,10 @@
 (eval-and-compile
   (setq use-package-always-ensure t
         use-package-expand-minimally t
-        use-package-compute-statistics t
         use-package-enable-imenu-support t))
 
 (eval-when-compile
   (require 'use-package))
-
-;; Required by use-package
-(use-package bind-key)
 
 ;; OSX GUI 下自动导入 PATH
 (use-package exec-path-from-shell

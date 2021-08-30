@@ -104,6 +104,7 @@ packer.startup(function()
     use({
         "navarasu/onedark.nvim",
         config = function()
+            vim.g.onedark_style = "cool"
             require("onedark").setup()
         end,
     })
@@ -240,6 +241,14 @@ packer.startup(function()
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+
+            local t = function(str)
+                return vim.api.nvim_replace_termcodes(str, true, true, true)
+            end
+            local check_back_space = function()
+                local col = vim.fn.col(".") - 1
+                return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
+            end
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -258,18 +267,32 @@ packer.startup(function()
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
                     }),
-                    ["<Tab>"] = function(fallback)
+                    ["<tab>"] = cmp.mapping(function(fallback)
                         if vim.fn.pumvisible() == 1 then
-                            vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-n>", true, true, true), "n")
+                            vim.fn.feedkeys(t("<C-n>"), "n")
                         elseif luasnip.expand_or_jumpable() then
-                            vim.fn.feedkeys(
-                                vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true),
-                                ""
-                            )
+                            vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
+                        elseif check_back_space() then
+                            vim.fn.feedkeys(t("<tab>"), "n")
                         else
                             fallback()
                         end
-                    end,
+                    end, {
+                        "i",
+                        "s",
+                    }),
+                    ["<S-tab>"] = cmp.mapping(function(fallback)
+                        if vim.fn.pumvisible() == 1 then
+                            vim.fn.feedkeys(t("<C-p>"), "n")
+                        elseif luasnip.jumpable(-1) then
+                            vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
+                        else
+                            fallback()
+                        end
+                    end, {
+                        "i",
+                        "s",
+                    }),
                 },
 
                 sources = {
@@ -321,8 +344,8 @@ packer.startup(function()
         "shadmansaleh/lualine.nvim",
         config = function()
             require("lualine").setup({
-                options = { theme = "material", padding = 1 },
-                extensions = { "nvim-tree" },
+                options = { theme = "onedark", padding = 1 },
+                extensions = { "nvim-tree", "toggleterm" },
             })
         end,
     })
@@ -516,20 +539,7 @@ for type, icon in pairs(signs) do
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-        "documentation",
-        "detail",
-        "additionalTextEdits",
-    },
-}
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd", "jsonls" }
 

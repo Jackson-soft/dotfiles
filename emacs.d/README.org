@@ -44,3 +44,5 @@
 | hideshow | 函数折叠 |
 | ediff | 对比 |
 | xref | 声明、实现之间跳转 |
+| icomplete | 补全系统 |
+| recentf-mode | 打开文件纪录 |
