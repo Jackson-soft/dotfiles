@@ -10,7 +10,7 @@
 (use-package minibuffer
   :ensure nil
   :custom
-  ;; (minibuffer-eldef-shorten-default t)
+  (minibuffer-eldef-shorten-default t)
   (minibuffer-electric-default-mode t)   ;;当输入内容后，prompt的default值就会被隐藏
   (minibuffer-depth-indicate-mode t)   ;;显示minibuffer深度
   :config

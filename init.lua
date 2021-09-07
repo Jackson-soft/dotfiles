@@ -146,9 +146,10 @@ packer.startup(function()
     -- Highlights
     use({
         { "nvim-treesitter/nvim-treesitter-refactor" },
-        { "nvim-treesitter/nvim-treesitter-textobjects" },
+        { "nvim-treesitter/nvim-treesitter-textobjects", branch = "0.5-compat" },
         {
             "nvim-treesitter/nvim-treesitter",
+            branch = "0.5-compat",
             run = ":TSUpdate",
             config = function()
                 require("nvim-treesitter.configs").setup({

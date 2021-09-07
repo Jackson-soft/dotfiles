@@ -70,6 +70,7 @@
         lsp-auto-guess-root t
         lsp-semantic-tokens-enable t
         lsp-lens-enable t               ;; enable lens
+        lsp-dired-mode t
         )
 
   (defun lsp-save-hooks ()
