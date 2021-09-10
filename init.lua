@@ -152,8 +152,37 @@ packer.startup(function()
             branch = "0.5-compat",
             run = ":TSUpdate",
             config = function()
+                local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
+                parser_configs.http = {
+                    install_info = {
+                        url = "https://github.com/NTBBloodbath/tree-sitter-http",
+                        files = { "src/parser.c" },
+                        branch = "main",
+                    },
+                }
+
                 require("nvim-treesitter.configs").setup({
-                    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+                    ensure_installed = {
+                        "python",
+                        "bash",
+                        "c",
+                        "css",
+                        "cpp",
+                        "comment",
+                        "cmake",
+                        "dockerfile",
+                        "go",
+                        "gomod",
+                        "html",
+                        "http",
+                        "javascript",
+                        "typescript",
+                        "json",
+                        "lua",
+                        "regex",
+                        "toml",
+                        "yaml",
+                    },
                     highlight = {
                         enable = true, -- false will disable the whole extension
                         language_tree = true,
@@ -296,22 +325,29 @@ packer.startup(function()
                     }),
                 },
 
+                documentation = {
+                    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+                    winhighlight = "FloatBorder:TelescopeBorder",
+                },
+
                 sources = {
                     { name = "buffer" },
                     { name = "nvim_lsp" },
                     { name = "nvim_lua" },
                     { name = "luasnip" },
                     { name = "path" },
+                    { name = "treesitter" },
                 },
             })
         end,
         requires = {
-            { "L3MON4D3/LuaSnip" },
-            { "saadparwaiz1/cmp_luasnip" },
-            { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-buffer" },
             { "hrsh7th/cmp-nvim-lua" },
             { "hrsh7th/cmp-nvim-lsp" },
+            { "hrsh7th/cmp-path" },
+            { "ray-x/cmp-treesitter" },
+            { "saadparwaiz1/cmp_luasnip" },
+            { "L3MON4D3/LuaSnip" },
         },
     })
 
@@ -452,6 +488,8 @@ vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
 ---- Plugin Settings ----
 
+vim.api.nvim_set_keymap("n", "<F7>", ":<Plug>RestNvim<CR>", { silent = true })
+
 -- LSP settings
 local nvim_lsp = require("lspconfig")
 local protocol = require("vim.lsp.protocol")
@@ -536,7 +574,7 @@ local signs = { Error = " ", Warning = " ", Hint = " ", Information = "
 
 for type, icon in pairs(signs) do
     local hl = "LspDiagnosticsSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()

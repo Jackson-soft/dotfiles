@@ -32,13 +32,13 @@ zinit light-mode for \
     zinit-zsh/z-a-bin-gem-node
 
 # Fast-syntax-highlighting & autosuggestions
-zinit wait lucid light-mode for \
-    atinit"zpcompinit; zpcdreplay" \
+zinit wait lucid for \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
         zdharma/fast-syntax-highlighting \
-    atload"_zsh_autosuggest_start" \
-        zsh-users/zsh-autosuggestions \
-    blockf atpull'zinit creinstall -q .' \
-        zsh-users/zsh-completions
+    blockf \
+        zsh-users/zsh-completions \
+    atload"!_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions
 
 # zinit ice depth=1 atload'!source $HOME/.p10k.zsh' nocd lucid
 # zinit light romkatv/powerlevel10k
