@@ -40,7 +40,12 @@
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
   (org-return-follows-link t)
   :config
-  (add-to-list 'org-modules 'org-tempo t)
+  (setq org-modules '(org-tempo
+                      org-id
+                      org-toc
+                      org-habit
+                      ol-eww
+                      ol-info))
 
   ;; 快速插入截图到文件
   (defun org-insert-image ()
@@ -68,23 +73,16 @@
   (use-package org-id
     :ensure nil
     :after org
-    :custom
-    (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
-
-  (use-package org-goto
-    :ensure nil
-    :after org
-    :custom
-    (org-goto-auto-isearch nil)
-    (org-goto-interface 'outline-path-completion))
+    :config
+    (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+    )
 
   (use-package org-table
     :ensure nil
     :after org
-    :custom
-    (org-table-header-line-p t)
-    (org-table-export-default-format "orgtbl-to-csv")
-    (org-table-formula-constants '(("PI" . "3.14159265358979323846264"))))
+    :config
+    (setq org-table-header-line-p t)
+    )
 
   ;; Write codes in org-mode
   (use-package org-src
@@ -94,42 +92,27 @@
     :bind (:map org-src-mode-map
                 ;; consistent with separedit/magit
                 ("C-c C-c" . org-edit-src-exit))
-    :custom
-    (org-src-fontify-natively t)
-    (org-src-tab-acts-natively t)
-    (org-src-preserve-indentation t)
-    (org-src-window-setup 'current-window)
-    (org-confirm-babel-evaluate nil)
-    (org-edit-src-content-indentation 0)
-    (org-babel-load-languages '((shell . t)
-                                (dot . t)
-                                (emacs-lisp . t))))
-
-  ;; C-c '的时候启用当前mode
-  (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
+    :config
+    (setq org-src-preserve-indentation t
+          org-src-window-setup 'current-window
+          org-babel-load-languages '((shell . t)
+                                     (dot . t)
+                                     (emacs-lisp . t)))
+    )
 
   ;; export
   (use-package ox
     :ensure nil
     :after org
-    :custom
-    (org-export-with-toc nil)
-    (org-export-with-title t)
-    (org-export-with-tags 'not-in-toc)
-    (org-export-with-email nil)
-    (org-export-with-author nil)
-    (org-export-with-drawers nil)
-    (org-export-with-priority t)
-    (org-export-with-footnotes t)
-    (org-export-with-smart-quotes t)
-    (org-export-with-section-numbers nil)
-    (org-export-with-sub-superscripts '{})
-    ;; Use :eval never-export header argument to avoid evaluating.
-    (org-export-use-babel t)
-    (org-export-headline-levels 5)
-    (org-export-coding-system 'utf-8)
-    (org-export-with-broken-links 'mark)
-    (org-export-backends '(ascii html md icalendar man))
+    :config
+    (setq org-export-with-tags 'not-in-toc
+          org-export-with-author nil
+          org-export-with-priority t
+          org-export-with-smart-quotes t
+          org-export-headline-levels 5
+          org-export-coding-system 'utf-8
+          org-export-with-broken-links 'mark
+          org-export-backends '(ascii html md icalendar odt))
     )
 
   (use-package ox-html
@@ -190,25 +173,16 @@
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today))
   :init
-  (setq org-roam-directory (file-truename "~/myDoc/myBlog")
-        org-roam-v2-ack t)
+  (setq org-roam-v2-ack t)
   :config
-  ;; If using org-roam-protocol
-  (require 'org-roam-protocol)
+  (setq org-roam-directory (file-truename "~/myDoc/myBlog")
+        org-roam-completion-everywhere t)
   )
 
 ;; dot
 (use-package graphviz-dot-mode
-  :mode (("\\.diag\\'"      . graphviz-dot-mode)
-         ("\\.blockdiag\\'" . graphviz-dot-mode)
-         ("\\.nwdiag\\'"    . graphviz-dot-mode)
-         ("\\.rackdiag\\'"  . graphviz-dot-mode)
-         ("\\.dot\\'"       . graphviz-dot-mode)
-         ("\\.gv\\'"        . graphviz-dot-mode))
   :config
   (graphviz-turn-on-live-preview)
-
-  (setq graphviz-dot-indent-width tab-width)
 
   (use-package company-graphviz-dot
     :ensure nil)

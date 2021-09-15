@@ -351,6 +351,8 @@ packer.startup(function()
         },
     })
 
+    use({ "rafamadriz/friendly-snippets" })
+
     use({
         "neovim/nvim-lspconfig",
         requires = {
@@ -381,7 +383,7 @@ packer.startup(function()
         "shadmansaleh/lualine.nvim",
         config = function()
             require("lualine").setup({
-                options = { theme = "onedark", padding = 1 },
+                options = { theme = "onedark" },
                 extensions = { "nvim-tree", "toggleterm" },
             })
         end,
@@ -402,7 +404,7 @@ packer.startup(function()
 
     -- Terminal
     use({
-        "akinsho/nvim-toggleterm.lua",
+        "akinsho/toggleterm.nvim",
         config = function()
             require("toggleterm").setup({
                 open_mapping = [[<c-\>]],
