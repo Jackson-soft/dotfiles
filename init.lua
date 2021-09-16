@@ -265,20 +265,43 @@ packer.startup(function()
         },
     })
 
+    use({
+        "onsails/lspkind-nvim",
+        config = function()
+            require("lspkind").init({})
+        end,
+    })
+
+    use({
+        "folke/trouble.nvim",
+        config = function()
+            require("trouble").setup({})
+            vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true, noremap = true })
+            vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true, noremap = true })
+        end,
+    })
+
     -- Completion and linting
     use({
         "hrsh7th/nvim-cmp",
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+            local lspkind = require("lspkind")
 
-            local t = function(str)
-                return vim.api.nvim_replace_termcodes(str, true, true, true)
+            local has_words_before = function()
+                if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+                    return false
+                end
+                local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+                return col ~= 0
+                    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
-            local check_back_space = function()
-                local col = vim.fn.col(".") - 1
-                return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
+
+            local feedkey = function(key)
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), "n", true)
             end
+
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -297,25 +320,26 @@ packer.startup(function()
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
                     }),
-                    ["<tab>"] = cmp.mapping(function(fallback)
+                    ["<Tab>"] = cmp.mapping(function(fallback)
                         if vim.fn.pumvisible() == 1 then
-                            vim.fn.feedkeys(t("<C-n>"), "n")
+                            feedkey("<C-n>")
                         elseif luasnip.expand_or_jumpable() then
-                            vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
-                        elseif check_back_space() then
-                            vim.fn.feedkeys(t("<tab>"), "n")
+                            luasnip.expand_or_jump()
+                        elseif has_words_before() then
+                            cmp.complete()
                         else
-                            fallback()
+                            fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
                         end
                     end, {
                         "i",
                         "s",
                     }),
-                    ["<S-tab>"] = cmp.mapping(function(fallback)
+
+                    ["<S-Tab>"] = cmp.mapping(function(fallback)
                         if vim.fn.pumvisible() == 1 then
-                            vim.fn.feedkeys(t("<C-p>"), "n")
+                            feedkey("<C-p>")
                         elseif luasnip.jumpable(-1) then
-                            vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
+                            luasnip.jump(-1)
                         else
                             fallback()
                         end
@@ -328,6 +352,20 @@ packer.startup(function()
                 documentation = {
                     border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
                     winhighlight = "FloatBorder:TelescopeBorder",
+                },
+
+                formatting = {
+                    format = function(entry, vim_item)
+                        vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
+                        vim_item.menu = ({
+                            nvim_lsp = "[LSP]",
+                            nvim_lua = "[Lua]",
+                            buffer = "[Buffer]",
+                            luasnip = "[LuaSnip]",
+                            path = "[Path]",
+                        })[entry.source.name]
+                        return vim_item
+                    end,
                 },
 
                 sources = {
@@ -541,36 +579,14 @@ local on_attach = function(client, bufnr)
         vim.cmd("au CursorMoved <buffer> lua vim.lsp.buf.clear_references()")
         vim.cmd("augroup END")
     end
-
-    --protocol.SymbolKind = { }
-    protocol.CompletionItemKind = {
-        "", -- Text
-        "", -- Method
-        "", -- Function
-        "", -- Constructor
-        "", -- Field
-        "", -- Variable
-        "", -- Class
-        "ﰮ", -- Interface
-        "", -- Module
-        "", -- Property
-        "", -- Unit
-        "", -- Value
-        "", -- Enum
-        "", -- Keyword
-        "﬌", -- Snippet
-        "", -- Color
-        "", -- File
-        "", -- Reference
-        "", -- Folder
-        "", -- EnumMember
-        "", -- Constant
-        "", -- Struct
-        "", -- Event
-        "ﬦ", -- Operator
-        "", -- TypeParameter
-    }
 end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+    underline = true,
+    update_in_insert = false,
+    virtual_text = { spacing = 4, prefix = "●" },
+    severity_sort = true,
+})
 
 local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
 
@@ -579,8 +595,7 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").update_capabilities(protocol.make_client_capabilities())
 
 local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd", "jsonls" }
 
