@@ -152,14 +152,6 @@
         recentf-filename-handlers '(abbreviate-file-name))
   )
 
-;; 显示 key
-(use-package which-key
-  :hook (after-init . which-key-mode)
-  :config
-  (setq which-key-idle-delay 0.5
-        which-key-add-column-padding 1)
-  )
-
 ;; Restore old window configurations
 (use-package winner
   :ensure nil

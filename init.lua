@@ -89,13 +89,13 @@ packer.startup(function()
             vim.api.nvim_set_keymap(
                 "n",
                 "<leader>sf",
-                [[<cmd>lua require('telescope.builtin').find_files()<cr>]],
+                "<cmd>lua require('telescope.builtin').find_files()<cr>",
                 { noremap = true, silent = true }
             )
             vim.api.nvim_set_keymap(
                 "n",
                 "<leader>sg",
-                [[<cmd>lua require('telescope.builtin').live_grep()<cr>]],
+                "<cmd>lua require('telescope.builtin').live_grep()<cr>",
                 { noremap = true, silent = true }
             )
         end,
@@ -349,11 +349,6 @@ packer.startup(function()
                     }),
                 },
 
-                documentation = {
-                    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-                    winhighlight = "FloatBorder:TelescopeBorder",
-                },
-
                 formatting = {
                     format = function(entry, vim_item)
                         vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
@@ -418,14 +413,12 @@ packer.startup(function()
 
     -- statusline
     use({
-        "shadmansaleh/lualine.nvim",
+        "famiu/feline.nvim",
         config = function()
-            require("lualine").setup({
-                options = { theme = "onedark" },
-                extensions = { "nvim-tree", "toggleterm" },
-            })
+            require("feline").setup()
         end,
     })
+
 
     -- lua
     use({ "spacewander/openresty-vim" })

@@ -71,17 +71,14 @@
   )
 
 (use-package embark
-  :bind (("C-." . embark-act)       ;; pick some comfortable binding
-         ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :bind (("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+         :map minibuffer-local-map
+         ("M-o"     . embark-act)
+         ("C-c C-o" . embark-export)
+         ("C-c C-c" . embark-collect-snapshot))
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
-  :config
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none))))
   )
 
 (use-package embark-consult
