@@ -39,6 +39,7 @@
   (org-enable-table-editor 1) ;; 启用内建电子表格
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
   (org-return-follows-link t)
+  (org-export-backends '(ascii html md icalendar odt))
   :config
   (setq org-modules '(org-tempo
                       org-id
@@ -111,8 +112,7 @@
           org-export-with-smart-quotes t
           org-export-headline-levels 5
           org-export-coding-system 'utf-8
-          org-export-with-broken-links 'mark
-          org-export-backends '(ascii html md icalendar odt))
+          org-export-with-broken-links 'mark)
     )
 
   (use-package ox-html
