@@ -43,10 +43,10 @@
 ;; Visual diff interface
 (use-package ediff
   :ensure nil
-  :hook (ediff-quit . winner-undo) ;; restore windows layout
   :config
   (setq ediff-diff-options "-w" ;; turn off whitespace checking
         ediff-highlight-all-diffs t
+        ediff-show-clashes-only t
         ediff-window-setup-function 'ediff-setup-windows-plain
         ediff-split-window-function 'split-window-horizontally
         ediff-merge-split-window-function 'split-window-horizontally)

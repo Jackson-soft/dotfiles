@@ -24,9 +24,10 @@
 
         completion-pcm-complete-word-inserts-delimiters t
         completion-cycle-threshold 3
+        completion-ignore-case t
+
         completions-detailed t
-        ;; Ignore case when complete
-        completion-ignore-case t)
+        completions-group t)
   )
 
 ;; minibuffer history

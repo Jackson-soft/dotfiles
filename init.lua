@@ -349,6 +349,11 @@ packer.startup(function()
                     }),
                 },
 
+                documentation = {
+                    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+                    winhighlight = "FloatBorder:TelescopeBorder",
+                },
+
                 formatting = {
                     format = function(entry, vim_item)
                         vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
@@ -418,7 +423,6 @@ packer.startup(function()
             require("feline").setup()
         end,
     })
-
 
     -- lua
     use({ "spacewander/openresty-vim" })
@@ -609,7 +613,7 @@ local sources = {
     }),
     null_ls.builtins.formatting.shfmt,
     null_ls.builtins.formatting.cmake_format.with({
-        args = { "--tab-size=4", "-" },
+        extra_args = { "--tab-size=4" },
     }),
     null_ls.builtins.formatting.sqlformat.with({
         command = "pg_format",
@@ -619,6 +623,7 @@ local sources = {
     null_ls.builtins.diagnostics.selene,
     null_ls.builtins.diagnostics.hadolint,
     null_ls.builtins.diagnostics.shellcheck,
+    null_ls.builtins.diagnostics.markdownlint,
 
     null_ls.builtins.code_actions.gitsigns,
 }

@@ -45,7 +45,6 @@
   :hook (after-init . electric-indent-mode)
   :config
   (setq electric-quote-string t
-        electric-quote-paragraph t
         electric-quote-replace-double t
         electric-quote-context-sensitive t)
   )
@@ -62,10 +61,7 @@
 (use-package isearch
   :ensure nil
   :bind (:map isearch-mode-map
-              ("C-c C-o" . isearch-occur)
-              ([escape] . isearch-cancel)
-              ;; Edit the search string instead of jumping back
-              ([remap isearch-delete-char] . isearch-del-char))
+              ([escape] . isearch-cancel))
   :config
   (setq isearch-yank-on-move 'shift
         isearch-allow-scroll 'unlimited
@@ -86,8 +82,6 @@
 (use-package iedit
   :bind (("C-x i" . iedit-mode)
          ("C-x r RET" . iedit-rectangle-mode))
-  :config
-  (setq iedit-search-invisible nil)
   )
 
 ;; 多光标编辑

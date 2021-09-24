@@ -17,9 +17,6 @@
       read-process-output-max (* 1024 1024)
       inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
 
-;; Enable some disabled functions
-(put 'narrow-to-region 'disabled nil)
-
 ;; Disable GUI elements
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -109,8 +106,7 @@
 (use-package select
   :ensure nil
   :config
-  (setq select-enable-primary t       ;; 支持emacs和外部程序的粘贴
-        select-enable-clipboard t)
+  (setq select-enable-primary t)       ;; 支持emacs和外部程序的粘贴
   )
 
 ;; Paste at point NOT at cursor 是用滚轴鼠标
@@ -152,21 +148,10 @@
         recentf-filename-handlers '(abbreviate-file-name))
   )
 
-;; Restore old window configurations
-(use-package winner
-  :ensure nil
-  :hook (after-init . winner-mode)
+(use-package which-key
+  :hook (after-init . which-key-mode)
   :config
-  (setq winner-boring-buffers '("*Completions*"
-                                "*Compile-Log*"
-                                "*inferior-lisp*"
-                                "*Fuzzy Completions*"
-                                "*Apropos*"
-                                "*Help*"
-                                "*cvs*"
-                                "*Buffer List*"
-                                "*Ibuffer*"
-                                "*esh command on file*"))
+  (setq which-key-idle-delay 0.5)
   )
 
 ;; 谷歌翻译
@@ -176,7 +161,7 @@
   (setq go-translate-base-url "https://translate.google.cn"
         go-translate-token-current (cons 430675 2721866130)
         go-translate-buffer-follow-p t
-        go-translate-inputs-function #'go-translate-inputs-current-or-prompt
+        go-translate-inputs-function 'go-translate-inputs-current-or-prompt
         go-translate-local-language "zh-CN")
   )
 
