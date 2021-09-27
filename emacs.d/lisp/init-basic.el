@@ -26,14 +26,15 @@
 ;; 启动emacs时窗口最大化
 (use-package frame
   :ensure nil
-  :hook (after-init . window-divider-mode)
+  :hook (window-setup . window-divider-mode)
   :bind ("<f10>" . toggle-frame-fullscreen)
   :config
   (add-to-list 'initial-frame-alist '(fullscreen . maximized))
   (add-to-list 'default-frame-alist '(font . "Fira Code-17"))
 
   ;; Display dividers between windows
-  (setq window-divider-default-bottom-width 1
+  (setq window-divider-default-places t
+        window-divider-default-bottom-width 1
         window-divider-default-right-width 1)
 
   (setq-default window-resize-pixelwise t
@@ -78,6 +79,7 @@
 
 (use-package simple
   :ensure nil
+  :hook (after-init . global-visual-line-mode)
   :bind ("C-z" . undo-redo)
   :config
   (setq visual-line-fringe-indicators '(nil right-curly-arrow)
@@ -87,13 +89,12 @@
         kill-do-not-save-duplicates t
         ;; show the name of character in `what-cursor-position'
         what-cursor-show-names t
-        set-mark-command-repeat-pop t)
+        set-mark-command-repeat-pop t
 
-  ;; show line/column/filesize in modeline
-  (column-number-mode t)
-  (line-number-mode t)
-  (size-indication-mode t)
-  (global-visual-line-mode t)
+        ;; show line/column/filesize in modeline
+        column-number-mode t
+        line-number-mode t
+        size-indication-mode t)
   )
 
 (use-package repeat
@@ -143,8 +144,7 @@
   :ensure nil
   :hook (after-init . recentf-mode)
   :config
-  (setq recentf-max-saved-items 200
-        recentf-auto-cleanup 'never
+  (setq recentf-max-saved-items 300
         recentf-filename-handlers '(abbreviate-file-name))
   )
 

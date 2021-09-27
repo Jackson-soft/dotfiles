@@ -1,22 +1,10 @@
 -- Install packer
 local fn = vim.fn
-
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-
 if fn.empty(fn.glob(install_path)) > 0 then
-    fn.execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+    vim.cmd("packadd packer.nvim")
 end
-
--- Auto compile when there are changes
-vim.api.nvim_exec(
-    [[
-  augroup Packer
-    autocmd!
-    autocmd BufWritePost init.lua PackerCompile
-  augroup end
-]],
-    false
-)
 
 ---- Plugins ----
 local packer = require("packer")
@@ -61,7 +49,7 @@ packer.startup(function()
     use({
         "ahmedkhalf/project.nvim",
         config = function()
-            require("project_nvim").setup({})
+            require("project_nvim").setup()
         end,
     })
 
@@ -121,12 +109,14 @@ packer.startup(function()
     use({
         "kyazdani42/nvim-tree.lua",
         config = function()
+            require("nvim-tree").setup()
+
             vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", {
                 noremap = true,
                 silent = true,
             })
 
-            vim.api.nvim_set_keymap("n", "<leader>r", ":NvimTreeRefresh<CR>", {
+            vim.api.nvim_set_keymap("n", "<leader>tr", ":NvimTreeRefresh<CR>", {
                 noremap = true,
                 silent = true,
             })
@@ -276,6 +266,7 @@ packer.startup(function()
         "folke/trouble.nvim",
         config = function()
             require("trouble").setup({})
+
             vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true, noremap = true })
             vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true, noremap = true })
         end,
@@ -434,6 +425,8 @@ packer.startup(function()
             require("rest-nvim").setup({
                 result_split_horizontal = true,
             })
+
+            vim.api.nvim_set_keymap("n", "<Leader>rt", "<Plug>RestNvim", { noremap = false })
         end,
     })
 
@@ -524,8 +517,6 @@ vim.api.nvim_exec(
 vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
 ---- Plugin Settings ----
-
-vim.api.nvim_set_keymap("n", "<F7>", ":<Plug>RestNvim<CR>", { silent = true })
 
 -- LSP settings
 local nvim_lsp = require("lspconfig")

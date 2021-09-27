@@ -25,6 +25,8 @@
         completion-pcm-complete-word-inserts-delimiters t
         completion-cycle-threshold 3
         completion-ignore-case t
+        ;; completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))
 
         completions-detailed t
         completions-group t)
