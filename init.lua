@@ -346,17 +346,16 @@ packer.startup(function()
                 },
 
                 formatting = {
-                    format = function(entry, vim_item)
-                        vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
-                        vim_item.menu = ({
-                            nvim_lsp = "[LSP]",
-                            nvim_lua = "[Lua]",
+                    format = lspkind.cmp_format({
+                        with_text = true,
+                        menu = {
                             buffer = "[Buffer]",
+                            nvim_lsp = "[LSP]",
                             luasnip = "[LuaSnip]",
+                            nvim_lua = "[Lua]",
                             path = "[Path]",
-                        })[entry.source.name]
-                        return vim_item
-                    end,
+                        },
+                    }),
                 },
 
                 sources = {
@@ -366,6 +365,7 @@ packer.startup(function()
                     { name = "luasnip" },
                     { name = "path" },
                     { name = "treesitter" },
+                    { name = "zsh" },
                 },
             })
         end,
@@ -377,6 +377,8 @@ packer.startup(function()
             { "ray-x/cmp-treesitter" },
             { "saadparwaiz1/cmp_luasnip" },
             { "L3MON4D3/LuaSnip" },
+            { "tamago324/cmp-zsh" },
+            {'Shougo/deol.nvim' },
         },
     })
 
@@ -585,7 +587,7 @@ end
 
 local capabilities = require("cmp_nvim_lsp").update_capabilities(protocol.make_client_capabilities())
 
-local servers = { "pyright", "bashls", "dockerls", "dotls", "sqls", "gopls", "yamlls", "clangd", "jsonls" }
+local servers = { "pyright", "bashls", "dockerls", "dotls", "gopls", "yamlls", "clangd", "jsonls" }
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({

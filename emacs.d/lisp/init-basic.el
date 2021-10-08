@@ -7,7 +7,7 @@
 
 ;; 禁止Emacs使用Mac原生的全屏模式
 (when (eq system-type 'darwin)
-  (setq ns-use-native-fullscreen nil)
+  ;; (setq ns-use-native-fullscreen nil)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))  ;; mac 下标题栏使用原生
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   )
@@ -52,8 +52,7 @@
                 window-combination-resize t
                 major-mode 'text-mode)
 
-  (setq frame-title-format '("GUN Emacs: %b")      ;; Name of current buffer in window title
-        scroll-margin 2           ;; better scrolling experience
+  (setq scroll-margin 2           ;; better scrolling experience
         scroll-step 1
         scroll-conservatively 101 ;; > 100
         scroll-preserve-screen-position t
@@ -114,12 +113,6 @@
 (use-package mwheel
   :ensure nil
   :hook (after-init . mouse-wheel-mode)
-  :config
-  (setq mouse-wheel-scroll-amount
-        '(2
-          ((shift) . 1))
-        mouse-yank-at-point t
-        make-pointer-invisible t)
   )
 
 ;; Workaround with minified source files
@@ -156,13 +149,14 @@
 
 ;; 谷歌翻译
 (use-package go-translate
-  :bind ("C-c t" . go-translate)
+  :bind ("C-c t" . gts-do-translate)
   :config
-  (setq go-translate-base-url "https://translate.google.cn"
-        go-translate-token-current (cons 430675 2721866130)
-        go-translate-buffer-follow-p t
-        go-translate-inputs-function 'go-translate-inputs-current-or-prompt
-        go-translate-local-language "zh-CN")
+  (setq gts-translate-list '(("en" "zh"))
+        gts-default-translator
+        (gts-translator
+         :picker (gts-prompt-picker)
+         :engines (list (gts-google-rpc-engine))
+         :render (gts-buffer-render)))
   )
 
 (provide 'init-basic)

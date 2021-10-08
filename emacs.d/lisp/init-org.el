@@ -7,11 +7,8 @@
 
 (use-package org
   :ensure nil
-  :hook ((org-mode . org-indent-mode)
-         (org-mode . prettify-symbols-mode))
-  :bind (("C-c l" . org-store-link)
-         ("C-c a" . org-agenda)
-         ("C-c c" . org-capture))
+  :hook (org-mode . org-indent-mode)
+  :bind ("C-c l" . org-store-link)
   :custom
   (org-log-done 'time)
   (org-catch-invisible-edits 'smart)
@@ -88,17 +85,11 @@
   ;; Write codes in org-mode
   (use-package org-src
     :ensure nil
-    :after org
     :hook (org-babel-after-execute . org-redisplay-inline-images)
-    :bind (:map org-src-mode-map
-                ;; consistent with separedit/magit
-                ("C-c C-c" . org-edit-src-exit))
+    :after org
     :config
     (setq org-src-preserve-indentation t
-          org-src-window-setup 'current-window
-          org-babel-load-languages '((shell . t)
-                                     (dot . t)
-                                     (emacs-lisp . t)))
+          org-src-window-setup 'other-window)
     )
 
   ;; export
@@ -108,6 +99,7 @@
     :config
     (setq org-export-with-tags 'not-in-toc
           org-export-with-author nil
+          org-export-with-toc nil
           org-export-with-priority t
           org-export-with-smart-quotes t
           org-export-headline-levels 5
@@ -125,10 +117,13 @@
           org-html-validation-link nil)
     )
 
-  ;; copy link
-  (use-package org-cliplink
-    :commands org-cliplink
-    )
+  (use-package ob-restclient
+    :after ob)
+
+  (setq org-babel-load-languages '((shell . t)
+                                   (dot . t)
+                                   (restclient . t)
+                                   (emacs-lisp . t)))
   )
 
 (use-package toc-org
@@ -152,10 +147,8 @@
 (use-package org-superstar
   :hook (org-mode . org-superstar-mode)
   :config
-  ;; Make leading stars truly invisible, by rendering them as spaces!
-  (setq org-superstar-leading-bullet ?\s
-        org-superstar-leading-fallback ?\s
-        org-superstar-special-todo-items t)
+  (setq org-superstar-special-todo-items t
+        org-superstar-leading-bullet ?\s)
   )
 
 ;; 表格对齐
