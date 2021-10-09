@@ -161,6 +161,7 @@ packer.startup(function()
                         "comment",
                         "cmake",
                         "dockerfile",
+                        "dot",
                         "go",
                         "gomod",
                         "html",
@@ -378,7 +379,7 @@ packer.startup(function()
             { "saadparwaiz1/cmp_luasnip" },
             { "L3MON4D3/LuaSnip" },
             { "tamago324/cmp-zsh" },
-            {'Shougo/deol.nvim' },
+            { "Shougo/deol.nvim" },
         },
     })
 

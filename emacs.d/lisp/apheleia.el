@@ -78,8 +78,7 @@ text of S1 surrounding P1."
             (cl-decf i1))
            ((= cost sub)
             (cl-decf i1)
-            (cl-decf i2))))
-        ))
+            (cl-decf i2))))))
     i2))
 
 (defun apheleia--map-rcs-patch (func)
@@ -462,12 +461,14 @@ modified from what is written to disk, then don't do anything."
   '((black . ("black" "-"))
     (brittany . ("brittany" file))
     (clang-format . ("clang-format" file))
+    (mix-format . ("mix" "format" "-"))
     (gofmt . ("gofmt"))
     (google-java-format . ("google-java-format" file))
     (latexindent . ("latexindent" file))
     (ocamlformat . ("ocamlformat" file))
     (prettier . (npx "prettier" "--stdin-filepath" filepath))
-    (rustfmt . ("rustfmt" "--quiet" "--emit" "stdout" file))
+    (rustfmt . ("rustfmt" "--unstable-features" "--skip-children"
+                "--quiet" "--emit" "stdout" file))
     (terraform . ("terraform" "fmt" "-")))
   "Alist of code formatting commands.
 The keys may be any symbols you want, and the values are
@@ -489,6 +490,7 @@ commands, lists of strings and symbols, in the format of
   '((cc-mode . clang-format)
     (c-mode . clang-format)
     (css-mode . prettier)
+    (elixir-mode . mix-format)
     (go-mode . gofmt)
     (haskell-mode . brittany)
     (html-mode . prettier)
@@ -499,6 +501,7 @@ commands, lists of strings and symbols, in the format of
     (latex-mode . latexindent)
     (LaTeX-mode . latexindent)
     (python-mode . black)
+    (ruby-mode . prettier)
     (rustic-mode . rustfmt)
     (rust-mode . rustfmt)
     (sass-mode . prettier)

@@ -61,10 +61,11 @@
 (use-package isearch
   :ensure nil
   :bind (:map isearch-mode-map
+              ("C-c C-o" . isearch-occur)
               ([escape] . isearch-cancel))
   :config
-  (setq isearch-yank-on-move 'shift
-        isearch-allow-scroll 'unlimited
+  (setq isearch-allow-motion t
+        isearch-motion-changes-direction t
         ;; lazy isearch
         isearch-lazy-count t
         isearch-repeat-on-direction-change t
