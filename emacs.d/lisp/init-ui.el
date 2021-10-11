@@ -7,15 +7,31 @@
 
 (use-package all-the-icons)
 
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (load-theme 'doom-vibrant t)
+(use-package modus-themes
+  :init
+  ;; Add all your customizations prior to loading the themes
+  (setq modus-themes-italic-constructs t
+        modus-themes-bold-constructs t
+        modus-themes-region '(bg-only no-extend))
 
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config)
+  ;; Load the theme files before enabling a theme
+  (modus-themes-load-themes)
+  :config
+  ;; Load the theme of your choice:
+  (modus-themes-load-vivendi)
+  ;; (modus-themes-load-operandi)
+  :bind ("<f5>" . modus-themes-toggle)
   )
+
+;; (use-package doom-themes
+;;   :config
+;;   (setq doom-themes-enable-bold t
+;;         doom-themes-enable-italic t)
+;;   (load-theme 'doom-vibrant t)
+
+;;   (doom-themes-visual-bell-config)
+;;   (doom-themes-org-config)
+;;   )
 
 ;; 显示时间
 (use-package time

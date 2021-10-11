@@ -62,7 +62,6 @@
 
 ;; format
 (use-package apheleia
-  :ensure nil
   :hook (after-init . apheleia-global-mode)
   :bind ("C-c C-f" . apheleia-format-buffer)
   :config

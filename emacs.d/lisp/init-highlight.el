@@ -17,12 +17,6 @@
               ("C-c o" . hl-todo-occur))
   )
 
-;; Highlight matching parens
-(use-package paren
-  :ensure nil
-  :hook (after-init . show-paren-mode)
-  )
-
 ;; 高亮当前行
 (use-package hl-line
   :ensure nil
