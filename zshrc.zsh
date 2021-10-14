@@ -15,6 +15,7 @@ setopt pushdminus
 setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
 setopt promptsubst
+setopt share_history          # share command history data
 
 # emacs key bindings
 bindkey -e
@@ -69,7 +70,7 @@ zinit as"null" wait lucid from"gh-r" for \
     cp"**/man/exa.1 -> $ZPFX/share/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
     atload"alias cat='bat'" cp"**/bat.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" sbin"**/bat" @sharkdp/bat \
     cp"**/fd.1 -> $ZPFX/share/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" sbin"**/fd" @sharkdp/fd \
-    atload'export LS_COLORS="$(vivid generate molokai)"' sbin"**/vivid" @sharkdp/vivid \
+    atload'export LS_COLORS="$(vivid generate one-dark)"' sbin"**/vivid" @sharkdp/vivid \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" sbin"**/rg" BurntSushi/ripgrep \
     atload"alias top=btm --color gruvbox" mv"**/completion/_btm -> $ZINIT[COMPLETIONS_DIR]" sbin"**/btm" ClementTsang/bottom \
     atload"alias ps=procs" sbin"**/procs" dalance/procs \

@@ -113,8 +113,7 @@
     :config
     (setq org-html-doctype "html5"
           org-html-html5-fancy t
-          org-html-checkbox-type 'unicode
-          org-html-validation-link nil)
+          org-html-checkbox-type 'unicode)
     )
 
   (use-package ob-restclient
