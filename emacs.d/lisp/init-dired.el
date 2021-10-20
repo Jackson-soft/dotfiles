@@ -24,6 +24,7 @@
     :config
     (setq dired-isearch-filenames 'dwim
           dired-create-destination-dirs 'ask
+          dired-do-revert-buffer (lambda (dir) (not (file-remote-p dir)))
           dired-vc-rename-file t)
     )
   )

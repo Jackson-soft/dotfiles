@@ -43,13 +43,8 @@
 (use-package electric
   :ensure nil
   :hook (after-init . electric-indent-mode)
-  :config
-  (setq electric-quote-string t
-        electric-quote-replace-double t
-        electric-quote-context-sensitive t)
   )
 
-;; meaningful names for buffers with the same name
 (use-package uniquify
   :ensure nil
   :config
@@ -75,6 +70,7 @@
 ;; replace
 (use-package replace
   :ensure nil
+  :hook (occur-mode . hl-line-mode)
   :config
   (setq list-matching-lines-jump-to-current-line t)
   )

@@ -89,6 +89,7 @@ packer.startup(function()
         end,
     })
 
+    -- Themes
     use({
         "navarasu/onedark.nvim",
         config = function()

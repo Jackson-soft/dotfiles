@@ -88,6 +88,10 @@
   :hook (embark-collect-mode . consult-preview-at-point-mode)
   )
 
+(use-package all-the-icons-completion
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  )
+
 (provide 'init-completion)
 
 ;;; init-completion.el ends here
