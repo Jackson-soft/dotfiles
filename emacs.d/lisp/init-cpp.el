@@ -24,20 +24,19 @@
   )
 
 ;; cmake mode
-(use-package cmake-mode
-  :mode (("CMakeLists\\.txt\\'" . cmake-mode)
-         ("\\.cmake\\'" . cmake-mode))
-  )
+(use-package cmake-mode)
 
 (use-package cmake-font-lock
   :hook (cmake-mode . cmake-font-lock-activate)
   )
 
-;; Parser generator
-(use-package bison-mode
-  :mode (("\\.l\\'" . flex-mode)
-         ("\\.y\\'" . bison-mode))
+;; cmake-ide
+(use-package cmake-ide
+  :hook (cmake-mode . cmake-ide-setup)
   )
+
+;; Parser generator
+(use-package bison-mode)
 
 (provide 'init-cpp)
 

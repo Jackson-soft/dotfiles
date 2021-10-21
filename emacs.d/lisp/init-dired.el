@@ -33,10 +33,7 @@
   :ensure nil
   :hook (dired-mode . dired-omit-mode)
   :config
-  ;; Dont prompt about killing buffer visiting delete file
-  (setq dired-clean-confirm-killing-deleted-buffers nil
-        dired-omit-verbose nil
-        dired-omit-files (concat dired-omit-files
+  (setq dired-omit-files (concat dired-omit-files
                                  "\\|^.DS_Store$\\|^.cache$\\|^.git*\\|^.idea$\\|^.vscode$\\|\\.elc$"))
   )
 

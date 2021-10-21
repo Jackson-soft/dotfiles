@@ -6,9 +6,7 @@
 ;;; Code:
 
 (use-package markdown-mode
-  :mode (("README\\(?:\\.md\\)?\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
+  :mode ("README\\.md\\'" . gfm-mode)
   :config
   (setq markdown-command "multimarkdown"
         markdown-enable-math t

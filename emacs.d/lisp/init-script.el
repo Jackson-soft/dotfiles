@@ -11,15 +11,12 @@
         lua-indent-string-contents t)
   )
 
-(use-package yaml-mode
-  :mode ("\\.ya?ml\\'" . yaml-mode)
-  )
+(use-package yaml-mode)
 
 (use-package protobuf-mode)
 
 (use-package nginx-mode
-  :mode (("nginx\\.conf\\'" . nginx-mode)
-         ("/nginx/.+\\.conf\\'" . nginx-mode))
+  :mode ("/nginx/sites-\\(?:available\\|enabled\\)/" . nginx-mode)
   )
 
 (use-package company-nginx
@@ -44,9 +41,7 @@
                              (cl-pushnew 'company-restclient company-backends)))
   )
 
-(use-package systemd
-  :mode ("\\.service\\'" . systemd-mode)
-  )
+(use-package systemd)
 
 (provide 'init-script)
 

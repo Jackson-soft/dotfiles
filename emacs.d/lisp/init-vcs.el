@@ -6,6 +6,7 @@
 ;;; Code:
 
 (use-package magit
+  :hook (git-commit-setup . git-commit-turn-on-flyspell)
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch)
          ("C-c M-g" . magit-file-dispatch))
@@ -18,12 +19,10 @@
     )
   )
 
-;; Setup gitignore mode
-(use-package conf-mode
-  :ensure nil
-  :mode (("\\.gitignore\\'"     . conf-unix-mode)
-         ("\\.gitconfig\\'"     . conf-unix-mode)
-         ("\\.gitattributes\\'" . conf-unix-mode))
+(use-package git-modes)
+
+(use-package with-editor
+  :hook (vterm-mode . with-editor-export-editor)
   )
 
 ;; NB `diff-hl' depends on `vc'

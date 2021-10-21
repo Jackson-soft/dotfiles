@@ -28,8 +28,8 @@
   :ensure nil
   :config
   (setq xref-search-program 'ripgrep
-        xref-show-xrefs-function 'xref-show-definitions-completing-read
-        xref-show-definitions-function 'xref-show-definitions-completing-read)
+        xref-show-definitions-function 'xref-show-definitions-completing-read ; for M-.
+        xref-show-xrefs-function 'xref-show-definitions-buffer) ; for grep and the like
   )
 
 (use-package imenu
