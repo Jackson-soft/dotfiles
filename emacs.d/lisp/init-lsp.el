@@ -32,15 +32,7 @@
 
 (use-package company
   :hook (after-init . global-company-mode)
-  :bind (("M-/" . company-complete)
-         :map company-active-map
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next)
-         ([tab]     . company-complete-common-or-cycle)
-         ([backtab] . company-select-previous-or-abort)
-         :map company-search-map
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next))
+  :bind ("M-/" . company-complete)
   :custom
   (company-dabbrev-code-ignore-case nil)
   (company-dabbrev-code-everywhere t)
@@ -49,8 +41,10 @@
         company-minimum-prefix-length 1
         company-require-match 'company-explicit-action-p
         company-tooltip-limit 12
+        company-tooltip-width-grow-only t
         company-backends '(company-capf
                            (company-dabbrev-code company-etags company-keywords)
+                           company-dabbrev
                            company-clang
                            company-cmake
                            company-ispell
@@ -60,7 +54,7 @@
 
 (use-package lsp-mode
   :hook (((web-mode json-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
-                    css-mode sh-mode yaml-mode sql-mode markdown-mode gfm-mode) . lsp-deferred)
+                    css-mode sh-mode yaml-mode sql-mode) . lsp-deferred)
          ((go-mode c++-mode c-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))

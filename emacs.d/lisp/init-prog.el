@@ -83,12 +83,15 @@
 ;; 注释
 (use-package newcomment
   :ensure nil
-  :bind ([remap comment-dwim] . #'comment-or-uncomment)
+  :bind ([remap comment-dwim] . comment-or-uncomment)
   :config
   (defun comment-or-uncomment ()
     "Comment or uncomment the current line or region.
-If the region is active and `transient-mark-mode' is on, call `comment-or-uncomment-region'.
-Else, if the current line is empty, insert a comment and indent it.
+
+If the region is active and `transient-mark-mode' is on, call
+`comment-or-uncomment-region'.
+Else, if the current line is empty, insert a comment and indent
+it.
 Else, call `comment-or-uncomment-region' on the current line."
     (interactive)
     (if (region-active-p)
