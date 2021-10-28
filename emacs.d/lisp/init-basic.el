@@ -52,6 +52,10 @@
                 window-combination-resize t
                 major-mode 'text-mode)
 
+  (add-hook 'text-mode-hook 'toggle-word-wrap)
+  ;; Turn on transient-mark-mode
+  (transient-mark-mode 1)
+
   (setq scroll-margin 2           ;; better scrolling experience
         scroll-step 1
         scroll-conservatively 101 ;; > 100

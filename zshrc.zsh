@@ -149,3 +149,5 @@ function man() {
 }
 
 alias luamake=$HOME/myDoc/lua-language-server/3rd/luamake/luamake
+
+export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin

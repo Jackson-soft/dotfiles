@@ -6,6 +6,16 @@ if fn.empty(fn.glob(install_path)) > 0 then
     vim.cmd("packadd packer.nvim")
 end
 
+vim.api.nvim_exec(
+    [[
+  augroup Packer
+    autocmd!
+    autocmd BufWritePost init.lua PackerCompile
+  augroup end
+]],
+    false
+)
+
 ---- Plugins ----
 local packer = require("packer")
 local use = packer.use
@@ -408,9 +418,12 @@ packer.startup(function()
 
     -- statusline
     use({
-        "famiu/feline.nvim",
+        "nvim-lualine/lualine.nvim",
         config = function()
-            require("feline").setup()
+            require("lualine").setup({
+                options = { theme = "onedark" },
+                extensions = { "nvim-tree", "toggleterm" },
+            })
         end,
     })
 
@@ -463,7 +476,7 @@ o.inccommand = "nosplit"
 o.termguicolors = true
 --Set highlight on search
 o.showmatch = true
--- o.completeopt = "menuone,noselect"
+o.completeopt = "menu,menuone,noselect"
 
 --Do not save when switching buffers
 o.hidden = true
