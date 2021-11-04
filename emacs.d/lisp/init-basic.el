@@ -46,6 +46,8 @@
   :config
   (setq-default cursor-type 'bar
                 tab-width 4
+                tab-always-indent 'complete
+                tab-first-completion 'word-or-paren-or-punct
                 indicate-empty-lines t  ;; 如果文件末尾有空行， 以可视地形式提醒
                 indent-tabs-mode nil
                 fill-column 120
@@ -61,7 +63,6 @@
         scroll-conservatively 101 ;; > 100
         scroll-preserve-screen-position t
         auto-window-vscroll nil
-        tab-always-indent 'complete
         word-wrap-by-category t
         use-short-answers t
         truncate-lines t ;; 一行过长时 是否wrap显示
@@ -79,6 +80,7 @@
         create-lockfiles nil            ;; No lock files
         make-backup-files nil)          ;; Forbide to make backup files
   )
+
 
 (use-package simple
   :ensure nil

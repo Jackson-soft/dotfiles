@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Packages
 packages=(
@@ -20,13 +20,13 @@ packages=(
 	# Fonts
 )
 
-install() {
-	for p in ${packages[@]}; do
+function install() {
+	for p in "${packages[@]}"; do
 		brew install "$p"
 	done
 }
 
-main() {
+function main() {
 	install
 }
 

@@ -28,7 +28,7 @@ bindkey -e
 #SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 
 # Remove path separator from WORDCHARS.
-WORDCHARS=${WORDCHARS//[\/]}
+WORDCHARS=${WORDCHARS//[\/]/}
 
 # -----------------
 # Zim configuration
@@ -98,8 +98,8 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 # ------------------
 
 if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  # Update static initialization script if it does not exist or it's outdated, before sourcing it
-  source ${ZIM_HOME}/zimfw.zsh init -q
+	# Update static initialization script if it does not exist or it's outdated, before sourcing it
+	source ${ZIM_HOME}/zimfw.zsh init -q
 fi
 source ${ZIM_HOME}/init.zsh
 
@@ -118,8 +118,8 @@ bindkey '^[[B' history-substring-search-down
 # Bind up and down keys
 zmodload -F zsh/terminfo +p:terminfo
 if [[ -n ${terminfo[kcuu1]} && -n ${terminfo[kcud1]} ]]; then
-  bindkey ${terminfo[kcuu1]} history-substring-search-up
-  bindkey ${terminfo[kcud1]} history-substring-search-down
+	bindkey ${terminfo[kcuu1]} history-substring-search-up
+	bindkey ${terminfo[kcud1]} history-substring-search-down
 fi
 
 bindkey '^P' history-substring-search-up
@@ -128,9 +128,9 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 # }}} End configuration added by Zim install
 
-
-
 source ~/myDoc/dotfiles/zsh/plugins.zsh
 source ~/myDoc/dotfiles/zsh/conf.zsh
+
+export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

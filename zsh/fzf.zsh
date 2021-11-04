@@ -11,6 +11,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || git ls-tree -r --name-only HEAD || rg -f -. -L -g '!.git' || find ."
 export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
 export FZF_ALT_C_COMMAND="fd -t d"
+export FZF_CTRL_R_OPTS='--sort --exact'
 export FZF_DEFAULT_OPTS="
        --layout=reverse
        --info=inline
@@ -19,13 +20,10 @@ export FZF_DEFAULT_OPTS="
        --border
        --preview-window=:hidden
        --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (exa -T {} | less)) || echo {} 2> /dev/null | head -200'
-       --color='hl:148,hl+:154,pointer:032,marker:010,bg+:237,gutter:008'
-       --prompt='∼ ' --pointer='▶' --marker='✓'
+       --prompt='∼ ' --marker='✓'
+       --color='dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254'
+       --color='info:254,prompt:37,spinner:108,pointer:235,marker:235'
        --bind '?:toggle-preview'
-       --bind 'ctrl-a:select-all'
-       --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
-       --bind 'ctrl-e:execute(echo {+} | xargs -o nvim)'
-       --bind 'ctrl-v:execute(code {+})'
        "
 
 # Use fd (https://github.com/sharkdp/fd) instead of the default find

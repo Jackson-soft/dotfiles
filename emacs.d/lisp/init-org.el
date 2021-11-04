@@ -119,10 +119,11 @@
   (use-package ob-restclient
     :after ob)
 
-  (setq org-babel-load-languages '((shell . t)
-                                   (dot . t)
-                                   (restclient . t)
-                                   (emacs-lisp . t)))
+  (org-babel-do-load-languages
+   'org-babel-load-languages '((shell . t)
+                               (dot . t)
+                               (restclient . t)
+                               (emacs-lisp . t)))
   )
 
 (use-package toc-org
