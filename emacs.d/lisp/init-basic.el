@@ -54,23 +54,20 @@
                 window-combination-resize t
                 major-mode 'text-mode)
 
-  (add-hook 'text-mode-hook 'toggle-word-wrap)
   ;; Turn on transient-mark-mode
-  (transient-mark-mode 1)
+  (transient-mark-mode t)
 
   (setq scroll-margin 2           ;; better scrolling experience
         scroll-step 1
         scroll-conservatively 101 ;; > 100
         scroll-preserve-screen-position t
-        auto-window-vscroll nil
-        word-wrap-by-category t
         use-short-answers t
-        truncate-lines t ;; 一行过长时 是否wrap显示
-        visible-bell t
+        visible-bell t ;; 错误操作时的窗口闪动警告
         ring-bell-function 'ignore
         display-raw-bytes-as-hex t    ;; Improve display
         use-file-dialog nil
-        use-dialog-box nil)  ;; 不使用对话框进行（是，否 取消） 的选择，而是用minibuffer
+        use-dialog-box nil  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
+        )
   )
 
 (use-package files
@@ -81,10 +78,8 @@
         make-backup-files nil)          ;; Forbide to make backup files
   )
 
-
 (use-package simple
   :ensure nil
-  :hook (after-init . global-visual-line-mode)
   :bind ("C-z" . undo-redo)
   :config
   (setq visual-line-fringe-indicators '(nil right-curly-arrow)
@@ -96,9 +91,8 @@
         what-cursor-show-names t
         set-mark-command-repeat-pop t
 
-        ;; show line/column/filesize in modeline
+        ;; show column/filesize in modeline
         column-number-mode t
-        line-number-mode t
         size-indication-mode t)
   )
 

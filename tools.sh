@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Packages
+# https://github.com/ibraheemdev/modern-unix
 packages=(
 	# git
 	# zsh

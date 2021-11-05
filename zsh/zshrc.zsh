@@ -128,8 +128,8 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 # }}} End configuration added by Zim install
 
-source ~/myDoc/dotfiles/zsh/plugins.zsh
-source ~/myDoc/dotfiles/zsh/conf.zsh
+source ${HOME}/myDoc/dotfiles/zsh/plugins.zsh
+source ${HOME}/myDoc/dotfiles/zsh/conf.zsh
 
 export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin
 

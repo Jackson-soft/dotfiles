@@ -7,13 +7,6 @@
 
 ;;; Code:
 
-(use-package prog-mode
-  :ensure nil
-  :hook (prog-mode . prettify-symbols-mode)
-  :config
-  (setq prettify-symbols-unprettify-at-point 'right-edge)
-  )
-
 (use-package tree-sitter
   :ensure t
   :hook ((prog-mode . global-tree-sitter-mode)
@@ -35,9 +28,7 @@
 (use-package imenu
   :ensure nil
   :config
-  (setq imenu-auto-rescan t
-        imenu-max-item-length 160
-        imenu-max-items 400)
+  (setq imenu-auto-rescan t)
   )
 
 ;; show trailing whitespaces
@@ -48,15 +39,14 @@
   :config
   (setq indicate-empty-lines t
         whitespace-action '(auto-cleanup)
-        whitespace-line-column nil
         whitespace-style
-        '(face             ;; visualize things below:
-          empty            ;; empty lines at beginning/end of buffer
-          lines-tail       ;; lines go beyond `fill-column'
-          space-before-tab ;; spaces before tab
-          space-after-tab
+        '(face             ;; visualize things below
           trailing         ;; trailing blanks
           tabs             ;; tabs (show by face)
+          empty            ;; empty lines at beginning/end of buffer
+          indentation
+          space-before-tab ;; spaces before tab
+          space-after-tab
           tab-mark))       ;; tabs (show by symbol)
   )
 

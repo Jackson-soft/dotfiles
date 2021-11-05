@@ -5,45 +5,48 @@
 ;;
 ;;; Code:
 
+(use-package text-mode
+  :ensure nil
+  :hook (text-mode . auto-fill-mode)
+  :config
+  (setq word-wrap-by-category t)
+  )
+
 (use-package org
   :ensure nil
-  :hook (org-mode . org-indent-mode)
-  :bind ("C-c l" . org-store-link)
   :custom
-  (org-log-done 'time)
-  (org-catch-invisible-edits 'smart)
-  (org-hide-macro-markers t)
-  (org-hide-emphasis-markers t)
-  (org-highlight-latex-and-related '(native script entities))
-  (org-pretty-entities t)
-  (org-startup-indented t)  ;; 开启折行
-  (org-startup-with-inline-images t)
-  (org-tags-column 120)
-  (org-log-into-drawer t)
-  (org-image-actual-width nil)
-  (org-support-shift-select 'always)
-  (org-html-htmlize-output-type 'css)
-  ;; prettify
-  (org-loop-over-headlines-in-active-region t)
-  (org-fontify-todo-headline t)
-  (org-fontify-whole-heading-line t)
-  (org-fontify-done-headline t)
   (org-fontify-quote-and-verse-blocks t)
-  (org-adapt-indentation nil)
-  (org-special-ctrl-a/e t)
-  (org-special-ctrl-k t)
-  (org-yank-adjusted-subtrees t)
-  (org-enable-table-editor 1) ;; 启用内建电子表格
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
   (org-return-follows-link t)
-  (org-export-backends '(ascii html md icalendar odt))
   :config
   (setq org-modules '(org-tempo
                       org-id
                       org-toc
                       org-habit
                       ol-eww
-                      ol-info))
+                      ol-info)
+        org-pretty-entities t
+        org-startup-indented t  ;; 开启折行
+        org-startup-with-inline-images t
+        org-log-into-drawer t
+        org-image-actual-width nil
+        org-support-shift-select 'always
+        org-log-done 'time
+        org-catch-invisible-edits 'smart
+        org-hide-macro-markers t
+        org-hide-emphasis-markers t
+        org-highlight-latex-and-related '(native script entities)
+        org-export-backends '(ascii html md icalendar odt)
+        org-yank-adjusted-subtrees t
+        ;; prettify
+        org-loop-over-headlines-in-active-region t
+        org-fontify-todo-headline t
+        org-fontify-done-headline t
+        org-fontify-whole-heading-line t
+        org-adapt-indentation nil
+        org-special-ctrl-a/e t
+        org-special-ctrl-k t
+        )
 
   ;; 快速插入截图到文件
   (defun org-insert-image ()

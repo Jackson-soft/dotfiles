@@ -1,6 +1,5 @@
-export PLUG_DIR=$HOME/.zim
-if [[ ! -d $PLUG_DIR ]]; then
+if [[ ! -d $HOME/.zim ]]; then
 	curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
-	rm ~/.zimrc
-	ln -s ~/myDoc/dotfiles/zsh/zimrc.zsh ~/.zimrc
+	rm $HOME/.zimrc
+	ln -s $HOME/myDoc/dotfiles/zsh/zimrc.zsh $HOME/.zimrc
 fi
