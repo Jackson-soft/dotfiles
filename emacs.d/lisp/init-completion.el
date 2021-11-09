@@ -56,10 +56,8 @@
   ;; Optionally replace `completing-read-multiple' with an enhanced version.
   (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
   :config
-  (setq consult-project-root-function
-        (lambda ()
-          (when-let (project (project-current))
-            (project-root project))))
+  ;; (setq consult-project-root-function (lambda () (project-root (project-current t))))
+  (setq consult-project-root-function #'vc-root-dir)
 
   ;; use fd instead of find
   (setq consult-preview-key (kbd "M-p")

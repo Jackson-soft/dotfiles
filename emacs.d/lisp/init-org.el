@@ -78,6 +78,16 @@
     (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
     )
 
+  ;;; Citations
+  ;;;; Org-Cite
+  (use-package oc
+    :ensure nil
+    :config
+    (setq org-cite-export-processors '((beamer natbib)
+                                       (latex biblatex)
+                                       (t csl)))
+    )
+
   (use-package org-table
     :ensure nil
     :after org

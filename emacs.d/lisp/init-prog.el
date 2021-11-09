@@ -17,6 +17,13 @@
     :ensure t)
   )
 
+;; Browse devdoc.io
+;; (use-package devdocs
+;;   :bind ("C-c d" . devdocs-lookup)
+;;   :config
+;;   (add-to-list 'completion-category-defaults '(devdocs (styles . (flex))))
+;;   )
+
 (use-package xref
   :ensure nil
   :config

@@ -59,11 +59,9 @@
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
   :config
-  (setq lsp-keep-workspace-alive nil         ;; auto kill lsp server
-        lsp-restart 'auto-restart
+  (setq lsp-restart 'auto-restart
         lsp-auto-guess-root t
         lsp-semantic-tokens-enable t
-        lsp-lens-enable t               ;; enable lens
         lsp-dired-mode t
         )
 

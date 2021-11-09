@@ -9,7 +9,7 @@ ln -sf "$(pwd)"/stylelintrc.yaml "$HOME"/.stylelintrc.yaml
 ln -sf "$(pwd)"/clang-format.yaml "$HOME"/.clang-format
 ln -sf "$(pwd)"/clang-tidy.yaml "$HOME"/.clang-tidy
 
-ln -sf "$(pwd)"/emacs.d "$HOME"/.emacs.d
+ln -snf "$(pwd)"/emacs.d "$HOME"/.emacs.d
 
 if [ ! -d "$HOME"/.config/nvim ]; then
 	mkdir -p "$HOME"/.config/nvim
@@ -22,3 +22,12 @@ fi
 ln -sf "$(pwd)"/kitty.conf "$HOME"/.config/kitty/kitty.conf
 
 ln -sf "$(pwd)"/starship.toml "$HOME"/.config/starship.toml
+
+# gitconfig
+addGit="\n[include]\n\tpath = ${HOME}/myDoc/dotfiles/gitconfig.inc"
+gitConf="${HOME}/.gitconfig"
+if [ ! -f "${gitConf}" ]; then
+	echo "${addGit}" >J"${gitConf}"
+else
+	echo "${addGit}" >>"${gitConf}"
+fi

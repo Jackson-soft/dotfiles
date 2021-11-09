@@ -59,8 +59,10 @@
               ("C-c C-o" . isearch-occur)
               ([escape] . isearch-cancel))
   :config
-  (setq isearch-allow-motion t
+  (setq isearch-allow-motion t  ;; M-< and M-> move to the first/last occurrence of the current search string.
         isearch-motion-changes-direction t
+        isearch-regexp-lax-whitespace t
+        isearch-resume-in-command-history t
         ;; lazy isearch
         isearch-lazy-count t
         isearch-repeat-on-direction-change t
