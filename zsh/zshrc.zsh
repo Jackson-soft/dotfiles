@@ -128,6 +128,6 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 # }}} End configuration added by Zim install
 
-export zshDot=${HOME}/myDoc/dotfiles/zsh
-source ${zshDot}/plugins.zsh
-source ${zshDot}/conf.zsh
+export dotHome=${HOME}/myDoc/dotfiles
+source ${dotHome}/zsh/plugins.zsh
+source ${dotHome}/zsh/conf.zsh

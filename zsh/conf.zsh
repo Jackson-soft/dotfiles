@@ -11,7 +11,7 @@ esac
 
 # fzf
 if (( $+commands[fzf] )); then
-    source ${zshDot}/fzf.zsh
+    source ${dotHome}/zsh/fzf.zsh
     # key-bindings
     source ${fzfBase}/key-bindings.zsh
     source ${fzfBase}/completion.zsh 2> /dev/null
@@ -26,6 +26,7 @@ fi
 # starship
 #  https://github.com/starship/starship
 if (( $+commands[starship] )); then
+    export STARSHIP_CONFIG=${dotHome}/starship.toml
     eval "$(starship init zsh)"
 fi
 
