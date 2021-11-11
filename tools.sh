@@ -25,8 +25,9 @@ function install() {
     archi=$(uname -s)
     for p in "${packages[@]}"; do
         case "$archi" in
-            Darwin) brew install "$p" ;;
-            Linux) sudo dnf install -y "${p}" ;;
+        Darwin) brew install "$p" ;;
+        Linux) sudo dnf install -y "${p}" ;;
+        esac
     done
 }
 

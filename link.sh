@@ -12,12 +12,12 @@ ln -sf "$(pwd)"/clang-tidy.yaml "$HOME"/.clang-tidy
 ln -snf "$(pwd)"/emacs.d "$HOME"/.emacs.d
 
 if [ ! -d "$HOME"/.config/nvim ]; then
-	mkdir -p "$HOME"/.config/nvim
+    mkdir -p "$HOME"/.config/nvim
 fi
 ln -sf "$(pwd)"/init.lua "$HOME"/.config/nvim/init.lua
 
 if [ ! -d "$HOME"/.config/kitty ]; then
-	mkdir -p "$HOME"/.config/kitty
+    mkdir -p "$HOME"/.config/kitty
 fi
 ln -sf "$(pwd)"/kitty.conf "$HOME"/.config/kitty/kitty.conf
 
@@ -25,7 +25,7 @@ ln -sf "$(pwd)"/kitty.conf "$HOME"/.config/kitty/kitty.conf
 addGit="\n[include]\n\tpath = ${HOME}/myDoc/dotfiles/gitconfig.inc"
 gitConf="${HOME}/.gitconfig"
 if [ ! -f "${gitConf}" ]; then
-	echo "${addGit}" >J"${gitConf}"
+    echo "${addGit}" >"${gitConf}"
 else
-	echo "${addGit}" >>"${gitConf}"
+    echo "${addGit}" >>"${gitConf}"
 fi

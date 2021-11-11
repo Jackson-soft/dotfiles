@@ -1,6 +1,8 @@
+#!/bin/zsh
+
 archi=$(uname -s)
 fzfBase=
-case "$archi" in
+case $archi in
     Darwin)
         export PATH=/usr/local/opt/llvm/bin:${PATH}:${HOME}/go/bin
         fzfBase=/usr/local/opt/fzf/shell ;;
@@ -14,7 +16,8 @@ if (( $+commands[fzf] )); then
     source ${dotHome}/zsh/fzf.zsh
     # key-bindings
     source ${fzfBase}/key-bindings.zsh
-    source ${fzfBase}/completion.zsh 2> /dev/null
+    # Auto-completion
+    [[ $- == *i* ]] && source ${fzfBase}/completion.zsh 2> /dev/null
 fi
 
 # zoxide
@@ -42,3 +45,8 @@ alias cat='bat'
 alias diff='delta -ns'
 
 alias -g ...='../..'
+
+# kubectl
+if (( $+commands[kubectl] )); then
+    source <(kubectl completion zsh)
+fi
