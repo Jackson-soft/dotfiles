@@ -8,6 +8,7 @@ ln -sf "$(pwd)"/prettierrc.yaml "$HOME"/.prettierrc.yaml
 ln -sf "$(pwd)"/stylelintrc.yaml "$HOME"/.stylelintrc.yaml
 ln -sf "$(pwd)"/clang-format.yaml "$HOME"/.clang-format
 ln -sf "$(pwd)"/clang-tidy.yaml "$HOME"/.clang-tidy
+ln -sf "$(pwd)"/golangci.yml "$HOME"/.golangci.yml
 
 ln -snf "$(pwd)"/emacs.d "$HOME"/.emacs.d
 

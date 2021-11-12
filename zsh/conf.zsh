@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 archi=$(uname -s)
-fzfBase=
+local fzfBase
 case $archi in
     Darwin)
         export PATH=/usr/local/opt/llvm/bin:${PATH}:${HOME}/go/bin
@@ -14,8 +14,12 @@ esac
 # fzf
 if (( $+commands[fzf] )); then
     source ${dotHome}/zsh/fzf.zsh
+fi
+
+if [[ -d "${fzfBase}" ]]; then
     # key-bindings
     source ${fzfBase}/key-bindings.zsh
+
     # Auto-completion
     [[ $- == *i* ]] && source ${fzfBase}/completion.zsh 2> /dev/null
 fi

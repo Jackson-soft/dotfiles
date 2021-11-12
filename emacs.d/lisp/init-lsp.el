@@ -27,7 +27,17 @@
   :hook (prog-mode . flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit
-        flycheck-check-syntax-automatically '(save mode-enabled))
+        flycheck-check-syntax-automatically '(save mode-enabled)
+        flycheck-checkers '(c/c++-clang
+                            dockerfile-hadolint
+                            emacs-lisp
+                            lua
+                            markdown-markdownlint-cli
+                            python-mypy
+                            sh-shellcheck
+                            sh-zsh
+                            yaml-jsyaml
+                            ))
   )
 
 (use-package company
@@ -63,6 +73,8 @@
         lsp-auto-guess-root t
         lsp-semantic-tokens-enable t
         lsp-dired-mode t
+        lsp-diagnostics-disabled-modes '(go-mode
+                                         sh-mode)
         )
 
   (defun lsp-save-hooks ()

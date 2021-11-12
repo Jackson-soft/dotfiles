@@ -10,7 +10,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 # fzf
 # https://github.com/junegunn/fzf
-export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || git ls-tree -r --name-only HEAD || rg -f -. -L -g '!.git' || find ."
+export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg -f -. -L -g '!.git' || find ."
 export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
 export FZF_ALT_C_COMMAND="fd -t d"
 export FZF_CTRL_R_OPTS='--sort --exact'
