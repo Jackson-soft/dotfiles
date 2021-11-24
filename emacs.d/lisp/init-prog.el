@@ -7,16 +7,6 @@
 
 ;;; Code:
 
-(use-package tree-sitter
-  :ensure t
-  :hook ((prog-mode . global-tree-sitter-mode)
-         (tree-sitter-after-on . tree-sitter-hl-mode))
-  :config
-
-  (use-package tree-sitter-langs
-    :ensure t)
-  )
-
 ;; Browse devdoc.io
 ;; (use-package devdocs
 ;;   :bind ("C-c d" . devdocs-lookup)

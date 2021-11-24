@@ -20,7 +20,7 @@
 ;; Use the `orderless' completion style.
 (use-package orderless
   :custom
-  (completion-styles '(orderless))
+  (completion-styles '(basic substring initials flex partial-completion orderless))
   )
 
 (use-package consult

@@ -3,18 +3,14 @@ local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-    vim.cmd("packadd packer.nvim")
 end
 
-vim.api.nvim_exec(
-    [[
+vim.cmd([[
   augroup Packer
     autocmd!
     autocmd BufWritePost init.lua PackerCompile
   augroup end
-]],
-    false
-)
+]])
 
 ---- Plugins ----
 local packer = require("packer")
@@ -153,24 +149,14 @@ packer.startup(function()
             branch = "0.5-compat",
             run = ":TSUpdate",
             config = function()
-                local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
-                parser_configs.http = {
-                    install_info = {
-                        url = "https://github.com/NTBBloodbath/tree-sitter-http",
-                        files = { "src/parser.c" },
-                        branch = "main",
-                    },
-                }
-
                 require("nvim-treesitter.configs").setup({
                     ensure_installed = {
-                        "python",
                         "bash",
                         "c",
-                        "css",
-                        "cpp",
-                        "comment",
                         "cmake",
+                        "comment",
+                        "cpp",
+                        "css",
                         "dockerfile",
                         "dot",
                         "go",
@@ -178,11 +164,12 @@ packer.startup(function()
                         "html",
                         "http",
                         "javascript",
-                        "typescript",
                         "json",
                         "lua",
+                        "python",
                         "regex",
                         "toml",
+                        "typescript",
                         "yaml",
                     },
                     highlight = {
@@ -386,8 +373,6 @@ packer.startup(function()
         },
     })
 
-    use({ "rafamadriz/friendly-snippets" })
-
     use({
         "neovim/nvim-lspconfig",
         requires = {
@@ -512,15 +497,12 @@ vim.g.maplocalleader = " "
 vim.g.splitbelow = true
 
 -- Highlight on yank
-vim.api.nvim_exec(
-    [[
+vim.cmd([[
   augroup YankHighlight
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
-]],
-    false
-)
+]])
 
 -- Y yank until the end of line
 vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
@@ -567,12 +549,11 @@ local on_attach = function(client, bufnr)
     require("lsp_signature").on_attach()
 
     if client.resolved_capabilities.document_formatting then
-        vim.cmd("autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting_sync()")
+        vim.cmd([[ autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting_sync() ]])
     end
 
     if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_exec(
-            [[
+        vim.cmd([[
             hi LspReferenceRead  gui=bold guibg=#1b1b29 blend=10
             hi LspReferenceText  gui=bold guibg=#1b1b29 blend=10
             hi LspReferenceWrite gui=bold guibg=#1b1b29 blend=10
@@ -581,9 +562,7 @@ local on_attach = function(client, bufnr)
             autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
             autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
             augroup END
-        ]],
-            false
-        )
+        ]])
     end
 end
 
@@ -631,11 +610,13 @@ local sources = {
         command = "pg_format",
         args = { "-" },
     }),
+    null_ls.builtins.formatting.black,
 
     null_ls.builtins.diagnostics.selene,
     null_ls.builtins.diagnostics.hadolint,
     null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.markdownlint,
+    -- null_ls.builtins.diagnostics.golangci_lint,
 
     null_ls.builtins.code_actions.gitsigns,
 }

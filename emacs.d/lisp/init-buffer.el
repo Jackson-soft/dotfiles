@@ -9,6 +9,7 @@
 
 (use-package minibuffer
   :ensure nil
+  :hook (minibuffer-setup . cursor-intangible-mode)
   :custom
   (minibuffer-eldef-shorten-default t)
   (minibuffer-electric-default-mode t)   ;;当输入内容后，prompt的default值就会被隐藏
@@ -26,7 +27,7 @@
         completion-cycle-threshold 3
         completion-ignore-case t
         ;; completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))
+        completion-category-overrides '((file (styles . (basic partial-completion orderless))))
 
         completions-detailed t
         completions-group t)
