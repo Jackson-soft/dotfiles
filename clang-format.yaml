@@ -32,6 +32,7 @@ AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
 BitFieldColonSpacing: Both
+BreakBeforeBraces: Custom
 BraceWrapping:
     AfterCaseLabel: false
     AfterClass: true
@@ -47,7 +48,6 @@ BraceWrapping:
     BeforeLambdaBody: false
     BeforeWhile: false
     SplitEmptyFunction: false
-BreakBeforeBraces: Stroustrup
 BreakBeforeConceptDeclarations: false
 BreakBeforeBinaryOperators: All
 BreakBeforeTernaryOperators: true
