@@ -22,6 +22,8 @@ if [ ! -d "$HOME"/.config/kitty ]; then
 fi
 ln -sf "$(pwd)"/kitty.conf "$HOME"/.config/kitty/kitty.conf
 
+ln -sf "$(pwd)"/starship.toml "$HOME"/.config/starship.toml
+
 # gitconfig
 addGit="\n[include]\n\tpath = ${HOME}/myDoc/dotfiles/gitconfig.inc"
 gitConf="${HOME}/.gitconfig"
