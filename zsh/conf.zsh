@@ -22,12 +22,18 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' file-sort modification
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*' verbose yes
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' squeeze-slashes true
+# Directories
+if (( ${+LS_COLORS} )); then
+    zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+else
+    zstyle ':completion:*:default' list-colors ${(s.:.):-di=1;34:ln=35:so=32:pi=33:ex=31:bd=1;36:cd=1;33:su=30;41:sg=30;46:tw=30;42:ow=30;43}
+fi
 # Enable caching
-zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-${HOME}}/.zcompcache"
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
 zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' complete true
 
 alias -g ...='../..'
 

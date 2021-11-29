@@ -12,12 +12,11 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git ~/myDoc/dotfile
 
 * =Zsh=
 ** 整体配置
-具体可见： [[file:zshrc.zsh][zshrc]]
+具体可见: [[file:zsh/zshrc.zsh][zshrc]]
 
 ** 实用工具
 *** ~fzf~
-[[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，曾经也用过一段时间，奈何周边生态不
-如 =fzf= ，后面切回到 ~fzf~ 。
+[[https://github.com/junegunn/fzf][fzf]] 是一个模糊搜索工具。有一个竞品是 [[https://github.com/lotabout/skim][skim]] ，曾经也用过一段时间，奈何周边生态不如 =fzf= ，后面切回到 ~fzf~ 。
 
 基本键位：
 - ~CTRL-T~ :: Paste the selected files and directories onto the command-line
@@ -40,8 +39,8 @@ src'key-bindings.zsh'
 #+end_src
 
 *注意：*
-- =sbin= 关键字需要 [[https://github.com/zinit-zsh/z-a-bin-gem-node][zinit-zsh/z-a-bin-gem-node]] 插件来支持。
-- =dl= 关键字需要 [[https://github.com/zinit-zsh/z-a-patch-dl][zinit-zsh/z-a-patch-dl]] 插件来支持。
+- =sbin= 关键字需要 [[https://github.com/zdharma-continuum/zinit-annex-bin-gem-node][zdharma-continuum/zinit-annex-bin-gem-node]] 插件来支持。
+- =dl= 关键字需要 [[https://github.com/zdharma-continuum/zinit-annex-patch-dl][zdharma-continuum/zinit-annex-patch-dl]] 插件来支持。
 - 二进制的安装如果要放到 =$PATH= 里可以用 =as"program"= 或 =as"null"= 两种方式，区别在于 =as"program"= 是每个二进制的安装都是单独的目录,
   而 =as"null"= 是统一在  =~/.zinit/polaris/bin= 目录下。个人建议是用 =as"null"= 这种方式，这样 =$PATH= 相对比较简洁。
 
@@ -116,8 +115,9 @@ zinit light ajeetdsouza/zoxide
 - ~zi~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
 
 ** 插件管理
-[[https://github.com/zdharma/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的有两点：
+[[https://github.com/zdharma-continuum/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的有两点：
 - 性能不错；
+- 可以管理一些跨平台的二进制工具；
 - 用什么插件就配置什么插件，不必像 ~Oh My Zsh~ 或 ~Prezto~ 一样，插件不管你用不用都下载下来。
 
 *** 插件
