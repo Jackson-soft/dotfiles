@@ -38,6 +38,8 @@ zinit as"null" wait lucid from"gh-r" for \
     sbin"**/bat" atload"alias cat='bat'" cp"**/bat.1 -> $ZPFX/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
     sbin"**/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
     cp"**/man/exa.1 -> $ZPFX/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" ogham/exa \
+    sbin"jq" mv"jq* -> jq" stedolan/jq \
+    sbin"buf" mv"buf* -> buf" bufbuild/buf \
     sbin"**/hadolint" mv"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin"shfmt" mv"shfmt* -> shfmt" @mvdan/sh
@@ -49,8 +51,16 @@ zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
     src'key-bindings.zsh'
 zinit light junegunn/fzf
 
+# completion
 zinit ice as"completion"
 zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+
+zinit light-mode lucid wait has"kubectl" for \
+    id-as"kubectl-completion" \
+    as"completion" \
+    atclone"kubectl completion zsh > _kubectl" \
+    atpull"%atclone" \
+    zdharma-continuum/null
 
 local dotHome=${HOME}/myDoc/dotfiles
 source ${dotHome}/zsh/conf.zsh

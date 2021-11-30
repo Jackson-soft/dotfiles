@@ -13,7 +13,19 @@
 
 (use-package yaml-mode)
 
-(use-package protobuf-mode)
+(use-package protobuf-mode
+  :config
+  (flycheck-define-checker protobuf-buf
+    "A protobuf syntax checker using buf.
+See URL `https://github.com/bufbuild/buf'."
+    :command ("buf" "lint" "--path" source-original)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ":" (message) line-end))
+    :modes protobuf-mode
+    :predicate flycheck-buffer-saved-p)
+
+  (add-to-list 'flycheck-checkers 'protobuf-buf)
+  )
 
 (use-package nginx-mode
   :mode ("/nginx/sites-\\(?:available\\|enabled\\)/" . nginx-mode)

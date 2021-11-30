@@ -31,11 +31,17 @@
         flycheck-checkers '(c/c++-clang
                             dockerfile-hadolint
                             emacs-lisp
+                            emacs-lisp-checkdoc
+                            go-build
+                            go-test
+                            json-jq
                             lua
                             markdown-markdownlint-cli
+                            protobuf-protoc
                             python-mypy
                             sh-shellcheck
                             sh-zsh
+                            systemd-analyze
                             yaml-jsyaml
                             ))
   )
@@ -73,8 +79,6 @@
         lsp-auto-guess-root t
         lsp-semantic-tokens-enable t
         lsp-dired-mode t
-        lsp-diagnostics-disabled-modes '(go-mode
-                                         sh-mode)
         )
 
   (defun lsp-save-hooks ()
@@ -92,6 +96,13 @@
                                     "--pch-storage=memory"
                                     "--header-insertion=iwyu"
                                     "--header-insertion-decorators"))
+    )
+
+  (use-package lsp-diagnostics
+    :ensure nil
+    :config
+    (setq lsp-diagnostics-disabled-modes '(go-mode
+                                           sh-mode))
     )
 
   (use-package lsp-lua
