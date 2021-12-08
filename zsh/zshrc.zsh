@@ -17,7 +17,7 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-bin-gem-node
 
 zinit wait lucid for \
-    atinit"zicompinit; zicdreplay" \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
         zdharma-continuum/fast-syntax-highlighting \
         Aloxaf/fzf-tab \
     blockf \
@@ -26,26 +26,30 @@ zinit wait lucid for \
         zsh-users/zsh-autosuggestions
 
 # git extensions
-zinit lucid wait'0a' as"null" for \
-    pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
+zinit lucid wait'0a' as"program" for \
+    pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX" src"etc/git-extras-completion.zsh" tj/git-extras
+
+# Load starship theme
+zinit ice as"null" from"gh-r" \
+    sbin"starship" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh"
+zinit light starship/starship
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
-zinit as"null" wait lucid from"gh-r" for \
-    sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
+zinit as"null" wait"1" lucid from"gh-r" for \
+    sbin"delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"stylua" JohnnyMorganz/StyLua \
-    sbin"**/selene" Kampfkarren/selene \
-    sbin"**/rg" cp"**/doc/rg.1 -> $ZPFX/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
-    sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
-    sbin"starship" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh" @starship/starship \
-    sbin"**/zoxide" cp"**/man/zoxide.1 -> $ZPFX/man/man1/" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
-    sbin"**/bat" atload"alias cat='bat'" cp"**/bat.1 -> $ZPFX/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
-    sbin"**/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
+    sbin"selene" Kampfkarren/selene \
+    sbin"rg" cp"**/doc/rg.1 -> $ZPFX/man/man1/" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
+    sbin"fd" cp"**/fd.1 -> $ZPFX/man/man1/" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
+    sbin"zoxide" cp"**/man/zoxide.1 -> $ZPFX/man/man1/" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
+    sbin"bat" atload"alias cat='bat'" cp"**/bat.1 -> $ZPFX/man/man1/" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
+    sbin"exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
     cp"**/man/exa.1 -> $ZPFX/man/man1/" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" ogham/exa \
     sbin"jq" mv"jq* -> jq" stedolan/jq \
     sbin"buf" mv"buf* -> buf" bufbuild/buf \
-    sbin"**/hadolint" mv"hadolint* -> hadolint" hadolint/hadolint \
-    sbin"**/shellcheck" koalaman/shellcheck \
+    sbin"hadolint" mv"hadolint* -> hadolint" hadolint/hadolint \
+    sbin"shellcheck" koalaman/shellcheck \
     sbin"shfmt" mv"shfmt* -> shfmt" @mvdan/sh
 
 zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
