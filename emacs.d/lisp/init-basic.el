@@ -23,6 +23,11 @@
 (scroll-bar-mode -1)
 (fset 'list-buffers 'ibuffer)
 
+;; Good pixel line scrolling
+(if (boundp 'pixel-scroll-precision-mode)
+    (pixel-scroll-precision-mode t)
+  )
+
 ;; 启动emacs时窗口最大化
 (use-package frame
   :ensure nil
@@ -48,7 +53,7 @@
                 tab-width 4
                 tab-always-indent 'complete
                 tab-first-completion 'word-or-paren-or-punct
-                indicate-empty-lines t  ;; 如果文件末尾有空行， 以可视地形式提醒
+                indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
                 indent-tabs-mode nil
                 fill-column 120
                 window-combination-resize t

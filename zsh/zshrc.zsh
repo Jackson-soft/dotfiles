@@ -25,6 +25,10 @@ zinit wait lucid for \
     atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions
 
+# git extensions
+zinit lucid wait'0a' as"null" for \
+    pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
+
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit as"null" wait lucid from"gh-r" for \
@@ -68,3 +72,6 @@ source ${dotHome}/zsh/conf.zsh
 if (( $+commands[fzf] )); then
     source ${dotHome}/zsh/fzf.zsh
 fi
+
+export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin
+

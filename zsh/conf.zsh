@@ -33,7 +33,6 @@ fi
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
 zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':completion:*' complete true
 
 alias -g ...='../..'
 

@@ -33,6 +33,13 @@
 ;; cmake-ide
 (use-package cmake-ide
   :hook (cmake-mode . cmake-ide-setup)
+  :bind (:map c++-mode-map
+              ("C-x c b" . cmake-ide-compile)
+              ("C-x c r" . cmake-ide-run-cmake))
+  :config
+  (setq cmake-ide-project-dir (project-root (project-current t))
+        cmake-ide-build-dir (concat cmake-ide-project-dir "build")
+        cmake-ide-cmake-args "-G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=YES")
   )
 
 ;; Parser generator

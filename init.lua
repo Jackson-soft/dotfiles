@@ -143,10 +143,9 @@ packer.startup(function()
     -- Highlights
     use({
         { "nvim-treesitter/nvim-treesitter-refactor" },
-        { "nvim-treesitter/nvim-treesitter-textobjects", branch = "0.5-compat" },
+        { "nvim-treesitter/nvim-treesitter-textobjects" },
         {
             "nvim-treesitter/nvim-treesitter",
-            branch = "0.5-compat",
             run = ":TSUpdate",
             config = function()
                 require("nvim-treesitter.configs").setup({
@@ -447,47 +446,38 @@ end)
 
 ---- Settings ----
 
-local o, wo, bo = vim.o, vim.wo, vim.bo
+--- Tab Configuration {{{
 local indent = 4
--- Global Options
-o.title = true
---Incremental live completion
-o.inccommand = "nosplit"
+vim.opt.shiftwidth = indent
+vim.opt.tabstop = indent
+vim.opt.softtabstop = indent
 
+vim.opt.smartindent = true
+vim.opt.expandtab = true
+--- }}}
+
+--- Numbering {{{
+vim.opt.number = true
+--- }}}
 --Set colorscheme (order is important here)
-o.termguicolors = true
+vim.opt.termguicolors = true
 --Set highlight on search
-o.showmatch = true
-o.completeopt = "menu,menuone,noselect"
+vim.opt.showmatch = true
+vim.opt.completeopt = "menu,menuone,noselect"
 
---Do not save when switching buffers
-o.hidden = true
-o.shortmess = o.shortmess .. "c"
-o.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o:hor50]]
---Decrease update time
-o.updatetime = 250
---Case insensitive searching UNLESS /C or capital in search
-o.ignorecase = true
-o.smartcase = true
+vim.opt.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o:hor50]]
 --Enable mouse mode
-o.mouse = "a"
---Enable break indent
-o.breakindent = true
---Save undo history
-o.undofile = true
+vim.opt.mouse = "a"
+vim.opt.mousefocus = true
+vim.opt.inccommand = "split"
+-- Undo
+vim.opt.undofile = true
 
--- Buffer Local Options
-bo.smartindent = true
-bo.tabstop = indent
-bo.shiftwidth = indent
-bo.softtabstop = indent
-bo.expandtab = true
+-- Update times
+vim.opt.updatetime = 150
 
--- Window Local Options
-wo.signcolumn = "yes"
 --Make line numbers default
-wo.number = true
-wo.cursorline = true
+vim.opt.cursorline = true
 
 --Remap space as leader key
 vim.api.nvim_set_keymap("", "<Space>", "<Nop>", { noremap = true, silent = true })
@@ -503,9 +493,6 @@ vim.cmd([[
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
 ]])
-
--- Y yank until the end of line
-vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
 ---- Plugin Settings ----
 
@@ -569,16 +556,19 @@ end
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
     update_in_insert = false,
+    signs = true,
     virtual_text = { spacing = 4, prefix = "●" },
     severity_sort = true,
 })
 
-local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
+local signs = { Error = " ", Warn = "", Hint = " ", Info = " " }
 
 for type, icon in pairs(signs) do
-    local hl = "LspDiagnosticsSign" .. type
+    local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
+
+vim.cmd('autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({border="single", focusable=false})')
 
 local capabilities = require("cmp_nvim_lsp").update_capabilities(protocol.make_client_capabilities())
 
@@ -616,7 +606,7 @@ local sources = {
     null_ls.builtins.diagnostics.hadolint,
     null_ls.builtins.diagnostics.shellcheck,
     null_ls.builtins.diagnostics.markdownlint,
-    -- null_ls.builtins.diagnostics.golangci_lint,
+    null_ls.builtins.diagnostics.golangci_lint,
 
     null_ls.builtins.code_actions.gitsigns,
 }
@@ -628,26 +618,11 @@ nvim_lsp["null-ls"].setup({
 })
 
 -- lua
-local system_name
-if fn.has("mac") == 1 then
-    system_name = "macOS"
-elseif fn.has("unix") == 1 then
-    system_name = "Linux"
-elseif fn.has("win32") == 1 then
-    system_name = "Windows"
-else
-    print("Unsupported system for sumneko")
-end
-
-local sumneko_root_path = fn.getenv("HOME") .. "/myDoc/lua-language-server"
-local sumneko_binary = sumneko_root_path .. "/bin/" .. system_name .. "/lua-language-server"
-
 local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 nvim_lsp.sumneko_lua.setup({
-    cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {

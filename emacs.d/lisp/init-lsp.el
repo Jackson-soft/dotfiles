@@ -58,19 +58,18 @@
         company-require-match 'company-explicit-action-p
         company-tooltip-limit 12
         company-tooltip-width-grow-only t
-        company-backends '(company-capf
-                           (company-dabbrev-code company-etags company-keywords)
-                           company-dabbrev
-                           company-clang
+        company-backends '(company-files
                            company-cmake
+                           company-capf
                            company-ispell
-                           company-files
+                           (company-dabbrev-code company-keywords company-etags)
+                           company-dabbrev
                            ))
   )
 
 (use-package lsp-mode
   :hook (((web-mode json-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
-                    css-mode sh-mode yaml-mode sql-mode) . lsp-deferred)
+                    css-mode sh-mode yaml-mode sql-mode nginx-mode) . lsp-deferred)
          ((go-mode c++-mode c-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
@@ -108,14 +107,17 @@
   (use-package lsp-lua
     :ensure nil
     :config
-    (setq lsp-clients-lua-language-server-install-dir (f-join (getenv "HOME") "myDoc/lua-language-server/")
-          lsp-clients-lua-language-server-bin (f-join lsp-clients-lua-language-server-install-dir
-                                                      (pcase system-type
-                                                        ('gnu/linux "bin/Linux/lua-language-server")
-                                                        ('darwin "bin/macOS/lua-language-server")))
-          lsp-clients-lua-language-server-main-location (f-join lsp-clients-lua-language-server-install-dir "main.lua")
+    (setq lsp-clients-lua-language-server-command "lua-language-server"
           lsp-lua-hint-enable t)
     )
+
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection "lua-language-server")
+    :major-modes '(lua-mode)
+    :priority 0
+    :server-id 'lua-language-server)
+   )
   )
 
 (use-package yasnippet

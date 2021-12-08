@@ -24,6 +24,8 @@
 (use-package display-line-numbers
   :ensure nil
   :hook(after-init . global-display-line-numbers-mode)
+  :config
+  (setq display-line-numbers-width-start t)
   )
 
 ;; Delete selection if you insert

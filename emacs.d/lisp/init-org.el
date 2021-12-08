@@ -36,7 +36,7 @@
         org-hide-macro-markers t
         org-hide-emphasis-markers t
         org-highlight-latex-and-related '(native script entities)
-        org-export-backends '(ascii html md icalendar odt)
+        org-export-backends '(md latex html icalendar odt)
         org-yank-adjusted-subtrees t
         ;; prettify
         org-loop-over-headlines-in-active-region t
@@ -153,7 +153,14 @@
 ;; Drag and drop images to org-mode
 (use-package org-download
   :hook ((org-mode dired-mode) . org-download-enable)
-  :commands org-download-clipboard
+  :bind (:map org-mode-map
+              ("C-c i c" . org-download-clipboard)
+              ("C-c i d" . org-download-delete)
+              ("C-c i e" . org-download-edit)
+              ("C-c i s" . org-download-screenshot)
+              ("C-c i y" . org-download-yank)
+              ("C-c i n" . org-download-rename-at-point)
+              ("C-c i l" . org-download-rename-last-file))
   )
 
 ;; "prettier" bullets

@@ -28,6 +28,7 @@
          ("C-c h" . consult-history)
          ;; C-x bindings (ctl-x-map)
          ([remap switch-to-buffer] . consult-buffer) ;; C-x b
+         ("C-x C-r" . consult-recent-file)
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line) ;; M-g g
          ("M-g o" . consult-outline)
