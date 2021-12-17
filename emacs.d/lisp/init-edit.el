@@ -34,6 +34,13 @@
   :hook (after-init . delete-selection-mode)
   )
 
+;; use zap-up-to-char instead of zap-to-char
+(use-package misc
+  :ensure nil
+  :bind (("M-z" . zap-up-to-char)
+         ("M-Z" . zap-to-char)) ;; M-S-z
+  )
+
 ;; Automatic parenthesis pairing
 (use-package elec-pair
   :ensure nil

@@ -374,9 +374,10 @@ packer.startup(function()
 
     use({
         "neovim/nvim-lspconfig",
-        requires = {
-            { "ray-x/lsp_signature.nvim" },
-        },
+    })
+
+    use({
+        "ray-x/lsp_signature.nvim",
     })
 
     use({ "jose-elias-alvarez/null-ls.nvim" })
@@ -585,36 +586,38 @@ for _, lsp in ipairs(servers) do
 end
 
 local null_ls = require("null-ls")
-
--- register any number of sources simultaneously
-local sources = {
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.stylua.with({
-        args = { "--indent-type=Spaces", "-" },
-    }),
-    null_ls.builtins.formatting.shfmt,
-    null_ls.builtins.formatting.cmake_format.with({
-        extra_args = { "--tab-size=4" },
-    }),
-    null_ls.builtins.formatting.sqlformat.with({
-        command = "pg_format",
-        args = { "-" },
-    }),
-    null_ls.builtins.formatting.black,
-
-    null_ls.builtins.diagnostics.selene,
-    null_ls.builtins.diagnostics.hadolint,
-    null_ls.builtins.diagnostics.shellcheck,
-    null_ls.builtins.diagnostics.markdownlint,
-    null_ls.builtins.diagnostics.golangci_lint,
-
-    null_ls.builtins.code_actions.gitsigns,
-}
-
-null_ls.config({ sources = sources })
-nvim_lsp["null-ls"].setup({
+null_ls.setup({
     on_attach = on_attach,
     capabilities = capabilities,
+    -- register any number of sources simultaneously
+    sources = {
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.stylua.with({
+            args = { "--indent-type=Spaces", "-" },
+        }),
+        null_ls.builtins.formatting.shfmt,
+        null_ls.builtins.formatting.cmake_format.with({
+            extra_args = { "--tab-size=4" },
+        }),
+        null_ls.builtins.formatting.sqlformat.with({
+            command = "pg_format",
+            args = { "-" },
+        }),
+        null_ls.builtins.formatting.black,
+
+        null_ls.builtins.diagnostics.ansiblelint,
+        null_ls.builtins.diagnostics.selene,
+        null_ls.builtins.diagnostics.hadolint,
+        null_ls.builtins.diagnostics.shellcheck,
+        null_ls.builtins.diagnostics.markdownlint,
+        null_ls.builtins.diagnostics.golangci_lint,
+        null_ls.builtins.diagnostics.yamllint.with({
+            command = "js-yaml",
+            args = { "-" },
+        }),
+
+        null_ls.builtins.code_actions.gitsigns,
+    },
 })
 
 -- lua
