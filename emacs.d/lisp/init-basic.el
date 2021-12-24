@@ -21,7 +21,6 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(fset 'list-buffers 'ibuffer)
 
 ;; Good pixel line scrolling
 (if (boundp 'pixel-scroll-precision-mode)
@@ -68,6 +67,7 @@
         scroll-preserve-screen-position t
         use-short-answers t
         visible-bell t ;; 错误操作时的窗口闪动警告
+        load-prefer-newer t
         ring-bell-function 'ignore
         display-raw-bytes-as-hex t    ;; Improve display
         use-file-dialog nil

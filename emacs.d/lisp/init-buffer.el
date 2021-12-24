@@ -49,6 +49,8 @@
 
 (use-package ibuffer
   :ensure nil
+  :init
+  (advice-add 'list-buffers :override 'ibuffer)
   :bind ("C-x C-b" . ibuffer)
   :hook (ibuffer-mode . ibuffer-auto-mode)
   :config

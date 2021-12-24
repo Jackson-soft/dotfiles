@@ -68,8 +68,8 @@
   )
 
 (use-package lsp-mode
-  :hook (((web-mode json-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
-                    css-mode sh-mode yaml-mode sql-mode nginx-mode) . lsp-deferred)
+  :hook (((web-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
+                    css-mode sh-mode yaml-mode nginx-mode) . lsp-deferred)
          ((go-mode c++-mode c-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))

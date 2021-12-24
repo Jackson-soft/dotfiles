@@ -15,6 +15,8 @@ else
     if (( ! ${+LSCOLORS} )) export LSCOLORS='ExfxcxdxbxGxDxabagacad'
 fi
 
+setopt sharehistory autocd autopushd
+
 # see https://thevaluable.dev/zsh-completion-guide-examples
 # cd 不区分大小写
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
