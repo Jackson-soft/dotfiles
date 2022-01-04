@@ -14,6 +14,7 @@
 
 (use-package org
   :ensure nil
+  :hook (org-mode . org-indent-mode)
   :custom
   (org-fontify-quote-and-verse-blocks t)
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
@@ -122,7 +123,6 @@
 
   (use-package ox-html
     :ensure nil
-    :after org
     :config
     (setq org-html-doctype "html5"
           org-html-html5-fancy t
@@ -185,8 +185,6 @@
          ("C-c n c" . org-roam-capture)
          ;; Dailies
          ("C-c n j" . org-roam-dailies-capture-today))
-  :init
-  (setq org-roam-v2-ack t)
   :config
   (setq org-roam-directory (file-truename "~/myDoc/myBlog")
         org-roam-completion-everywhere t)

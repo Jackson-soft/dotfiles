@@ -42,7 +42,7 @@ zinit as"null" wait"1" lucid from"gh-r" for \
     sbin"selene" Kampfkarren/selene \
     sbin"**/rg" cp"**/doc/rg.1 -> $ZINIT[MAN_DIR]/man1" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
     sbin"**/fd" cp"**/fd.1 -> $ZINIT[MAN_DIR]/man1" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
-    sbin"zoxide" cp"**/man/zoxide.1 -> $ZINIT[MAN_DIR]/man1" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
+    sbin"zoxide" cp"man/zoxide.1 -> $ZINIT[MAN_DIR]/man1" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
     sbin"**/bat" atload"alias cat='bat'" cp"**/bat.1 -> $ZINIT[MAN_DIR]/man1" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
     sbin"**/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
     cp"**/man/exa.1 -> $ZINIT[MAN_DIR]/man1" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" ogham/exa \

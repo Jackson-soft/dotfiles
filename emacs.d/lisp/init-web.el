@@ -13,6 +13,8 @@
          ((typescript-mode js-mode) . tide-hl-identifier-mode))
   )
 
+(use-package json-mode)
+
 (use-package web-mode
   :mode ("\\.html?\\'" . web-mode)
   :config

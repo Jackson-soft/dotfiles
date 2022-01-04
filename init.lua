@@ -21,7 +21,6 @@ packer.startup(function()
 
     -- Some requied Lua plugins
     use({
-        "nvim-lua/popup.nvim",
         "nvim-lua/plenary.nvim",
     })
 
@@ -40,6 +39,26 @@ packer.startup(function()
                     changedelete = { hl = "GitGutterChange", text = "~" },
                 },
             })
+        end,
+    })
+
+    use({
+        "sindrets/diffview.nvim",
+        config = function()
+            require("diffview").setup({})
+        end,
+    })
+
+    use({
+        "TimUntersberger/neogit",
+        config = function()
+            local neogit = require("neogit")
+            neogit.setup({
+                integrations = {
+                    diffview = true,
+                },
+            })
+            neogit.config.use_magit_keybindings()
         end,
     })
 
@@ -116,7 +135,14 @@ packer.startup(function()
     use({
         "kyazdani42/nvim-tree.lua",
         config = function()
-            require("nvim-tree").setup()
+            vim.g.nvim_tree_respect_buf_cwd = 1
+            require("nvim-tree").setup({
+                update_cwd = true,
+                update_focused_file = {
+                    enable = true,
+                    update_cwd = true,
+                },
+            })
 
             vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", {
                 noremap = true,
@@ -499,7 +525,6 @@ vim.cmd([[
 
 -- LSP settings
 local nvim_lsp = require("lspconfig")
-local protocol = require("vim.lsp.protocol")
 
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...)
@@ -516,9 +541,9 @@ local on_attach = function(client, bufnr)
     local opts = { noremap = true, silent = true }
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    buf_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    buf_set_keymap("n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
     buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
     buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
@@ -528,11 +553,11 @@ local on_attach = function(client, bufnr)
     buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
     buf_set_keymap("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
     buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    buf_set_keymap("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-    buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-    buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
-    buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-    --  buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    buf_set_keymap("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+    buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+    buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+    buf_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+    -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     require("lsp_signature").on_attach()
 
@@ -569,9 +594,8 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-vim.cmd('autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({border="single", focusable=false})')
-
-local capabilities = require("cmp_nvim_lsp").update_capabilities(protocol.make_client_capabilities())
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 
 local servers = { "pyright", "bashls", "dockerls", "dotls", "gopls", "yamlls", "clangd", "jsonls" }
 

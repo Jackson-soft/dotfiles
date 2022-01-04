@@ -8,7 +8,6 @@
 
 (use-package dired
   :ensure nil
-  :hook (dired-mode . dired-hide-details-mode)
   :config
   (setq dired-dwim-target t    ;; Quickly copy/move file in Dired
         delete-by-moving-to-trash t  ;; Move files to trash when deleting
@@ -33,20 +32,26 @@
   :ensure nil
   :hook (dired-mode . dired-omit-mode)
   :config
-  (setq dired-omit-files (concat dired-omit-files
-                                 "\\|^.DS_Store$\\|^.cache$\\|^.git*\\|^.idea$\\|^.vscode$\\|\\.elc$"))
+  ;; Make dired-omit-mode hide all "dotfiles"
+  (setq dired-omit-files
+        (concat dired-omit-files "\\|^\\..*$"))
   )
 
-;; (use-package all-the-icons-dired
-;;   :hook (dired-mode . all-the-icons-dired-mode)
-;;   :config
-;;   (setq all-the-icons-dired-monochrome nil)
-;;   )
-
 (use-package dirvish
-  :hook (dirvish-mode . dirvish-override-dired-jump)
   :bind (("C-c d" . dirvish)
-         ("C-c f" . dirvish-dired))
+         ("C-c f" . dirvish-dired)
+         :map dirvish-mode-map
+         ("SPC" . dirvish-show-history)
+         ("o" . dirvish-other-buffer))
+  :config
+  ;; Override dired with dirvish globally
+  (dirvish-override-dired-mode)
+
+  (use-package dirvish-yank
+    :ensure nil
+    :bind (:map dirvish-mode-map
+                ([remap dired-do-copy] . dirvish-yank))
+    )
   )
 
 (provide 'init-dired)

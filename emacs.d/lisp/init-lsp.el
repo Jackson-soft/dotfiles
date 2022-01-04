@@ -16,13 +16,13 @@
 ;; html -> sudo pacman -S tidy
 ;; json -> brew install jq
 ;; javascript/typescritp -> sudo npm i -g eslint
-;; lua -> sudo luarocks install luacheck
-;; markdown -> sudo npm i -g markdownlint-cli markdownlint
+;; markdown -> sudo npm i -g markdownlint-cli
 ;; python3 -> sudo python3 -m pip install -U mypy
 ;; yaml -> sudo npm i -g js-yaml
 ;; dockerfile -> brew install hadolint
 ;; shell -> brew install shellcheck
 
+;; https://www.flycheck.org/en/latest/
 (use-package flycheck
   :hook (prog-mode . flycheck-mode)
   :config
@@ -46,18 +46,29 @@
                             ))
   )
 
+;; https://company-mode.github.io/manual/
 (use-package company
   :hook (after-init . global-company-mode)
-  :bind ("M-/" . company-complete)
+  :bind (:map company-mode-map
+              ([remap completion-at-point] . company-complete)
+              :map company-active-map
+              ("C-s"     . company-filter-candidates)
+              ([tab]     . company-complete-common-or-cycle)
+              ([backtab] . company-select-previous-or-abort))
   :custom
   (company-dabbrev-code-ignore-case nil)
   (company-dabbrev-code-everywhere t)
+  (company-files-exclusions '(".git/" ".DS_Store"))
   :config
   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
         company-minimum-prefix-length 1
         company-require-match 'company-explicit-action-p
         company-tooltip-limit 12
         company-tooltip-width-grow-only t
+        company-tooltip-flip-when-above t
+        company-show-quick-access 'left
+        company-transformers '(delete-consecutive-dups
+                               company-sort-by-occurrence)
         company-backends '(company-files
                            company-cmake
                            company-capf
@@ -67,6 +78,7 @@
                            ))
   )
 
+;; https://emacs-lsp.github.io/lsp-mode/
 (use-package lsp-mode
   :hook (((web-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
                     css-mode sh-mode yaml-mode nginx-mode) . lsp-deferred)

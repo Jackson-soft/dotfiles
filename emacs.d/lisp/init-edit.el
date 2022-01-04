@@ -41,6 +41,14 @@
          ("M-Z" . zap-to-char)) ;; M-S-z
   )
 
+;; Highlight parenthesises
+(use-package paren
+  :ensure nil
+  :config
+  (setq show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t)
+  )
+
 ;; Automatic parenthesis pairing
 (use-package elec-pair
   :ensure nil

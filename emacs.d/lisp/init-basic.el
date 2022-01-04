@@ -85,7 +85,8 @@
 
 (use-package simple
   :ensure nil
-  :bind ("C-z" . undo-redo)
+  :bind (("C-z" . undo-redo)
+         ([remap just-one-space] . cycle-spacing))
   :config
   (setq visual-line-fringe-indicators '(nil right-curly-arrow)
         ;; save current clipboard text
