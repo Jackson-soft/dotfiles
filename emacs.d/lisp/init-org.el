@@ -14,7 +14,6 @@
 
 (use-package org
   :ensure nil
-  :hook (org-mode . org-indent-mode)
   :custom
   (org-fontify-quote-and-verse-blocks t)
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
@@ -24,15 +23,20 @@
                       org-id
                       org-toc
                       org-habit
+                      org-protocol
+                      org-mac-link
                       ol-eww
                       ol-info)
         org-pretty-entities t
         org-startup-indented t  ;; 开启折行
         org-startup-with-inline-images t
+
+        ;; Org Logging
         org-log-into-drawer t
-        org-image-actual-width nil
-        org-support-shift-select 'always
         org-log-done 'time
+
+        org-image-actual-width 500 ;; show all images at 500px using imagemagik
+        org-support-shift-select 'always
         org-catch-invisible-edits 'smart
         org-hide-macro-markers t
         org-hide-emphasis-markers t
@@ -44,7 +48,7 @@
         org-fontify-todo-headline t
         org-fontify-done-headline t
         org-fontify-whole-heading-line t
-        org-adapt-indentation nil
+        org-adapt-indentation t
         org-special-ctrl-a/e t
         org-special-ctrl-k t
         )
@@ -74,7 +78,6 @@
 
   (use-package org-id
     :ensure nil
-    :after org
     :config
     (setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
     )
@@ -91,7 +94,6 @@
 
   (use-package org-table
     :ensure nil
-    :after org
     :config
     (setq org-table-header-line-p t)
     )
@@ -100,7 +102,6 @@
   (use-package org-src
     :ensure nil
     :hook (org-babel-after-execute . org-redisplay-inline-images)
-    :after org
     :config
     (setq org-src-preserve-indentation t
           org-src-window-setup 'other-window)
@@ -109,7 +110,6 @@
   ;; export
   (use-package ox
     :ensure nil
-    :after org
     :config
     (setq org-export-with-tags 'not-in-toc
           org-export-with-author nil
@@ -129,8 +129,7 @@
           org-html-checkbox-type 'unicode)
     )
 
-  (use-package ob-restclient
-    :after ob)
+  (use-package ob-restclient)
 
   (org-babel-do-load-languages
    'org-babel-load-languages '((shell . t)

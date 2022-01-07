@@ -282,7 +282,36 @@ packer.startup(function()
     use({
         "onsails/lspkind-nvim",
         config = function()
-            require("lspkind").init({})
+            require("lspkind").init({
+                preset = "codicons",
+                symbol_map = {
+                    Text = "",
+                    Method = "",
+                    Function = "",
+                    Constructor = "",
+                    Field = "ﰠ",
+                    Variable = "",
+                    Class = "ﴯ",
+                    Interface = "",
+                    Module = "",
+                    Property = "ﰠ",
+                    Unit = "塞",
+                    Value = "",
+                    Enum = "",
+                    Keyword = "",
+                    Snippet = "",
+                    Color = "",
+                    File = "",
+                    Reference = "",
+                    Folder = "",
+                    EnumMember = "",
+                    Constant = "",
+                    Struct = "פּ",
+                    Event = "",
+                    Operator = "",
+                    TypeParameter = "",
+                },
+            })
         end,
     })
 
@@ -356,20 +385,15 @@ packer.startup(function()
                     }),
                 },
 
-                documentation = {
-                    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-                    winhighlight = "FloatBorder:TelescopeBorder",
-                },
-
                 formatting = {
                     format = lspkind.cmp_format({
-                        with_text = true,
+                        with_text = false,
                         menu = {
                             buffer = "[Buffer]",
                             nvim_lsp = "[LSP]",
                             luasnip = "[LuaSnip]",
                             nvim_lua = "[Lua]",
-                            path = "[Path]",
+                            latex_symbols = "[Latex]",
                         },
                     }),
                 },
@@ -587,15 +611,14 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
     severity_sort = true,
 })
 
-local signs = { Error = " ", Warn = "", Hint = " ", Info = " " }
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
 
 for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local servers = { "pyright", "bashls", "dockerls", "dotls", "gopls", "yamlls", "clangd", "jsonls" }
 

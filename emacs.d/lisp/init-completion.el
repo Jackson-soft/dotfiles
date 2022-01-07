@@ -88,7 +88,7 @@
   )
 
 (use-package all-the-icons-completion
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+  :hook (emacs-startup . all-the-icons-completion-mode)
   )
 
 (provide 'init-completion)

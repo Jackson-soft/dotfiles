@@ -15,7 +15,7 @@ else
     if (( ! ${+LSCOLORS} )) export LSCOLORS='ExfxcxdxbxGxDxabagacad'
 fi
 
-setopt sharehistory autocd autopushd
+setopt share_history
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
 # cd 不区分大小写
