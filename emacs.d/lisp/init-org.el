@@ -173,6 +173,8 @@
 ;; 表格对齐
 (use-package valign
   :hook ((org-mode markdown-mode) . valign-mode)
+  :config
+  (setq valign-fancy-bar t)
   )
 
 (use-package org-roam

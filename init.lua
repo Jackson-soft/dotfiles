@@ -54,11 +54,11 @@ packer.startup(function()
         config = function()
             local neogit = require("neogit")
             neogit.setup({
+                use_magit_keybindings = true,
                 integrations = {
                     diffview = true,
                 },
             })
-            neogit.config.use_magit_keybindings()
         end,
     })
 
@@ -118,8 +118,11 @@ packer.startup(function()
     use({
         "navarasu/onedark.nvim",
         config = function()
-            vim.g.onedark_style = "cool"
-            require("onedark").setup()
+            local onedark = require("onedark")
+            onedark.setup({
+                style = "cool",
+            })
+            onedark.load()
         end,
     })
 
@@ -190,7 +193,11 @@ packer.startup(function()
                         "http",
                         "javascript",
                         "json",
+                        "jsonc",
                         "lua",
+                        "make",
+                        "markdown",
+                        "ninja",
                         "python",
                         "regex",
                         "toml",
@@ -387,14 +394,16 @@ packer.startup(function()
 
                 formatting = {
                     format = lspkind.cmp_format({
-                        with_text = false,
-                        menu = {
-                            buffer = "[Buffer]",
-                            nvim_lsp = "[LSP]",
-                            luasnip = "[LuaSnip]",
-                            nvim_lua = "[Lua]",
-                            latex_symbols = "[Latex]",
-                        },
+                        with_text = true,
+                        menu = ({
+        buffer = "[﬘ Buf]",
+        nvim_lsp = "[ LSP]",
+        luasnip = "[ LSnip]",
+        snippet = "[ VSnip]",
+        nvim_lua = "[ NvimLua]",
+        latex_symbols = "[ Latex]",
+        rg = "[ RG]",
+      }),
                     }),
                 },
 

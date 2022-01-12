@@ -42,16 +42,11 @@
          ("C-c f" . dirvish-dired)
          :map dirvish-mode-map
          ("SPC" . dirvish-show-history)
+         ([remap dired-do-copy] . dirvish-yank)
          ("o" . dirvish-other-buffer))
   :config
   ;; Override dired with dirvish globally
   (dirvish-override-dired-mode)
-
-  (use-package dirvish-yank
-    :ensure nil
-    :bind (:map dirvish-mode-map
-                ([remap dired-do-copy] . dirvish-yank))
-    )
   )
 
 (provide 'init-dired)
