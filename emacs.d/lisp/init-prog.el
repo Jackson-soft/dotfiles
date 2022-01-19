@@ -56,6 +56,7 @@
                                (sh-mode . shfmt)
                                (dockerfile-mode . shfmt)
                                (cmake-mode . cmake-format)
+                               (protobuf-mode . clang-format)
                                (sql-mode . pgfmt)))
   )
 

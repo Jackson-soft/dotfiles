@@ -31,7 +31,7 @@ zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
 zinit light junegunn/fzf
 #+end_src
 
-这里需要说明一下， ~fzf~ 的键位绑定需要 ~source key-bindings.zsh~ ，但我们 =from"gh-r"= 即 ( =github-release= ) 下载的二进制包里是
+这里需要说明一下， =fzf= 的键位绑定需要 ~source key-bindings.zsh~ ，但我们从 =from"gh-r"= 即( =github-release= )下载的二进制包里是
 没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添加
 #+begin_src shell
 dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
@@ -180,13 +180,13 @@ forgit_fixup=gfu
 #+end_src
 
 **** ~git-extras~
-[[https://github.com/tj/git-extras][git-extras]] ~git~ 的扩展工具包。
+[[https://github.com/tj/git-extras][git-extras]] ~git~ 的扩展工具包，有很多实用的工具封装。
 
 * ~Vim~
 目前是用 [[https://github.com/neovim/neovim][Neovim]] 替代，主要是满足日常配置脚本之用。选择 ~Neovim~ 主要原因是配置文件可以用 ~Lua~ 来写，对于 ~vimscript~ 还是不
 太熟悉。
 
-所有配置都在 [[file:init.lua][init.lua]] ,用到 ~Neovim~ 内置的 ~tree-siter~ 和 ~lsp~ 。
+所有配置都在 [[file:init.lua][init.lua]] ，用到 ~Neovim~ 内置的 ~tree-siter~ 和 ~lsp~ 。
 
 * 终端
 原来在 ~Mac OS~ 上一直用 ~iTerm2~ ，后来改用跨平台终端 [[https://github.com/kovidgoyal/kitty][kitty]] ,主要原因是：
@@ -197,6 +197,8 @@ forgit_fixup=gfu
 
 ~PS~ : ~kitty~ 还有一个 ~Rust~ 写的竞品 [[https://github.com/alacritty/alacritty][Alacritty]] ，但它的作者对于有些功能的执拗，不愿实现有些对我来说比较实用的功能，
 故没用（比如：标签，作者对于标签一直觉得可以搭配 ~tmux~ 来实现，具体参见 [[https://github.com/alacritty/alacritty/issues/1544][Investigate macOS tabs]] ）。
+
+最近发现了一个比较新的 =C++= 写的现代终端 [[https://github.com/contour-terminal/contour][Contour]] ，目前完成度较低，保持观望中。
 
 这里纪录一些常用的默认快捷键：
 

@@ -395,15 +395,14 @@ packer.startup(function()
                 formatting = {
                     format = lspkind.cmp_format({
                         with_text = true,
-                        menu = ({
-        buffer = "[﬘ Buf]",
-        nvim_lsp = "[ LSP]",
-        luasnip = "[ LSnip]",
-        snippet = "[ VSnip]",
-        nvim_lua = "[ NvimLua]",
-        latex_symbols = "[ Latex]",
-        rg = "[ RG]",
-      }),
+                        menu = {
+                            buffer = "[﬘ Buf]",
+                            nvim_lsp = "[ LSP]",
+                            luasnip = "[ LSnip]",
+                            nvim_lua = "[ NvimLua]",
+                            latex_symbols = "[ Latex]",
+                            rg = "[ RG]",
+                        },
                     }),
                 },
 
