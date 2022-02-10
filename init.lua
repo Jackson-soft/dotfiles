@@ -32,12 +32,61 @@ packer.startup(function()
             require("gitsigns").setup({
                 numhl = true,
                 signs = {
-                    add = { hl = "GitGutterAdd", text = "+" },
-                    change = { hl = "GitGutterChange", text = "~" },
-                    delete = { hl = "GitGutterDelete", text = "_" },
-                    topdelete = { hl = "GitGutterDelete", text = "‾" },
-                    changedelete = { hl = "GitGutterChange", text = "~" },
+                    add = { hl = "GitSignsAdd", text = "+", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+                    change = {
+                        hl = "GitSignsChange",
+                        text = "│",
+                        numhl = "GitSignsChangeNr",
+                        linehl = "GitSignsChangeLn",
+                    },
+                    delete = {
+                        hl = "GitSignsDelete",
+                        text = "_",
+                        numhl = "GitSignsDeleteNr",
+                        linehl = "GitSignsDeleteLn",
+                    },
+                    topdelete = {
+                        hl = "GitSignsDelete",
+                        text = "‾",
+                        numhl = "GitSignsDeleteNr",
+                        linehl = "GitSignsDeleteLn",
+                    },
+                    changedelete = {
+                        hl = "GitSignsChange",
+                        text = "~",
+                        numhl = "GitSignsChangeNr",
+                        linehl = "GitSignsChangeLn",
+                    },
                 },
+                on_attach = function(bufnr)
+                    local function map(mode, lhs, rhs, opts)
+                        opts = vim.tbl_extend("force", { noremap = true, silent = true }, opts or {})
+                        vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, opts)
+                    end
+
+                    -- Navigation
+                    map("n", "]c", "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
+                    map("n", "[c", "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+
+                    -- Actions
+                    map("n", "<leader>hs", ":Gitsigns stage_hunk<CR>")
+                    map("v", "<leader>hs", ":Gitsigns stage_hunk<CR>")
+                    map("n", "<leader>hr", ":Gitsigns reset_hunk<CR>")
+                    map("v", "<leader>hr", ":Gitsigns reset_hunk<CR>")
+                    map("n", "<leader>hS", "<cmd>Gitsigns stage_buffer<CR>")
+                    map("n", "<leader>hu", "<cmd>Gitsigns undo_stage_hunk<CR>")
+                    map("n", "<leader>hR", "<cmd>Gitsigns reset_buffer<CR>")
+                    map("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>")
+                    map("n", "<leader>hb", '<cmd>lua require"gitsigns".blame_line{full=true}<CR>')
+                    map("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<CR>")
+                    map("n", "<leader>hd", "<cmd>Gitsigns diffthis<CR>")
+                    map("n", "<leader>hD", '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+                    map("n", "<leader>td", "<cmd>Gitsigns toggle_deleted<CR>")
+
+                    -- Text object
+                    map("o", "ih", ":<C-U>Gitsigns select_hunk<CR>")
+                    map("x", "ih", ":<C-U>Gitsigns select_hunk<CR>")
+                end,
             })
         end,
     })
@@ -80,6 +129,7 @@ packer.startup(function()
 
     -- UI to select things (files, grep results, open buffers...)
     use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+    use({ "nvim-telescope/telescope-file-browser.nvim" })
     use({
         "nvim-telescope/telescope.nvim",
         config = function()
@@ -96,7 +146,7 @@ packer.startup(function()
                 },
             })
             telescope.load_extension("fzf")
-            telescope.load_extension("projects")
+            telescope.load_extension("file_browser")
 
             --Add leader shortcuts
             vim.api.nvim_set_keymap(
@@ -111,6 +161,10 @@ packer.startup(function()
                 "<cmd>lua require('telescope.builtin').live_grep()<cr>",
                 { noremap = true, silent = true }
             )
+            vim.api.nvim_set_keymap("n", "<leader>fb", ":Telescope file_browser<cr>", {
+                noremap = true,
+                silent = true,
+            })
         end,
     })
 
@@ -126,36 +180,27 @@ packer.startup(function()
         end,
     })
 
+    -- Shade
+    use({
+        "sunjon/shade.nvim",
+        config = function()
+            require("shade").setup({
+                overlay_opacity = 50,
+                opacity_step = 1,
+                keys = {
+                    brightness_up = "<C-Up>",
+                    brightness_down = "<C-Down>",
+                    toggle = "<Leader>s",
+                },
+            })
+        end,
+    })
+
     -- icons
     use({
         "kyazdani42/nvim-web-devicons",
         config = function()
             require("nvim-web-devicons").setup()
-        end,
-    })
-
-    -- file explorer
-    use({
-        "kyazdani42/nvim-tree.lua",
-        config = function()
-            vim.g.nvim_tree_respect_buf_cwd = 1
-            require("nvim-tree").setup({
-                update_cwd = true,
-                update_focused_file = {
-                    enable = true,
-                    update_cwd = true,
-                },
-            })
-
-            vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<CR>", {
-                noremap = true,
-                silent = true,
-            })
-
-            vim.api.nvim_set_keymap("n", "<leader>tr", ":NvimTreeRefresh<CR>", {
-                noremap = true,
-                silent = true,
-            })
         end,
     })
 
@@ -325,7 +370,10 @@ packer.startup(function()
     use({
         "folke/trouble.nvim",
         config = function()
-            require("trouble").setup({})
+            require("trouble").setup({
+                auto_close = true,
+                use_diagnostic_signs = true,
+            })
 
             vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true, noremap = true })
             vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true, noremap = true })
@@ -414,6 +462,10 @@ packer.startup(function()
                     { name = "path" },
                     { name = "treesitter" },
                     { name = "zsh" },
+                    {
+                        name = "dictionary",
+                        keyword_length = 2,
+                    },
                 }),
             })
         end,
@@ -428,6 +480,16 @@ packer.startup(function()
             { "tamago324/cmp-zsh" },
             { "Shougo/deol.nvim" },
         },
+    })
+    use({
+        "uga-rosa/cmp-dictionary",
+        config = function()
+            require("cmp_dictionary").setup({
+                dic = {
+                    ["*"] = { "/usr/share/dict/words" },
+                },
+            })
+        end,
     })
 
     use({
@@ -444,7 +506,14 @@ packer.startup(function()
     use({
         "windwp/nvim-autopairs",
         config = function()
-            require("nvim-autopairs").setup()
+            require("nvim-autopairs").setup({
+                check_ts = true,
+                ts_config = {
+                    lua = { "string", "source" },
+                    javascript = { "string", "template_string" },
+                    java = false,
+                },
+            })
         end,
     })
 
@@ -462,7 +531,7 @@ packer.startup(function()
         config = function()
             require("lualine").setup({
                 options = { theme = "onedark" },
-                extensions = { "nvim-tree", "toggleterm" },
+                extensions = { "toggleterm" },
             })
         end,
     })
@@ -479,6 +548,18 @@ packer.startup(function()
             })
 
             vim.api.nvim_set_keymap("n", "<Leader>rt", "<Plug>RestNvim", { noremap = false })
+            vim.api.nvim_set_keymap("n", "<Leader>rp", "<Plug>RestNvimPreview", { noremap = false })
+            vim.api.nvim_set_keymap("n", "<Leader>rl", "<Plug>RestNvimLast", { noremap = false })
+        end,
+    })
+
+    -- go
+    use({
+        "ray-x/go.nvim",
+        config = function()
+            require("go").setup({
+                gofmt = "gopls",
+            })
         end,
     })
 

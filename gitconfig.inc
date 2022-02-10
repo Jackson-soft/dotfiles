@@ -1,14 +1,9 @@
 [core]
     editor = nvim
+    pager = delta
 
 [pull]
     rebase = false
-
-[pager]
-    diff = delta
-    log = delta
-    reflog = delta
-    show = delta
 
 [interactive]
     diffFilter = delta --color-only --features=interactive
@@ -27,3 +22,9 @@
     hunk-header-file-style = red
     hunk-header-line-number-style = "#067a00"
     hunk-header-style = file line-number syntax
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default

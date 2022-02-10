@@ -12,17 +12,17 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
+ZI_REPO="zdharma-continuum"
 zinit light-mode for \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-bin-gem-node
+    "$ZI_REPO"/zinit-annex-{'patch-dl','bin-gem-node'}
 
 zinit wait lucid light-mode for \
     atinit"zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
-        zdharma-continuum/fast-syntax-highlighting \
+        "$ZI_REPO"/fast-syntax-highlighting \
     atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
-    blockf atpull'zinit creinstall -q .' \
+    blockf \
         zsh-users/zsh-completions
 
 # git extensions
@@ -40,12 +40,12 @@ zinit as"null" wait"1" lucid from"gh-r" for \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"stylua" JohnnyMorganz/StyLua \
     sbin"selene" Kampfkarren/selene \
-    sbin"**/rg" cp"**/doc/rg.1 -> $ZINIT[MAN_DIR]/man1" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
-    sbin"**/fd" cp"**/fd.1 -> $ZINIT[MAN_DIR]/man1" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
-    sbin"**/bat" atload"alias cat='bat'" cp"**/bat.1 -> $ZINIT[MAN_DIR]/man1" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
-    sbin"zoxide" cp"man/zoxide.1 -> $ZINIT[MAN_DIR]/man1" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
+    sbin"**/rg" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
+    sbin"**/fd" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
+    sbin"**/bat" atload"alias cat='bat'" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
+    sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
     sbin"**/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
-    cp"**/man/exa.1 -> $ZINIT[MAN_DIR]/man1" mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" ogham/exa \
+    mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" ogham/exa \
     sbin"cheat" mv"cheat** -> cheat" cheat/cheat \
     sbin"procs" atload"alias ps=procs" dalance/procs \
     sbin"jq" mv"jq* -> jq" stedolan/jq \
@@ -57,8 +57,7 @@ zinit as"null" wait"1" lucid from"gh-r" for \
 zinit ice as"null" wait"0b" lucid from"gh-r" sbin"fzf" \
     dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf' \
     dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/man/man1/fzf.1 -> fzf.1' \
-    src'key-bindings.zsh' atclone"cp -vf fzf.1 $ZINIT[MAN_DIR]/man1; cp -vf _fzf $ZINIT[COMPLETIONS_DIR]"
+    src'key-bindings.zsh' atclone"cp -vf _fzf $ZINIT[COMPLETIONS_DIR]"
 zinit light junegunn/fzf
 
 # completion

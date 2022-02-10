@@ -42,8 +42,10 @@
          ("C-c f" . dirvish-dired)
          :map dirvish-mode-map
          ("SPC" . dirvish-show-history)
+         ("M-m" . dirvish-toggle-fullscreen)
+         ([remap dired-summary] . dirvish-dispatch)
          ([remap dired-do-copy] . dirvish-yank)
-         ("o" . dirvish-other-buffer))
+         ([remap mode-line-other-buffer] . dirvish-other-buffer))
   :config
   ;; Override dired with dirvish globally
   (dirvish-override-dired-mode)
