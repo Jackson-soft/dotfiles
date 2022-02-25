@@ -33,16 +33,14 @@
   :hook (window-setup . window-divider-mode)
   :bind ("<f10>" . toggle-frame-fullscreen)
   :config
-  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (add-to-list 'default-frame-alist '(font . "Fira Code-17"))
 
   ;; Display dividers between windows
   (setq window-divider-default-places t
         window-divider-default-bottom-width 1
-        window-divider-default-right-width 1)
-
-  (setq-default window-resize-pixelwise t
-                frame-resize-pixelwise t)
+        window-divider-default-right-width 1
+        window-resize-pixelwise t)
   )
 
 (use-package emacs

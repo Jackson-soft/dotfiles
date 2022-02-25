@@ -7,6 +7,12 @@
 
 ;;; Code:
 
+;; Use the `orderless' completion style.
+(use-package orderless
+  :custom
+  (completion-styles '(orderless partial-completion))
+  )
+
 (use-package minibuffer
   :ensure nil
   :hook (minibuffer-setup . cursor-intangible-mode)
@@ -26,7 +32,8 @@
         completion-pcm-complete-word-inserts-delimiters t
         completion-cycle-threshold 3
         completion-ignore-case t
-        ;; completion-category-defaults nil
+
+        completion-category-defaults nil
         completion-category-overrides '((file (styles . (basic partial-completion orderless))))
 
         completions-detailed t
@@ -49,8 +56,6 @@
 
 (use-package ibuffer
   :ensure nil
-  :init
-  (advice-add 'list-buffers :override 'ibuffer)
   :bind ("C-x C-b" . ibuffer)
   :hook (ibuffer-mode . ibuffer-auto-mode)
   :config

@@ -20,10 +20,10 @@ zinit wait lucid light-mode for \
     atinit"zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
         "$ZI_REPO"/fast-syntax-highlighting \
-    atload"_zsh_autosuggest_start" \
-        zsh-users/zsh-autosuggestions \
     blockf \
-        zsh-users/zsh-completions
+        zsh-users/zsh-completions \
+    atload"!_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions
 
 # git extensions
 zinit lucid wait'0a' as"program" for \
@@ -43,6 +43,7 @@ zinit as"null" wait"1" lucid from"gh-r" for \
     sbin"**/rg" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
     sbin"**/fd" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
     sbin"**/bat" atload"alias cat='bat'" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
+    sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
     sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
     sbin"**/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
     mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" ogham/exa \
@@ -74,9 +75,7 @@ zinit light-mode lucid wait has"kubectl" for \
 local dotHome=${HOME}/myDoc/dotfiles
 source ${dotHome}/zsh/conf.zsh
 # fzf
-if (( $+commands[fzf] )); then
-    source ${dotHome}/zsh/fzf.zsh
-fi
+source ${dotHome}/zsh/fzf.zsh
 
 export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin
 

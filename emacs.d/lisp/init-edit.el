@@ -80,8 +80,7 @@
         isearch-motion-changes-direction t
         isearch-regexp-lax-whitespace t
         isearch-resume-in-command-history t
-        ;; lazy isearch
-        isearch-lazy-count t
+        isearch-lazy-count t         ;; lazy isearch
         isearch-repeat-on-direction-change t
         lazy-highlight-buffer t)
   )
@@ -89,7 +88,6 @@
 ;; replace
 (use-package replace
   :ensure nil
-  :hook (occur-mode . hl-line-mode)
   :config
   (setq list-matching-lines-jump-to-current-line t)
   )

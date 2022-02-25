@@ -20,9 +20,7 @@ packer.startup(function()
     use({ "wbthomason/packer.nvim" })
 
     -- Some requied Lua plugins
-    use({
-        "nvim-lua/plenary.nvim",
-    })
+    use({ "nvim-lua/plenary.nvim" })
 
     -- git
     use({
@@ -128,8 +126,6 @@ packer.startup(function()
     })
 
     -- UI to select things (files, grep results, open buffers...)
-    use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-    use({ "nvim-telescope/telescope-file-browser.nvim" })
     use({
         "nvim-telescope/telescope.nvim",
         config = function()
@@ -138,7 +134,7 @@ packer.startup(function()
                 extensions = {
                     fzf = {
                         fuzzy = true, -- false will only do exact matching
-                        override_generic_sorter = false, -- override the generic sorter
+                        override_generic_sorter = true, -- override the generic sorter
                         override_file_sorter = true, -- override the file sorter
                         case_mode = "smart_case", -- or "ignore_case" or "respect_case"
                         -- the default case_mode is "smart_case"
@@ -166,6 +162,10 @@ packer.startup(function()
                 silent = true,
             })
         end,
+        requires = {
+            { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+            "nvim-telescope/telescope-file-browser.nvim",
+        },
     })
 
     -- Themes
@@ -216,118 +216,128 @@ packer.startup(function()
 
     -- Highlights
     use({
-        { "nvim-treesitter/nvim-treesitter-refactor" },
-        { "nvim-treesitter/nvim-treesitter-textobjects" },
-        {
-            "nvim-treesitter/nvim-treesitter",
-            run = ":TSUpdate",
-            config = function()
-                require("nvim-treesitter.configs").setup({
-                    ensure_installed = {
-                        "bash",
-                        "c",
-                        "cmake",
-                        "comment",
-                        "cpp",
-                        "css",
-                        "dockerfile",
-                        "dot",
-                        "go",
-                        "gomod",
-                        "html",
-                        "http",
-                        "javascript",
-                        "json",
-                        "jsonc",
-                        "lua",
-                        "make",
-                        "markdown",
-                        "ninja",
-                        "python",
-                        "regex",
-                        "toml",
-                        "typescript",
-                        "yaml",
+        "nvim-treesitter/nvim-treesitter",
+        run = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = {
+                    "bash",
+                    "c",
+                    "cmake",
+                    "comment",
+                    "cpp",
+                    "css",
+                    "dockerfile",
+                    "dot",
+                    "go",
+                    "gomod",
+                    "html",
+                    "http",
+                    "javascript",
+                    "json",
+                    "jsonc",
+                    "lua",
+                    "make",
+                    "markdown",
+                    "ninja",
+                    "python",
+                    "regex",
+                    "toml",
+                    "typescript",
+                    "yaml",
+                },
+                highlight = {
+                    enable = true, -- false will disable the whole extension
+                    language_tree = true,
+                },
+                incremental_selection = {
+                    enable = true,
+                    keymaps = {
+                        init_selection = "gnn",
+                        node_incremental = "grn",
+                        scope_incremental = "grc",
+                        node_decremental = "grm",
                     },
-                    highlight = {
-                        enable = true, -- false will disable the whole extension
-                        language_tree = true,
-                    },
-                    incremental_selection = {
+                },
+                indent = {
+                    enable = true,
+                },
+                refactor = {
+                    highlight_definitions = { enable = true, clear_on_cursor_move = true },
+                    smart_rename = {
                         enable = true,
                         keymaps = {
-                            init_selection = "gnn",
-                            node_incremental = "grn",
-                            scope_incremental = "grc",
-                            node_decremental = "grm",
+                            smart_rename = "grr",
                         },
                     },
-                    indent = {
+                    navigation = {
                         enable = true,
-                    },
-                    refactor = {
-                        highlight_definitions = { enable = true },
-                        smart_rename = {
-                            enable = true,
-                            keymaps = {
-                                smart_rename = "grr",
-                            },
-                        },
-                        navigation = {
-                            enable = true,
-                            keymaps = {
-                                goto_definition = "gnd",
-                                list_definitions = "gnD",
-                                list_definitions_toc = "gO",
-                                goto_next_usage = "<a-*>",
-                                goto_previous_usage = "<a-#>",
-                            },
+                        keymaps = {
+                            goto_definition = "gnd",
+                            list_definitions = "gnD",
+                            list_definitions_toc = "gO",
+                            goto_next_usage = "<a-*>",
+                            goto_previous_usage = "<a-#>",
                         },
                     },
-                    textobjects = {
-                        select = {
-                            enable = true,
-                            -- Automatically jump forward to textobj, similar to targets.vim
-                            lookahead = true,
-                            keymaps = {
-                                -- You can use the capture groups defined in textobjects.scm
-                                ["af"] = "@function.outer",
-                                ["if"] = "@function.inner",
-                                ["ac"] = "@class.outer",
-                                ["ic"] = "@class.inner",
-                            },
-                        },
-                        move = {
-                            enable = true,
-                            set_jumps = true, -- whether to set jumps in the jumplist
-                            goto_next_start = {
-                                ["]m"] = "@function.outer",
-                                ["]]"] = "@class.outer",
-                            },
-                            goto_next_end = {
-                                ["]M"] = "@function.outer",
-                                ["]["] = "@class.outer",
-                            },
-                            goto_previous_start = {
-                                ["[m"] = "@function.outer",
-                                ["[["] = "@class.outer",
-                            },
-                            goto_previous_end = {
-                                ["[M"] = "@function.outer",
-                                ["[]"] = "@class.outer",
-                            },
-                        },
-                        lsp_interop = {
-                            enable = true,
-                            border = "none",
-                            peek_definition_code = {
-                                ["df"] = "@function.outer",
-                                ["dF"] = "@class.outer",
-                            },
+                },
+                textobjects = {
+                    select = {
+                        enable = true,
+                        -- Automatically jump forward to textobj, similar to targets.vim
+                        lookahead = true,
+                        keymaps = {
+                            -- You can use the capture groups defined in textobjects.scm
+                            ["af"] = "@function.outer",
+                            ["if"] = "@function.inner",
+                            ["ac"] = "@class.outer",
+                            ["ic"] = "@class.inner",
                         },
                     },
-                })
-            end,
+                    swap = {
+                        enable = true,
+                        swap_next = {
+                            ["<leader>a"] = "@parameter.inner",
+                        },
+                        swap_previous = {
+                            ["<leader>A"] = "@parameter.inner",
+                        },
+                    },
+                    move = {
+                        enable = true,
+                        set_jumps = true, -- whether to set jumps in the jumplist
+                        goto_next_start = {
+                            ["]m"] = "@function.outer",
+                            ["]]"] = "@class.outer",
+                        },
+                        goto_next_end = {
+                            ["]M"] = "@function.outer",
+                            ["]["] = "@class.outer",
+                        },
+                        goto_previous_start = {
+                            ["[m"] = "@function.outer",
+                            ["[["] = "@class.outer",
+                        },
+                        goto_previous_end = {
+                            ["[M"] = "@function.outer",
+                            ["[]"] = "@class.outer",
+                        },
+                    },
+                    lsp_interop = {
+                        enable = true,
+                        border = "none",
+                        peek_definition_code = {
+                            ["df"] = "@function.outer",
+                            ["dF"] = "@class.outer",
+                        },
+                    },
+                },
+            })
+        end,
+
+        requires = {
+            { "nvim-treesitter/nvim-treesitter-refactor" },
+            { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
     })
 
@@ -500,7 +510,9 @@ packer.startup(function()
         "ray-x/lsp_signature.nvim",
     })
 
-    use({ "jose-elias-alvarez/null-ls.nvim" })
+    use({
+        "jose-elias-alvarez/null-ls.nvim",
+    })
 
     -- Auto close parentheses
     use({
@@ -639,44 +651,50 @@ vim.cmd([[
 -- LSP settings
 local nvim_lsp = require("lspconfig")
 
-local on_attach = function(client, bufnr)
-    local function buf_set_keymap(...)
-        vim.api.nvim_buf_set_keymap(bufnr, ...)
-    end
-    local function buf_set_option(...)
-        vim.api.nvim_buf_set_option(bufnr, ...)
-    end
+local opts = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+vim.api.nvim_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+vim.api.nvim_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+vim.api.nvim_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
-    --Enable completion triggered by <c-x><c-o>
-    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
     -- Mappings.
-    local opts = { noremap = true, silent = true }
-
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-    buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-    buf_set_keymap("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-    buf_set_keymap("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-    buf_set_keymap("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-    buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
-    buf_set_keymap("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-    buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    buf_set_keymap("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-    buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-    buf_set_keymap("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-    buf_set_keymap("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-    buf_set_keymap("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-    buf_set_keymap("n", "<space>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-    -- buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-
-    require("lsp_signature").on_attach()
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(
+        bufnr,
+        "n",
+        "<space>wl",
+        "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
+        opts
+    )
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+    vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+    -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
     if client.resolved_capabilities.document_formatting then
-        vim.cmd([[ autocmd BufWritePost <buffer> lua vim.lsp.buf.formatting_sync() ]])
+        vim.cmd([[
+            augroup LspFormatting
+                autocmd! * <buffer>
+                autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+            augroup END
+            ]])
     end
+
+    require("lsp_signature").on_attach()
 
     if client.resolved_capabilities.document_highlight then
         vim.cmd([[
@@ -715,16 +733,12 @@ for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
         on_attach = on_attach,
         capabilities = capabilities,
-        flags = {
-            debounce_text_changes = 150,
-        },
     })
 end
 
 local null_ls = require("null-ls")
 null_ls.setup({
     on_attach = on_attach,
-    capabilities = capabilities,
     -- register any number of sources simultaneously
     sources = {
         null_ls.builtins.formatting.prettier,
@@ -762,7 +776,12 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 nvim_lsp.sumneko_lua.setup({
-    on_attach = on_attach,
+    on_attach = function(client, bufnr)
+        on_attach(client, bufnr)
+
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+    end,
     capabilities = capabilities,
     settings = {
         Lua = {

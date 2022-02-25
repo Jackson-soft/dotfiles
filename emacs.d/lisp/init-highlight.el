@@ -11,10 +11,10 @@
 (use-package hl-todo
   :hook (after-init . global-hl-todo-mode)
   :bind (:map hl-todo-mode-map
-              ("C-c p" . hl-todo-previous)
-              ("C-c n" . hl-todo-next)
-              ("C-c i" . hl-todo-insert)
-              ("C-c o" . hl-todo-occur))
+              ("C-c t p" . hl-todo-previous)
+              ("C-c t n" . hl-todo-next)
+              ("C-c t i" . hl-todo-insert)
+              ("C-c t o" . hl-todo-occur))
   )
 
 ;; 高亮当前行

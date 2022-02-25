@@ -47,35 +47,87 @@
   )
 
 ;; https://company-mode.github.io/manual/
-(use-package company
-  :hook (after-init . global-company-mode)
-  :bind (:map company-mode-map
-              ([remap completion-at-point] . company-complete)
-              :map company-active-map
-              ("C-s"     . company-filter-candidates)
-              ([tab]     . company-complete-common-or-cycle)
-              ([backtab] . company-select-previous-or-abort))
-  :custom
-  (company-dabbrev-code-ignore-case nil)
-  (company-dabbrev-code-everywhere t)
-  (company-files-exclusions '(".git/" ".DS_Store"))
+;; (use-package company
+;;   :hook (after-init . global-company-mode)
+;;   :bind (:map company-mode-map
+;;               ([remap completion-at-point] . company-complete)
+;;               :map company-active-map
+;;               ("C-s"     . company-filter-candidates)
+;;               ([tab]     . company-complete-common-or-cycle)
+;;               ([backtab] . company-select-previous-or-abort))
+;;   :custom
+;;   (company-dabbrev-code-ignore-case nil)
+;;   (company-dabbrev-code-everywhere t)
+;;   (company-files-exclusions '(".git/" ".DS_Store"))
+;;   :config
+;;   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
+;;         company-minimum-prefix-length 1
+;;         company-require-match 'company-explicit-action-p
+;;         company-tooltip-limit 12
+;;         company-tooltip-width-grow-only t
+;;         company-tooltip-flip-when-above t
+;;         company-show-quick-access 'left
+;;         company-transformers '(delete-consecutive-dups
+;;                                company-sort-by-occurrence)
+;;         company-backends '(company-files
+;;                            company-cmake
+;;                            company-capf
+;;                            company-ispell
+;;                            (company-dabbrev-code company-keywords company-etags)
+;;                            company-dabbrev
+;;                            ))
+;;   )
+
+(use-package corfu
+  :hook (after-init . corfu-global-mode)
   :config
-  (setq company-tooltip-align-annotations t ;; aligns annotation to the right
-        company-minimum-prefix-length 1
-        company-require-match 'company-explicit-action-p
-        company-tooltip-limit 12
-        company-tooltip-width-grow-only t
-        company-tooltip-flip-when-above t
-        company-show-quick-access 'left
-        company-transformers '(delete-consecutive-dups
-                               company-sort-by-occurrence)
-        company-backends '(company-files
-                           company-cmake
-                           company-capf
-                           company-ispell
-                           (company-dabbrev-code company-keywords company-etags)
-                           company-dabbrev
-                           ))
+  (setq corfu-cycle t                ;; Enable cycling for `corfu-next/previous'
+        corfu-auto t                 ;; Enable auto completion
+        corfu-auto-prefix 2)
+
+  ;; Add extensions
+  (use-package cape
+    ;; Bind dedicated completion commands
+    :bind (("C-c p p" . completion-at-point) ;; capf
+           ("C-c p t" . complete-tag)        ;; etags
+           ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+           ("C-c p f" . cape-file)
+           ("C-c p k" . cape-keyword)
+           ("C-c p s" . cape-symbol)
+           ("C-c p a" . cape-abbrev)
+           ("C-c p i" . cape-ispell)
+           ("C-c p l" . cape-line)
+           ("C-c p r" . cape-rfc1345))
+    :init
+    ;; Add `completion-at-point-functions', used by `completion-at-point'.
+    (dolist (backend '(cape-file cape-dabbrev cape-symbol cape-keyword cape-abbrev cape-ispell cape-line cape-rfc1345))
+      (add-to-list 'completion-at-point-functions backend))
+    )
+
+  (use-package kind-icon
+    :custom
+    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+    :config
+    (add-to-list 'corfu-margin-formatters 'kind-icon-margin-formatter)
+    )
+  )
+
+;; Use dabbrev with Corfu!
+(use-package dabbrev
+  :ensure nil
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_"
+        dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
+        dabbrev-backward-only nil
+        dabbrev-case-distinction 'case-replace
+        dabbrev-case-fold-search nil
+        dabbrev-case-replace 'case-replace
+        dabbrev-check-other-buffers t
+        dabbrev-eliminate-newlines t
+        dabbrev-upcase-means-case-search t)
   )
 
 ;; https://emacs-lsp.github.io/lsp-mode/
@@ -85,6 +137,17 @@
          ((go-mode c++-mode c-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
+  :custom
+  (lsp-completion-provider :none) ;; we use Corfu!
+  :init
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless))) ;; Configure orderless
+
+  ;; Optionally configure the cape-capf-buster.
+  (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))
+  :hook
+  (lsp-completion-mode . my/lsp-mode-setup-completion)
   :config
   (setq lsp-restart 'auto-restart
         lsp-auto-guess-root t

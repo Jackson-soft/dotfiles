@@ -1,12 +1,6 @@
-env:
-    browser: true
-    es2021: true
-    node: true
-    commonjs: true
-    amd: true
 extends:
     - eslint:recommended
-    - prettier
+    - plugin:prettier/recommended
     - plugin:@typescript-eslint/eslint-recommended
     - plugin:@typescript-eslint/recommended
     - plugin:@typescript-eslint/recommended-requiring-type-checking

@@ -15,7 +15,7 @@ export FZF_CTRL_R_OPTS='--sort --exact'
 export FZF_DEFAULT_OPTS="
        --layout=reverse
        --info=inline
-       --height=60%
+       --height=50%
        --multi
        --border
        --preview-window=:hidden
@@ -25,9 +25,6 @@ export FZF_DEFAULT_OPTS="
        --color='info:254,prompt:37,spinner:108,pointer:235,marker:235'
        --bind '?:toggle-preview'
        "
-
-# Options to fzf command
-export FZF_COMPLETION_OPTS='--border --info=inline'
 
 # Use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
@@ -126,13 +123,11 @@ join-lines() {
     done
 }
 
-bind-git-helper() {
+() {
     local c
     for c in $@; do
         eval "fzf-g$c-widget() { local result=\$(_g$c | join-lines); zle reset-prompt; LBUFFER+=\$result }"
         eval "zle -N fzf-g$c-widget"
         eval "bindkey '^g^$c' fzf-g$c-widget"
     done
-}
-bind-git-helper f b t r h s
-unset -f bind-git-helper
+} f b t r h s
