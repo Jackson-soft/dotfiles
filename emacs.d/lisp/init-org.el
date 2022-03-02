@@ -28,7 +28,6 @@
                       ol-eww
                       ol-info)
         org-pretty-entities t
-        org-startup-indented t  ;; 开启折行
         org-startup-with-inline-images t
 
         ;; Org Logging
@@ -136,6 +135,12 @@
                                (dot . t)
                                (restclient . t)
                                (emacs-lisp . t)))
+
+  ;; Rich text clipboard
+  (use-package org-rich-yank
+    :bind (:map org-mode-map
+                ("C-M-y" . org-rich-yank))
+    )
   )
 
 (use-package toc-org
@@ -163,11 +168,8 @@
   )
 
 ;; "prettier" bullets
-(use-package org-superstar
-  :hook (org-mode . org-superstar-mode)
-  :config
-  (setq org-superstar-special-todo-items t
-        org-superstar-leading-bullet ?\s)
+(use-package org-modern
+  :hook (org-mode . org-modern-mode)
   )
 
 ;; 表格对齐

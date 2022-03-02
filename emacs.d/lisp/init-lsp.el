@@ -136,6 +136,7 @@
                     css-mode sh-mode yaml-mode nginx-mode) . lsp-deferred)
          ((go-mode c++-mode c-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
+         (lsp-completion-mode . my/lsp-mode-setup-completion)
          (dired-mode . lsp-dired-mode))
   :custom
   (lsp-completion-provider :none) ;; we use Corfu!
@@ -146,8 +147,6 @@
 
   ;; Optionally configure the cape-capf-buster.
   (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))
-  :hook
-  (lsp-completion-mode . my/lsp-mode-setup-completion)
   :config
   (setq lsp-restart 'auto-restart
         lsp-auto-guess-root t

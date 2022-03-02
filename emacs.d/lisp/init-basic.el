@@ -153,14 +153,13 @@
 
 ;; 谷歌翻译
 (use-package go-translate
-  :bind ("C-c t" . gts-do-translate)
+  :bind ("C-c g" . gts-do-translate)
   :config
   (setq gts-translate-list '(("en" "zh"))
-        gts-default-translator
-        (gts-translator
-         :picker (gts-prompt-picker)
-         :engines (list (gts-google-rpc-engine))
-         :render (gts-buffer-render)))
+        gts-default-translator (gts-translator
+                                :picker (gts-prompt-picker)
+                                :engines (list (gts-google-rpc-engine))
+                                :render (gts-buffer-render)))
   )
 
 (provide 'init-basic)
