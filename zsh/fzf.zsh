@@ -1,11 +1,5 @@
 #!/bin/zsh
 
-# fzf-tab
-# preview directory's content with exa when completing cd
-zstyle ':fzf-tab:complete:(z|cd):*' fzf-preview 'exa -1 --color=always $realpath'
-# switch group using `,` and `.`
-zstyle ':fzf-tab:*' switch-group ',' '.'
-
 # fzf
 # https://github.com/junegunn/fzf
 export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg -f -. -L -g '!.git' || find ."

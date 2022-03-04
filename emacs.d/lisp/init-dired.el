@@ -38,10 +38,14 @@
   )
 
 (use-package dirvish
-  :bind (("C-c d" . dirvish)
-         ("C-c f" . dirvish-dired)
+  :bind (("C-c v h" . dirvish)
+         ("C-c v d" . dirvish-dired)
+         ("C-c v s" . dirvish-side)
          :map dirvish-mode-map
          ("SPC" . dirvish-show-history)
+         ("f"   . dirvish-menu-file-info-cmds)
+         ("r"   . dirvish-roam)
+         ("M-c" . dirvish-ui-config)
          ("M-m" . dirvish-toggle-fullscreen)
          ([remap dired-summary] . dirvish-dispatch)
          ([remap dired-do-copy] . dirvish-yank)

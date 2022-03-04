@@ -16,14 +16,40 @@ ZI_REPO="zdharma-continuum"
 zinit light-mode for \
     "$ZI_REPO"/zinit-annex-{'patch-dl','bin-gem-node'}
 
-zinit wait lucid light-mode for \
-    atinit"zicompinit; zicdreplay" \
-        Aloxaf/fzf-tab \
-        "$ZI_REPO"/fast-syntax-highlighting \
-    blockf \
+# see https://thevaluable.dev/zsh-completion-guide-examples
+zinit wait lucid for \
+    light-mode blockf atpull'zinit creinstall -q .' \
+    atinit"
+        zstyle ':completion:*' completer _expand _complete _ignored _approximate
+        zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
+        zstyle ':completion:*' menu select=2
+        zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+        zstyle ':completion:*:descriptions' format '[%d]'
+        zstyle ':completion:*:processes' command 'ps -au\$USER'
+        zstyle ':completion:*:*:*:*:processes' command 'ps -u \$USER -o pid,user,comm,cmd -w -w'
+        zstyle ':completion:*' file-sort modification
+        zstyle ':completion:*:git-checkout:*' sort false
+        zstyle ':completion:*' verbose yes
+        zstyle ':completion:*' squeeze-slashes true
+        zstyle ':completion:*' list-colors \${(s.:.)LS_COLORS}
+    " \
         zsh-users/zsh-completions \
-    atload"!_zsh_autosuggest_start" \
-        zsh-users/zsh-autosuggestions
+    light-mode atinit"
+        zstyle ':fzf-tab:complete:(z|cd|exa):*' fzf-preview 'exa -1 --color=always \$realpath'
+        zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man \$word'
+        zstyle ':fzf-tab:*' switch-group ',' '.'
+    " \
+        Aloxaf/fzf-tab \
+    light-mode atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
+        zsh-users/zsh-autosuggestions \
+    light-mode atinit"typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zicompinit; zicdreplay" \
+        "$ZI_REPO"/fast-syntax-highlighting \
+    light-mode trackbinds bindmap"^R -> ^H" atinit"
+        zstyle :history-search-multi-word page-size 20
+        zstyle :history-search-multi-word highlight-color fg=red,bold
+        zstyle :plugin:history-search-multi-word reset-prompt-protect 1
+    " \
+        "$ZI_REPO"/history-search-multi-word
 
 # git extensions
 zinit lucid wait'0a' as"program" for \
@@ -70,7 +96,7 @@ zinit light-mode lucid wait has"kubectl" for \
     as"completion" \
     atclone"kubectl completion zsh > _kubectl" \
     atpull"%atclone" \
-    zdharma-continuum/null
+    "$ZI_REPO"/null
 
 local dotHome=${HOME}/myDoc/dotfiles
 source ${dotHome}/zsh/conf.zsh
@@ -78,4 +104,3 @@ source ${dotHome}/zsh/conf.zsh
 source ${dotHome}/zsh/fzf.zsh
 
 export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin
-

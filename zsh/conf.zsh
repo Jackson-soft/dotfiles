@@ -2,20 +2,6 @@
 
 setopt share_history
 
-# see https://thevaluable.dev/zsh-completion-guide-examples
-# cd 不区分大小写
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
-zstyle ':completion:*' menu select
-zstyle ':completion:*' file-sort modification
-zstyle ':completion:*:git-checkout:*' sort false
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*' squeeze-slashes true
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# Enable caching
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
-zstyle ':completion:*:descriptions' format '[%d]'
-
 alias -g ...='../..'
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)

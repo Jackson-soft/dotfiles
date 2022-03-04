@@ -29,6 +29,8 @@
                       ol-info)
         org-pretty-entities t
         org-startup-with-inline-images t
+        org-insert-heading-respect-content t
+        org-ellipsis "...#"
 
         ;; Org Logging
         org-log-into-drawer t
