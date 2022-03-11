@@ -17,15 +17,15 @@ zinit light-mode for \
     "$ZI_REPO"/zinit-annex-{'patch-dl','bin-gem-node'}
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
-zinit wait lucid for \
-    light-mode blockf atpull'zinit creinstall -q .' \
+zinit wait lucid light-mode for \
+    blockf \
     atinit"
         zstyle ':completion:*' completer _expand _complete _ignored _approximate
         zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
         zstyle ':completion:*' menu select=2
         zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
         zstyle ':completion:*:descriptions' format '[%d]'
-        zstyle ':completion:*:processes' command 'ps -au\$USER'
+        zstyle ':completion:*:processes' command 'ps -au \$USER'
         zstyle ':completion:*:*:*:*:processes' command 'ps -u \$USER -o pid,user,comm,cmd -w -w'
         zstyle ':completion:*' file-sort modification
         zstyle ':completion:*:git-checkout:*' sort false
@@ -34,17 +34,19 @@ zinit wait lucid for \
         zstyle ':completion:*' list-colors \${(s.:.)LS_COLORS}
     " \
         zsh-users/zsh-completions \
-    light-mode atinit"
+    atinit"
         zstyle ':fzf-tab:complete:(z|cd|exa):*' fzf-preview 'exa -1 --color=always \$realpath'
         zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man \$word'
+        zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff \$word | delta'
+        zstyle ':fzf-tab:complete:git-log:*' fzf-preview 'git log --color=always \$word'
         zstyle ':fzf-tab:*' switch-group ',' '.'
     " \
         Aloxaf/fzf-tab \
-    light-mode atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
-    light-mode atinit"typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zicompinit; zicdreplay" \
+    atinit"typeset -gA FAST_HIGHLIGHT; FAST_HIGHLIGHT[git-cmsg-len]=100; zicompinit; zicdreplay" \
         "$ZI_REPO"/fast-syntax-highlighting \
-    light-mode trackbinds bindmap"^R -> ^H" atinit"
+    trackbinds bindmap"^R -> ^H" atinit"
         zstyle :history-search-multi-word page-size 20
         zstyle :history-search-multi-word highlight-color fg=red,bold
         zstyle :plugin:history-search-multi-word reset-prompt-protect 1
@@ -59,6 +61,9 @@ zinit lucid wait'0a' as"program" for \
 zinit ice as"null" from"gh-r" \
     sbin"starship" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh"
 zinit light starship/starship
+
+zinit ice depth=1 wait"1" lucid
+zinit light wfxr/forgit
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix

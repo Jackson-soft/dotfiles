@@ -9,7 +9,7 @@
     diffFilter = delta --color-only --features=interactive
 
 [delta]
-    features = side-by-side line-numbers decorations
+    features = line-numbers decorations
 
 [delta "interactive"]
     keep-plus-minus-markers = false

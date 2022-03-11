@@ -43,16 +43,19 @@
          ("C-c v s" . dirvish-side)
          :map dirvish-mode-map
          ("SPC" . dirvish-show-history)
-         ("f"   . dirvish-menu-file-info-cmds)
          ("r"   . dirvish-roam)
-         ("M-c" . dirvish-ui-config)
-         ("M-m" . dirvish-toggle-fullscreen)
+         ("b"   . dirvish-goto-bookmark)
+         ("f"   . dirvish-file-info-menu)
+         ("M-a" . dirvish-mark-actions-menu)
+         ("M-s" . dirvish-setup-menu)
+         ("M-f" . dirvish-toggle-fullscreen)
          ([remap dired-summary] . dirvish-dispatch)
          ([remap dired-do-copy] . dirvish-yank)
          ([remap mode-line-other-buffer] . dirvish-other-buffer))
   :config
   ;; Override dired with dirvish globally
   (dirvish-override-dired-mode)
+  ;; (setq dirvish-attributes '(vscode-icon file-size))
   )
 
 (provide 'init-dired)

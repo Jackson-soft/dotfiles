@@ -9,9 +9,10 @@ export FZF_CTRL_R_OPTS='--sort --exact'
 export FZF_DEFAULT_OPTS="
        --layout=reverse
        --info=inline
-       --height=50%
+       --height=70%
        --multi
        --border
+       --cycle
        --preview-window=:hidden
        --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (exa -T {} | less)) || echo {} 2> /dev/null | head -200'
        --prompt='∼ ' --marker='✓'

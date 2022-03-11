@@ -7,7 +7,7 @@
 
 (use-package text-mode
   :ensure nil
-  :hook (text-mode . auto-fill-mode)
+  :hook (text-mode . visual-line-mode) ;; 根据窗口大小自动折行
   :config
   (setq word-wrap-by-category t)
   )
@@ -28,6 +28,8 @@
                       ol-eww
                       ol-info)
         org-pretty-entities t
+        org-auto-align-tags nil
+        org-tags-column 0
         org-startup-with-inline-images t
         org-insert-heading-respect-content t
         org-ellipsis "...#"
