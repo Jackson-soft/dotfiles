@@ -158,6 +158,12 @@
     (add-hook 'before-save-hook 'lsp-format-buffer t t)
     (add-hook 'before-save-hook 'lsp-organize-imports t t))
 
+  (use-package lsp-ui
+    :bind (:map lsp-ui-mode
+                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+                ([remap xref-find-references] . lsp-ui-peek-find-references))
+    )
+
   (use-package lsp-clangd
     :ensure nil
     :config

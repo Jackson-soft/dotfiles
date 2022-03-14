@@ -58,7 +58,7 @@ zinit lucid wait'0a' as"program" for \
     pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX" src"etc/git-extras-completion.zsh" tj/git-extras
 
 # Load starship theme
-zinit ice as"null" from"gh-r" \
+zinit ice as"null" from"gh-r" bpick"*.tar.gz" \
     sbin"starship" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh"
 zinit light starship/starship
 
