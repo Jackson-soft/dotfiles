@@ -13,11 +13,11 @@ autoload -Uz _zinit
 ### End of Zinit's installer chunk
 
 ZI_REPO="zdharma-continuum"
-zinit light-mode for \
-    "$ZI_REPO"/zinit-annex-{'patch-dl','bin-gem-node'}
+zinit light-mode depth"1" for \
+    "$ZI_REPO"/zinit-annex-{'bin-gem-node','patch-dl'}
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
-zinit wait lucid light-mode for \
+zinit wait lucid depth"1" light-mode for \
     blockf \
     atinit"
         zstyle ':completion:*' completer _expand _complete _ignored _approximate
@@ -54,42 +54,36 @@ zinit wait lucid light-mode for \
         "$ZI_REPO"/history-search-multi-word
 
 # git extensions
-zinit lucid wait'0a' as"program" for \
-    pick"$ZPFX/bin/git-*" make"PREFIX=$ZPFX" src"etc/git-extras-completion.zsh" tj/git-extras
-
-# Load starship theme
-zinit ice as"null" from"gh-r" bpick"*.tar.gz" \
-    sbin"starship" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh"
-zinit light starship/starship
-
-zinit ice depth=1 wait"1" lucid
-zinit light wfxr/forgit
+zinit lucid wait"0a" depth"1" for \
+    as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
+    wfxr/forgit
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
-zinit as"null" wait"1" lucid from"gh-r" for \
-    sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
+zinit lucid as"null" from"gh-r" for \
+    sbin'starship' bpick"*.tar.gz" atload'!eval $(starship init zsh)' starship/starship \
+    sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
+    sbin'**/delta' atload"alias diff='delta -ns'" dandavison/delta \
     sbin"stylua" JohnnyMorganz/StyLua \
     sbin"selene" Kampfkarren/selene \
-    sbin"**/rg" mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
-    sbin"**/fd" mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
-    sbin"**/bat" atload"alias cat='bat'" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
+    sbin'**/rg' mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
+    sbin'**/fd' mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
+    sbin'**/bat' atload"alias cat='bat'" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
-    sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
-    sbin"**/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
-    mv"**/completions/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" ogham/exa \
-    sbin"cheat" mv"cheat** -> cheat" cheat/cheat \
-    sbin"procs" atload"alias ps=procs" dalance/procs \
-    sbin"jq" mv"jq* -> jq" stedolan/jq \
-    sbin"buf" mv"buf* -> buf" bufbuild/buf \
-    sbin"hadolint" mv"hadolint* -> hadolint" hadolint/hadolint \
+    sbin'**/exa' atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
+    mv"**/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
+    sbin'cheat* -> cheat' cheat/cheat \
+    sbin'**/procs' atload"alias ps=procs" dalance/procs \
+    sbin'jq* -> jq' stedolan/jq \
+    sbin'buf* -> buf' bufbuild/buf \
+    sbin'hadolint* -> hadolint' hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
-    sbin"shfmt" mv"shfmt* -> shfmt" @mvdan/sh
+    sbin'**/shfmt* -> shfmt' @mvdan/sh
 
-zinit ice as"null" wait"0b" lucid from"gh-r" sbin"fzf" \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh -> _fzf' \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
-    src'key-bindings.zsh' atclone"cp -vf _fzf $ZINIT[COMPLETIONS_DIR]"
+zinit ice wait"0b" lucid as"null" from"gh-r" sbin"fzf" \
+     dl'https://github.com/junegunn/fzf/raw/master/shell/completion.zsh -> _fzf;
+        https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh -> key-bindings.zsh;' \
+    src'key-bindings.zsh'
 zinit light junegunn/fzf
 
 # completion

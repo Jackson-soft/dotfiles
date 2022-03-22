@@ -112,6 +112,10 @@
     )
   )
 
+(use-package corfu-doc
+  :hook (corfu-mode . corfu-doc-mode)
+  )
+
 ;; Use dabbrev with Corfu!
 (use-package dabbrev
   :ensure nil
@@ -132,8 +136,8 @@
 
 ;; https://emacs-lsp.github.io/lsp-mode/
 (use-package lsp-mode
-  :hook (((web-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
-                    css-mode sh-mode yaml-mode nginx-mode) . lsp-deferred)
+  :hook (((json-mode js-mode web-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
+                     css-mode sh-mode yaml-mode nginx-mode markdown-mode) . lsp-deferred)
          ((go-mode c++-mode c-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
          (lsp-completion-mode . my/lsp-mode-setup-completion)

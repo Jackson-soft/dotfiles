@@ -23,9 +23,11 @@
          ("C-c m" . consult-mode-command)
          ("C-c k" . consult-kmacro)
          ;; C-x bindings (ctl-x-map)
+         ([remap repeat-complex-command] . consult-complex-command)     ;; C-x M-:
          ([remap switch-to-buffer] . consult-buffer) ;; C-x b
-         ([project-switch-to-buffer] . consult-project-buffer)  ;; C-x p b
+         ([remap project-switch-to-buffer] . consult-project-buffer)  ;; C-x p b
          ("C-x C-r" . consult-recent-file)
+         ([remap bookmark-jump] . consult-bookmark)            ;; C-x r b
          ;; M-g bindings (goto-map)
          ([remap goto-line] . consult-goto-line) ;; M-g g
          ("M-g o" . consult-outline)

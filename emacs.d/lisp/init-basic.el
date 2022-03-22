@@ -100,6 +100,15 @@
         size-indication-mode t)
   )
 
+;; abbrev mode configuration
+(use-package abbrev
+  :ensure nil
+  :hook (after-init . abbrev-mode)
+  :config
+  (setq save-abbrevs 'silent
+        abbrev-suggest t)
+  )
+
 (use-package repeat
   :ensure nil
   :hook (after-init . repeat-mode)

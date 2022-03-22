@@ -55,7 +55,8 @@
   :config
   ;; Override dired with dirvish globally
   (dirvish-override-dired-mode)
-  ;; (setq dirvish-attributes '(vscode-icon file-size))
+  (dirvish-peek-mode)
+  (setq dirvish-attributes '(all-the-icons file-size expanded-state))
   )
 
 (provide 'init-dired)

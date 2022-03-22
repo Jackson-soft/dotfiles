@@ -9,8 +9,8 @@
 (use-package typescript-mode)
 
 (use-package tide
-  :hook (((typescript-mode js-mode) . tide-setup)
-         ((typescript-mode js-mode) . tide-hl-identifier-mode))
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode))
   )
 
 (use-package json-mode)

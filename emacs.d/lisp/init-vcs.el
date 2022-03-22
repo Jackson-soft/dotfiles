@@ -36,7 +36,15 @@
 (use-package vc-git
   :ensure nil
   :config
-  (setq vc-git-diff-switches '("--patch-with-stat" "--histogram"))
+  (setq vc-git-diff-switches '("--patch-with-stat" "--histogram")
+        vc-git-print-log-follow t)
+  )
+
+(use-package diff-mode
+  :ensure nil
+  :config
+  (setq diff-default-read-only t
+        diff-font-lock-syntax 'hunk-also)
   )
 
 ;; Visual diff interface
@@ -44,11 +52,9 @@
   :ensure nil
   :config
   (setq ediff-diff-options "-w" ;; turn off whitespace checking
-        ediff-highlight-all-diffs t
         ediff-show-clashes-only t
         ediff-window-setup-function 'ediff-setup-windows-plain
-        ediff-split-window-function 'split-window-horizontally
-        ediff-merge-split-window-function 'split-window-horizontally)
+        ediff-split-window-function 'split-window-horizontally)
   )
 
 ;; 高亮合并冲突

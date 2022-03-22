@@ -46,7 +46,8 @@
   :ensure nil
   :config
   (setq show-paren-when-point-inside-paren t
-        show-paren-when-point-in-periphery t)
+        show-paren-when-point-in-periphery t
+        show-paren-context-when-offscreen 'child-frame)
   )
 
 ;; Automatic parenthesis pairing
