@@ -97,7 +97,7 @@ For most users, Esc+ will be the best choice.
 export LS_COLORS="$(vivid generate molokai)"
 #+end_src
 
-主要是不同格式的文件显示不同的颜色，相比单一的白色会更好区分。
+主要是不同格式的文件显示不同的颜色，相比单一的白色会更好区分。相较于 [[https://github.com/trapd00r/LS_COLORS][LS_COLORS]] 显示颜色更丰富一些。
 
 *** ~zoxide~
 [[https://github.com/ajeetdsouza/zoxide][zoxide]] 是一个快速目录跳转工具，支持模糊匹配和历史纪录。配置如下：
@@ -159,7 +159,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 [[https://github.com/starship/starship][starship]] 是一个 ~Rust~ 写的跨 ~shell~ 的主题。相比于 [[https://github.com/romkatv/powerlevel10k][Powerlevel10k]]
 比较简洁，配置也相对简单，具体参见 [[file:starship.toml][starship.toml]] 。
 
-**** +forgit+ (目前用 [[file:README.org::*git-fuzzy][git-fuzzy]] 替代)
+**** ~forgit~
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
 
 一些默认的简写：
