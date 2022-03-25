@@ -31,9 +31,9 @@ See URL `https://github.com/bufbuild/buf'."
   :mode ("/nginx/sites-\\(?:available\\|enabled\\)/" . nginx-mode)
   )
 
-;; (use-package company-nginx
-;;   :hook(nginx-mode . company-nginx-keywords)
-;;   )
+(use-package company-nginx
+  :hook(nginx-mode . company-nginx-keywords)
+  )
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode)
@@ -47,11 +47,11 @@ See URL `https://github.com/bufbuild/buf'."
          ("\\.rest\\'" . restclient-mode))
   )
 
-;; (use-package company-restclient
-;;   :defines company-backends
-;;   :hook (restclient-mode . (lambda ()
-;;                              (cl-pushnew 'company-restclient company-backends)))
-;;   )
+(use-package company-restclient
+  :defines company-backends
+  :hook (restclient-mode . (lambda ()
+                             (cl-pushnew 'company-restclient company-backends)))
+  )
 
 (use-package systemd)
 
