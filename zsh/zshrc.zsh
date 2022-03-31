@@ -40,7 +40,7 @@ zinit depth"1" light-mode for \
         zstyle ":fzf-tab:*" switch-group "," "."
     ' \
         Aloxaf/fzf-tab \
-    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     atinit'
         typeset -gA FAST_HIGHLIGHT

@@ -12,22 +12,25 @@
   :init
   ;; Add all your customizations prior to loading the themes
   (setq modus-themes-italic-constructs t
+        modus-themes-deuteranopia t
         modus-themes-bold-constructs t
-        modus-themes-tabs-accented t
-        modus-themes-variable-pitch-ui t
-        modus-themes-markup '(background italic)
         modus-themes-syntax '(faint alt-syntax green-strings yellow-comments)
-        modus-themes-hl-line '(intense)
-        modus-themes-paren-match '(bold)
-        modus-themes-links '(neutral-underline)
+        modus-themes-links '(neutral-underline background)
         modus-themes-box-buttons '(variable-pitch flat faint 0.9)
         modus-themes-prompts '(intense bold)
-        modus-themes-diffs 'desaturated
-        modus-themes-org-blocks 'gray-background
-        modus-themes-region '(no-extend accented)
-        modus-themes-completions '((matches . (extrabold))
-                                   (selection . (semibold accented))
+        modus-themes-mode-line '(borderless 3d)
+        modus-themes-completions '((matches . (extrabold background))
+                                   (selection . (semibold intense accented text-also))
                                    (popup . (accented intense)))
+        modus-themes-lang-checkers '(text-also background)
+        modus-themes-hl-line '(intense)
+        modus-themes-subtle-line-numbers t
+        modus-themes-markup '(bold italic)
+        modus-themes-paren-match '(bold intense)
+        modus-themes-region '(bg-only no-extend)
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-headings '((t . (variable-pitch extrabold)))
+        modus-themes-variable-pitch-ui t
         )
 
   ;; Load the theme files before enabling a theme

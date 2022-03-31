@@ -55,8 +55,7 @@
           empty            ;; empty lines at beginning/end of buffer
           indentation
           space-before-tab ;; spaces before tab
-          space-after-tab
-          tab-mark))       ;; tabs (show by symbol)
+          space-after-tab))
   )
 
 ;; format
