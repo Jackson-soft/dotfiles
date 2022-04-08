@@ -2,8 +2,8 @@
 
 # fzf
 # https://github.com/junegunn/fzf
-export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg -f -. -L -g '!.git' || find ."
-export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
+export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg --files --hidden --follow --glob '!.git' || find ."
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_ALT_C_COMMAND="fd -t d"
 export FZF_CTRL_R_OPTS='--sort --exact'
 export FZF_DEFAULT_OPTS="

@@ -14,6 +14,7 @@
         dired-auto-revert-buffer 'dired-directory-changed-p
         dired-kill-when-opening-new-dired-buffer t
         dired-ls-F-marks-symlinks t
+        dired-mouse-drag-files t
         dired-recursive-copies t   ;; 可以递归的进行拷贝
         dired-recursive-deletes t)  ;; 可以递归的删除目录
 

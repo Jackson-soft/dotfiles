@@ -15,8 +15,8 @@ autoload -Uz _zinit
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
 zinit depth"1" light-mode for \
-    $ZI_REPO/zinit-annex-{'patch-dl','bin-gem-node'} \
-    blockf atpull'zinit creinstall -q .' \
+        $ZI_REPO/zinit-annex-{'patch-dl','bin-gem-node'} \
+    blockf \
     atinit'
         zstyle ":completion:*" completer _expand _complete _ignored _approximate
         zstyle ":completion:*" matcher-list "m:{a-zA-Z}={A-Za-z}" "+r:|?=**"
@@ -55,6 +55,10 @@ zinit depth"1" light-mode for \
     ' \
         $ZI_REPO/history-search-multi-word
 
+# Load starship theme
+zinit ice as"null" from"gh-r" sbin'starship' bpick"*.tar.gz" atload'!eval $(starship init zsh)'
+zinit light starship/starship
+
 # git extensions
 zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
@@ -62,8 +66,7 @@ zinit wait"0a" lucid depth"1" for \
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
-zinit lucid as"null" from"gh-r" for \
-    sbin'starship' bpick"*.tar.gz" atload'!eval $(starship init zsh)' starship/starship \
+zinit wait lucid as"null" from"gh-r" for \
     sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
     sbin'**/delta' atload"alias diff='delta -ns'" dandavison/delta \
     sbin"stylua" JohnnyMorganz/StyLua \
@@ -84,13 +87,9 @@ zinit lucid as"null" from"gh-r" for \
 
 zinit ice wait"0b" lucid as"null" from"gh-r" sbin"fzf" \
      dl'https://github.com/junegunn/fzf/raw/master/shell/completion.zsh -> _fzf;
-        https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh -> key-bindings.zsh;' \
+        https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh -> key-bindings.zsh' \
     src'key-bindings.zsh'
 zinit light junegunn/fzf
-
-# completion
-zinit ice as"completion"
-zinit snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
 
 local dotHome=$HOME/myDoc/dotfiles
 source $dotHome/zsh/conf.zsh

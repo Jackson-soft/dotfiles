@@ -37,7 +37,7 @@
   (add-to-list 'default-frame-alist '(font . "Fira Code-17"))
 
   ;; Display dividers between windows
-  (setq window-divider-default-places t
+  (setq window-divider-default-places t  ;; 窗口间显示分割线
         window-divider-default-bottom-width 1
         window-divider-default-right-width 1
         window-resize-pixelwise t)
@@ -62,7 +62,7 @@
   (setq scroll-margin 2           ;; better scrolling experience
         scroll-step 1
         scroll-conservatively 101 ;; > 100
-        scroll-preserve-screen-position t
+        scroll-preserve-screen-position t  ;; 滚动时保持光标位置
         use-short-answers t
         visible-bell t ;; 错误操作时的窗口闪动警告
         load-prefer-newer t

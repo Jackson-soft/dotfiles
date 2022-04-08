@@ -66,7 +66,7 @@
         company-tooltip-limit 12
         company-tooltip-width-grow-only t
         company-tooltip-flip-when-above t
-        company-show-quick-access 'left
+        ;; company-show-quick-access 'left
         company-transformers '(delete-consecutive-dups
                                company-sort-by-occurrence)
         company-backends '(company-files

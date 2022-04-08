@@ -51,7 +51,7 @@
         whitespace-style
         '(face             ;; visualize things below
           trailing         ;; trailing blanks
-          tabs             ;; tabs (show by face)
+          ;; tabs             ;; tabs (show by face)
           empty            ;; empty lines at beginning/end of buffer
           indentation
           space-before-tab ;; spaces before tab
