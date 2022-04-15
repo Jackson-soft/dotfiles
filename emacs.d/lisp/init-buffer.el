@@ -32,10 +32,8 @@
         completion-pcm-complete-word-inserts-delimiters t
         completion-cycle-threshold 3
         completion-ignore-case t
-
-        completion-category-defaults nil
+        ;; completions-format 'one-column
         completion-category-overrides '((file (styles . (basic partial-completion orderless))))
-
         completions-detailed t
         completions-group t)
   )

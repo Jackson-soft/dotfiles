@@ -48,7 +48,8 @@
 
 ;; https://company-mode.github.io/manual/
 (use-package company
-  :hook (after-init . global-company-mode)
+  ;; :hook (after-init . global-company-mode)
+  :hook (prog-mode . company-mode)
   :bind (:map company-mode-map
               ([remap completion-at-point] . company-complete)
               :map company-active-map
@@ -73,7 +74,7 @@
                            company-cmake
                            company-capf
                            company-ispell
-                           (company-dabbrev-code company-keywords company-etags)
+                           (company-dabbrev-code company-keywords)
                            company-dabbrev
                            ))
   )
