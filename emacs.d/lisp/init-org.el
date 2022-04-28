@@ -185,15 +185,22 @@
 
 (use-package org-roam
   :hook (org-mode . org-roam-db-autosync-mode)
-  :bind (("C-c n l" . org-roam-buffer-toggle)
+  :bind (("C-c n a" . org-id-get-create)
+         ("C-c n l" . org-roam-buffer-toggle)
          ("C-c n f" . org-roam-node-find)
          ("C-c n g" . org-roam-graph)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
+         ("C-c n j" . org-roam-dailies-capture-today)
+         ("C-c n r" . org-roam-ref-find)
+         ("C-c n R" . org-roam-ref-add)
+         ("C-c n s" . org-roam-db-sync))
   :config
+
+  (use-package emacsql-sqlite-builtin)
+
   (setq org-roam-directory (file-truename "~/myDoc/myBlog")
+        org-roam-database-connector 'sqlite-builtin
         org-roam-completion-everywhere t)
   )
 

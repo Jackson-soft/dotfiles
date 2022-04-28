@@ -33,13 +33,6 @@
   :hook (prog-mode . rainbow-delimiters-mode)
   )
 
-;; Browse devdocs.io
-(use-package devdocs
-  :bind ("C-h D" . devdocs-lookup)
-  :config
-  (add-to-list 'completion-category-defaults '(devdocs (styles . (flex))))
-  )
-
 ;; show trailing whitespaces
 (use-package whitespace
   :ensure nil
@@ -51,7 +44,6 @@
         whitespace-style
         '(face             ;; visualize things below
           trailing         ;; trailing blanks
-          ;; tabs             ;; tabs (show by face)
           empty            ;; empty lines at beginning/end of buffer
           indentation
           space-before-tab ;; spaces before tab

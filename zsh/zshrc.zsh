@@ -69,8 +69,6 @@ zinit wait"0a" lucid depth"1" for \
 zinit wait lucid as"null" from"gh-r" for \
     sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
     sbin'**/delta' atload"alias diff='delta -ns'" dandavison/delta \
-    sbin"stylua" JohnnyMorganz/StyLua \
-    sbin"selene" Kampfkarren/selene \
     sbin'**/rg' mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
     sbin'**/fd' mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
     sbin'**/bat' atload"alias cat='bat'" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \

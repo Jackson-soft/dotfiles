@@ -1,3 +1,18 @@
+linters-settings:
+    revive:
+        # severity: error
+        # enable-all-rules: true
+        rules:
+            - name: add-constant
+              severity: warning
+              disabled: false
+              arguments:
+                  - maxLitCount: "3"
+                    allowStrs: '""'
+                    allowInts: "0,1,2"
+                    allowFloats: "0.0,0.,1.0,1.,2.0,2."
+            - name: exported # 强制要求给导出函数写文档
+              disabled: true
 linters:
     disable-all: true
     enable:
@@ -49,12 +64,12 @@ linters:
         # - paralleltest
         - prealloc
         - predeclared
-        # - revive
+        - revive
         - rowserrcheck
         - sqlclosecheck
         - staticcheck
         - structcheck
-        # - stylecheck
+        - stylecheck
         - testpackage
         - thelper
         - tparallel

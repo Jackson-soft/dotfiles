@@ -62,7 +62,7 @@ packer.startup(function()
     use({
         "numToStr/Comment.nvim",
         config = function()
-            require("Comment").setup()
+            require("Comment").setup({})
         end,
     })
 
@@ -162,6 +162,7 @@ packer.startup(function()
                     "make",
                     "markdown",
                     "ninja",
+                    "proto",
                     "python",
                     "regex",
                     "toml",
@@ -307,8 +308,8 @@ packer.startup(function()
                 use_diagnostic_signs = true,
             })
 
-            vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true, noremap = true })
-            vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true, noremap = true })
+            vim.keymap.set("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true })
+            vim.keymap.set("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true })
         end,
     })
 
@@ -340,7 +341,7 @@ packer.startup(function()
                     ["<C-e>"] = cmp.mapping.abort(),
                     ["<CR>"] = cmp.mapping.confirm({ select = true }),
 
-                    ["<Tab>"] = function(fallback)
+                    ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
                         elseif luasnip.expand_or_jumpable() then
@@ -350,9 +351,9 @@ packer.startup(function()
                         else
                             fallback()
                         end
-                    end,
+                    end, { "i", "s" }),
 
-                    ["<S-Tab>"] = function(fallback)
+                    ["<S-Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()
                         elseif luasnip.jumpable(-1) then
@@ -360,7 +361,7 @@ packer.startup(function()
                         else
                             fallback()
                         end
-                    end,
+                    end, { "i", "s" }),
                 }),
 
                 formatting = {
@@ -480,9 +481,9 @@ packer.startup(function()
                 result_split_horizontal = true,
             })
 
-            vim.api.nvim_set_keymap("n", "<Leader>rt", "<Plug>RestNvim", { noremap = false })
-            vim.api.nvim_set_keymap("n", "<Leader>rp", "<Plug>RestNvimPreview", { noremap = false })
-            vim.api.nvim_set_keymap("n", "<Leader>rl", "<Plug>RestNvimLast", { noremap = false })
+            vim.keymap.set("n", "<Leader>rt", "<Plug>(RestNvim)")
+            vim.keymap.set("n", "<Leader>rp", "<Plug>i(RestNvimPreview)")
+            vim.keymap.set("n", "<Leader>rl", "<Plug>(RestNvimLast)")
         end,
     })
 
@@ -561,9 +562,7 @@ vim.g.splitbelow = true
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
+    callback = vim.highlight.on_yank,
     group = highlight_group,
     pattern = "*",
 })
@@ -603,27 +602,28 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", "<leader>so", require("telescope.builtin").lsp_document_symbols, opts)
 
     if client.resolved_capabilities.document_formatting then
-        vim.cmd([[
-            augroup LspFormatting
-                autocmd! * <buffer>
-                autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-            augroup END
-            ]])
+        local gLspFormat = vim.api.nvim_create_augroup("LspFormat", { clear = false })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            group = gLspFormat,
+            callback = vim.lsp.buf.formatting_sync,
+        })
     end
 
     require("lsp_signature").on_attach()
 
     if client.resolved_capabilities.document_highlight then
-        vim.cmd([[
-            hi LspReferenceRead  gui=bold guibg=#1b1b29 blend=10
-            hi LspReferenceText  gui=bold guibg=#1b1b29 blend=10
-            hi LspReferenceWrite gui=bold guibg=#1b1b29 blend=10
-            augroup lsp_document_highlight
-            autocmd! * <buffer>
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-            augroup END
-        ]])
+        local gLspHighlight = vim.api.nvim_create_augroup("LspHighlight", { clear = false })
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+            buffer = bufnr,
+            group = gLspHighlight,
+            callback = vim.lsp.buf.document_highlight,
+        })
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+            buffer = bufnr,
+            group = gLspHighlight,
+            callback = vim.lsp.buf.clear_references,
+        })
     end
 end
 
@@ -659,9 +659,6 @@ null_ls.setup({
     -- register any number of sources simultaneously
     sources = {
         null_ls.builtins.formatting.prettier,
-        null_ls.builtins.formatting.stylua.with({
-            args = { "--indent-type=Spaces", "-" },
-        }),
         null_ls.builtins.formatting.shfmt,
         null_ls.builtins.formatting.cmake_format.with({
             extra_args = { "--tab-size=4" },
@@ -672,8 +669,6 @@ null_ls.setup({
         }),
         null_ls.builtins.formatting.black,
 
-        null_ls.builtins.diagnostics.ansiblelint,
-        null_ls.builtins.diagnostics.selene,
         null_ls.builtins.diagnostics.hadolint,
         null_ls.builtins.diagnostics.shellcheck,
         null_ls.builtins.diagnostics.markdownlint,
@@ -693,12 +688,7 @@ table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
 nvim_lsp.sumneko_lua.setup({
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-
-        client.resolved_capabilities.document_formatting = false
-        client.resolved_capabilities.document_range_formatting = false
-    end,
+    on_attach = on_attach,
     capabilities = capabilities,
     settings = {
         Lua = {
@@ -711,6 +701,9 @@ nvim_lsp.sumneko_lua.setup({
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
                 globals = { "vim" },
+                neededFileStatus = {
+                    ["codestyle-check"] = "Any",
+                },
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
@@ -719,6 +712,15 @@ nvim_lsp.sumneko_lua.setup({
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {
                 enable = false,
+            },
+            format = {
+                enable = true,
+                -- Put format options here
+                -- NOTE: the value should be STRING!!
+                defaultConfig = {
+                    indent_style = "space",
+                    indent_size = "4",
+                }
             },
         },
     },
