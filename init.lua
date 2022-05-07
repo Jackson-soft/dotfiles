@@ -6,10 +6,11 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd(
-    "BufWritePost",
-    { command = "source <afile> | PackerCompile", group = packer_group, pattern = "init.lua" }
-)
+vim.api.nvim_create_autocmd("BufWritePost", {
+    command = "source <afile> | PackerCompile",
+    group = packer_group,
+    pattern = "init.lua",
+})
 
 ---- Plugins ----
 local packer = require("packer")
@@ -94,9 +95,7 @@ packer.startup(function()
             telescope.load_extension("file_browser")
 
             vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers)
-            vim.keymap.set("n", "<leader>sf", function()
-                require("telescope.builtin").find_files({ previewer = false })
-            end)
+            vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files)
             vim.keymap.set("n", "<leader>sb", require("telescope.builtin").current_buffer_fuzzy_find)
             vim.keymap.set("n", "<leader>?", require("telescope.builtin").oldfiles)
         end,
@@ -487,15 +486,6 @@ packer.startup(function()
         end,
     })
 
-    -- go
-    use({
-        "ray-x/go.nvim",
-        config = function()
-            require("go").setup({
-                gofmt = "gopls",
-            })
-        end,
-    })
 
     -- Terminal
     use({
@@ -658,15 +648,13 @@ null_ls.setup({
     on_attach = on_attach,
     -- register any number of sources simultaneously
     sources = {
+        null_ls.builtins.formatting.buf,
         null_ls.builtins.formatting.prettier,
         null_ls.builtins.formatting.shfmt,
         null_ls.builtins.formatting.cmake_format.with({
             extra_args = { "--tab-size=4" },
         }),
-        null_ls.builtins.formatting.sqlformat.with({
-            command = "pg_format",
-            args = { "-" },
-        }),
+        null_ls.builtins.formatting.pg_format,
         null_ls.builtins.formatting.black,
 
         null_ls.builtins.diagnostics.hadolint,
@@ -677,8 +665,11 @@ null_ls.setup({
             command = "js-yaml",
             args = { "-" },
         }),
+        null_ls.builtins.diagnostics.buf,
+        null_ls.builtins.diagnostics.zsh,
 
         null_ls.builtins.code_actions.gitsigns,
+        null_ls.builtins.code_actions.shellcheck,
     },
 })
 

@@ -9,7 +9,8 @@
   :ensure nil
   :hook (text-mode . visual-line-mode) ;; 根据窗口大小自动折行
   :config
-  (setq word-wrap-by-category t)
+  (setq word-wrap t
+        word-wrap-by-category t)
   )
 
 (use-package org
@@ -139,12 +140,6 @@
                                (dot . t)
                                (restclient . t)
                                (emacs-lisp . t)))
-
-  ;; Rich text clipboard
-  (use-package org-rich-yank
-    :bind (:map org-mode-map
-                ("C-M-y" . org-rich-yank))
-    )
   )
 
 (use-package toc-org

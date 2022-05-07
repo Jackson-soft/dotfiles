@@ -79,6 +79,8 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin'**/procs' atload"alias ps=procs" dalance/procs \
     sbin'jq* -> jq' stedolan/jq \
     sbin'buf* -> buf' bufbuild/buf \
+    sbin'**/golangci-lint' golangci/golangci-lint \
+    sbin'**/lua-language-server' sumneko/lua-language-server \
     sbin'hadolint* -> hadolint' hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin'**/shfmt* -> shfmt' @mvdan/sh

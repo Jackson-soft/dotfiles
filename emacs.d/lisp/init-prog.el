@@ -9,6 +9,7 @@
 
 (use-package xref
   :ensure nil
+  :hook ((xref-after-return xref-after-jump) . recenter)
   :config
   (setq xref-search-program 'ripgrep
         xref-show-definitions-function 'xref-show-definitions-completing-read ; for M-.

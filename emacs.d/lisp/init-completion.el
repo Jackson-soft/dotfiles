@@ -75,7 +75,8 @@
   :bind (("C-x C-d" . consult-dir)
          :map minibuffer-local-completion-map
          ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-file)))
+         ("C-x C-j" . consult-dir-jump-file))
+  )
 
 (use-package marginalia
   :hook (after-init . marginalia-mode)

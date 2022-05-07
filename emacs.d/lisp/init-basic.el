@@ -5,23 +5,6 @@
 ;;
 ;;; Code:
 
-;; 禁止Emacs使用Mac原生的全屏模式
-(when (eq system-type 'darwin)
-  ;; (setq ns-use-native-fullscreen nil)
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))  ;; mac 下标题栏使用原生
-  (add-to-list 'default-frame-alist '(ns-appearance . dark))
-  )
-
-;; gc 相关
-(setq gc-cons-threshold (* 16 1024 1024) ;; 16M
-      read-process-output-max (* 1024 1024)
-      inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
-
-;; Disable GUI elements
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
 ;; Good pixel line scrolling
 (if (boundp 'pixel-scroll-precision-mode)
     (pixel-scroll-precision-mode t)
@@ -33,9 +16,6 @@
   :hook (window-setup . window-divider-mode)
   :bind ("<f10>" . toggle-frame-fullscreen)
   :config
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-  (add-to-list 'default-frame-alist '(font . "Fira Code-17"))
-
   ;; Display dividers between windows
   (setq window-divider-default-places t  ;; 窗口间显示分割线
         window-divider-default-bottom-width 1
@@ -46,8 +26,7 @@
 (use-package emacs
   :ensure nil
   :config
-  (setq-default cursor-type 'bar
-                tab-width 4
+  (setq-default tab-width 4
                 tab-always-indent 'complete
                 tab-first-completion 'word-or-paren-or-punct
                 indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
@@ -87,8 +66,6 @@
          ([remap just-one-space] . cycle-spacing))
   :config
   (setq visual-line-fringe-indicators '(nil right-curly-arrow)
-        ;; save current clipboard text
-        save-interprogram-paste-before-kill t
         ;; eliminate duplicates
         kill-do-not-save-duplicates t
         ;; show the name of character in `what-cursor-position'
@@ -112,8 +89,6 @@
 (use-package repeat
   :ensure nil
   :hook (after-init . repeat-mode)
-  :config
-  (setq repeat-exit-timeout 3)
   )
 
 (use-package select
