@@ -56,15 +56,11 @@
   :hook (prog-mode . apheleia-global-mode)
   :bind ("C-c C-f" . apheleia-format-buffer)
   :config
-  (nconc apheleia-formatters '((stylua . ("stylua" "--indent-type=Spaces" "-"))
-                               (shfmt . ("shfmt"))
-                               (pgfmt . ("pg_format" "-"))
+  (nconc apheleia-formatters '((pgfmt . ("pg_format" "-"))
                                (cmake-format . ("cmake-format" "--tab-size=4" "-"))))
 
-  (nconc apheleia-mode-alist '((lua-mode . stylua)
-                               (markdown-mode . prettier)
+  (nconc apheleia-mode-alist '((markdown-mode . prettier)
                                (gfm-mode . prettier)
-                               (sh-mode . shfmt)
                                (dockerfile-mode . shfmt)
                                (cmake-mode . cmake-format)
                                (protobuf-mode . clang-format)

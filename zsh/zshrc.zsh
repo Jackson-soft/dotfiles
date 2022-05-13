@@ -38,9 +38,10 @@ zinit depth"1" light-mode for \
         zstyle ":fzf-tab:complete:git-(add|diff|restore):*" fzf-preview "git diff $word | delta"
         zstyle ":fzf-tab:complete:git-log:*" fzf-preview "git log --color=always $word"
         zstyle ":fzf-tab:*" switch-group "," "."
+        zicompinit
     ' \
         Aloxaf/fzf-tab \
-    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     atinit'
         typeset -gA FAST_HIGHLIGHT
@@ -91,9 +92,6 @@ zinit ice wait"0b" lucid as"null" from"gh-r" sbin"fzf" \
     src'key-bindings.zsh'
 zinit light junegunn/fzf
 
-local dotHome=$HOME/myDoc/dotfiles
-source $dotHome/zsh/conf.zsh
-# fzf
-source $dotHome/zsh/fzf.zsh
+source $HOME/myDoc/dotfiles/zsh/conf.zsh
 
 export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin

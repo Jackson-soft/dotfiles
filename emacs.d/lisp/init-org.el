@@ -13,6 +13,13 @@
         word-wrap-by-category t)
   )
 
+(use-package outline
+  :ensure nil
+  :config
+  (setq outline-minor-mode-highlight 'override
+        outline-minor-mode-cycle t)
+  )
+
 (use-package org
   :ensure nil
   :custom

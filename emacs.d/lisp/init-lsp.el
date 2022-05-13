@@ -117,12 +117,12 @@
 ;;   :hook (corfu-mode . corfu-doc-mode)
 ;;   )
 
-;; Use dabbrev with Corfu!
+;;; Dabbrev (dynamic word completion)
 (use-package dabbrev
   :ensure nil
   ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
+  :bind (("M-/" . dabbrev-expand)
+         ("C-x M-/" . dabbrev-completion))
   :config
   (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_"
         dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
@@ -139,7 +139,7 @@
 (use-package lsp-mode
   :hook (((json-mode js-mode web-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
                      css-mode sh-mode yaml-mode nginx-mode markdown-mode) . lsp-deferred)
-         ((go-mode c++-mode c-mode) . lsp-save-hooks)
+         ((go-mode c++-mode c-mode lua-mode) . lsp-save-hooks)
          (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
   :config

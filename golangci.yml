@@ -14,96 +14,22 @@ linters-settings:
             - name: exported # 强制要求给导出函数写文档
               disabled: true
 linters:
-    disable-all: true
-    enable:
-        - asciicheck
-        - bodyclose
-        # - cyclop
-        - deadcode
-        - depguard
-        - dogsled
-        - dupl
-        - durationcheck
-        - errcheck
-        - errorlint
-        - exportloopref
-        - forcetypeassert
-        # - funlen
-        # - gci
-        # - gochecknoglobals
-        - gochecknoinits
-        - gocognit
-        - gocritic
-        - gocyclo
-        # - godot
-        - goerr113
-        - gofmt
-        # - gofumpt
-        - goheader
-        - goimports
-        - gomnd
-        - gomoddirectives
-        - gomodguard
-        - goprintffuncname
-        - gosec
-        - gosimple
-        - govet
-        - ifshort
-        - importas
-        - ineffassign
-        # - lll
-        - makezero
+    enable-all: true
+    disable:
+        - cyclop
+        - funlen
+        - gci
+        - gochecknoglobals
+        - godot
+        - golint
+        - gofumpt
+        - lll
         - maligned
-        - misspell
-        - nakedret
-        - nestif
-        - nilerr
-        # - nlreturn
-        - noctx
-        - nolintlint
-        # - paralleltest
-        - prealloc
-        - predeclared
-        - revive
-        - rowserrcheck
-        - sqlclosecheck
-        - staticcheck
-        - structcheck
-        - stylecheck
-        - testpackage
-        - thelper
-        - tparallel
-        - typecheck
-        - unconvert
-        - unparam
-        - unused
-        - varcheck
-        - wastedassign
-        - whitespace
-        # - wrapcheck
-        - errname
-        - exhaustive
-        - forbidigo
-        - goconst
-        - godox
-        - promlinter
-        # - wsl
-        # - tagliatelle # Implementing against APIs, can't change tags.
-        # - exhaustivestruct # Not for general usage.
-        # - golint # Deprecated.
-        # - interfacer # Deprecated.
-        # - scopelint # Deprecated.
-issues:
-    include:
-        - EXC0001 # Do not ignore errors.
-        - EXC0002 # Actually require docs for exports.
-        - EXC0003 # Don't name packages "test".
-        - EXC0004 # Unsafe pointer is worth a "nolint".
-        - EXC0005 # No ineffective breaks.
-        - EXC0006 # Unsafe pointer is worth a "nolint".
-        - EXC0009 # File permissions are important.
-        - EXC0011 # Comment style checks.
-        - EXC0012 # Actually require docs for exports.
-        - EXC0013 # Actually require docs for exports.
-        - EXC0014 # Actually require docs for exports.
-        - EXC0015 # Actually require docs for exports.
+        - scopelint
+        - interfacer
+        - nlreturn
+        - paralleltest
+        - wrapcheck
+        - wsl
+        - tagliatelle # Implementing against APIs, can't change tags.
+        - exhaustivestruct # Not for general usage.
