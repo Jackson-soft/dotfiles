@@ -498,9 +498,9 @@ packer.startup(function()
                 float_opts = { border = "curved" },
                 size = function(term)
                     if term.direction == "horizontal" then
-                        return 12
+                        return 15
                     elseif term.direction == "vertical" then
-                        return math.floor(vim.o.columns * 0.4)
+                        return vim.o.columns * 0.4
                     end
                 end,
             })

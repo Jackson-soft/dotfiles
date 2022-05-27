@@ -18,6 +18,7 @@ linters:
     disable:
         - cyclop
         - funlen
+        - varnamelen
         - gci
         - gochecknoglobals
         - godot

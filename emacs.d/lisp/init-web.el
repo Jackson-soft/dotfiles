@@ -13,7 +13,10 @@
          (typescript-mode . tide-hl-identifier-mode))
   )
 
-(use-package json-mode)
+(use-package js-mode
+  :ensure nil
+  :mode ("\\.json\\'" . js-mode)
+  )
 
 (use-package web-mode
   :mode ("\\.html?\\'" . web-mode)

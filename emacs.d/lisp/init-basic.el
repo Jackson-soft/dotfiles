@@ -129,12 +129,6 @@
         recentf-filename-handlers '(abbreviate-file-name))
   )
 
-(use-package which-key
-  :hook (after-init . which-key-mode)
-  :config
-  (setq which-key-idle-delay 0.5)
-  )
-
 ;; 谷歌翻译
 (use-package go-translate
   :bind ("C-c g" . gts-do-translate)

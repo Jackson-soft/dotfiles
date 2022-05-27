@@ -9,9 +9,8 @@
 (use-package cc-mode
   :ensure nil
   :config
-  (setq-default c-basic-offset tab-width
-                c-doc-comment-style '((c-mode . doxygen)
-                                      (c++-mode . doxygen)))
+  (setq c-doc-comment-style '((c-mode . doxygen)
+                              (c++-mode . doxygen)))
   )
 
 ;; Highlight "#if 0" as comments
@@ -25,10 +24,6 @@
 
 ;; cmake mode
 (use-package cmake-mode)
-
-(use-package cmake-font-lock
-  :hook (cmake-mode . cmake-font-lock-activate)
-  )
 
 ;; cmake-ide
 (use-package cmake-ide
