@@ -40,24 +40,30 @@
 
 (use-package dirvish
   :bind (("C-c v h" . dirvish)
-         ("C-c v d" . dirvish-dired)
          ("C-c v s" . dirvish-side)
+         ("C-c f" . dirvish-fd)
          :map dirvish-mode-map
+         ("TAB" . dirvish-toggle-subtree)
          ("SPC" . dirvish-show-history)
+         ("*"   . dirvish-mark-menu)
          ("r"   . dirvish-roam)
          ("b"   . dirvish-goto-bookmark)
          ("f"   . dirvish-file-info-menu)
-         ("M-a" . dirvish-mark-actions-menu)
+         ("M-n" . dirvish-go-forward-history)
+         ("M-p" . dirvish-go-backward-history)
          ("M-s" . dirvish-setup-menu)
          ("M-f" . dirvish-toggle-fullscreen)
+         ([remap dired-sort-toggle-or-edit] . dirvish-quicksort)
+         ([remap dired-do-redisplay] . dirvish-ls-switches-menu)
          ([remap dired-summary] . dirvish-dispatch)
-         ([remap dired-do-copy] . dirvish-yank)
+         ([remap dired-do-copy] . dirvish-yank-menu)
          ([remap mode-line-other-buffer] . dirvish-other-buffer))
   :config
   ;; Override dired with dirvish globally
   (dirvish-override-dired-mode)
   (dirvish-peek-mode)
-  (setq dirvish-attributes '(all-the-icons file-size expanded-state))
+  (setq dirvish-attributes '(subtree-state all-the-icons)
+        dirvish-mode-line-format '(:left (sort file-time " " file-size symlink) :right (omit yank index)))
   )
 
 (provide 'init-dired)

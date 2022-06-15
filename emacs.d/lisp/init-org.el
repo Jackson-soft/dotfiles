@@ -36,7 +36,7 @@
                       ol-eww
                       ol-info)
         org-pretty-entities t
-        org-auto-align-tags nil
+        ;; org-auto-align-tags nil
         org-tags-column 0
         org-startup-with-inline-images t
         org-insert-heading-respect-content t
@@ -94,7 +94,7 @@
     )
 
   ;;; Citations
-  ;;;; Org-Cite
+  ;;; Org-Cite
   (use-package oc
     :ensure nil
     :config

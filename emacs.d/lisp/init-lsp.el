@@ -137,10 +137,9 @@
 
 ;; https://emacs-lsp.github.io/lsp-mode/
 (use-package lsp-mode
-  :hook (((json-mode js-mode web-mode go-mode dockerfile-mode c-mode c++-mode lua-mode
+  :hook (((json-mode js-mode web-mode go-mode dockerfile-mode c-mode c++-mode cmake-mode lua-mode
                      css-mode sh-mode yaml-mode nginx-mode markdown-mode) . lsp-deferred)
          ((go-mode c++-mode c-mode lua-mode) . lsp-save-hooks)
-         (lsp-mode . lsp-enable-which-key-integration)
          (dired-mode . lsp-dired-mode))
   :config
   (setq lsp-restart 'auto-restart
