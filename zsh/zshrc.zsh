@@ -57,7 +57,7 @@ zinit depth"1" light-mode for \
         $ZI_REPO/history-search-multi-word
 
 # Load starship theme
-zinit ice as"null" from"gh-r" sbin'starship' bpick"*.tar.gz" atload'!eval $(starship init zsh)'
+zinit ice as"null" from"gh-r" sbin'starship' atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh"
 zinit light starship/starship
 
 # git extensions
@@ -68,7 +68,7 @@ zinit wait"0a" lucid depth"1" for \
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
-    sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" nocompile'!' ajeetdsouza/zoxide \
+    sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" ajeetdsouza/zoxide \
     sbin'**/delta' atload"alias diff='delta -ns'" dandavison/delta \
     sbin'**/rg' mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
     sbin'**/fd' mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
