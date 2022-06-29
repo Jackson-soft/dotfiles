@@ -13,9 +13,10 @@
          (typescript-mode . tide-hl-identifier-mode))
   )
 
-(use-package js-mode
-  :ensure nil
-  :mode ("\\.json\\'" . js-mode)
+(use-package jsonian
+  :after so-long
+  :custom
+  (jsonian-no-so-long-mode)
   )
 
 (use-package web-mode
