@@ -70,12 +70,12 @@ zinit wait"0a" lucid depth"1" for \
 zinit wait lucid as"null" from"gh-r" for \
     sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" ajeetdsouza/zoxide \
     sbin'**/delta' atload"alias diff='delta -ns'" dandavison/delta \
-    sbin'**/rg' mv"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
-    sbin'**/fd' mv"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
-    sbin'**/bat' atload"alias cat='bat'" mv"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
+    sbin'**/rg' mv"**/doc/rg.1 -> $ZPFX/share/man/man1" cp"**/complete/_rg -> $ZINIT[COMPLETIONS_DIR]" BurntSushi/ripgrep \
+    sbin'**/fd' mv"**/fd.1 -> $ZPFX/share/man/man1" cp"**/autocomplete/_fd -> $ZINIT[COMPLETIONS_DIR]" @sharkdp/fd \
+    sbin'**/bat' atload"alias cat='bat'" mv"**/bat.1 -> $ZPFX/share/man/man1" cp"**/autocomplete/bat.zsh -> $ZINIT[COMPLETIONS_DIR]/_bat" @sharkdp/bat \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
     sbin'**/exa' atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
-    mv"**/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
+    mv"**/exa.1 -> $ZPFX/share/man/man1" cp"**/exa.zsh -> $ZINIT[COMPLETIONS_DIR]/_exa" sbin"**/exa" ogham/exa \
     sbin'cheat* -> cheat' cheat/cheat \
     sbin'jq* -> jq' stedolan/jq \
     sbin'buf* -> buf' bufbuild/buf \
@@ -86,9 +86,9 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin'**/shfmt* -> shfmt' @mvdan/sh
 
 zinit ice wait"0b" lucid as"null" from"gh-r" sbin"fzf" \
-     dl'https://github.com/junegunn/fzf/raw/master/shell/completion.zsh -> _fzf_completion;
-        https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh -> key-bindings.zsh;
-        https://github.com/junegunn/fzf/raw/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
+    dl'https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh -> key-bindings.zsh;
+       https://github.com/junegunn/fzf/raw/master/shell/completion.zsh -> $ZPFX/completions/_fzf;
+       https://github.com/junegunn/fzf/raw/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
     src'key-bindings.zsh'
 zinit light junegunn/fzf
 

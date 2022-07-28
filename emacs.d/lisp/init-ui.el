@@ -5,7 +5,8 @@
 ;;
 ;;; Code:
 
-(use-package all-the-icons)
+(use-package all-the-icons
+  :if (display-graphic-p))
 
 (use-package modus-themes
   :bind ("<f5>" . modus-themes-toggle)
@@ -18,7 +19,7 @@
         modus-themes-links '(neutral-underline background)
         modus-themes-box-buttons '(variable-pitch flat faint 0.9)
         modus-themes-prompts '(intense bold)
-        modus-themes-mode-line '(borderless 3d)
+        modus-themes-mode-line '(moody accented borderless)
         modus-themes-completions '((matches . (extrabold background))
                                    (selection . (semibold intense accented text-also))
                                    (popup . (accented intense)))
@@ -71,15 +72,15 @@
 (setq-default mode-line-format
               '("%e"
                 mode-line-front-space
-                (:eval (propertize " %Z%1*%1+ " 'face 'font-lock-preprocessor-face))
+                mode-line-mule-info
+                mode-line-modified
+                "  "
                 ;; the buffer name; the file name as a tool tip
-                (:eval (propertize " %12b " 'face 'font-lock-keyword-face))
+                mode-line-buffer-identification
 
                 ;; line and column
-                (:eval (propertize " (%l,%c) " 'face 'font-lock-type-face))
-
-                ;; relative position, size of file
-                (:eval (propertize " [%p/%I] " 'face 'font-lock-constant-face))
+                mode-line-position
+                mode-line-modes
 
                 ;; spaces to align right
                 (:eval (propertize
@@ -92,12 +93,6 @@
 
                 ;; buffer encode
                 (:eval (propertize (format " %s " buffer-file-coding-system) 'face 'font-lock-comment-face))
-
-                ;; the current major mode
-                ;; (:eval (propertize " %m " 'face 'font-lock-string-face))
-                mode-name
-
-                flycheck-mode-line
 
                 ;; git info
                 (vc-mode vc-mode)

@@ -51,8 +51,7 @@
 (use-package ediff
   :ensure nil
   :config
-  (setq ediff-diff-options "-w" ;; turn off whitespace checking
-        ediff-show-clashes-only t
+  (setq ediff-show-clashes-only t
         ediff-window-setup-function 'ediff-setup-windows-plain
         ediff-split-window-function 'split-window-horizontally)
   )
@@ -60,11 +59,6 @@
 ;; 高亮合并冲突
 (use-package smerge-mode
   :ensure nil
-  :hook ((find-file . (lambda ()
-                        (save-excursion
-                          (goto-char (point-min))
-                          (when (re-search-forward "^<<<<<<< " nil t)
-                            (smerge-mode 1))))))
   )
 
 (provide 'init-vcs)

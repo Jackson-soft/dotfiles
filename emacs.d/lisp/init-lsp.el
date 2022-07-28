@@ -141,11 +141,21 @@
                      css-mode sh-mode yaml-mode nginx-mode markdown-mode) . lsp-deferred)
          ((go-mode c++-mode c-mode lua-mode) . lsp-save-hooks)
          (dired-mode . lsp-dired-mode))
+  :custom
+  (lsp-clients-clangd-args '("-j=2"
+                             "--background-index"
+                             "--clang-tidy"
+                             "--cross-file-rename"
+                             "--completion-style=bundled"
+                             "--pch-storage=memory"
+                             "--header-insertion=iwyu"
+                             "--header-insertion-decorators"))
+  (lsp-diagnostics-disabled-modes '(go-mode
+                                    sh-mode))
   :config
   (setq lsp-restart 'auto-restart
         lsp-auto-guess-root t
         lsp-semantic-tokens-enable t
-        lsp-dired-mode t
         )
 
   (defun lsp-save-hooks ()
@@ -153,29 +163,10 @@
     (add-hook 'before-save-hook 'lsp-organize-imports t t))
 
   (use-package lsp-ui
-    :bind (:map lsp-ui-mode
-                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-                ([remap xref-find-references] . lsp-ui-peek-find-references))
-    )
-
-  (use-package lsp-clangd
-    :ensure nil
+    :hook (lsp-mode . lsp-ui-mode)
+    :bind ("C-c u" . lsp-ui-imenu)
     :config
-    (setq lsp-clients-clangd-args '("-j=2"
-                                    "--background-index"
-                                    "--clang-tidy"
-                                    "--cross-file-rename"
-                                    "--completion-style=bundled"
-                                    "--pch-storage=memory"
-                                    "--header-insertion=iwyu"
-                                    "--header-insertion-decorators"))
-    )
-
-  (use-package lsp-diagnostics
-    :ensure nil
-    :config
-    (setq lsp-diagnostics-disabled-modes '(go-mode
-                                           sh-mode))
+    (setq lsp-ui-sideline-ignore-duplicate t)
     )
 
   (use-package lsp-lua
@@ -195,7 +186,7 @@
   )
 
 (use-package yasnippet
-  :hook (after-init . yas-global-mode)
+  :hook (prog-mode . yas-minor-mode)
   :config
   (use-package yasnippet-snippets)
   )

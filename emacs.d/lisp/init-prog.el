@@ -53,8 +53,8 @@
 
 ;; format
 (use-package apheleia
-  :hook (prog-mode . apheleia-global-mode)
-  :bind ("C-c C-f" . apheleia-format-buffer)
+  :hook (prog-mode . apheleia-mode)
+  :bind ("C-c M-f" . apheleia-format-buffer)
   :config
   (nconc apheleia-formatters '((pgfmt . ("pg_format" "-"))
                                (cmake-format . ("cmake-format" "--tab-size=4" "-"))))

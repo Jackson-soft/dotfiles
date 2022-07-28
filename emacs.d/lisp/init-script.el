@@ -13,6 +13,10 @@
 
 (use-package yaml-mode)
 
+(use-package yaml-pro
+  :hook (yaml-mode . yaml-pro-mode)
+  )
+
 (use-package protobuf-mode
   :config
   (flycheck-define-checker protobuf-buf

@@ -14,13 +14,9 @@
       read-process-output-max (* 1024 1024)
       inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
 
-;; Package initialize occurs automatically, before `user-init-file' is
-;; loaded, but after `early-init-file'. We handle package
-;; initialization, so we must prevent Emacs from doing it early!
-(setq package-enable-at-startup nil)
-
 ;; Inhibit resizing frame
-(setq frame-inhibit-implied-resize t)
+(setq frame-inhibit-implied-resize t
+      frame-resize-pixelwise t)
 
 ;; Faster to disable these here (before they've been initialized)
 (push '(menu-bar-lines . 0) default-frame-alist)
