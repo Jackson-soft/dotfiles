@@ -103,12 +103,6 @@
   :hook (after-init . mouse-wheel-mode)
   )
 
-;; Workaround with minified source files
-(use-package so-long
-  :ensure nil
-  :hook (after-init . global-so-long-mode)
-  )
-
 ;; Auto refresh
 (use-package autorevert
   :ensure nil

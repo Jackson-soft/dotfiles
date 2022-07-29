@@ -13,11 +13,8 @@
          (typescript-mode . tide-hl-identifier-mode))
   )
 
-(use-package jsonian
-  :after so-long
-  :custom
-  (jsonian-no-so-long-mode)
-  )
+;; json
+(use-package jsonian)
 
 (use-package web-mode
   :mode ("\\.html?\\'" . web-mode)

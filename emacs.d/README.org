@@ -34,7 +34,6 @@
 | paren | 高亮匹配的括号 |
 | electric-pair | 自动补全括号 |
 | simple | 在 ~modeline~ 里显示行号、列号以及当前文本的大小  |
-| so-long | 打开长行的文件不再痛苦 (Emacs 27+ 自带) |
 | uniquify | 区分重名的 ~buffer~ |
 | isearch | 搜索 |
 | project | 项目管理工具 (Emacs 27+ 自带) |
