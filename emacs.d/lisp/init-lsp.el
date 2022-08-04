@@ -50,9 +50,7 @@
 (use-package company
   ;; :hook (after-init . global-company-mode)
   :hook (prog-mode . company-mode)
-  :bind (:map company-mode-map
-              ([remap completion-at-point] . company-complete)
-              :map company-active-map
+  :bind (:map company-active-map
               ("C-s"     . company-filter-candidates)
               ([tab]     . company-complete-common-or-cycle)
               ([backtab] . company-select-previous-or-abort))
@@ -68,8 +66,7 @@
         company-tooltip-width-grow-only t
         company-tooltip-flip-when-above t
         ;; company-show-quick-access 'left
-        company-transformers '(delete-consecutive-dups
-                               company-sort-by-occurrence)
+        company-transformers '(company-sort-by-occurrence)
         company-backends '(company-files
                            company-cmake
                            company-capf
@@ -120,7 +117,6 @@
 ;;; Dabbrev (dynamic word completion)
 (use-package dabbrev
   :ensure nil
-  ;; Swap M-/ and C-M-/
   :bind (("M-/" . dabbrev-expand)
          ("C-x M-/" . dabbrev-completion))
   :config

@@ -20,7 +20,10 @@ zinit depth"1" light-mode for \
     atinit'
         zstyle ":completion:*" completer _expand _complete _ignored _approximate
         zstyle ":completion:*" matcher-list "m:{a-zA-Z}={A-Za-z}" "+r:|?=**"
-        zstyle ":completion:*" menu select=2
+        zstyle ":completion:*:*:*:*:*" menu select
+        zstyle ":completion:*" special-dirs true
+        zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
+        zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01"
         zstyle ":completion:*" select-prompt "%SScrolling active: current selection at %p%s"
         zstyle ":completion:*:descriptions" format "[%d]"
         zstyle ":completion:*:processes" command "ps -au $USER"
@@ -29,7 +32,8 @@ zinit depth"1" light-mode for \
         zstyle ":completion:*:git-checkout:*" sort false
         zstyle ":completion:*" verbose yes
         zstyle ":completion:*" squeeze-slashes true
-        zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
+        zstyle ":completion:*" use-cache yes
+        zstyle ":completion:*" cache-path $ZSH_CACHE_DIR
     ' \
         zsh-users/zsh-completions \
     atinit'

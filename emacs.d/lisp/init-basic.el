@@ -44,7 +44,6 @@
         scroll-preserve-screen-position t  ;; 滚动时保持光标位置
         use-short-answers t
         visible-bell t ;; 错误操作时的窗口闪动警告
-        load-prefer-newer t
         ring-bell-function 'ignore
         display-raw-bytes-as-hex t    ;; Improve display
         use-file-dialog nil

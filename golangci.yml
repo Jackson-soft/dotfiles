@@ -29,6 +29,7 @@ linters:
         - scopelint
         - interfacer
         - nlreturn
+        - nosnakecase
         - paralleltest
         - wrapcheck
         - wsl

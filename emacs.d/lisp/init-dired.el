@@ -43,7 +43,7 @@
          ("C-c v s" . dirvish-side)
          ("C-c f" . dirvish-fd)
          :map dirvish-mode-map
-         ("b"   . dirvish-bookmark-jump)
+         ("a"   . dirvish-quick-access)
          ("f"   . dirvish-file-info-menu)
          ("y"   . dirvish-yank-menu)
          ("N"   . dirvish-narrow)
@@ -56,7 +56,7 @@
          ("M-p" . dirvish-history-go-backward)
          ("M-l" . dirvish-ls-switches-menu)
          ("M-m" . dirvish-mark-menu)
-         ("M-f" . dirvish-toggle-fullscreen)
+         ("M-f" . dirvish-layout-toggle)
          ("M-s" . dirvish-setup-menu)
          ("M-e" . dirvish-emerge-menu)
          ("M-j" . dirvish-fd-jump))
