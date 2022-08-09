@@ -18,7 +18,7 @@ if [[ -e $ZI_BIN/zinit.zsh ]] {
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
 zinit depth"1" light-mode for \
-        $ZI_REPO/zinit-annex-{'patch-dl','bin-gem-node'} \
+        $ZI_REPO/zinit-annex-{'bin-gem-node','patch-dl'} \
     blockf \
     atinit'
         zstyle ":completion:*" completer _expand _complete _ignored _approximate
@@ -45,10 +45,10 @@ zinit depth"1" light-mode for \
         zstyle ":fzf-tab:complete:git-(add|diff|restore):*" fzf-preview "git diff $word | delta"
         zstyle ":fzf-tab:complete:git-log:*" fzf-preview "git log --color=always $word"
         zstyle ":fzf-tab:*" switch-group "," "."
-        zicompinit
     ' \
+    atload"zicompinit; zicdreplay" blockf \
         Aloxaf/fzf-tab \
-    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     atinit'
         typeset -gA FAST_HIGHLIGHT
