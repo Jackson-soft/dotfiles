@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-## History command configuration
+## configuration
 setopt extended_history       # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
@@ -8,9 +8,14 @@ setopt hist_ignore_space      # ignore commands that start with space
 setopt hist_verify            # show command with history expansion to user before running it
 setopt share_history          # share command history data
 setopt auto_menu              # show completion menu on successive tab press
-setopt complete_in_word
-setopt always_to_end
+setopt hash_list_all          # hash everything before completion
+setopt completealiases        # complete alisases
+setopt complete_in_word       # allow completion from within a word/phrase
+setopt nocorrect              # spelling correction for commands
+setopt always_to_end          # when completing from the middle of a word, move the cursor to the end of the word
+setopt list_ambiguous         # complete as much of a completion until it gets ambiguous.
 setopt auto_pushd
+setopt auto_cd
 setopt pushd_ignore_dups
 setopt pushdminus
 
