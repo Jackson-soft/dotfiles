@@ -28,10 +28,12 @@ linters:
         - maligned
         - scopelint
         - interfacer
+        - ifshort
         - nlreturn
         - nosnakecase
         - paralleltest
         - wrapcheck
+        - stylecheck
         - wsl
         - tagliatelle # Implementing against APIs, can't change tags.
         - exhaustivestruct # Not for general usage.

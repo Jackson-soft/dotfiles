@@ -16,6 +16,8 @@ if [[ -e $ZI_BIN/zinit.zsh ]] {
 }
 ### End of Zinit's installer chunk
 
+local GH_RAW_URL='https://raw.githubusercontent.com'
+
 # see https://thevaluable.dev/zsh-completion-guide-examples
 zinit depth"1" light-mode for \
         $ZI_REPO/zinit-annex-{'bin-gem-node','patch-dl'} \
@@ -87,11 +89,10 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin'**/shfmt* -> shfmt' @mvdan/sh
 
-zinit ice wait"0b" lucid as"null" from"gh-r" sbin"fzf" \
-    dl'https://github.com/junegunn/fzf/raw/master/shell/key-bindings.zsh -> key-bindings.zsh;
-       https://github.com/junegunn/fzf/raw/master/shell/completion.zsh -> $ZPFX/completions/_fzf;
-       https://github.com/junegunn/fzf/raw/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1' \
-    src'key-bindings.zsh'
+zinit ice wait"0b" lucid as"null" from"gh-r" src'key-bindings.zsh' sbin"fzf" \
+    dl'${GH_RAW_URL}/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh;
+       ${GH_RAW_URL}/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion;
+       ${GH_RAW_URL}/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1'
 zinit light junegunn/fzf
 
 zinit light-mode lucid wait has"kubectl" for \

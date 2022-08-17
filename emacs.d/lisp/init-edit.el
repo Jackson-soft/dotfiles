@@ -74,8 +74,11 @@
 (use-package isearch
   :ensure nil
   :bind (:map isearch-mode-map
-              ("C-c C-o" . isearch-occur)
-              ([escape] . isearch-cancel))
+              ;; consistent with ivy-occur
+              ("C-c C-o"                   . isearch-occur)
+              ([escape]                    . isearch-cancel)
+              ;; Edit the search string instead of jumping back
+              ([remap isearch-delete-char] . isearch-del-char))
   :config
   (setq isearch-allow-motion t  ;; M-< and M-> move to the first/last occurrence of the current search string.
         isearch-motion-changes-direction t

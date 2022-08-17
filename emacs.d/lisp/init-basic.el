@@ -25,6 +25,22 @@
 
 (use-package emacs
   :ensure nil
+  :init
+  (setq modus-themes-syntax '(faint alt-syntax green-strings yellow-comments)
+        modus-themes-links '(neutral-underline background)
+        modus-themes-box-buttons '(variable-pitch flat faint 0.9)
+        modus-themes-prompts '(intense bold)
+        modus-themes-mode-line '(moody accented borderless)
+        modus-themes-lang-checkers '(text-also background)
+        modus-themes-hl-line '(intense)
+        modus-themes-subtle-line-numbers t
+        modus-themes-markup '(bold italic)
+        modus-themes-paren-match '(bold intense)
+        modus-themes-region '(bg-only no-extend)
+        modus-themes-org-blocks 'tinted-background
+        modus-themes-headings '((t . (variable-pitch extrabold)))
+        )
+  :bind ("<f5>" . modus-themes-toggle)
   :config
   (setq-default tab-width 4
                 tab-always-indent 'complete
@@ -36,7 +52,10 @@
                 major-mode 'text-mode)
 
   ;; Turn on transient-mark-mode
-  (transient-mark-mode t)
+  (transient-mark-mode t) ;; 标记高亮
+
+  ;; (load-theme 'modus-vivendi)
+  (load-theme 'modus-operandi)
 
   (setq scroll-margin 2           ;; better scrolling experience
         scroll-step 1

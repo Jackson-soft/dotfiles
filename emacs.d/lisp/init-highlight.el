@@ -36,23 +36,26 @@
   )
 
 ;; 缩进标识
-(use-package highlight-indent-guides
-  :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'character
-        highlight-indent-guides-responsive 'top)
-  )
+;; (use-package highlight-indent-guides
+;;   :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+;;   :config
+;;   (setq highlight-indent-guides-method 'character
+;;         highlight-indent-guides-responsive 'top)
+;;   )
+
+;; (use-package hl-indent-scope
+;;   :commands (hl-indent-scope-mode)
+;;   :hook ((c-mode c++-mode cmake-mode python-mode emacs-lisp-mode go-mode) . hl-indent-scope-mode)
+;;   )
 
 ;; Dimming Unused Windows
 (use-package dimmer
   :hook (after-init . dimmer-mode)
-  :config
-  (dimmer-configure-which-key)
   )
 
 ;; highlighting Doxygen commands and their arguments
 (use-package highlight-doxygen
-  :hook (cc-mode . highlight-doxygen-mode)
+  :hook (c++-mode . highlight-doxygen-mode)
   )
 
 (provide 'init-highlight)

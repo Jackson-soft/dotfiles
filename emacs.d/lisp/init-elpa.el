@@ -8,7 +8,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-(package-initialize)
+;; (package-initialize)
 
 ;; Setup use-package
 (unless (package-installed-p 'use-package)
@@ -27,7 +27,7 @@
 ;; OSX GUI 下自动导入 PATH
 (use-package exec-path-from-shell
   :when (eq system-type 'darwin)
-  :init (exec-path-from-shell-initialize)
+  :hook (after-init . exec-path-from-shell-initialize)
   )
 
 (provide 'init-elpa)
