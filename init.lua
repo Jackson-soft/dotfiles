@@ -111,7 +111,7 @@ packer.startup(function()
         config = function()
             local onedark = require("onedark")
             onedark.setup({
-                style = "cool",
+                style = "deep",
             })
             onedark.load()
         end,

@@ -11,11 +11,11 @@
 (use-package hl-todo
   :hook (after-init . global-hl-todo-mode)
   :bind (:map hl-todo-mode-map
-              ("C-c t p" . hl-todo-previous)
-              ("C-c t n" . hl-todo-next)
-              ("C-c t i" . hl-todo-insert)
-              ("C-c t o" . hl-todo-occur)
-              ("C-c t s" . hl-todo-rgrep))
+			  ("C-c t p" . hl-todo-previous)
+			  ("C-c t n" . hl-todo-next)
+			  ("C-c t i" . hl-todo-insert)
+			  ("C-c t o" . hl-todo-occur)
+			  ("C-c t s" . hl-todo-rgrep))
   )
 
 ;; 高亮当前行
@@ -27,9 +27,9 @@
 ;; Highlight uncommitted changes
 (use-package diff-hl
   :hook ((after-init . global-diff-hl-mode)
-         (magit-pre-refresh  . diff-hl-magit-pre-refresh)
-         (magit-post-refresh . diff-hl-magit-post-refresh)
-         (dired-mode . diff-hl-dired-mode))
+		 (magit-pre-refresh  . diff-hl-magit-pre-refresh)
+		 (magit-post-refresh . diff-hl-magit-post-refresh)
+		 (dired-mode . diff-hl-dired-mode))
   :config
   (diff-hl-margin-mode)
   (diff-hl-flydiff-mode)

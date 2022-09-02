@@ -27,23 +27,23 @@
   :hook (prog-mode . flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit
-        flycheck-check-syntax-automatically '(save mode-enabled)
-        flycheck-checkers '(c/c++-clang
-                            dockerfile-hadolint
-                            emacs-lisp
-                            emacs-lisp-checkdoc
-                            go-build
-                            go-test
-                            json-jq
-                            lua
-                            markdown-markdownlint-cli
-                            protobuf-protoc
-                            python-mypy
-                            sh-shellcheck
-                            sh-zsh
-                            systemd-analyze
-                            yaml-jsyaml
-                            ))
+		flycheck-check-syntax-automatically '(save mode-enabled)
+		flycheck-checkers '(c/c++-clang
+							dockerfile-hadolint
+							emacs-lisp
+							emacs-lisp-checkdoc
+							go-build
+							go-test
+							json-jq
+							lua
+							markdown-markdownlint-cli
+							protobuf-protoc
+							python-mypy
+							sh-shellcheck
+							sh-zsh
+							systemd-analyze
+							yaml-jsyaml
+							))
   )
 
 ;; https://company-mode.github.io/manual/
@@ -51,29 +51,29 @@
   ;; :hook (after-init . global-company-mode)
   :hook (prog-mode . company-mode)
   :bind (:map company-active-map
-              ("C-s"     . company-filter-candidates)
-              ([tab]     . company-complete-common-or-cycle)
-              ([backtab] . company-select-previous-or-abort))
+			  ("C-s"     . company-filter-candidates)
+			  ([tab]     . company-complete-common-or-cycle)
+			  ([backtab] . company-select-previous-or-abort))
   :custom
   (company-dabbrev-code-ignore-case nil)
   (company-dabbrev-code-everywhere t)
   (company-files-exclusions '(".git/" ".DS_Store"))
   :config
   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
-        company-minimum-prefix-length 1
-        company-require-match 'company-explicit-action-p
-        company-tooltip-limit 12
-        company-tooltip-width-grow-only t
-        company-tooltip-flip-when-above t
-        ;; company-show-quick-access 'left
-        company-transformers '(company-sort-by-occurrence)
-        company-backends '(company-files
-                           company-cmake
-                           company-capf
-                           company-ispell
-                           (company-dabbrev-code company-keywords)
-                           company-dabbrev
-                           ))
+		company-minimum-prefix-length 1
+		company-require-match 'company-explicit-action-p
+		company-tooltip-limit 12
+		company-tooltip-width-grow-only t
+		company-tooltip-flip-when-above t
+		;; company-show-quick-access 'left
+		company-transformers '(company-sort-by-occurrence)
+		company-backends '(company-files
+						   company-cmake
+						   company-capf
+						   company-ispell
+						   (company-dabbrev-code company-keywords)
+						   company-dabbrev
+						   ))
   )
 
 ;; (use-package corfu
@@ -118,67 +118,58 @@
 (use-package dabbrev
   :ensure nil
   :bind (("M-/" . dabbrev-expand)
-         ("C-x M-/" . dabbrev-completion))
+		 ("C-x M-/" . dabbrev-completion))
   :config
   (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_"
-        dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
-        dabbrev-backward-only nil
-        dabbrev-case-distinction 'case-replace
-        dabbrev-case-fold-search nil
-        dabbrev-case-replace 'case-replace
-        dabbrev-check-other-buffers t
-        dabbrev-eliminate-newlines t
-        dabbrev-upcase-means-case-search t)
+		dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
+		dabbrev-backward-only nil
+		dabbrev-case-distinction 'case-replace
+		dabbrev-case-fold-search nil
+		dabbrev-case-replace 'case-replace
+		dabbrev-check-other-buffers t
+		dabbrev-eliminate-newlines t
+		dabbrev-upcase-means-case-search t)
   )
 
 ;; https://emacs-lsp.github.io/lsp-mode/
 (use-package lsp-mode
   :hook (((json-mode js-mode web-mode go-mode dockerfile-mode c-mode c++-mode cmake-mode lua-mode
-                     css-mode sh-mode yaml-mode nginx-mode markdown-mode) . lsp-deferred)
-         ((go-mode c++-mode c-mode lua-mode) . lsp-save-hooks)
-         (dired-mode . lsp-dired-mode))
+					 css-mode sh-mode yaml-mode nginx-mode markdown-mode graphviz-dot-mode) . lsp-deferred)
+		 ((go-mode c++-mode c-mode lua-mode) . lsp-save-hooks)
+		 (dired-mode . lsp-dired-mode))
   :custom
   (lsp-clients-clangd-args '("-j=2"
-                             "--background-index"
-                             "--clang-tidy"
-                             "--cross-file-rename"
-                             "--completion-style=bundled"
-                             "--pch-storage=memory"
-                             "--header-insertion=iwyu"
-                             "--header-insertion-decorators"))
+							 "--background-index"
+							 "--clang-tidy"
+							 "--cross-file-rename"
+							 "--completion-style=bundled"
+							 "--pch-storage=memory"
+							 "--header-insertion=iwyu"
+							 "--header-insertion-decorators"))
   (lsp-diagnostics-disabled-modes '(go-mode
-                                    sh-mode))
+									sh-mode))
   :config
   (setq lsp-restart 'auto-restart
-        lsp-auto-guess-root t
-        lsp-semantic-tokens-enable t
-        )
+		lsp-auto-guess-root t
+		lsp-semantic-tokens-enable t
+		)
 
   (defun lsp-save-hooks ()
-    (add-hook 'before-save-hook 'lsp-format-buffer t t)
-    (add-hook 'before-save-hook 'lsp-organize-imports t t))
+	(add-hook 'before-save-hook 'lsp-format-buffer t t)
+	(add-hook 'before-save-hook 'lsp-organize-imports t t))
 
   (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
-    :bind ("C-c u" . lsp-ui-imenu)
-    :config
-    (setq lsp-ui-sideline-ignore-duplicate t)
-    )
+	:hook (lsp-mode . lsp-ui-mode)
+	:bind ("C-c u" . lsp-ui-imenu)
+	:config
+	(setq lsp-ui-sideline-ignore-duplicate t)
+	)
 
   (use-package lsp-lua
-    :ensure nil
-    :config
-    (setq lsp-clients-lua-language-server-command "lua-language-server"
-          lsp-lua-hint-enable t)
-    )
-
-  (lsp-register-client
-   (make-lsp-client
-    :new-connection (lsp-stdio-connection "lua-language-server")
-    :major-modes '(lua-mode)
-    :priority 0
-    :server-id 'lua-language-server)
-   )
+	:ensure nil
+	:config
+	(setq lsp-lua-hint-enable t)
+	)
   )
 
 (use-package yasnippet

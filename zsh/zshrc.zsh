@@ -90,8 +90,8 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin'**/shfmt* -> shfmt' @mvdan/sh
 
 zinit ice wait"0b" lucid as"null" from"gh-r" src'key-bindings.zsh' sbin"fzf" \
-    dl'${GH_RAW_URL}/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh;
-       ${GH_RAW_URL}/junegunn/fzf/master/shell/completion.zsh -> _fzf_completion;
+    dl'${GH_RAW_URL}/junegunn/fzf/master/shell/key-bindings.zsh;
+       ${GH_RAW_URL}/junegunn/fzf/master/shell/completion.zsh -> $ZPFX/completions/_fzf_completion;
        ${GH_RAW_URL}/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1'
 zinit light junegunn/fzf
 
