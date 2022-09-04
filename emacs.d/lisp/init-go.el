@@ -8,24 +8,24 @@
 (use-package go-mode
   :config
   (use-package gotest
-    :bind (:map go-mode-map
-                ("C-c g f" . go-test-current-file)
-                ("C-c g t" . go-test-current-test)
-                ("C-c g p" . go-test-current-project)
-                ("C-c g b" . go-test-current-benchmark)
-                ("C-c g x" . go-run))
-    :config
-    (setq go-test-verbose t
-          go-test-args "-count=1")
-    )
+	:bind (:map go-mode-map
+				("C-c g f" . go-test-current-file)
+				("C-c g t" . go-test-current-test)
+				("C-c g p" . go-test-current-project)
+				("C-c g b" . go-test-current-benchmark)
+				("C-c g x" . go-run))
+	:config
+	(setq go-test-verbose t
+		  go-test-args "-count=1")
+	)
 
   (use-package go-tag
-    :bind (:map go-mode-map
-                ("C-c g a" . go-tag-add)
-                ("C-c g r" . go-tag-remove))
-    :config
-    (setq go-tag-args (list "-transform" "camelcase"))
-    )
+	:bind (:map go-mode-map
+				("C-c g a" . go-tag-add)
+				("C-c g r" . go-tag-remove))
+	:config
+	(setq go-tag-args (list "-transform" "camelcase"))
+	)
   )
 
 (use-package flycheck-golangci-lint

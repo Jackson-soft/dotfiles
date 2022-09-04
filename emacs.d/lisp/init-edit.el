@@ -11,12 +11,12 @@
   "Call delete range line form LINE."
   (interactive "s:")
   (let* ((line (split-string line ","))
-         (begin (string-to-number (nth 0 line)))
-         (end (string-to-number (nth 1 line)))
-         )
-    (save-excursion
-      (goto-line begin)
-      (kill-line (- end begin))))
+		 (begin (string-to-number (nth 0 line)))
+		 (end (string-to-number (nth 1 line)))
+		 )
+	(save-excursion
+	  (goto-line begin)
+	  (kill-line (- end begin))))
   )
 
 (global-set-key (kbd "C-c C-k") 'kill-lines)
@@ -38,7 +38,7 @@
 (use-package misc
   :ensure nil
   :bind (("M-z" . zap-up-to-char)
-         ("M-Z" . zap-to-char)) ;; M-S-z
+		 ("M-Z" . zap-to-char)) ;; M-S-z
   )
 
 ;; Highlight parenthesises
@@ -46,8 +46,8 @@
   :ensure nil
   :config
   (setq show-paren-when-point-inside-paren t
-        show-paren-when-point-in-periphery t
-        show-paren-context-when-offscreen 'child-frame)
+		show-paren-when-point-in-periphery t
+		show-paren-context-when-offscreen 'child-frame)
   )
 
 ;; Automatic parenthesis pairing
@@ -67,26 +67,25 @@
   :ensure nil
   :config
   (setq uniquify-buffer-name-style 'forward
-        uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+		uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
   )
 
 ;; search
 (use-package isearch
   :ensure nil
   :bind (:map isearch-mode-map
-              ;; consistent with ivy-occur
-              ("C-c C-o"                   . isearch-occur)
-              ([escape]                    . isearch-cancel)
-              ;; Edit the search string instead of jumping back
-              ([remap isearch-delete-char] . isearch-del-char))
+			  ("C-c C-o"                   . isearch-occur)
+			  ([escape]                    . isearch-cancel)
+			  ;; Edit the search string instead of jumping back
+			  ([remap isearch-delete-char] . isearch-del-char))
   :config
   (setq isearch-allow-motion t  ;; M-< and M-> move to the first/last occurrence of the current search string.
-        isearch-motion-changes-direction t
-        isearch-regexp-lax-whitespace t
-        isearch-resume-in-command-history t
-        isearch-lazy-count t         ;; lazy isearch
-        isearch-repeat-on-direction-change t
-        lazy-highlight-buffer t)
+		isearch-motion-changes-direction t
+		isearch-regexp-lax-whitespace t
+		isearch-resume-in-command-history t
+		isearch-lazy-count t         ;; lazy isearch
+		isearch-repeat-on-direction-change t
+		lazy-highlight-buffer t)
   )
 
 ;; replace
@@ -99,42 +98,42 @@
 ;; 多块编辑
 (use-package iedit
   :bind (("C-x i" . iedit-mode)
-         ("C-x r RET" . iedit-rectangle-mode))
+		 ("C-x r RET" . iedit-rectangle-mode))
   )
 
 ;; 多光标编辑
 (use-package multiple-cursors
   :bind (("C-S-c C-S-c" . mc/edit-lines)
-         ("C->"         . mc/mark-next-like-this)
-         ("C-<"         . mc/mark-previous-like-this)
-         ("C-c C-<"     . mc/mark-all-like-this)
-         ("C-M->"       . mc/skip-to-next-like-this)
-         ("C-M-<"       . mc/skip-to-previous-like-this))
+		 ("C->"         . mc/mark-next-like-this)
+		 ("C-<"         . mc/mark-previous-like-this)
+		 ("C-c C-<"     . mc/mark-all-like-this)
+		 ("C-M->"       . mc/skip-to-next-like-this)
+		 ("C-M-<"       . mc/skip-to-previous-like-this))
   )
 
 (use-package ispell
   :ensure nil
   :bind (("C-c i c" . ispell-comments-and-strings)
-         ("C-c i p" . ispell-comment-or-string-at-point)
-         ("C-c i k" . ispell-kill-ispell)
-         ("C-c i m" . ispell-message)
-         ("C-c i r" . ispell-region))
+		 ("C-c i p" . ispell-comment-or-string-at-point)
+		 ("C-c i k" . ispell-kill-ispell)
+		 ("C-c i m" . ispell-message)
+		 ("C-c i r" . ispell-region))
   :config
   (setq ispell-following-word t
-        ispell-quietly t         ;; Supress messages in ispell-word
-        ispell-program-name "aspell"
-        ispell-dictionary "en_US"
-        ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--camel-case" "--run-together-limit=16"))
+		ispell-quietly t         ;; Supress messages in ispell-word
+		ispell-program-name "aspell"
+		ispell-dictionary "en_US"
+		ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--camel-case" "--run-together-limit=16"))
   )
 
 ;; 单词拼写检查
 (use-package flyspell
   :ensure nil
   :hook (((text-mode outline-mode) . flyspell-mode)
-         (prog-mode . flyspell-prog-mode))
+		 (prog-mode . flyspell-prog-mode))
   :config
   (setq flyspell-issue-welcome-flag nil
-        flyspell-issue-message-flag nil)
+		flyspell-issue-message-flag nil)
   )
 
 (provide 'init-edit)

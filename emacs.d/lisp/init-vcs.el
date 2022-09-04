@@ -8,15 +8,15 @@
 (use-package magit
   :hook (git-commit-setup . git-commit-turn-on-flyspell)
   :bind (("C-x g" . magit-status)
-         ("C-x M-g" . magit-dispatch)
-         ("C-c M-g" . magit-file-dispatch))
+		 ("C-x M-g" . magit-dispatch)
+		 ("C-c M-g" . magit-file-dispatch))
   :config
 
   (use-package magit-diff
-    :ensure nil
-    :config
-    (setq magit-diff-refine-hunk t)
-    )
+	:ensure nil
+	:config
+	(setq magit-diff-refine-hunk t)
+	)
   )
 
 (use-package git-modes)
@@ -30,21 +30,21 @@
   :ensure nil
   :config
   (setq vc-follow-symlinks t
-        vc-handled-backends '(Git))
+		vc-handled-backends '(Git))
   )
 
 (use-package vc-git
   :ensure nil
   :config
   (setq vc-git-diff-switches '("--patch-with-stat" "--histogram")
-        vc-git-print-log-follow t)
+		vc-git-print-log-follow t)
   )
 
 (use-package diff-mode
   :ensure nil
   :config
   (setq diff-default-read-only t
-        diff-font-lock-syntax 'hunk-also)
+		diff-font-lock-syntax 'hunk-also)
   )
 
 ;; Visual diff interface
@@ -52,8 +52,8 @@
   :ensure nil
   :config
   (setq ediff-show-clashes-only t
-        ediff-window-setup-function 'ediff-setup-windows-plain
-        ediff-split-window-function 'split-window-horizontally)
+		ediff-window-setup-function 'ediff-setup-windows-plain
+		ediff-split-window-function 'split-window-horizontally)
   )
 
 ;; 高亮合并冲突

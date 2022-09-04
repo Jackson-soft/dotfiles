@@ -10,7 +10,7 @@
 
 (use-package tide
   :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode))
+		 (typescript-mode . tide-hl-identifier-mode))
   )
 
 ;; json
@@ -20,11 +20,11 @@
   :mode ("\\.html?\\'" . web-mode)
   :config
   (setq web-mode-enable-auto-pairing t
-        web-mode-enable-css-colorization t
-        web-mode-enable-part-face t
-        web-mode-enable-comment-interpolation t
-        web-mode-enable-current-column-highlight t
-        web-mode-enable-current-element-highlight t)
+		web-mode-enable-css-colorization t
+		web-mode-enable-part-face t
+		web-mode-enable-comment-interpolation t
+		web-mode-enable-current-column-highlight t
+		web-mode-enable-current-element-highlight t)
   )
 
 (provide 'init-web)
