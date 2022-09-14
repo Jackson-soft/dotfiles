@@ -23,7 +23,7 @@
   )
 
 (use-package tree-sitter
-  :hook (((c-mode c++-mode go-mode sh-mode json-mode) . tree-sitter-mode)
+  :hook (((c-mode c++-mode go-mode sh-mode json-mode yaml-mode) . tree-sitter-mode)
 		 (tree-sitter-after-on . tree-sitter-hl-mode))
   :config
   (use-package tree-sitter-langs)

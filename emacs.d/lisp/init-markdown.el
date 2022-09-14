@@ -9,14 +9,14 @@
   :mode ("README\\.md\\'" . gfm-mode)
   :config
   (setq markdown-command "multimarkdown"
-        markdown-enable-math t
-        markdown-enable-wiki-links t
-        markdown-asymmetric-header t
-        markdown-italic-underscore t
-        markdown-fontify-code-blocks-natively t
-        markdown-fontify-code-block-default-mode t
-        markdown-make-gfm-checkboxes-buttons t
-        markdown-gfm-uppercase-checkbox t)
+		markdown-enable-math t
+		markdown-enable-wiki-links t
+		markdown-asymmetric-header t
+		markdown-italic-underscore t
+		markdown-fontify-code-blocks-natively t
+		markdown-fontify-code-block-default-mode t
+		markdown-make-gfm-checkboxes-buttons t
+		markdown-gfm-uppercase-checkbox t)
 
   (use-package edit-indirect)
   )

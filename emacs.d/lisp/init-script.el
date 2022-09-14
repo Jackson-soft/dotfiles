@@ -8,7 +8,7 @@
 (use-package lua-mode
   :config
   (setq lua-indent-level tab-width
-        lua-indent-string-contents t)
+		lua-indent-string-contents t)
   )
 
 (use-package yaml-mode)
@@ -20,13 +20,13 @@
 (use-package protobuf-mode
   :config
   (flycheck-define-checker protobuf-buf
-    "A protobuf syntax checker using buf.
+	"A protobuf syntax checker using buf.
 See URL `https://github.com/bufbuild/buf'."
-    :command ("buf" "lint" "--path" source-original)
-    :error-patterns
-    ((warning line-start (file-name) ":" line ":" column ":" (message) line-end))
-    :modes protobuf-mode
-    :predicate flycheck-buffer-saved-p)
+	:command ("buf" "lint" "--path" source-original)
+	:error-patterns
+	((warning line-start (file-name) ":" line ":" column ":" (message) line-end))
+	:modes protobuf-mode
+	:predicate flycheck-buffer-saved-p)
 
   (add-to-list 'flycheck-checkers 'protobuf-buf)
   )
@@ -48,13 +48,13 @@ See URL `https://github.com/bufbuild/buf'."
 ;; restclient
 (use-package restclient
   :mode (("\\.http\\'" . restclient-mode)
-         ("\\.rest\\'" . restclient-mode))
+		 ("\\.rest\\'" . restclient-mode))
   )
 
 (use-package company-restclient
   :defines company-backends
   :hook (restclient-mode . (lambda ()
-                             (cl-pushnew 'company-restclient company-backends)))
+							 (cl-pushnew 'company-restclient company-backends)))
   )
 
 (use-package systemd)

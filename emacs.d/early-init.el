@@ -10,14 +10,14 @@
 
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.5
-      read-process-output-max (* 1024 1024)
-      load-prefer-newer t
-      inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
+	  gc-cons-percentage 0.5
+	  read-process-output-max (* 1024 1024)
+	  load-prefer-newer t
+	  inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
 
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t
-      frame-resize-pixelwise t)
+	  frame-resize-pixelwise t)
 
 ;; Faster to disable these here (before they've been initialized)
 (push '(menu-bar-lines . 0) default-frame-alist)

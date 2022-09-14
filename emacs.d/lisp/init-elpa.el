@@ -18,8 +18,8 @@
 ;; Should set before loading `use-package'
 (eval-and-compile
   (setq use-package-always-ensure t
-        use-package-expand-minimally t
-        use-package-enable-imenu-support t))
+		use-package-expand-minimally t
+		use-package-enable-imenu-support t))
 
 (eval-when-compile
   (require 'use-package))
