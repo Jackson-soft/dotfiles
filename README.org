@@ -8,7 +8,7 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git ~/myDoc/dotfile
 #+end_src
 
 * ~Emacs~
-具体参见： [[file:emacs.d/README.org][Emacs]]
+具体可见： [[file:config/emacs/README.org][Emacs]]
 
 * =Zsh=
 ** 整体配置
@@ -157,7 +157,7 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 
 **** 主题
 [[https://github.com/starship/starship][starship]] 是一个 ~Rust~ 写的跨 ~shell~ 的主题。相比于 [[https://github.com/romkatv/powerlevel10k][Powerlevel10k]]
-比较简洁，配置也相对简单，具体参见 [[file:starship.toml][starship.toml]] 。
+比较简洁，配置也相对简单，具体参见 [[file:config/starship.toml][starship.toml]] 。
 
 **** ~forgit~
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
@@ -186,14 +186,14 @@ forgit_fixup=gfu
 目前是用 [[https://github.com/neovim/neovim][Neovim]] 替代，主要是满足日常配置脚本之用。选择 ~Neovim~ 主要原因是配置文件可以用 ~Lua~ 来写，对于 ~vimscript~ 还是不
 太熟悉。
 
-所有配置都在 [[file:init.lua][init.lua]] ，用到 ~Neovim~ 内置的 ~tree-siter~ 和 ~lsp~ 。
+所有配置都在 [[file:config/nvim/init.lua][init.lua]] ，用到 ~Neovim~ 内置的 ~tree-siter~ 和 ~lsp~ 。
 
 * 终端
 原来在 ~Mac OS~ 上一直用 ~iTerm2~ ，后来改用跨平台终端 [[https://github.com/kovidgoyal/kitty][kitty]] ,主要原因是：
 - 跨平台
 - 配置文件化
 
-至于说 ~GPU~ 加速，目前没什么感觉，配置文件参见 [[file:kitty.conf][kitty.conf]] 。
+至于说 ~GPU~ 加速，目前没什么感觉，配置文件参见 [[file:config/kitty/kitty.conf][kitty.conf]] 。
 
 ~PS~ : ~kitty~ 还有一个 ~Rust~ 写的竞品 [[https://github.com/alacritty/alacritty][Alacritty]] ，但它的作者对于有些功能的执拗，不愿实现有些对我来说比较实用的功能，
 故没用（比如：标签，作者对于标签一直觉得可以搭配 ~tmux~ 来实现，具体参见 [[https://github.com/alacritty/alacritty/issues/1544][Investigate macOS tabs]] ）。
