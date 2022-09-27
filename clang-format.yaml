@@ -1,17 +1,19 @@
 ---
-Language: Cpp
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
 BasedOnStyle: LLVM
 IndentWidth: 4
-SortIncludes: true
-SortUsingDeclarations: true
 TabWidth: 4
 UseTab: Never
 UseCRLF: false
+SortIncludes: true
+---
+Language: Cpp
+SortUsingDeclarations: true
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
-AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
-AlignConsecutiveDeclarations: AcrossEmptyLinesAndComments
+AlignConsecutiveAssignments: true
+AlignConsecutiveBitFields: true
+AlignConsecutiveDeclarations: true
 AlignEscapedNewlines: Left
 AlignOperands: AlignAfterOperator
 AlignTrailingComments: true
@@ -80,14 +82,10 @@ SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
-Standard: c++20
+RequiresClausePosition: WithPreceding
+SeparateDefinitionBlocks: Always
+Standard: Latest
 ReflowComments: true
 ---
 Language: Proto
-BasedOnStyle: LLVM
-TabWidth: 4
-UseCRLF: false
-UseTab: Never
-SortIncludes: true
-IndentWidth: 4
 ColumnLimit: 120

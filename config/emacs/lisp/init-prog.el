@@ -36,16 +36,15 @@
 ;; show trailing whitespaces
 (use-package whitespace
   :ensure nil
-  :hook (((prog-mode text-mode) . whitespace-mode)
-		 (before-save . whitespace-cleanup))
+  :hook ((prog-mode text-mode) . whitespace-mode)
   :config
   (setq indicate-empty-lines t
-		whitespace-action '(auto-cleanup)
+		;; whitespace-action '(auto-cleanup)
 		whitespace-style
 		'(face             ;; visualize things below
 		  trailing         ;; trailing blanks
 		  empty            ;; empty lines at beginning/end of buffer
-		  indentation
+		  ;; indentation
 		  space-before-tab ;; spaces before tab
 		  space-after-tab))
   )
