@@ -5,7 +5,7 @@
 
 * 系统及版本
 - =OS= : =Fedora= && =macOS=
-- =Emacs vesrion= : =28.0.50=
+- =Emacs vesrion= : =29.0.50=
 
 配置很大程度上参照了 [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]] ，补全主要是 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] ,
 涵盖我用的一些语言（ ~C++~ 、 ~Go~ 、 ~Lua~ 、 ~Typescript~ 、 ~Yaml~ 、 ~Nginx~ ）。

@@ -23,7 +23,10 @@
   )
 
 ;; cmake mode
-(use-package cmake-mode)
+(use-package cmake-mode
+  :config
+  (setq cmake-tab-width tab-width)
+  )
 
 ;; cmake-ide
 (use-package cmake-ide
