@@ -40,6 +40,7 @@ zinit depth"1" light-mode for \
         zstyle ":completion:*" menu select=2
         zstyle ":completion:*" special-dirs true
         zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
+        zstyle ":completion:*" rehash true
         zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01"
         zstyle ":completion:*" select-prompt "%SScrolling active: current selection at %p%s"
         zstyle ":completion:*:descriptions" format "[%d]"
@@ -49,7 +50,8 @@ zinit depth"1" light-mode for \
         zstyle ":completion:*:git-checkout:*" sort false
         zstyle ":completion:*" verbose yes
         zstyle ":completion:*" squeeze-slashes true
-        zstyle ":completion:*" use-cache yes
+        zstyle ":completion:*" accept-exact "*(N)"
+        zstyle ":completion:*" use-cache on
         zstyle ":completion:*" cache-path $ZSH_CACHE_DIR
     ' \
         zsh-users/zsh-completions \

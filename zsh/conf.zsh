@@ -1,6 +1,18 @@
 #!/bin/zsh
 
-## configuration
+## Options section
+setopt correct                                                  # Auto correct mistakes
+setopt extendedglob                                             # Extended globbing. Allows using regular expressions with *
+setopt nocaseglob                                               # Case insensitive globbing
+setopt rcexpandparam                                            # Array expension with parameters
+setopt nocheckjobs                                              # Don't warn about running processes when exiting
+setopt numericglobsort                                          # Sort filenames numerically when it makes sense
+setopt nobeep                                                   # No beep
+setopt appendhistory                                            # Immediately append history instead of overwriting
+setopt histignorealldups                                        # If a new command is a duplicate, remove the older one
+setopt autocd                                                   # if only directory path is entered, cd there.
+setopt inc_append_history                                       # save commands are added to the history immediately, otherwise only when shell exits.
+setopt histignorespace                                          # Don't save commands that start with space
 setopt extended_history       # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
@@ -11,18 +23,16 @@ setopt auto_menu              # show completion menu on successive tab press
 setopt hash_list_all          # hash everything before completion
 setopt completealiases        # complete alisases
 setopt complete_in_word       # allow completion from within a word/phrase
-setopt nocorrect              # spelling correction for commands
 setopt always_to_end          # when completing from the middle of a word, move the cursor to the end of the word
 setopt list_ambiguous         # complete as much of a completion until it gets ambiguous.
 setopt auto_pushd
-setopt auto_cd
 setopt pushd_ignore_dups
 setopt pushdminus
 
-alias -g ...='../..'
-
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
 bindkey -e
+
+alias -g ...='../..'
 
 # fzf
 # https://github.com/junegunn/fzf
@@ -33,7 +43,7 @@ export FZF_CTRL_R_OPTS='--sort --exact'
 export FZF_DEFAULT_OPTS="
        --layout=reverse
        --info=inline
-       --height=70%
+       --height=~70%
        --multi
        --border
        --cycle
@@ -45,16 +55,12 @@ export FZF_DEFAULT_OPTS="
        --bind '?:toggle-preview'
        "
 
-# colored-man-pages
-man() {
-    env \
-        LESS_TERMCAP_md=$(tput bold; tput setaf 4) \
-        LESS_TERMCAP_me=$(tput sgr0) \
-        LESS_TERMCAP_mb=$(tput blink) \
-        LESS_TERMCAP_us=$(tput setaf 2) \
-        LESS_TERMCAP_ue=$(tput sgr0) \
-        LESS_TERMCAP_so=$(tput smso) \
-        LESS_TERMCAP_se=$(tput rmso) \
-        PAGER="${commands[less]:-$PAGER}" \
-        man "$@"
-}
+# Color man pages
+export LESS_TERMCAP_mb=$'\E[01;32m'
+export LESS_TERMCAP_md=$'\E[01;32m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;47;34m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;36m'
+export LESS=-R
