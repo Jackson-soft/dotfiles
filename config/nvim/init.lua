@@ -586,7 +586,7 @@ local on_attach = function(client, bufnr)
     -- vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
     vim.keymap.set("n", "<leader>so", require("telescope.builtin").lsp_document_symbols, opts)
 
-    if client.resolved_capabilities.document_formatting then
+    if client.server_capabilities.documentFormattingProvider then
         local gLspFormat = vim.api.nvim_create_augroup("LspFormat", { clear = false })
         vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
@@ -612,7 +612,7 @@ local on_attach = function(client, bufnr)
         end
     })
 
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.documentHighlightProvider then
         vim.cmd [[
     hi! LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
     hi! LspReferenceText cterm=bold ctermbg=red guibg=LightYellow

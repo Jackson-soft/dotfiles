@@ -18,11 +18,11 @@
   :hook (minibuffer-setup . cursor-intangible-mode)
   :custom
   (minibuffer-eldef-shorten-default t)
-  (minibuffer-electric-default-mode t)   ;;当输入内容后，prompt的default值就会被隐藏
-  (minibuffer-depth-indicate-mode t)   ;;显示minibuffer深度
+  (minibuffer-electric-default-mode t)   ;; 当输入内容后，prompt的default值就会被隐藏
+  (minibuffer-depth-indicate-mode t)   ;; 显示minibuffer深度
   :config
-  (setq history-delete-duplicates t        ;;minibuffer 删除重复历史
-		enable-recursive-minibuffers t     ;;在minibuffer 中也可以再次使用minibuffer
+  (setq history-delete-duplicates t        ;; minibuffer 删除重复历史
+		enable-recursive-minibuffers t     ;; 在minibuffer 中也可以再次使用minibuffer
 		read-buffer-completion-ignore-case t
 		read-file-name-completion-ignore-case t
 
