@@ -16,6 +16,10 @@
 			  ("C-c C-e" . sh-execute-region))
   )
 
+(use-package flymake-shellcheck
+  :hook (sh-mode . flymake-shellcheck-load)
+  )
+
 (use-package vterm
   :hook (vterm-mode . (lambda() (display-line-numbers-mode -1)))
   :config

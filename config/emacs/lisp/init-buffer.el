@@ -32,7 +32,8 @@
 		completion-pcm-complete-word-inserts-delimiters t
 		completion-cycle-threshold 3
 		completion-ignore-case t
-		;; completions-format 'one-column
+		completions-format 'one-column
+		completions-max-height 20
 		completion-category-overrides '((file (styles . (basic partial-completion orderless))))
 		completions-detailed t
 		completions-group t)

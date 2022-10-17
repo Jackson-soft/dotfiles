@@ -62,6 +62,7 @@
 							   (dockerfile-mode . shfmt)
 							   (cmake-mode . cmake-format)
 							   (protobuf-mode . clang-format)
+							   (emacs-lisp-mode . lisp-indent)
 							   (sql-mode . pgfmt)))
   )
 

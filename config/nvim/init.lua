@@ -652,9 +652,10 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { "pyright", "bashls", "dockerls", "dotls", "gopls", "yamlls", "clangd", "jsonls" }
+local servers = { "bashls", "bufls", "cmake", "dockerls", "dotls", "gopls", "yamlls", "clangd", "jsonls",
+    "pyright" }
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
@@ -681,10 +682,7 @@ null_ls.setup({
         null_ls.builtins.diagnostics.shellcheck,
         null_ls.builtins.diagnostics.markdownlint,
         null_ls.builtins.diagnostics.golangci_lint,
-        null_ls.builtins.diagnostics.yamllint.with({
-            command = "js-yaml",
-            args = { "-" },
-        }),
+        null_ls.builtins.diagnostics.yamllint,
         null_ls.builtins.diagnostics.buf,
         null_ls.builtins.diagnostics.zsh,
 

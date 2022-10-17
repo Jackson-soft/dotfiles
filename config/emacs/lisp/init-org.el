@@ -209,9 +209,6 @@
 (use-package graphviz-dot-mode
   :config
   (graphviz-turn-on-live-preview)
-
-  (use-package company-graphviz-dot
-	:ensure nil)
   )
 
 (provide 'init-org)

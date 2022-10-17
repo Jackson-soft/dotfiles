@@ -7,14 +7,6 @@
 
 ;; sudo npm i -g pyright
 
-(use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-deferred)))
-  :config
-  (setq lsp-pyright-python-executable-cmd "python3")
-  )
-
 (provide 'init-python)
 
 ;;; init-python.el ends here

@@ -8,11 +8,6 @@
 ;; typescript
 (use-package typescript-mode)
 
-(use-package tide
-  :hook ((typescript-mode . tide-setup)
-		 (typescript-mode . tide-hl-identifier-mode))
-  )
-
 ;; json
 (use-package jsonian)
 

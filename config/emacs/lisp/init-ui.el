@@ -6,7 +6,8 @@
 ;;; Code:
 
 (use-package all-the-icons
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  )
 
 ;; 显示时间
 (use-package time

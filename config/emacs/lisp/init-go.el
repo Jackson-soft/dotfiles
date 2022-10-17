@@ -28,12 +28,6 @@
 	)
   )
 
-(use-package flycheck-golangci-lint
-  :hook (go-mode . flycheck-golangci-lint-setup)
-  :config
-  (setq flycheck-golangci-lint-tests t)
-  )
-
 (provide 'init-go)
 
 ;;; init-go.el ends here
