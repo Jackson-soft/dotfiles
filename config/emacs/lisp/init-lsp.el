@@ -88,11 +88,11 @@
   :config
   (setq corfu-cycle t                ;; Enable cycling for `corfu-next/previous'
         corfu-auto t                 ;; Enable auto completion
+		corfu-quit-no-match t        ;; Automatically quit if there is no match
         corfu-auto-prefix 2)
 
   ;; Add extensions
   (use-package cape
-    ;; Bind dedicated completion commands
     :bind (("C-c p p" . completion-at-point) ;; capf
            ("C-c p t" . complete-tag)        ;; etags
            ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion

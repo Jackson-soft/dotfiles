@@ -29,10 +29,6 @@
   (use-package tree-sitter-langs)
   )
 
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode)
-  )
-
 ;; show trailing whitespaces
 (use-package whitespace
   :ensure nil
@@ -99,6 +95,14 @@ Else, call `comment-or-uncomment-region' on the current line."
   :ensure nil
   :hook (prog-mode . hs-minor-mode)
   :bind ("C--" . hs-toggle-hiding)
+  )
+
+;; 注释的风格
+(use-package docstr
+  :hook (prog-mode . docstr-mode)
+  :config
+  (docstr-faces-apply)
+  (setq docstr-key-support t)
   )
 
 (provide 'init-prog)

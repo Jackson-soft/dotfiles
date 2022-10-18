@@ -53,11 +53,6 @@
   :hook (after-init . dimmer-mode)
   )
 
-;; highlighting Doxygen commands and their arguments
-(use-package highlight-doxygen
-  :hook (c++-mode . highlight-doxygen-mode)
-  )
-
 (provide 'init-highlight)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
