@@ -52,6 +52,11 @@
   :hook (prog-mode . flymake-mode)
   )
 
+;; flymake linter
+(use-package flymake-collection
+  :hook (after-init . flymake-collection-hook-setup)
+  )
+
 ;; https://company-mode.github.io/manual/
 ;; (use-package company
 ;;   ;; :hook (after-init . global-company-mode)
@@ -180,6 +185,7 @@
 ;;   )
 
 (use-package eglot
+  :ensure nil
   :hook (((json-mode js-mode web-mode go-mode dockerfile-mode c-mode c++-mode cmake-mode lua-mode
 					 css-mode sh-mode yaml-mode protobuf-mode graphviz-dot-mode) . eglot-ensure))
   :bind (:map eglot-mode-map
@@ -189,7 +195,6 @@
               ("C-c l d" . eldoc))
   :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))
   (add-to-list 'eglot-server-programs '(protobuf-mode . ("bufls" "serve")))
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) . ("clangd"
 															 "-j=2"

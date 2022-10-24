@@ -42,9 +42,9 @@
 
 				;; spaces to align right
 				(:eval (propertize
-						" " 'display
-						`((space :align-to (- (+ right right-fringe right-margin)
-											  ,65)))))
+						" "
+						'display
+						`((space :align-to (- (+ right right-fringe right-margin), 66)))))
 
 				;; data and time
 				mode-line-misc-info

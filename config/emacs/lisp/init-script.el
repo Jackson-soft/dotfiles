@@ -15,12 +15,7 @@
   :hook (sql-mode . flymake-sqlfluff-load)
   )
 
-(use-package yaml-mode
-  :config
-
-  (use-package flymake-yamllint
-	:hook (yaml-mode . flymake-yamllint-setup))
-  )
+(use-package yaml-mode)
 
 (use-package yaml-pro
   :hook (yaml-mode . yaml-pro-mode)
@@ -34,6 +29,10 @@
 
 (use-package dockerfile-mode
   :mode ("Dockerfile\\'" . dockerfile-mode)
+  )
+
+(use-package flymake-hadolint
+  :hook (dockerfile-mode . flymake-hadolint-setup)
   )
 
 (use-package docker-compose-mode)
