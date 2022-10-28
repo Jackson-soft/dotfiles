@@ -8,9 +8,10 @@
 ;; C/C++ mode
 (use-package cc-mode
   :ensure nil
-  :config
-  (setq c-doc-comment-style '((c-mode . doxygen)
-							  (c++-mode . doxygen)))
+  :custom
+  (c-doc-comment-style '((c-mode . doxygen)
+						 (c++-mode . doxygen)))
+  (c-default-style "stroustrup")
   )
 
 ;; Highlight "#if 0" as comments
