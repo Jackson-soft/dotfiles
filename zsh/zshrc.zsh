@@ -16,8 +16,6 @@ if [[ -e $ZI_BIN/zinit.zsh ]] {
 }
 ### End of Zinit's installer chunk
 
-local GH_RAW_URL="https://raw.githubusercontent.com"
-
 # see https://thevaluable.dev/zsh-completion-guide-examples
 zinit depth"1" light-mode for \
         $ZI_REPO/zinit-annex-{'bin-gem-node','patch-dl'} \
@@ -71,6 +69,8 @@ zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
     wfxr/forgit
 
+local GH_RAW_URL="https://raw.githubusercontent.com"
+
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
@@ -96,10 +96,6 @@ zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" sbin"fzf" \
        ${GH_RAW_URL}/junegunn/fzf/master/shell/completion.zsh -> $ZPFX/completions/_fzf_completion;
        ${GH_RAW_URL}/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1"
 zinit light junegunn/fzf
-
-zinit light-mode lucid wait has"kubectl" for \
-    id-as"kubectl_completion" nocompile as"completion" atclone"kubectl completion zsh > _kubectl" atpull"%atclone" run-atpull \
-    zdharma-continuum/null
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
 
