@@ -22,6 +22,17 @@
   (setq imenu-auto-rescan t)
   )
 
+;; Highlight symbols
+(use-package symbol-overlay
+  :hook ((prog-mode yaml-mode) . symbol-overlay-mode)
+  :bind (:map symbol-overlay-mode-map
+              ("M-i" . symbol-overlay-put)
+              ("M-n" . symbol-overlay-jump-next)
+              ("M-p" . symbol-overlay-jump-prev))
+  :config
+  (setq symbol-overlay-idle-time 0.1)
+  )
+
 (use-package tree-sitter
   :hook (((c-mode c++-mode go-mode sh-mode json-mode yaml-mode) . tree-sitter-mode)
 		 (tree-sitter-after-on . tree-sitter-hl-mode))
@@ -103,6 +114,10 @@ Else, call `comment-or-uncomment-region' on the current line."
   :config
   (docstr-faces-apply)
   (setq docstr-key-support t)
+  )
+
+(use-package expand-region
+  :bind ("C-=" . er/expand-region)
   )
 
 (provide 'init-prog)
