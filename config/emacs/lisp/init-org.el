@@ -198,6 +198,9 @@
 		 ("C-c n R" . org-roam-ref-add)
 		 ("C-c n s" . org-roam-db-sync))
   :config
+
+  (use-package emacsql-sqlite-builtin)
+  
   (setq org-roam-directory (file-truename "~/myDoc/myBlog")
 		org-roam-database-connector 'sqlite-builtin
 		org-roam-completion-everywhere t)

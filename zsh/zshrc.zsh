@@ -69,8 +69,6 @@ zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
     wfxr/forgit
 
-local GH_RAW_URL="https://raw.githubusercontent.com"
-
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
@@ -92,9 +90,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
 
 zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" sbin"fzf" \
-    dl"${GH_RAW_URL}/junegunn/fzf/master/shell/key-bindings.zsh;
-       ${GH_RAW_URL}/junegunn/fzf/master/shell/completion.zsh -> $ZPFX/completions/_fzf_completion;
-       ${GH_RAW_URL}/junegunn/fzf/master/man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1"
+    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;'})" 
 zinit light junegunn/fzf
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
