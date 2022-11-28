@@ -36,3 +36,5 @@ custom.el
 .org-id-locations
 devdocs
 plugin
+.luarc.json
+tree-sitter/

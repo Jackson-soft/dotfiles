@@ -5,9 +5,6 @@
 ;;
 ;;; Code:
 
-;; typescript
-(use-package typescript-mode)
-
 ;; json
 (use-package jsonian)
 

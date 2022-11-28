@@ -22,6 +22,10 @@
   (setq imenu-auto-rescan t)
   )
 
+(use-package eldoc-box
+  :hook (eldoc-mode . eldoc-box-hover-mode)
+  )
+
 ;; Highlight symbols
 (use-package symbol-overlay
   :hook ((prog-mode yaml-mode) . symbol-overlay-mode)
@@ -33,25 +37,17 @@
   (setq symbol-overlay-idle-time 0.1)
   )
 
-(use-package tree-sitter
-  :hook (((c-mode c++-mode go-mode sh-mode json-mode yaml-mode) . tree-sitter-mode)
-		 (tree-sitter-after-on . tree-sitter-hl-mode))
-  :config
-  (use-package tree-sitter-langs)
-  )
-
 ;; show trailing whitespaces
 (use-package whitespace
   :ensure nil
   :hook ((prog-mode text-mode) . whitespace-mode)
   :config
   (setq indicate-empty-lines t
-		;; whitespace-action '(auto-cleanup)
+		whitespace-action '(auto-cleanup)
 		whitespace-style
 		'(face             ;; visualize things below
 		  trailing         ;; trailing blanks
 		  empty            ;; empty lines at beginning/end of buffer
-		  ;; indentation
 		  space-before-tab ;; spaces before tab
 		  space-after-tab))
   )
