@@ -27,23 +27,23 @@
 ;;   :hook (prog-mode . flycheck-mode)
 ;;   :config
 ;;   (setq flycheck-emacs-lisp-load-path 'inherit
-;; 		flycheck-check-syntax-automatically '(save mode-enabled)
-;; 		flycheck-checkers '(c/c++-clang
-;; 							dockerfile-hadolint
-;; 							emacs-lisp
-;; 							emacs-lisp-checkdoc
-;; 							go-build
-;; 							go-test
-;; 							json-jq
-;; 							lua
-;; 							markdown-markdownlint-cli
-;; 							protobuf-protoc
-;; 							python-mypy
-;; 							sh-shellcheck
-;; 							sh-zsh
-;; 							systemd-analyze
-;; 							yaml-jsyaml
-;; 							))
+;;		flycheck-check-syntax-automatically '(save mode-enabled)
+;;		flycheck-checkers '(c/c++-clang
+;;							dockerfile-hadolint
+;;							emacs-lisp
+;;							emacs-lisp-checkdoc
+;;							go-build
+;;							go-test
+;;							json-jq
+;;							lua
+;;							markdown-markdownlint-cli
+;;							protobuf-protoc
+;;							python-mypy
+;;							sh-shellcheck
+;;							sh-zsh
+;;							systemd-analyze
+;;							yaml-jsyaml
+;;							))
 ;;   )
 
 
@@ -54,7 +54,7 @@
 
 ;; flymake linter
 (use-package flymake-collection
-  :hook (after-init . flymake-collection-hook-setup)
+  :hook (flymake-mode . flymake-collection-hook-setup)
   )
 
 ;; https://company-mode.github.io/manual/
@@ -93,7 +93,7 @@
 ;;   :config
 ;;   (setq corfu-cycle t                ;; Enable cycling for `corfu-next/previous'
 ;;         corfu-auto t                 ;; Enable auto completion
-;; 		corfu-quit-no-match t        ;; Automatically quit if there is no match
+;;		corfu-quit-no-match t        ;; Automatically quit if there is no match
 ;;         corfu-auto-prefix 2)
 
 ;;   ;; Add extensions
@@ -130,17 +130,17 @@
 ;; (use-package dabbrev
 ;;   :ensure nil
 ;;   :bind (("M-/" . dabbrev-expand)
-;; 		 ("C-x M-/" . dabbrev-completion))
+;;		 ("C-x M-/" . dabbrev-completion))
 ;;   :config
 ;;   (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_"
-;; 		dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
-;; 		dabbrev-backward-only nil
-;; 		dabbrev-case-distinction 'case-replace
-;; 		dabbrev-case-fold-search nil
-;; 		dabbrev-case-replace 'case-replace
-;; 		dabbrev-check-other-buffers t
-;; 		dabbrev-eliminate-newlines t
-;; 		dabbrev-upcase-means-case-search t)
+;;		dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
+;;		dabbrev-backward-only nil
+;;		dabbrev-case-distinction 'case-replace
+;;		dabbrev-case-fold-search nil
+;;		dabbrev-case-replace 'case-replace
+;;		dabbrev-check-other-buffers t
+;;		dabbrev-eliminate-newlines t
+;;		dabbrev-upcase-means-case-search t)
 ;;   )
 
 (use-package eglot

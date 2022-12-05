@@ -58,16 +58,12 @@
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
   ;; `consult-register-store' and the Emacs built-ins.
-  (setq register-preview-delay 0
+  (setq register-preview-delay 0.5
 		register-preview-function #'consult-register-format)
 
   ;; Optionally tweak the register preview window.
   ;; This adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
-  :custom
-  ;; Use Consult to select xref locations with preview
-  (xref-show-xrefs-function #'consult-xref)
-  (xref-show-definitions-function #'consult-xref)
   :config
   (setq consult-preview-key (kbd "M-p")
 		consult-narrow-key (kbd "C-+"))
