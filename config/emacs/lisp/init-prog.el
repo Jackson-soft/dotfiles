@@ -11,9 +11,7 @@
   :ensure nil
   :hook ((xref-after-return xref-after-jump) . recenter)
   :config
-  (setq xref-search-program 'ripgrep
-		xref-show-definitions-function 'xref-show-definitions-completing-read ; for M-.
-		xref-show-xrefs-function 'xref-show-definitions-buffer) ; for grep and the like
+  (setq xref-search-program 'ripgrep)
   )
 
 (use-package imenu
@@ -24,6 +22,7 @@
 
 (use-package eldoc-box
   :hook (eldoc-mode . eldoc-box-hover-mode)
+  :diminish eldoc-box-hover-mode
   )
 
 ;; Highlight symbols
@@ -33,8 +32,6 @@
               ("M-i" . symbol-overlay-put)
               ("M-n" . symbol-overlay-jump-next)
               ("M-p" . symbol-overlay-jump-prev))
-  :config
-  (setq symbol-overlay-idle-time 0.1)
   )
 
 ;; show trailing whitespaces
@@ -107,6 +104,7 @@ Else, call `comment-or-uncomment-region' on the current line."
 ;; 注释的风格
 (use-package docstr
   :hook (prog-mode . docstr-mode)
+  :diminish docstr-mode
   :config
   (docstr-faces-apply)
   (setq docstr-key-support t)

@@ -126,22 +126,22 @@
 ;;   :hook (corfu-mode . corfu-doc-mode)
 ;;   )
 
-;; ;;; Dabbrev (dynamic word completion)
-;; (use-package dabbrev
-;;   :ensure nil
-;;   :bind (("M-/" . dabbrev-expand)
-;;		 ("C-x M-/" . dabbrev-completion))
-;;   :config
-;;   (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_"
-;;		dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
-;;		dabbrev-backward-only nil
-;;		dabbrev-case-distinction 'case-replace
-;;		dabbrev-case-fold-search nil
-;;		dabbrev-case-replace 'case-replace
-;;		dabbrev-check-other-buffers t
-;;		dabbrev-eliminate-newlines t
-;;		dabbrev-upcase-means-case-search t)
-;;   )
+;;; Dabbrev (dynamic word completion)
+(use-package dabbrev
+  :ensure nil
+  :bind (("M-/" . dabbrev-expand)
+		 ("C-x M-/" . dabbrev-completion))
+  :config
+  (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_"
+		dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
+		dabbrev-backward-only nil
+		dabbrev-case-distinction 'case-replace
+		dabbrev-case-fold-search nil
+		dabbrev-case-replace 'case-replace
+		dabbrev-check-other-buffers t
+		dabbrev-eliminate-newlines t
+		dabbrev-upcase-means-case-search t)
+  )
 
 (use-package eglot
   :ensure nil

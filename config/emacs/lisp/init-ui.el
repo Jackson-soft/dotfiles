@@ -15,6 +15,7 @@
   :hook (after-init . display-time-mode)
   :config
   (setq display-time-format "%Y-%m-%d %H:%M"
+        display-time-24hr-format t
 		display-time-default-load-average nil)
   )
 

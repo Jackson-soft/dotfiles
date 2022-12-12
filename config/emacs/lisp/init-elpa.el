@@ -10,19 +10,16 @@
 
 ;; (package-initialize)
 
-;; Setup use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 ;; Should set before loading `use-package'
 (eval-and-compile
   (setq use-package-always-ensure t
 		use-package-expand-minimally t
-		use-package-enable-imenu-support t))
-
-(eval-when-compile
+		use-package-compute-statistics t
+		use-package-enable-imenu-support t)
   (require 'use-package))
+
+(use-package diminish
+  :ensure t)
 
 ;; OSX GUI 下自动导入 PATH
 (use-package exec-path-from-shell

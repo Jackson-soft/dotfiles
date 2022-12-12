@@ -54,19 +54,25 @@
 		 ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
 		 ("M-s L" . consult-line-multi))           ;; needed by consult-line to detect isearch
   :hook (completion-list-mode . consult-preview-at-point-mode)
-  :init
-  ;; Optionally configure the register formatting. This improves the register
-  ;; preview for `consult-register', `consult-register-load',
-  ;; `consult-register-store' and the Emacs built-ins.
-  (setq register-preview-delay 0.5
-		register-preview-function #'consult-register-format)
-
-  ;; Optionally tweak the register preview window.
-  ;; This adds thin lines, sorting and hides the mode line of the window.
-  (advice-add #'register-preview :override #'consult-register-window)
+  :custom
+  (register-preview-delay 0.5)
+  (register-preview-function #'consult-register-format)
+  (xref-show-xrefs-function #'consult-xref)
+  (xref-show-definitions-function #'consult-xref)
   :config
-  (setq consult-preview-key (kbd "M-p")
-		consult-narrow-key (kbd "C-+"))
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   :preview-key (kbd "M-."))
+  ;; :preview-key '(:debounce 0.4 any))
+
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key "<") ;; (kbd "C-+")
+  (advice-add #'register-preview :override #'consult-register-window)
   )
 
 (use-package consult-dir
