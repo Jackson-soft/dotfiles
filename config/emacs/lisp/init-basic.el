@@ -10,6 +10,8 @@
 	(pixel-scroll-precision-mode t)
   )
 
+(put 'narrow-to-region 'disabled nil)
+
 ;; 启动emacs时窗口最大化
 (use-package frame
   :ensure nil

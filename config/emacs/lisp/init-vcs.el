@@ -10,13 +10,8 @@
   :bind (("C-x g" . magit-status)
 		 ("C-x M-g" . magit-dispatch)
 		 ("C-c M-g" . magit-file-dispatch))
-  :config
-
-  (use-package magit-diff
-	:ensure nil
-	:config
-	(setq magit-diff-refine-hunk t)
-	)
+  :custom
+  (magit-diff-refine-hunk t)
   )
 
 (use-package git-modes)
@@ -25,19 +20,13 @@
   :hook (vterm-mode . with-editor-export-editor)
   )
 
-;; NB `diff-hl' depends on `vc'
-(use-package vc-hooks
+;; NOTE: `diff-hl' depends on `vc'
+(use-package vc
   :ensure nil
-  :config
-  (setq vc-follow-symlinks t
-		vc-handled-backends '(Git))
-  )
-
-(use-package vc-git
-  :ensure nil
-  :config
-  (setq vc-git-diff-switches '("--patch-with-stat" "--histogram")
-		vc-git-print-log-follow t)
+  :custom
+  (vc-follow-symlinks t)
+  (vc-allow-async-revert t)
+  (vc-handled-backends '(Git))
   )
 
 (use-package diff-mode

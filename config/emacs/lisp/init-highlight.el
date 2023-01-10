@@ -36,13 +36,6 @@
   )
 
 ;; 缩进标识
-;; (use-package highlight-indent-guides
-;;   :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-;;   :config
-;;   (setq highlight-indent-guides-method 'character
-;;         highlight-indent-guides-responsive 'top)
-;;   )
-
 ;; (use-package hl-indent-scope
 ;;   :commands (hl-indent-scope-mode)
 ;;   :hook ((c-mode c++-mode cmake-mode python-mode emacs-lisp-mode go-mode) . hl-indent-scope-mode)

@@ -6,6 +6,12 @@
 
 ;;; Code:
 
+(use-package help
+  :ensure nil
+  :config
+  (setq help-window-select t)
+  )
+
 ;; A better *Help* buffer
 (use-package helpful
   :bind (([remap describe-function] . helpful-callable)  ;; C-h f

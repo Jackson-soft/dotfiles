@@ -20,6 +20,27 @@
   (setq imenu-auto-rescan t)
   )
 
+;; Tree-sitter support
+;; @see https://github.com/casouri/tree-sitter-module
+;;      https://git.savannah.gnu.org/cgit/emacs.git/tree/admin/notes/tree-sitter/starter-guide?h=feature/tree-sitter
+(use-package treesit
+  :ensure nil
+  :init
+  (setq major-mode-remap-alist
+        '((c-mode          . c-ts-mode)
+          (c++-mode        . c++-ts-mode)
+          (cmake-mode      . cmake-ts-mode)
+          (css-mode        . css-ts-mode)
+          (dockerfile-mode . dockerfile-ts-mode)
+          (go-mode         . go-ts-mode)
+          (js-mode         . js-ts-mode)
+          (js-json-mode    . json-ts-mode)
+          (json-mode       . json-ts-mode)
+          (python-mode     . python-ts-mode)
+          (sh-mode         . bash-ts-mode)
+          (typescript-mode . typescript-ts-mode)))
+  )
+
 (use-package eldoc-box
   :hook (eldoc-mode . eldoc-box-hover-mode)
   :diminish eldoc-box-hover-mode
@@ -63,6 +84,7 @@
 							   (cmake-mode . cmake-format)
 							   (protobuf-mode . clang-format)
 							   (emacs-lisp-mode . lisp-indent)
+							   (go-ts-mode . gofmt)
 							   (sql-mode . pgfmt)))
   )
 

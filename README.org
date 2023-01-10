@@ -115,7 +115,7 @@ zinit light ajeetdsouza/zoxide
 - ~zi~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
 
 ** 插件管理
-[[https://github.com/zdharma-continuum/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的有两点：
+[[https://github.com/zdharma-continuum/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的几个点：
 - 性能不错；
 - 可以管理一些跨平台的二进制工具；
 - 用什么插件就配置什么插件，不必像 ~Oh My Zsh~ 或 ~Prezto~ 一样，插件不管你用不用都下载下来。
@@ -183,7 +183,7 @@ forgit_fixup=gfu
 [[https://github.com/tj/git-extras][git-extras]] ~git~ 的扩展工具包，有很多实用的工具封装。
 
 * ~Vim~
-目前是用 [[https://github.com/neovim/neovim][Neovim]] 替代，主要是满足日常配置脚本之用。选择 ~Neovim~ 主要原因是配置文件可以用 ~Lua~ 来写，对于 ~vimscript~ 还是不
+目前是用 [[https://github.com/neovim/neovim][Neovim]] 替代，主要是满足日常配置脚本之用。选择 ~Neovim~ 主要原因是配置文件可以用 ~Lua~ 来写，我对于 ~vimscript~ 还是不
 太熟悉。
 
 所有配置都在 [[file:config/nvim/init.lua][init.lua]] ，用到 ~Neovim~ 内置的 ~tree-siter~ 和 ~lsp~ 。

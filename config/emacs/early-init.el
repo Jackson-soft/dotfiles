@@ -13,6 +13,7 @@
 	  gc-cons-percentage 0.5
 	  read-process-output-max (* 1024 1024)
 	  load-prefer-newer t
+	  ffap-machine-p-known 'reject ;; Don't ping things that look like domain names.
 	  inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
 
 ;; Inhibit resizing frame

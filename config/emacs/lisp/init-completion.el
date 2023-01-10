@@ -28,13 +28,14 @@
 		 ([remap project-switch-to-buffer] . consult-project-buffer)  ;; C-x p b
 		 ("C-x C-r" . consult-recent-file)
 		 ([remap bookmark-jump] . consult-bookmark)            ;; C-x r b
+		 ;; Other custom bindings
+		 ([remap yank-pop] . consult-yank-pop)  ;; M-y
 		 ;; M-g bindings (goto-map)
+		 ("M-g f" . consult-flymake)
 		 ([remap goto-line] . consult-goto-line) ;; M-g g
 		 ("M-g o" . consult-outline)
 		 ("M-g i" . consult-imenu)
 		 ("M-g I" . consult-imenu-multi)
-		 ;; Other custom bindings
-		 ([remap yank-pop] . consult-yank-pop)  ;; M-y
 		 ;; M-s bindings (search-map)
 		 ("M-s d" . consult-find)
 		 ("M-s D" . consult-locate)
@@ -43,7 +44,6 @@
 		 ("M-s r" . consult-ripgrep)
 		 ("M-s l" . consult-line)
 		 ("M-s L" . consult-line-multi)
-		 ("M-s m" . consult-multi-occur)
 		 ("M-s k" . consult-keep-lines)
 		 ("M-s u" . consult-focus-lines)
 		 ;; Isearch integration
@@ -100,9 +100,6 @@
   )
 
 (use-package embark-consult
-  :after (embark consult)
-  ;; if you want to have consult previews as you move around an
-  ;; auto-updating embark collect buffer
   :hook (embark-collect-mode . consult-preview-at-point-mode)
   )
 
