@@ -15,27 +15,25 @@
   :hook (sql-mode . flymake-sqlfluff-load)
   )
 
-(use-package yaml-mode)
-
-(use-package yaml-pro
-  :hook (yaml-mode . yaml-pro-mode)
+(use-package yaml-ts-mode
+  :ensure nil
+  :mode ("\\.ya?ml\\'" . yaml-ts-mode)
   )
 
-(use-package protobuf-mode)
+(use-package yaml-pro
+  :hook (yaml-ts-mode . yaml-pro-ts-mode)
+  )
+
+;; (use-package protobuf-mode)
+(use-package protobuf-ts-mode)
 
 (use-package nginx-mode
   :mode ("/nginx/sites-\\(?:available\\|enabled\\)/" . nginx-mode)
   )
 
-(use-package dockerfile-mode
-  :mode ("Dockerfile\\'" . dockerfile-mode)
-  )
-
 (use-package flymake-hadolint
-  :hook (dockerfile-mode . flymake-hadolint-setup)
+  :hook (dockerfile-ts-mode . flymake-hadolint-setup)
   )
-
-(use-package docker-compose-mode)
 
 ;; restclient
 (use-package restclient

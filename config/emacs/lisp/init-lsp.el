@@ -87,10 +87,6 @@
 						   ))
   )
 
-(use-package company-quickhelp
-  :hook(company-mode . company-quickhelp-mode)
-  )
-
 ;; (use-package corfu
 ;;   :init
 ;;   (global-corfu-mode)
@@ -149,8 +145,8 @@
 
 (use-package eglot
   :ensure nil
-  :hook (((json-mode js-mode web-mode go-mode go-ts-mode dockerfile-mode c-mode c++-mode cmake-mode lua-mode
-					 css-mode sh-mode yaml-mode protobuf-mode graphviz-dot-mode) . eglot-ensure))
+  :hook (((json-mode js-mode web-mode go-mode dockerfile-ts-mode c-mode c++-mode c++-ts-mode cmake-ts-mode lua-mode
+					 css-mode sh-mode yaml-ts-mode protobuf-ts-mode graphviz-dot-mode) . eglot-ensure))
   :bind (:map eglot-mode-map
               ("C-c l a" . eglot-code-actions)
               ("C-c l r" . eglot-rename)

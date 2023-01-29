@@ -46,9 +46,7 @@
 		org-log-into-drawer t
 		org-log-done 'time
 
-		org-image-actual-width 500 ;; show all images at 500px using imagemagik
 		org-support-shift-select 'always
-		org-catch-invisible-edits 'smart
 		org-hide-macro-markers t
 		org-hide-emphasis-markers t
 		org-highlight-latex-and-related '(native script entities)
@@ -198,9 +196,8 @@
 		 ("C-c n R" . org-roam-ref-add)
 		 ("C-c n s" . org-roam-db-sync))
   :config
-
   (use-package emacsql-sqlite-builtin)
-  
+
   (setq org-roam-directory (file-truename "~/myDoc/myBlog")
 		org-roam-database-connector 'sqlite-builtin
 		org-roam-completion-everywhere t)

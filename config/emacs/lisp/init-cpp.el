@@ -14,6 +14,12 @@
   (c-default-style "stroustrup")
   )
 
+(use-package c-ts-mode
+  :ensure nil
+  :config
+  (setq c-ts-mode-indent-offset tab-width)
+  )
+
 ;; Highlight "#if 0" as comments
 (use-package hideif
   :ensure nil
@@ -23,10 +29,10 @@
 		hide-ifdef-shadow t)
   )
 
-;; cmake mode
-(use-package cmake-mode
+(use-package cmake-ts-mode
+  :ensure nil
   :config
-  (setq cmake-tab-width tab-width)
+  (setq cmake-ts-mode-indent-offset tab-width)
   )
 
 ;; cmake-ide
