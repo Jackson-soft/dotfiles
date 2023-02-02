@@ -27,6 +27,7 @@
 
 (use-package emacs
   :ensure nil
+  :bind ("<f5>" . modus-themes-toggle)
   :init
   (setq modus-themes-syntax '(faint alt-syntax green-strings yellow-comments)
 		modus-themes-links '(neutral-underline background)
@@ -42,7 +43,6 @@
 		modus-themes-org-blocks 'tinted-background
 		modus-themes-headings '((t . (variable-pitch extrabold)))
 		)
-  :bind ("<f5>" . modus-themes-toggle)
   :config
   (setq-default tab-width 4
 				tab-always-indent 'complete
@@ -52,7 +52,6 @@
 				window-combination-resize t
 				major-mode 'text-mode)
 
-  ;; Turn on transient-mark-mode
   (transient-mark-mode t) ;; 标记高亮
 
   ;; (load-theme 'modus-vivendi)
@@ -63,6 +62,7 @@
 		scroll-conservatively 101 ;; > 100
 		scroll-preserve-screen-position t  ;; 滚动时保持光标位置
 		use-short-answers t
+		mode-line-compact t
 		visible-bell t ;; 错误操作时的窗口闪动警告
 		ring-bell-function 'ignore
 		display-raw-bytes-as-hex t    ;; Improve display

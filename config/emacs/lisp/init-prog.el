@@ -29,30 +29,15 @@
   (major-mode-remap-alist
    '((c-mode          . c-ts-mode)
 	 (c++-mode        . c++-ts-mode)
-	 (cmake-mode      . cmake-ts-mode)
-	 (css-mode        . css-ts-mode)
-	 (dockerfile-mode . dockerfile-ts-mode)
-	 (go-mode         . go-ts-mode)
 	 (js-mode         . js-ts-mode)
 	 (js-json-mode    . json-ts-mode)
 	 (json-mode       . json-ts-mode)
-	 (python-mode     . python-ts-mode)
-	 (sh-mode         . bash-ts-mode)
-	 (typescript-mode . typescript-ts-mode)))
+	 (sh-mode         . bash-ts-mode)))
   )
 
 (use-package eldoc-box
   :hook (eldoc-mode . eldoc-box-hover-mode)
   :diminish eldoc-box-hover-mode
-  )
-
-;; Highlight symbols
-(use-package symbol-overlay
-  :hook ((prog-mode yaml-mode) . symbol-overlay-mode)
-  :bind (:map symbol-overlay-mode-map
-              ("M-i" . symbol-overlay-put)
-              ("M-n" . symbol-overlay-jump-next)
-              ("M-p" . symbol-overlay-jump-prev))
   )
 
 ;; show trailing whitespaces

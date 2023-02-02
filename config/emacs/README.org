@@ -5,13 +5,13 @@
 
 * 系统及版本
 - =OS= : =Fedora= && =macOS=
-- =Emacs vesrion= : =29.0.50=
+- =Emacs vesrion= : =29=
 
 配置很大程度上参照了 [[https://github.com/seagle0128/.emacs.d][Centaur Emacs]] ，补全主要是 [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]] ,
 涵盖我用的一些语言（ ~C++~ 、 ~Go~ 、 ~Lua~ 、 ~Typescript~ 、 ~Yaml~ 、 ~Nginx~ ）。
 
 基本准则：
-- 尽量使用 ~Emacs~ 内置包原则；
+- 尽量使用 ~Emacs~ 内置包；
 - 除非必要，尽量不使用长久不维护的包。
 
 * 依赖工具
@@ -36,7 +36,7 @@
 | simple | 在 ~modeline~ 里显示行号、列号以及当前文本的大小  |
 | uniquify | 区分重名的 ~buffer~ |
 | isearch | 搜索 |
-| project | 项目管理工具 (Emacs 27+ 自带) |
+| project | 项目管理工具 (~Emacs 27+~ 自带)  |
 | whitespace | 显示空白空格  |
 | hideshow | 函数折叠 |
 | ediff | 对比 |

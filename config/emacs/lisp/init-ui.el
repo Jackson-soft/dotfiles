@@ -31,30 +31,22 @@
 (setq-default mode-line-format
 			  '("%e"
 				mode-line-front-space
-				mode-line-mule-info
-				mode-line-modified
+				(:propertize ("" mode-line-mule-info mode-line-modified))
+                mode-line-frame-identification
+                mode-line-buffer-identification
+                (:propertize " %l:%c " 'face 'modus-themes-bold)
+                (:propertize " %I " 'face 'modus-themes-bold)
 				"  "
-				;; the buffer name; the file name as a tool tip
-				mode-line-buffer-identification
-
-				;; line and column
-				mode-line-position
 				mode-line-modes
-
-				;; spaces to align right
-				(:eval (propertize
-						" "
-						'display
-						`((space :align-to (- (+ right right-fringe right-margin), 66)))))
-
-				;; data and time
-				mode-line-misc-info
 
 				;; buffer encode
 				(:eval (propertize (format " %s " buffer-file-coding-system) 'face 'font-lock-comment-face))
 
 				;; git info
 				(vc-mode vc-mode)
+				"   "
+				;; data and time
+				mode-line-misc-info
 
 				mode-line-end-spaces
 				))

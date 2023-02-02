@@ -37,7 +37,7 @@
 
 ;; cmake-ide
 (use-package cmake-ide
-  :hook (cmake-mode . cmake-ide-setup)
+  :hook (cmake-ts-mode . cmake-ide-setup)
   :bind (:map c++-mode-map
 			  ("C-x c b" . cmake-ide-compile)
 			  ("C-x c r" . cmake-ide-run-cmake))

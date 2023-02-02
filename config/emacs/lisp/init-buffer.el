@@ -27,7 +27,7 @@
 		;; Do not allow the cursor in the minibuffer prompt
 		minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)
 
-		completion-styles '(orderless partial-completion)
+		completion-styles '(orderless basic)
 		completion-category-overrides '((file (styles basic partial-completion)))
 
 		completion-pcm-complete-word-inserts-delimiters t

@@ -19,9 +19,11 @@
 
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)
-		 ("C-c h" . consult-history)
-		 ("C-c m" . consult-mode-command)
-		 ("C-c k" . consult-kmacro)
+		 ("C-c M-x" . consult-mode-command)
+         ("C-c h" . consult-history)
+         ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
 		 ;; C-x bindings (ctl-x-map)
 		 ([remap repeat-complex-command] . consult-complex-command)     ;; C-x M-:
 		 ([remap switch-to-buffer] . consult-buffer) ;; C-x b
@@ -52,7 +54,11 @@
 		 ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
 		 ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
 		 ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-		 ("M-s L" . consult-line-multi))           ;; needed by consult-line to detect isearch
+		 ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
+		 ;; Minibuffer history
+		 :map minibuffer-local-map
+		 ("M-s" . consult-history)                 ;; orig. next-matching-history-element
+		 ("M-r" . consult-history))                ;; orig. previous-matching-history-element
   :hook (completion-list-mode . consult-preview-at-point-mode)
   :custom
   (register-preview-delay 0.5)
@@ -60,18 +66,11 @@
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
   :config
-  (consult-customize
-   consult-theme :preview-key '(:debounce 0.2 any)
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
-   :preview-key (kbd "M-."))
-  ;; :preview-key '(:debounce 0.4 any))
+  (setq consult-preview-key "M-.")
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
+  (setq consult-narrow-key "<") ;; "C-+"
   (advice-add #'register-preview :override #'consult-register-window)
   )
 
@@ -87,10 +86,13 @@
   )
 
 (use-package embark
-  :bind ("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
+  :bind (("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+		 ("M-n" . embark-next-symbol)
+		 ("M-p" . embark-previous-symbol))
+  :custom
+  (prefix-help-command #'embark-prefix-help-command)
+  (embark-cycle-key ".")
+  (embark-help-key "?")
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
