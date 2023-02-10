@@ -18,8 +18,7 @@
 		use-package-enable-imenu-support t)
   (require 'use-package))
 
-(use-package diminish
-  :ensure t)
+(use-package diminish)
 
 ;; OSX GUI 下自动导入 PATH
 (use-package exec-path-from-shell

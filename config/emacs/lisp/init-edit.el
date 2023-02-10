@@ -37,7 +37,8 @@
 ;; use zap-up-to-char instead of zap-to-char
 (use-package misc
   :ensure nil
-  :bind (("M-z" . zap-up-to-char)
+  :bind (("M-U" . upcase-char) ;; 当前光标字母变大写
+		 ("M-z" . zap-up-to-char)
 		 ("M-Z" . zap-to-char)) ;; M-S-z
   )
 

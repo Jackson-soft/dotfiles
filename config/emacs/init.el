@@ -20,8 +20,8 @@
 
 (require 'init-buffer)
 (require 'init-completion)
-(require 'init-dired)
 (require 'init-vcs)
+(require 'init-dired)
 
 ;; dev
 (require 'init-prog)
