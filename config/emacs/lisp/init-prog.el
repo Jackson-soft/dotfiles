@@ -65,11 +65,11 @@
 
   (nconc apheleia-mode-alist '((markdown-mode . prettier)
 							   (gfm-mode . prettier)
-							   (dockerfile-mode . shfmt)
-							   (cmake-mode . cmake-format)
-							   (protobuf-mode . clang-format)
+							   (dockerfile-ts-mode . shfmt)
+							   (cmake-ts-mode . cmake-format)
+							   (protobuf-ts-mode . clang-format)
 							   (emacs-lisp-mode . lisp-indent)
-							   (go-ts-mode . gofmt)
+							   (go-mode . gofmt)
 							   (sql-mode . pgfmt)))
   )
 

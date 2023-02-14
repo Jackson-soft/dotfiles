@@ -5,11 +5,6 @@
 ;;
 ;;; Code:
 
-;; Universal menus
-(use-package transient
-  :ensure nil
-  )
-
 (use-package magit
   :hook (git-commit-setup . git-commit-turn-on-flyspell)
   :bind (("C-x g" . magit-status)

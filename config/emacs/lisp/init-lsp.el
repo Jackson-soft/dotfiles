@@ -153,7 +153,7 @@
               ("C-c l f" . eglot-format))
   :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(protobuf-mode . ("bufls" "serve")))
+  (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("bufls" "serve")))
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) . ("clangd"
 															 "-j=2"
 															 "--background-index"

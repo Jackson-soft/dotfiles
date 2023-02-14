@@ -38,9 +38,8 @@
 ;; cmake-ide
 (use-package cmake-ide
   :hook (cmake-ts-mode . cmake-ide-setup)
-  :bind (:map c++-mode-map
-			  ("C-x c b" . cmake-ide-compile)
-			  ("C-x c r" . cmake-ide-run-cmake))
+  :bind(("C-x c b" . cmake-ide-compile)
+		("C-x c r" . cmake-ide-run-cmake))
   :config
   (setq cmake-ide-project-dir (project-root (project-current t))
 		cmake-ide-build-dir (concat cmake-ide-project-dir "build")

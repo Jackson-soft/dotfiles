@@ -84,7 +84,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"jq* -> jq" stedolan/jq \
     sbin"buf* -> buf" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh); compdef _golangci-lint golangci-lint" golangci/golangci-lint \
-    sbin"bin/lua-language-server" sumneko/lua-language-server \
+    sbin"bin/lua-language-server" LuaLS/lua-language-server \
     sbin"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
