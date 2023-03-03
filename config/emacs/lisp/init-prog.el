@@ -36,8 +36,8 @@
   )
 
 (use-package eldoc-box
-  :hook (eldoc-mode . eldoc-box-hover-mode)
-  :diminish eldoc-box-hover-mode
+  :hook (eldoc-mode . eldoc-box-hover-at-point-mode)
+  :diminish eldoc-box-hover-at-point-mode
   )
 
 ;; show trailing whitespaces

@@ -38,3 +38,4 @@ devdocs
 plugin
 .luarc.json
 tree-sitter/
+lazy-lock.json

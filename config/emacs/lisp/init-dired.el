@@ -20,7 +20,6 @@
 
   (use-package dired-aux
 	:ensure nil
-	:after dired
 	:config
 	(setq dired-isearch-filenames 'dwim
 		  dired-create-destination-dirs 'ask
@@ -39,6 +38,8 @@
   )
 
 (use-package dirvish
+  :init
+  (dirvish-override-dired-mode)
   :bind (("C-c v h" . dirvish)
 		 ("C-c v s" . dirvish-side)
 		 ("C-c f" . dirvish-fd)
@@ -61,11 +62,9 @@
 		 ("M-e" . dirvish-emerge-menu)
 		 ("M-j" . dirvish-fd-jump))
   :config
-  ;; Override dired with dirvish globally
-  (dirvish-override-dired-mode)
   (dirvish-peek-mode)
   (setq dirvish-attributes '(all-the-icons file-size collapse subtree-state vc-state git-msg)
-		dirvish-mode-line-format '(:left (sort file-time " " file-size symlink) :right (omit yank index)))
+		dirvish-mode-line-format '(:left (sort symlink) :right (omit yank index)))
   )
 
 (provide 'init-dired)
