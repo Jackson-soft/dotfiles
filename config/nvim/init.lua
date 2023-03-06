@@ -40,6 +40,7 @@ require("lazy").setup({
 
     {
         "sindrets/diffview.nvim",
+        lazy = true,
         cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
         config = true,
         keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
@@ -53,21 +54,43 @@ require("lazy").setup({
                 diffview = true,
             },
         },
+        keys = {
+            { "<leader>gg", "<Cmd>Neogit<CR>", desc = "Open Neogit" },
+        },
     },
 
     -- comment
-    { "numToStr/Comment.nvim",          config = true },
-
-    -- project management
     {
-        "ahmedkhalf/project.nvim",
+        "numToStr/Comment.nvim",
+        config = true
+    },
+
+    -- file tree
+    {
+        "nvim-tree/nvim-tree.lua",
         lazy = true,
+        cmd = {
+            "NvimTreeToggle",
+            "NvimTreeOpen",
+            "NvimTreeFindFile",
+            "NvimTreeFindFileToggle",
+            "NvimTreeRefresh",
+        },
+        keys = { { "<leader>nt", "<cmd>NvimTreeToggle<CR>", desc = "NvimTree" } },
+        opts = {},
+    },
+
+    {
+        "ibhagwan/smartyank.nvim",
+        lazy = true,
+        event = "BufReadPost",
         config = true,
     },
 
     -- UI to select things (files, grep results, open buffers...)
     {
         "nvim-telescope/telescope.nvim",
+        lazy = true,
         config = function()
             local telescope = require("telescope")
             telescope.setup({
@@ -400,6 +423,7 @@ require("lazy").setup({
     -- Auto close parentheses
     {
         "windwp/nvim-autopairs",
+        lazy = true,
         opts = {
             check_ts = true,
             ts_config = {
@@ -411,7 +435,12 @@ require("lazy").setup({
     },
 
     -- Whichkey
-    { "folke/which-key.nvim",     config = true, },
+    {
+        "folke/which-key.nvim",
+        lazy = true,
+        event = "VeryLazy",
+        config = true,
+    },
 
     -- statusline
     {
@@ -430,6 +459,8 @@ require("lazy").setup({
     -- http
     {
         "NTBBloodbath/rest.nvim",
+        ft = { "http" },
+        lazy = true,
         keys = {
             { "<leader>rt", "<cmd>RestNvim<cr>", desc = "rest neovim" },
         },
@@ -442,6 +473,7 @@ require("lazy").setup({
     -- Terminal
     {
         "akinsho/toggleterm.nvim",
+        lazy = true,
         opts = {
             open_mapping = [[<c-\>]],
             shade_filetypes = { "none" },
