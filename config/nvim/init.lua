@@ -22,7 +22,10 @@ vim.opt.rtp:prepend(lazypath)
 ---- Plugins ----
 require("lazy").setup({
     -- Some requied Lua plugins
-    { "nvim-lua/plenary.nvim",  lazy = true },
+    { "nvim-lua/plenary.nvim",       lazy = true },
+
+    -- icons
+    { "kyazdani42/nvim-web-devicons" },
 
     -- git
     {
@@ -35,30 +38,31 @@ require("lazy").setup({
         },
     },
 
-    { "sindrets/diffview.nvim", opts = {} },
+    {
+        "sindrets/diffview.nvim",
+        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
+        config = true,
+        keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
+    },
 
     {
         "TimUntersberger/neogit",
-        config = function()
-            local neogit = require("neogit")
-            neogit.setup({
-                use_magit_keybindings = true,
-                integrations = {
-                    diffview = true,
-                },
-            })
-        end,
+        lazy = true,
+        opts = {
+            integrations = {
+                diffview = true,
+            },
+        },
     },
 
     -- comment
-    { "numToStr/Comment.nvim",        opts = {} },
+    { "numToStr/Comment.nvim",          config = true },
 
     -- project management
     {
         "ahmedkhalf/project.nvim",
-        config = function()
-            require("project_nvim").setup()
-        end,
+        lazy = true,
+        config = true,
     },
 
     -- UI to select things (files, grep results, open buffers...)
@@ -105,9 +109,6 @@ require("lazy").setup({
         end,
     },
 
-    -- icons
-    { "kyazdani42/nvim-web-devicons", opts = {} },
-
     -- Add indentation guides even on blank lines
     {
         "lukas-reineke/indent-blankline.nvim",
@@ -120,122 +121,120 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function()
-            require("nvim-treesitter.configs").setup({
-                ensure_installed = {
-                    "bash",
-                    "c",
-                    "cmake",
-                    "comment",
-                    "cpp",
-                    "css",
-                    "dockerfile",
-                    "dot",
-                    "diff",
-                    "gitignore",
-                    "go",
-                    "gomod",
-                    "gowork",
-                    "html",
-                    "http",
-                    "javascript",
-                    "json",
-                    "jsonc",
-                    "lua",
-                    "make",
-                    "markdown",
-                    "ninja",
-                    "proto",
-                    "python",
-                    "regex",
-                    "sql",
-                    "toml",
-                    "typescript",
-                    "yaml",
+        opts = {
+            ensure_installed = {
+                "bash",
+                "c",
+                "cmake",
+                "comment",
+                "cpp",
+                "css",
+                "dockerfile",
+                "dot",
+                "diff",
+                "gitignore",
+                "go",
+                "gomod",
+                "gowork",
+                "html",
+                "http",
+                "javascript",
+                "json",
+                "jsonc",
+                "lua",
+                "make",
+                "markdown",
+                "ninja",
+                "proto",
+                "python",
+                "regex",
+                "sql",
+                "toml",
+                "typescript",
+                "yaml",
+            },
+            highlight = { enable = true },
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = "gnn",
+                    node_incremental = "grn",
+                    scope_incremental = "grc",
+                    node_decremental = "grm",
                 },
-                highlight = { enable = true },
-                incremental_selection = {
+            },
+            indent = { enable = true },
+            refactor = {
+                highlight_definitions = { enable = true, clear_on_cursor_move = true },
+                smart_rename = {
                     enable = true,
                     keymaps = {
-                        init_selection = "gnn",
-                        node_incremental = "grn",
-                        scope_incremental = "grc",
-                        node_decremental = "grm",
+                        smart_rename = "grr",
                     },
                 },
-                indent = { enable = true },
-                refactor = {
-                    highlight_definitions = { enable = true, clear_on_cursor_move = true },
-                    smart_rename = {
-                        enable = true,
-                        keymaps = {
-                            smart_rename = "grr",
-                        },
-                    },
-                    navigation = {
-                        enable = true,
-                        keymaps = {
-                            goto_definition = "gnd",
-                            list_definitions = "gnD",
-                            list_definitions_toc = "gO",
-                            goto_next_usage = "<a-*>",
-                            goto_previous_usage = "<a-#>",
-                        },
+                navigation = {
+                    enable = true,
+                    keymaps = {
+                        goto_definition = "gnd",
+                        list_definitions = "gnD",
+                        list_definitions_toc = "gO",
+                        goto_next_usage = "<a-*>",
+                        goto_previous_usage = "<a-#>",
                     },
                 },
-                textobjects = {
-                    select = {
-                        enable = true,
-                        -- Automatically jump forward to textobj, similar to targets.vim
-                        lookahead = true,
-                        keymaps = {
-                            -- You can use the capture groups defined in textobjects.scm
-                                ["af"] = "@function.outer",
-                                ["if"] = "@function.inner",
-                                ["ac"] = "@class.outer",
-                                ["ic"] = "@class.inner",
-                        },
-                    },
-                    swap = {
-                        enable = true,
-                        swap_next = {
-                                ["<leader>a"] = "@parameter.inner",
-                        },
-                        swap_previous = {
-                                ["<leader>A"] = "@parameter.inner",
-                        },
-                    },
-                    move = {
-                        enable = true,
-                        set_jumps = true, -- whether to set jumps in the jumplist
-                        goto_next_start = {
-                                ["]m"] = "@function.outer",
-                                ["]]"] = "@class.outer",
-                        },
-                        goto_next_end = {
-                                ["]M"] = "@function.outer",
-                                ["]["] = "@class.outer",
-                        },
-                        goto_previous_start = {
-                                ["[m"] = "@function.outer",
-                                ["[["] = "@class.outer",
-                        },
-                        goto_previous_end = {
-                                ["[M"] = "@function.outer",
-                                ["[]"] = "@class.outer",
-                        },
-                    },
-                    lsp_interop = {
-                        enable = true,
-                        border = "none",
-                        peek_definition_code = {
-                                ["df"] = "@function.outer",
-                                ["dF"] = "@class.outer",
-                        },
+            },
+            textobjects = {
+                select = {
+                    enable = true,
+                    -- Automatically jump forward to textobj, similar to targets.vim
+                    lookahead = true,
+                    keymaps = {
+                        -- You can use the capture groups defined in textobjects.scm
+                            ["af"] = "@function.outer",
+                            ["if"] = "@function.inner",
+                            ["ac"] = "@class.outer",
+                            ["ic"] = "@class.inner",
                     },
                 },
-            })
-        end,
+                swap = {
+                    enable = true,
+                    swap_next = {
+                            ["<leader>a"] = "@parameter.inner",
+                    },
+                    swap_previous = {
+                            ["<leader>A"] = "@parameter.inner",
+                    },
+                },
+                move = {
+                    enable = true,
+                    set_jumps = true, -- whether to set jumps in the jumplist
+                    goto_next_start = {
+                            ["]m"] = "@function.outer",
+                            ["]]"] = "@class.outer",
+                    },
+                    goto_next_end = {
+                            ["]M"] = "@function.outer",
+                            ["]["] = "@class.outer",
+                    },
+                    goto_previous_start = {
+                            ["[m"] = "@function.outer",
+                            ["[["] = "@class.outer",
+                    },
+                    goto_previous_end = {
+                            ["[M"] = "@function.outer",
+                            ["[]"] = "@class.outer",
+                    },
+                },
+                lsp_interop = {
+                    enable = true,
+                    border = "none",
+                    peek_definition_code = {
+                            ["df"] = "@function.outer",
+                            ["dF"] = "@class.outer",
+                    },
+                },
+            },
+        },
         dependencies = {
             { "nvim-treesitter/nvim-treesitter-refactor" },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
@@ -243,7 +242,7 @@ require("lazy").setup({
     },
 
     {
-        "onsails/lspkind-nvim",
+        "onsails/lspkind.nvim",
         config = function()
             require("lspkind").init({
                 preset = "codicons",
@@ -278,22 +277,11 @@ require("lazy").setup({
         end,
     },
 
-    {
-        "folke/trouble.nvim",
-        config = function()
-            require("trouble").setup({
-                auto_close = true,
-                use_diagnostic_signs = true,
-            })
-
-            vim.keymap.set("n", "<leader>xx", "<cmd>Trouble<cr>", { silent = true })
-            vim.keymap.set("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true })
-        end,
-    },
-
     -- Completion and linting
     {
         "hrsh7th/nvim-cmp",
+        -- load cmp on InsertEnter
+        event = "InsertEnter",
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
@@ -390,18 +378,18 @@ require("lazy").setup({
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
             { "ray-x/cmp-treesitter" },
-            { "saadparwaiz1/cmp_luasnip" },
-            { "L3MON4D3/LuaSnip" },
+            {
+                "saadparwaiz1/cmp_luasnip",
+                dependencies = { "L3MON4D3/LuaSnip" },
+            },
             {
                 "tamago324/cmp-zsh",
-                config = function()
-                    require("cmp_zsh").setup({
-                        zshrc = true,                      -- Source the zshrc (adding all custom completions). default: false
-                        filetypes = { "deoledit", "zsh" }, -- Filetypes to enable cmp_zsh source. default: {"*"}
-                    })
-                end,
+                dependencies = { "Shougo/deol.nvim" },
+                opts = {
+                    zshrc = true,                      -- Source the zshrc (adding all custom completions). default: false
+                    filetypes = { "deoledit", "zsh" }, -- Filetypes to enable cmp_zsh source. default: {"*"}
+                },
             },
-            { "Shougo/deol.nvim" },
         },
     },
 
@@ -412,20 +400,18 @@ require("lazy").setup({
     -- Auto close parentheses
     {
         "windwp/nvim-autopairs",
-        config = function()
-            require("nvim-autopairs").setup({
-                check_ts = true,
-                ts_config = {
-                    lua = { "string", "source" },
-                    javascript = { "string", "template_string" },
-                    java = false,
-                },
-            })
-        end,
+        opts = {
+            check_ts = true,
+            ts_config = {
+                lua = { "string", "source" },
+                javascript = { "string", "template_string" },
+                java = false,
+            },
+        },
     },
 
     -- Whichkey
-    { "folke/which-key.nvim",     lazy = true, opts = {} },
+    { "folke/which-key.nvim",     config = true, },
 
     -- statusline
     {
@@ -444,36 +430,31 @@ require("lazy").setup({
     -- http
     {
         "NTBBloodbath/rest.nvim",
-        config = function()
-            require("rest-nvim").setup({
-                result_split_horizontal = true,
-            })
-
-            vim.keymap.set("n", "<Leader>rt", "<Plug>(RestNvim)")
-            vim.keymap.set("n", "<Leader>rp", "<Plug>i(RestNvimPreview)")
-            vim.keymap.set("n", "<Leader>rl", "<Plug>(RestNvimLast)")
-        end,
+        keys = {
+            { "<leader>rt", "<cmd>RestNvim<cr>", desc = "rest neovim" },
+        },
+        opts = {
+            result_split_horizontal = true,
+        },
     },
 
 
     -- Terminal
     {
         "akinsho/toggleterm.nvim",
-        config = function()
-            require("toggleterm").setup({
-                open_mapping = [[<c-\>]],
-                shade_filetypes = { "none" },
-                direction = "horizontal",
-                float_opts = { border = "curved" },
-                size = function(term)
-                    if term.direction == "horizontal" then
-                        return 15
-                    elseif term.direction == "vertical" then
-                        return vim.o.columns * 0.4
-                    end
-                end,
-            })
-        end,
+        opts = {
+            open_mapping = [[<c-\>]],
+            shade_filetypes = { "none" },
+            direction = "horizontal",
+            float_opts = { border = "curved" },
+            size = function(term)
+                if term.direction == "horizontal" then
+                    return 15
+                elseif term.direction == "vertical" then
+                    return vim.o.columns * 0.4
+                end
+            end,
+        },
     },
 }, {})
 
