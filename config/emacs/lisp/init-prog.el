@@ -20,24 +20,9 @@
   (setq imenu-auto-rescan t)
   )
 
-;; Tree-sitter support
-;; @see https://github.com/casouri/tree-sitter-module
-;;      https://git.savannah.gnu.org/cgit/emacs.git/tree/admin/notes/tree-sitter/starter-guide?h=feature/tree-sitter
-(use-package treesit
-  :ensure nil
-  :custom
-  (major-mode-remap-alist
-   '((c-mode          . c-ts-mode)
-	 (c++-mode        . c++-ts-mode)
-	 (js-mode         . js-ts-mode)
-	 (js-json-mode    . json-ts-mode)
-	 (json-mode       . json-ts-mode)
-	 (sh-mode         . bash-ts-mode)))
-  )
-
 (use-package eldoc-box
-  :hook (eldoc-mode . eldoc-box-hover-at-point-mode)
-  :diminish eldoc-box-hover-at-point-mode
+  :hook (eldoc-mode . eldoc-box-hover-mode)
+  :diminish eldoc-box-hover-mode
   )
 
 ;; show trailing whitespaces
@@ -60,13 +45,11 @@
   :hook (prog-mode . apheleia-mode)
   :bind ("C-c M-f" . apheleia-format-buffer)
   :config
-  (nconc apheleia-formatters '((pgfmt . ("pg_format" "-"))
-							   (cmake-format . ("cmake-format" "--tab-size=4" "-"))))
+  (nconc apheleia-formatters '((pgfmt . ("pg_format" "-"))))
 
   (nconc apheleia-mode-alist '((markdown-mode . prettier)
 							   (gfm-mode . prettier)
 							   (dockerfile-ts-mode . shfmt)
-							   (cmake-ts-mode . cmake-format)
 							   (protobuf-ts-mode . clang-format)
 							   (emacs-lisp-mode . lisp-indent)
 							   (go-mode . gofmt)

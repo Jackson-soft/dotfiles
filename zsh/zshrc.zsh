@@ -87,6 +87,8 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"bin/lua-language-server" LuaLS/lua-language-server \
     sbin"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
+    sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
+    sbin"**/bin/pandoc" jgm/pandoc \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
 
 zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" sbin"fzf" \

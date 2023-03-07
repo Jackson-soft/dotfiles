@@ -76,10 +76,8 @@
 		company-tooltip-limit 12
 		company-tooltip-width-grow-only t
 		company-tooltip-flip-when-above t
-		;; company-show-quick-access 'left
 		company-transformers '(company-sort-by-occurrence)
 		company-backends '(company-files
-						   company-cmake
 						   company-capf
 						   company-ispell
 						   (company-dabbrev-code company-keywords)
@@ -126,6 +124,12 @@
 ;;   :hook (corfu-mode . corfu-doc-mode)
 ;;   )
 
+;; (use-package mono-complete
+;;   :hook (prog-mode . mono-complete-mode)
+;;   :config
+;;   (setq mono-complete-backends (list 'capf 'dabbrev 'filesystem 'spell-fu 'whole-line 'word-predict))
+;;   )
+
 ;;; Dabbrev (dynamic word completion)
 (use-package dabbrev
   :ensure nil
@@ -154,6 +158,7 @@
   :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("bufls" "serve")))
+  (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) . ("clangd"
 															 "-j=2"
 															 "--background-index"

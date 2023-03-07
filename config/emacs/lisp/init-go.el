@@ -5,6 +5,12 @@
 ;;
 ;;; Code:
 
+(use-package go-ts-mode
+  :ensure nil
+  :config
+  (setq go-ts-mode-indent-offset tab-width)
+  )
+
 (use-package go-mode
   :config
   (use-package gotest

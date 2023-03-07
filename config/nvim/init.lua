@@ -22,14 +22,15 @@ vim.opt.rtp:prepend(lazypath)
 ---- Plugins ----
 require("lazy").setup({
     -- Some requied Lua plugins
-    { "nvim-lua/plenary.nvim",       lazy = true },
+    { "nvim-lua/plenary.nvim",        lazy = true },
 
     -- icons
-    { "kyazdani42/nvim-web-devicons" },
+    { "kyazdani42/nvim-web-devicons", lazy = true },
 
     -- git
     {
         "lewis6991/gitsigns.nvim",
+        event = { "BufReadPre", "BufNewFile" },
         opts = {
             numhl = true,
             signs = {
@@ -43,7 +44,10 @@ require("lazy").setup({
         lazy = true,
         cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
         config = true,
-        keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
+        keys = {
+            { "<leader>dv", "<cmd>DiffviewOpen<cr>",  desc = "DiffView Open" },
+            { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "DiffView Close" },
+        },
     },
 
     {
@@ -77,12 +81,18 @@ require("lazy").setup({
             "NvimTreeRefresh",
         },
         keys = { { "<leader>nt", "<cmd>NvimTreeToggle<CR>", desc = "NvimTree" } },
-        opts = {},
+        opts = {
+            diagnostics = {
+                enable = true,
+            },
+            modified = {
+                enable = true,
+            },
+        },
     },
 
     {
         "ibhagwan/smartyank.nvim",
-        lazy = true,
         event = "BufReadPost",
         config = true,
     },
@@ -90,7 +100,6 @@ require("lazy").setup({
     -- UI to select things (files, grep results, open buffers...)
     {
         "nvim-telescope/telescope.nvim",
-        lazy = true,
         config = function()
             local telescope = require("telescope")
             telescope.setup({
@@ -122,22 +131,24 @@ require("lazy").setup({
 
     -- Themes
     {
-        "navarasu/onedark.nvim",
+        "folke/tokyonight.nvim",
         config = function()
-            local onedark = require("onedark")
-            onedark.setup({
-                style = "deep",
-            })
-            onedark.load()
+            -- Lua
+            vim.cmd [[colorscheme tokyonight-night]]
         end,
     },
 
     -- Add indentation guides even on blank lines
     {
         "lukas-reineke/indent-blankline.nvim",
+        event = { "BufReadPost", "BufNewFile" },
         opts = {
-            buftype_exclude = { "terminal" },
+            show_current_context = true,
+            show_current_context_start = true,
         },
+        config = function()
+            vim.opt.list = true
+        end,
     },
 
     -- Highlights
@@ -264,51 +275,12 @@ require("lazy").setup({
         },
     },
 
-    {
-        "onsails/lspkind.nvim",
-        config = function()
-            require("lspkind").init({
-                preset = "codicons",
-                symbol_map = {
-                    Text = "",
-                    Method = "",
-                    Function = "",
-                    Constructor = "",
-                    Field = "ﰠ",
-                    Variable = "",
-                    Class = "ﴯ",
-                    Interface = "",
-                    Module = "",
-                    Property = "ﰠ",
-                    Unit = "塞",
-                    Value = "",
-                    Enum = "",
-                    Keyword = "",
-                    Snippet = "",
-                    Color = "",
-                    File = "",
-                    Reference = "",
-                    Folder = "",
-                    EnumMember = "",
-                    Constant = "",
-                    Struct = "פּ",
-                    Event = "",
-                    Operator = "",
-                    TypeParameter = "",
-                },
-            })
-        end,
-    },
-
     -- Completion and linting
     {
         "hrsh7th/nvim-cmp",
-        -- load cmp on InsertEnter
-        event = "InsertEnter",
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
-            local lspkind = require("lspkind")
 
             local has_words_before = function()
                 local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -350,19 +322,6 @@ require("lazy").setup({
                         end
                     end, { "i", "s" }),
                 }),
-                formatting = {
-                    format = lspkind.cmp_format({
-                        with_text = true,
-                        menu = {
-                            buffer = "[﬘ Buf]",
-                            nvim_lsp = "[ LSP]",
-                            luasnip = "[ LSnip]",
-                            nvim_lua = "[ NvimLua]",
-                            latex_symbols = "[ Latex]",
-                            rg = "[ RG]",
-                        },
-                    }),
-                },
                 sources = cmp.config.sources({
                     { name = "buffer" },
                     { name = "nvim_lsp" },
@@ -423,7 +382,7 @@ require("lazy").setup({
     -- Auto close parentheses
     {
         "windwp/nvim-autopairs",
-        lazy = true,
+        event = "InsertEnter",
         opts = {
             check_ts = true,
             ts_config = {
@@ -437,7 +396,6 @@ require("lazy").setup({
     -- Whichkey
     {
         "folke/which-key.nvim",
-        lazy = true,
         event = "VeryLazy",
         config = true,
     },
@@ -445,22 +403,21 @@ require("lazy").setup({
     -- statusline
     {
         "nvim-lualine/lualine.nvim",
+        event = "VeryLazy",
         opts = {
-            options = { theme = "onedark" },
-            extensions = { "toggleterm" },
+            extensions = { "toggleterm", "nvim-tree" },
         },
     },
 
     -- lua
     { "spacewander/openresty-vim" },
 
-    { "b0o/schemastore.nvim" },
+    { "b0o/schemastore.nvim",     lazy = true, },
 
     -- http
     {
         "NTBBloodbath/rest.nvim",
         ft = { "http" },
-        lazy = true,
         keys = {
             { "<leader>rt", "<cmd>RestNvim<cr>", desc = "rest neovim" },
         },
@@ -473,7 +430,6 @@ require("lazy").setup({
     -- Terminal
     {
         "akinsho/toggleterm.nvim",
-        lazy = true,
         opts = {
             open_mapping = [[<c-\>]],
             shade_filetypes = { "none" },
@@ -620,7 +576,7 @@ end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { "bashls", "bufls", "cmake", "dockerls", "dotls", "gopls", "yamlls", "clangd", "pyright" }
+local servers = { "bashls", "bufls", "neocmake", "dockerls", "dotls", "gopls", "yamlls", "clangd", "pyright" }
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
@@ -637,9 +593,6 @@ null_ls.setup({
         null_ls.builtins.formatting.buf,
         null_ls.builtins.formatting.prettier,
         null_ls.builtins.formatting.shfmt,
-        null_ls.builtins.formatting.cmake_format.with({
-            extra_args = { "--tab-size=4" },
-        }),
         null_ls.builtins.formatting.pg_format,
         null_ls.builtins.formatting.black,
 
