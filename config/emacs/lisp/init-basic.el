@@ -11,6 +11,7 @@
   )
 
 (put 'narrow-to-region 'disabled nil)
+(setq process-adaptive-read-buffering nil)
 
 ;; 启动emacs时窗口最大化
 (use-package frame

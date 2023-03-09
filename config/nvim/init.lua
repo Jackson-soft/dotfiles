@@ -22,10 +22,10 @@ vim.opt.rtp:prepend(lazypath)
 ---- Plugins ----
 require("lazy").setup({
     -- Some requied Lua plugins
-    { "nvim-lua/plenary.nvim",        lazy = true },
+    { "nvim-lua/plenary.nvim",       lazy = true },
 
     -- icons
-    { "kyazdani42/nvim-web-devicons", lazy = true },
+    { "nvim-tree/nvim-web-devicons", lazy = true },
 
     -- git
     {
@@ -89,12 +89,6 @@ require("lazy").setup({
                 enable = true,
             },
         },
-    },
-
-    {
-        "ibhagwan/smartyank.nvim",
-        event = "BufReadPost",
-        config = true,
     },
 
     -- UI to select things (files, grep results, open buffers...)
@@ -178,7 +172,6 @@ require("lazy").setup({
                 "lua",
                 "make",
                 "markdown",
-                "ninja",
                 "proto",
                 "python",
                 "regex",
@@ -270,6 +263,7 @@ require("lazy").setup({
             },
         },
         dependencies = {
+            { "nvim-treesitter/nvim-treesitter-context" },
             { "nvim-treesitter/nvim-treesitter-refactor" },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
@@ -323,10 +317,10 @@ require("lazy").setup({
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
-                    { name = "buffer" },
                     { name = "nvim_lsp" },
                     { name = "nvim_lua" },
                     { name = "luasnip" },
+                    { name = "buffer" },
                     { name = "path" },
                     { name = "treesitter" },
                     { name = "zsh" },
@@ -337,9 +331,11 @@ require("lazy").setup({
             -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
             cmp.setup.cmdline({ '/', '?' }, {
                 mapping = cmp.mapping.preset.cmdline(),
-                sources = {
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp_document_symbol' }
+                }, {
                     { name = 'buffer' }
-                }
+                })
             })
 
             -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
@@ -353,10 +349,11 @@ require("lazy").setup({
             })
         end,
         dependencies = {
-            { "hrsh7th/cmp-buffer" },
-            { "hrsh7th/cmp-nvim-lua" },
             { "hrsh7th/cmp-nvim-lsp" },
             { "hrsh7th/cmp-nvim-lsp-signature-help" },
+            { "hrsh7th/cmp-nvim-lsp-document-symbol" },
+            { "hrsh7th/cmp-nvim-lua" },
+            { "hrsh7th/cmp-buffer" },
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
             { "ray-x/cmp-treesitter" },
@@ -576,7 +573,7 @@ end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { "bashls", "bufls", "neocmake", "dockerls", "dotls", "gopls", "yamlls", "clangd", "pyright" }
+local servers = { "bashls", "bufls", "neocmake", "dockerls", "dotls", "gopls", "jsonls", "yamlls", "clangd", "pyright" }
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({
