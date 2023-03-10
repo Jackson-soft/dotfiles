@@ -68,6 +68,7 @@
   :ensure nil
   :config
   (setq uniquify-buffer-name-style 'forward
+		uniquify-separator " • "
 		uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
   )
 

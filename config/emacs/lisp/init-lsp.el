@@ -58,71 +58,71 @@
   )
 
 ;; https://company-mode.github.io/manual/
-(use-package company
-  ;; :hook (after-init . global-company-mode)
-  :hook (prog-mode . company-mode)
-  :bind (:map company-active-map
-			  ("C-s"     . company-filter-candidates)
-			  ([tab]     . company-complete-common-or-cycle)
-			  ([backtab] . company-select-previous-or-abort))
+;; (use-package company
+;;   ;; :hook (after-init . global-company-mode)
+;;   :hook (prog-mode . company-mode)
+;;   :bind (:map company-active-map
+;;			  ("C-s"     . company-filter-candidates)
+;;			  ([tab]     . company-complete-common-or-cycle)
+;;			  ([backtab] . company-select-previous-or-abort))
+;;   :custom
+;;   (company-dabbrev-code-ignore-case nil)
+;;   (company-dabbrev-code-everywhere t)
+;;   (company-files-exclusions '(".git/" ".DS_Store"))
+;;   :config
+;;   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
+;;		company-minimum-prefix-length 1
+;;		company-require-match 'company-explicit-action-p
+;;		company-tooltip-limit 12
+;;		company-tooltip-width-grow-only t
+;;		company-tooltip-flip-when-above t
+;;		company-transformers '(company-sort-by-occurrence)
+;;		company-backends '(company-files
+;;						   company-capf
+;;						   company-ispell
+;;						   (company-dabbrev-code company-keywords)
+;;						   company-dabbrev
+;;						   ))
+;;   )
+
+(use-package corfu
+  :hook ((prog-mode . corfu-mode)
+		 (corfu-mode . corfu-popupinfo-mode))
   :custom
-  (company-dabbrev-code-ignore-case nil)
-  (company-dabbrev-code-everywhere t)
-  (company-files-exclusions '(".git/" ".DS_Store"))
-  :config
-  (setq company-tooltip-align-annotations t ;; aligns annotation to the right
-		company-minimum-prefix-length 1
-		company-require-match 'company-explicit-action-p
-		company-tooltip-limit 12
-		company-tooltip-width-grow-only t
-		company-tooltip-flip-when-above t
-		company-transformers '(company-sort-by-occurrence)
-		company-backends '(company-files
-						   company-capf
-						   company-ispell
-						   (company-dabbrev-code company-keywords)
-						   company-dabbrev
-						   ))
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-separator ?\s)          ;; Orderless field separator
+  (corfu-quit-no-match t)        ;; Never quit, even if there is no match
+  (corfu-auto-prefix 2)
   )
 
-;; (use-package corfu
-;;   :init
-;;   (global-corfu-mode)
-;;   :config
-;;   (setq corfu-cycle t                ;; Enable cycling for `corfu-next/previous'
-;;         corfu-auto t                 ;; Enable auto completion
-;;		corfu-quit-no-match t        ;; Automatically quit if there is no match
-;;         corfu-auto-prefix 2)
+;; Add extensions
+(use-package cape
+  :after corfu
+  :bind (("C-c p p" . completion-at-point) ;; capf
+         ("C-c p t" . complete-tag)        ;; etags
+         ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+		 ("C-c p h" . cape-history)
+         ("C-c p f" . cape-file)
+         ("C-c p k" . cape-keyword)
+         ("C-c p s" . cape-symbol)
+         ("C-c p a" . cape-abbrev)
+         ("C-c p i" . cape-ispell)
+         ("C-c p l" . cape-line)
+         ("C-c p r" . cape-rfc1345))
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (dolist (backend '(cape-file cape-dabbrev cape-history cape-symbol cape-keyword cape-abbrev cape-ispell cape-line cape-rfc1345))
+    (add-to-list 'completion-at-point-functions backend))
+  )
 
-;;   ;; Add extensions
-;;   (use-package cape
-;;     :bind (("C-c p p" . completion-at-point) ;; capf
-;;            ("C-c p t" . complete-tag)        ;; etags
-;;            ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
-;;            ("C-c p f" . cape-file)
-;;            ("C-c p k" . cape-keyword)
-;;            ("C-c p s" . cape-symbol)
-;;            ("C-c p a" . cape-abbrev)
-;;            ("C-c p i" . cape-ispell)
-;;            ("C-c p l" . cape-line)
-;;            ("C-c p r" . cape-rfc1345))
-;;     :init
-;;     ;; Add `completion-at-point-functions', used by `completion-at-point'.
-;;     (dolist (backend '(cape-file cape-dabbrev cape-symbol cape-keyword cape-abbrev cape-ispell cape-line cape-rfc1345))
-;;       (add-to-list 'completion-at-point-functions backend))
-;;     )
-
-;;   (use-package kind-icon
-;;     :custom
-;;     (kind-icon-default-face 'corfu-default) ;; to compute blended backgrounds correctly
-;;     :config
-;;     (add-to-list 'corfu-margin-formatters 'kind-icon-margin-formatter)
-;;     )
-;;   )
-
-;; (use-package corfu-doc
-;;   :hook (corfu-mode . corfu-doc-mode)
-;;   )
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ;; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  )
 
 ;; (use-package mono-complete
 ;;   :hook (prog-mode . mono-complete-mode)
@@ -149,8 +149,8 @@
 
 (use-package eglot
   :ensure nil
-  :hook (((json-mode js-mode web-mode go-mode dockerfile-ts-mode c-mode c++-mode c++-ts-mode cmake-ts-mode lua-mode
-					 css-mode sh-mode yaml-ts-mode protobuf-ts-mode graphviz-dot-mode) . eglot-ensure))
+  :hook (((json-mode js-mode web-mode go-ts-mode dockerfile-ts-mode c-mode c++-mode c++-ts-mode cmake-ts-mode lua-mode
+					 css-mode sh-mode yaml-ts-mode protobuf-ts-mode graphviz-dot-mode markdown-mode) . eglot-ensure))
   :bind (:map eglot-mode-map
               ("C-c l a" . eglot-code-actions)
               ("C-c l r" . eglot-rename)

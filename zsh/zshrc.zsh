@@ -88,7 +88,8 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
-    sbin"**/bin/pandoc" jgm/pandoc \
+    sbin"bin/pandoc" jgm/pandoc \
+    sbin"marksman* -> marksman" artempyanykh/marksman \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
 
 zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" sbin"fzf" \

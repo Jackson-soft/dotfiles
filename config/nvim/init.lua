@@ -573,7 +573,8 @@ end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { "bashls", "bufls", "neocmake", "dockerls", "dotls", "gopls", "jsonls", "yamlls", "clangd", "pyright" }
+local servers = { "bashls", "bufls", "neocmake", "dockerls", "dotls", "gopls", "jsonls", "yamlls", "clangd", "pyright",
+    "marksman" }
 
 for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup({

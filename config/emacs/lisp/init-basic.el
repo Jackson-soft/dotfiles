@@ -5,13 +5,7 @@
 ;;
 ;;; Code:
 
-;; Good pixel line scrolling
-(if (boundp 'pixel-scroll-precision-mode)
-	(pixel-scroll-precision-mode t)
-  )
-
 (put 'narrow-to-region 'disabled nil)
-(setq process-adaptive-read-buffering nil)
 
 ;; 启动emacs时窗口最大化
 (use-package frame
@@ -70,6 +64,12 @@
 		use-file-dialog nil
 		use-dialog-box nil  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
 		)
+  )
+
+;; Good pixel line scrolling
+(use-package pixel-scroll
+  :ensure nil
+  :hook (after-init . pixel-scroll-precision-mode)
   )
 
 (use-package files
