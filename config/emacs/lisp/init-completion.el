@@ -27,6 +27,9 @@
 		 ;; C-x bindings (ctl-x-map)
 		 ([remap repeat-complex-command] . consult-complex-command)     ;; C-x M-:
 		 ([remap switch-to-buffer] . consult-buffer) ;; C-x b
+		 ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
 		 ([remap project-switch-to-buffer] . consult-project-buffer)  ;; C-x p b
 		 ("C-x C-r" . consult-recent-file)
 		 ([remap bookmark-jump] . consult-bookmark)            ;; C-x r b
@@ -36,6 +39,8 @@
 		 ("M-g f" . consult-flymake)
 		 ([remap goto-line] . consult-goto-line) ;; M-g g
 		 ("M-g o" . consult-outline)
+		 ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
 		 ("M-g i" . consult-imenu)
 		 ("M-g I" . consult-imenu-multi)
 		 ;; M-s bindings (search-map)
@@ -83,10 +88,13 @@
 
 (use-package marginalia
   :hook (after-init . marginalia-mode)
+  :bind ("M-A" . marginalia-cycle)
   )
 
 (use-package embark
   :bind (("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
+		 ("C-." . embark-act)         ;; pick some comfortable binding
+		 ("C-;" . embark-dwim)        ;; good alternative: M-.
 		 ("M-n" . embark-next-symbol)
 		 ("M-p" . embark-previous-symbol))
   :custom

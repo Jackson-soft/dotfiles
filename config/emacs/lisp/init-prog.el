@@ -7,6 +7,10 @@
 
 ;;; Code:
 
+(use-package treesit-auto
+  :hook (after-init . global-treesit-auto-mode)
+  )
+
 (use-package xref
   :ensure nil
   :hook ((xref-after-return xref-after-jump) . recenter)
@@ -44,16 +48,22 @@
 (use-package apheleia
   :hook (prog-mode . apheleia-mode)
   :bind ("C-c M-f" . apheleia-format-buffer)
-  :config
-  (nconc apheleia-formatters '((pgfmt . ("pg_format" "-"))))
+  :init
+  (require 'apheleia-formatters)
 
-  (nconc apheleia-mode-alist '((markdown-mode . prettier)
-							   (gfm-mode . prettier)
-							   (dockerfile-ts-mode . shfmt)
-							   (protobuf-ts-mode . clang-format)
-							   (emacs-lisp-mode . lisp-indent)
-							   (go-mode . gofmt)
-							   (sql-mode . pgfmt)))
+  (add-to-list 'apheleia-formatters '(pg-format . ("pg_format"
+												   "--comma-break"
+												   "--wrap-comment"
+												   "--nogrouping"
+												   "--keep-newline")))
+
+  (dolist (alist '((markdown-mode . prettier-markdown)
+				   (gfm-mode . prettier-markdown)
+				   (dockerfile-ts-mode . shfmt)
+				   (protobuf-ts-mode . clang-format)
+				   (emacs-lisp-mode . lisp-indent)
+				   (sql-mode . pg-format)))
+    (add-to-list 'apheleia-mode-alist alist))
   )
 
 ;; 注释

@@ -89,10 +89,8 @@
   :hook ((prog-mode . corfu-mode)
 		 (corfu-mode . corfu-popupinfo-mode))
   :custom
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto t)                 ;; Enable auto completion
-  (corfu-separator ?\s)          ;; Orderless field separator
-  (corfu-quit-no-match t)        ;; Never quit, even if there is no match
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto-prefix 2)
   )
 
@@ -100,7 +98,6 @@
 (use-package cape
   :after corfu
   :bind (("C-c p p" . completion-at-point) ;; capf
-         ("C-c p t" . complete-tag)        ;; etags
          ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
 		 ("C-c p h" . cape-history)
          ("C-c p f" . cape-file)

@@ -22,10 +22,16 @@ vim.opt.rtp:prepend(lazypath)
 ---- Plugins ----
 require("lazy").setup({
     -- Some requied Lua plugins
-    { "nvim-lua/plenary.nvim",       lazy = true },
+    {
+        "nvim-lua/plenary.nvim",
+        lazy = true
+    },
 
     -- icons
-    { "nvim-tree/nvim-web-devicons", lazy = true },
+    {
+        "nvim-tree/nvim-web-devicons",
+        lazy = true
+    },
 
     -- git
     {
@@ -149,6 +155,7 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
+        event = { "BufReadPost", "BufNewFile" },
         opts = {
             ensure_installed = {
                 "bash",
@@ -217,47 +224,47 @@ require("lazy").setup({
                     lookahead = true,
                     keymaps = {
                         -- You can use the capture groups defined in textobjects.scm
-                            ["af"] = "@function.outer",
-                            ["if"] = "@function.inner",
-                            ["ac"] = "@class.outer",
-                            ["ic"] = "@class.inner",
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                        ["ac"] = "@class.outer",
+                        ["ic"] = "@class.inner",
                     },
                 },
                 swap = {
                     enable = true,
                     swap_next = {
-                            ["<leader>a"] = "@parameter.inner",
+                        ["<leader>a"] = "@parameter.inner",
                     },
                     swap_previous = {
-                            ["<leader>A"] = "@parameter.inner",
+                        ["<leader>A"] = "@parameter.inner",
                     },
                 },
                 move = {
                     enable = true,
                     set_jumps = true, -- whether to set jumps in the jumplist
                     goto_next_start = {
-                            ["]m"] = "@function.outer",
-                            ["]]"] = "@class.outer",
+                        ["]m"] = "@function.outer",
+                        ["]]"] = "@class.outer",
                     },
                     goto_next_end = {
-                            ["]M"] = "@function.outer",
-                            ["]["] = "@class.outer",
+                        ["]M"] = "@function.outer",
+                        ["]["] = "@class.outer",
                     },
                     goto_previous_start = {
-                            ["[m"] = "@function.outer",
-                            ["[["] = "@class.outer",
+                        ["[m"] = "@function.outer",
+                        ["[["] = "@class.outer",
                     },
                     goto_previous_end = {
-                            ["[M"] = "@function.outer",
-                            ["[]"] = "@class.outer",
+                        ["[M"] = "@function.outer",
+                        ["[]"] = "@class.outer",
                     },
                 },
                 lsp_interop = {
                     enable = true,
                     border = "none",
                     peek_definition_code = {
-                            ["df"] = "@function.outer",
-                            ["dF"] = "@class.outer",
+                        ["df"] = "@function.outer",
+                        ["dF"] = "@class.outer",
                     },
                 },
             },
@@ -290,12 +297,12 @@ require("lazy").setup({
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
-                        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                        ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                        ["<C-Space>"] = cmp.mapping.complete(),
-                        ["<C-e>"] = cmp.mapping.abort(),
-                        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                        ["<Tab>"] = cmp.mapping(function(fallback)
+                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-e>"] = cmp.mapping.abort(),
+                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                    ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
                         elseif luasnip.expand_or_jumpable() then
@@ -306,7 +313,7 @@ require("lazy").setup({
                             fallback()
                         end
                     end, { "i", "s" }),
-                        ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    ["<S-Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()
                         elseif luasnip.jumpable(-1) then
@@ -372,7 +379,10 @@ require("lazy").setup({
         },
     },
 
-    { "neovim/nvim-lspconfig" },
+    {
+        "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
+    },
 
     { "jose-elias-alvarez/null-ls.nvim" },
 
@@ -409,7 +419,10 @@ require("lazy").setup({
     -- lua
     { "spacewander/openresty-vim" },
 
-    { "b0o/schemastore.nvim",     lazy = true, },
+    {
+        "b0o/schemastore.nvim",
+        lazy = true,
+    },
 
     -- http
     {
@@ -633,7 +646,7 @@ nvim_lsp.lua_ls.setup({
                 -- Get the language server to recognize the `vim` global
                 globals = { "vim" },
                 neededFileStatus = {
-                        ["codestyle-check"] = "Any",
+                    ["codestyle-check"] = "Any",
                 },
             },
             workspace = {
