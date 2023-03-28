@@ -86,17 +86,21 @@
 ;;   )
 
 (use-package corfu
-  :hook ((prog-mode . corfu-mode)
+  :hook ((after-init . global-corfu-mode)
 		 (corfu-mode . corfu-popupinfo-mode))
+  :bind (:map corfu-map
+			  ("SPC" . corfu-insert-separator))   ;; Configure SPC for separator insertion
   :custom
   (corfu-auto t)                 ;; Enable auto completion
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-auto-prefix 2)
+  (corfu-quit-no-match t)
+  (corfu-quit-at-boundary t)
+  (corfu-scroll-margin 5)
   )
 
 ;; Add extensions
 (use-package cape
-  :after corfu
   :bind (("C-c p p" . completion-at-point) ;; capf
          ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
 		 ("C-c p h" . cape-history)
@@ -109,8 +113,16 @@
          ("C-c p r" . cape-rfc1345))
   :init
   ;; Add `completion-at-point-functions', used by `completion-at-point'.
-  (dolist (backend '(cape-file cape-dabbrev cape-history cape-symbol cape-keyword cape-abbrev cape-ispell cape-line cape-rfc1345))
-    (add-to-list 'completion-at-point-functions backend))
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-history)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  (add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  (add-to-list 'completion-at-point-functions #'cape-abbrev)
+  (add-to-list 'completion-at-point-functions #'cape-ispell)
+  (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-line)
   )
 
 (use-package kind-icon
@@ -118,14 +130,8 @@
   :custom
   (kind-icon-default-face 'corfu-default) ;; to compute blended backgrounds correctly
   :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+  (push 'kind-icon-margin-formatter corfu-margin-formatters)
   )
-
-;; (use-package mono-complete
-;;   :hook (prog-mode . mono-complete-mode)
-;;   :config
-;;   (setq mono-complete-backends (list 'capf 'dabbrev 'filesystem 'spell-fu 'whole-line 'word-predict))
-;;   )
 
 ;;; Dabbrev (dynamic word completion)
 (use-package dabbrev

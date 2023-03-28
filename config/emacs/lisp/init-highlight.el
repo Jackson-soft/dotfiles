@@ -31,8 +31,8 @@
 		 (magit-post-refresh . diff-hl-magit-post-refresh)
 		 (dired-mode . diff-hl-dired-mode))
   :config
-  (diff-hl-margin-mode)
-  (diff-hl-flydiff-mode)
+  (diff-hl-margin-mode t)
+  (diff-hl-flydiff-mode t)
   )
 
 ;; 缩进标识
@@ -40,6 +40,16 @@
 ;;   :commands (hl-indent-scope-mode)
 ;;   :hook ((c-mode c++-mode cmake-mode python-mode emacs-lisp-mode go-mode) . hl-indent-scope-mode)
 ;;   )
+
+;; Highlight indentions
+(use-package highlight-indent-guides
+  :diminish
+  :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'character
+		highlight-indent-guides-responsive 'top
+		highlight-indent-guides-suppress-auto-error t)
+  )
 
 ;; Dimming Unused Windows
 (use-package dimmer

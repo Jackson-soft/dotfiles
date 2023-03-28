@@ -1,33 +1,13 @@
 #!/bin/zsh
 
 ## Options section
-setopt correct                                                  # Auto correct mistakes
-setopt extendedglob                                             # Extended globbing. Allows using regular expressions with *
-setopt nocaseglob                                               # Case insensitive globbing
-setopt rcexpandparam                                            # Array expension with parameters
-setopt nocheckjobs                                              # Don't warn about running processes when exiting
-setopt numericglobsort                                          # Sort filenames numerically when it makes sense
-setopt nobeep                                                   # No beep
-setopt appendhistory                                            # Immediately append history instead of overwriting
-setopt histignorealldups                                        # If a new command is a duplicate, remove the older one
-setopt autocd                                                   # if only directory path is entered, cd there.
-setopt inc_append_history                                       # save commands are added to the history immediately, otherwise only when shell exits.
-setopt histignorespace                                          # Don't save commands that start with space
-setopt extended_history       # record timestamp of command in HISTFILE
-setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt hist_ignore_dups       # ignore duplicated commands history list
-setopt hist_ignore_space      # ignore commands that start with space
-setopt hist_verify            # show command with history expansion to user before running it
-setopt share_history          # share command history data
-setopt auto_menu              # show completion menu on successive tab press
-setopt hash_list_all          # hash everything before completion
-setopt completealiases        # complete alisases
-setopt complete_in_word       # allow completion from within a word/phrase
-setopt always_to_end          # when completing from the middle of a word, move the cursor to the end of the word
-setopt list_ambiguous         # complete as much of a completion until it gets ambiguous.
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt pushdminus
+setopt EXTENDED_GLOB
+# Use modern file-locking mechanisms, for better safety & performance.
+setopt HIST_FCNTL_LOCK
+# Keep only the most recent copy of each duplicate entry in history.
+setopt HIST_IGNORE_ALL_DUPS
+# Auto-sync history between concurrent sessions.
+setopt SHARE_HISTORY
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
 bindkey -e
@@ -38,8 +18,8 @@ alias -g ...='../..'
 # https://github.com/junegunn/fzf
 export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg --files --hidden --follow --glob '!.git' || find ."
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_ALT_C_COMMAND="fd -t d"
-export FZF_CTRL_R_OPTS='--sort --exact'
+export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || exa -T {}) 2> /dev/null | head -200'"
+export FZF_ALT_C_OPTS="--preview 'exa -T {} | head -200'"
 export FZF_DEFAULT_OPTS="
        --layout=reverse
        --info=inline
@@ -47,11 +27,10 @@ export FZF_DEFAULT_OPTS="
        --multi
        --border
        --cycle
-       --preview-window=:hidden
-       --preview '([[ -f {} ]] && (bat --style=numbers --color=always {} || cat {})) || ([[ -d {} ]] && (exa -T {} | less)) || echo {} 2> /dev/null | head -200'
        --prompt='∼ ' --marker='✓'
        --color='dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254'
        --color='info:254,prompt:37,spinner:108,pointer:235,marker:235'
+       --preview-window=:hidden
        --bind '?:toggle-preview'
        "
 
@@ -64,3 +43,55 @@ export LESS_TERMCAP_so=$'\E[01;47;34m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-R
+
+
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
+# == fzf-tab
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':fzf-tab:*' popup-min-size 50 8
+zstyle ':fzf-tab:complete:kill:argument-rest' fzf-preview 'ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*' file-sort modification
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion:*' rehash true
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' verbose yes
+
+zstyle ':completion:*' completer _expand_alias _expand _complete _ignored _approximate
+zstyle ':completion:*' menu select=2
+zstyle ':completion:*' special-dirs true
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle ':completion:*' accept-exact '*(N)'
+
+# git
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
+	'git diff $word | delta'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
+	'git log --color=always $word'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
+	'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
+	'case "$group" in
+	"commit tag") git show --color=always $word ;;
+	*) git show --color=always $word | delta ;;
+	esac'
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
+	'case "$group" in
+	"modified file") git diff $word | delta ;;
+	"recent commit object name") git show --color=always $word | delta ;;
+	*) git log --color=always $word ;;
+	esac'
+
+# man
+zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man $word'
+
+# Kill
+zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w -w'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
+zstyle ':completion:*:*:kill:*' force-list always
+zstyle ':completion:*:*:kill:*' insert-ids single
+

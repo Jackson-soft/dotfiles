@@ -8,8 +8,6 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-;; (package-initialize)
-
 ;; Should set before loading `use-package'
 (eval-and-compile
   (setq use-package-always-ensure t

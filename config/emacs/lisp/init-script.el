@@ -15,16 +15,10 @@
   :hook (sql-mode . flymake-sqlfluff-load)
   )
 
-(use-package yaml-ts-mode
-  :ensure nil
-  :mode ("\\.ya?ml\\'" . yaml-ts-mode)
-  )
-
 (use-package yaml-pro
   :hook (yaml-ts-mode . yaml-pro-ts-mode)
   )
 
-;; (use-package protobuf-mode)
 (use-package protobuf-ts-mode)
 
 (use-package nginx-mode
@@ -39,6 +33,12 @@
 (use-package restclient
   :mode (("\\.http\\'" . restclient-mode)
 		 ("\\.rest\\'" . restclient-mode))
+  )
+
+(use-package restclient-test
+  :diminish
+  :hook ((restclient-mode . restclient-test-mode)
+		 (restclient-test-mode . flymake-mode))
   )
 
 (use-package systemd)

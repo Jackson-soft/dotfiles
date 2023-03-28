@@ -24,17 +24,18 @@
 		minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt)
 
 		completion-pcm-complete-word-inserts-delimiters t
-		completion-cycle-threshold 3
+		;; completion-cycle-threshold 3
 		completion-ignore-case t
 		completions-detailed t
 		completions-group t)
   )
 
+;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles basic partial-completion))))
+  :init
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion)))))
   )
 
 ;; minibuffer history

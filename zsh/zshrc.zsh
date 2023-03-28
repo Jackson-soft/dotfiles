@@ -21,43 +21,12 @@ zinit depth"1" light-mode for \
         $ZI_REPO/zinit-annex-{'bin-gem-node','patch-dl'} \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
         $ZI_REPO/fast-syntax-highlighting \
-    atinit'
-        zstyle ":fzf-tab:complete:(z|cd|exa):*" fzf-preview "exa -1 --color=always $realpath"
-        zstyle ":fzf-tab:complete:(\\|*/|)man:*" fzf-preview "man $word"
-        zstyle ":fzf-tab:complete:git-(add|diff|restore):*" fzf-preview "git diff $word | delta"
-        zstyle ":fzf-tab:complete:git-log:*" fzf-preview "git log --color=always $word"
-        zstyle ":fzf-tab:*" switch-group "," "."
-    ' \
         Aloxaf/fzf-tab \
     atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     blockf atpull'zinit creinstall -q .' \
-    atinit'
-        zstyle ":completion:*" completer _expand_alias _expand _complete _ignored _approximate
-        zstyle ":completion:*" matcher-list "m:{a-zA-Z}={A-Za-z}" "+r:|?=**"
-        zstyle ":completion:*" menu select=2
-        zstyle ":completion:*" special-dirs true
-        zstyle ":completion:*" list-colors ${(s.:.)LS_COLORS}
-        zstyle ":completion:*" rehash true
-        zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01"
-        zstyle ":completion:*" select-prompt "%SScrolling active: current selection at %p%s"
-        zstyle ":completion:*:descriptions" format "[%d]"
-        zstyle ":completion:*:processes" command "ps -au $USER"
-        zstyle ":completion:*:*:*:*:processes" command "ps -u $USER -o pid,user,comm,cmd -w -w"
-        zstyle ":completion:*" file-sort modification
-        zstyle ":completion:*:git-checkout:*" sort false
-        zstyle ":completion:*" verbose yes
-        zstyle ":completion:*" squeeze-slashes true
-        zstyle ":completion:*" accept-exact "*(N)"
-        zstyle ":completion:*" use-cache on
-        zstyle ":completion:*" cache-path $ZSH_CACHE_DIR
-    ' \
         zsh-users/zsh-completions \
-    trackbinds bindmap"^R -> ^H" atinit'
-        zstyle ":history-search-multi-word" page-size "20"
-        zstyle ":history-search-multi-word" highlight-color "fg=red,bold"
-        zstyle ":plugin:history-search-multi-word" reset-prompt-protect "1"
-    ' \
+    trackbinds bindmap"^R -> ^H" \
         $ZI_REPO/history-search-multi-word
 
 # Load starship theme
@@ -93,7 +62,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
 
 zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" sbin"fzf" \
-    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;'})" 
+    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;'})"
 zinit light junegunn/fzf
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
