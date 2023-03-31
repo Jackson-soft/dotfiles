@@ -163,12 +163,13 @@
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("bufls" "serve")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))
   (add-to-list 'eglot-server-programs '((c++-mode c-mode) . ("clangd"
-															 "-j=2"
+															 "-j=5"
 															 "--background-index"
 															 "--clang-tidy"
-															 "--cross-file-rename"
-															 "--completion-style=bundled"
-															 "--pch-storage=memory"
+															 "--compile-commands-dir=build"
+															 "--completion-style=detailed"
+															 "--pch-storage=disk"
+															 "--all-scopes-completion"
 															 "--header-insertion=iwyu"
 															 "--header-insertion-decorators")))
   )

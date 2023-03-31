@@ -412,7 +412,17 @@ require("lazy").setup({
         "nvim-lualine/lualine.nvim",
         event = "VeryLazy",
         opts = {
-            extensions = { "toggleterm", "nvim-tree" },
+            sections = {
+                lualine_a = {
+                    { 'mode' },
+                    {
+                        'searchcount',
+                        maxcount = 999,
+                        timeout = 500,
+                    },
+                },
+            },
+            extensions = { "lazy", "toggleterm", "nvim-tree" },
         },
     },
 
@@ -471,7 +481,7 @@ vim.opt.expandtab = true
 --- Numbering
 vim.wo.number = true
 --Set colorscheme (order is important here)
-vim.o.termguicolors = true
+vim.opt.termguicolors = true
 --Set highlight on search
 vim.opt.showmatch = true
 vim.o.completeopt = "menu,menuone,noselect"

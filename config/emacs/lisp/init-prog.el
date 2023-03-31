@@ -101,13 +101,13 @@ Else, call `comment-or-uncomment-region' on the current line."
   :bind ("C--" . hs-toggle-hiding)
   )
 
-;; 注释的风格
-(use-package docstr
-  :hook (prog-mode . docstr-mode)
-  :diminish docstr-mode
-  :config
-  (docstr-faces-apply)
-  (setq docstr-key-support t)
+;; Edit comment/string/docstring/code block in separate buffer
+(use-package separedit
+  :bind (:map prog-mode-map
+              ("C-c '" . separedit))
+  :custom
+  (separedit-remove-trailing-spaces-in-comment t)
+  (separedit-default-mode 'markdown-mode)
   )
 
 (use-package expand-region
