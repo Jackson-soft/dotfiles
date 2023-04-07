@@ -19,14 +19,6 @@
 		display-time-default-load-average nil)
   )
 
-;; Tabs for window layouts
-(use-package tab-bar
-  :ensure nil
-  :hook (after-init . tab-bar-history-mode)
-  :bind (("C-x <right>" . tab-bar-history-forward)
-		 ("C-x <left>" . tab-bar-history-back))
-  )
-
 ;; Mode line settings
 (setq-default mode-line-format
 			  '("%e"

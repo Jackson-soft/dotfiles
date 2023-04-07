@@ -117,11 +117,14 @@ require("lazy").setup({
             telescope.load_extension("file_browser")
 
             local builtin = require('telescope.builtin')
-            vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-            vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-            vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-            vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-            vim.keymap.set("n", "<leader>so", builtin.lsp_document_symbols, {})
+            vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
+            vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+            vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+            vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find existing buffers' })
+            vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+            vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, { desc = "[D]ocument [S]ymbols" })
+            vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+            vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
         end,
         dependencies = {
             { "nvim-telescope/telescope-fzf-native.nvim",   build = 'make' },
@@ -484,7 +487,6 @@ vim.wo.number = true
 vim.opt.termguicolors = true
 --Set highlight on search
 vim.opt.showmatch = true
-vim.o.completeopt = "menu,menuone,noselect"
 
 vim.opt.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o:hor50]]
 --Enable mouse mode
@@ -499,10 +501,20 @@ vim.o.breakindent = true
 -- Save undo history
 vim.o.undofile = true
 
+-- Case insensitive searching UNLESS /C or capital in search
+vim.o.ignorecase = true
+vim.o.smartcase = true
+
+-- Keep signcolumn on by default
+vim.wo.signcolumn = 'yes'
+
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeout = true
 vim.o.timeoutlen = 300
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
 
 -- Make line numbers default
 vim.opt.cursorline = true
@@ -540,11 +552,11 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- LSP settings
 local nvim_lsp = require("lspconfig")
 
-local opts = { noremap = true, silent = true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+-- Diagnostic keymaps
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -596,57 +608,36 @@ end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-local servers = { "bashls", "bufls", "neocmake", "dockerls", "dotls", "gopls", "jsonls", "yamlls", "clangd", "pyright",
-    "marksman" }
-
-for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-    })
-end
-
-local null_ls = require("null-ls")
-null_ls.setup({
-    on_attach = on_attach,
-    -- register any number of sources simultaneously
-    sources = {
-        null_ls.builtins.formatting.buf,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.formatting.shfmt,
-        null_ls.builtins.formatting.pg_format,
-        null_ls.builtins.formatting.black,
-
-        null_ls.builtins.diagnostics.hadolint,
-        null_ls.builtins.diagnostics.shellcheck,
-        null_ls.builtins.diagnostics.markdownlint,
-        null_ls.builtins.diagnostics.golangci_lint,
-        null_ls.builtins.diagnostics.yamllint,
-        null_ls.builtins.diagnostics.buf,
-        null_ls.builtins.diagnostics.zsh,
-
-        null_ls.builtins.code_actions.gitsigns,
-        null_ls.builtins.code_actions.shellcheck,
-    },
-})
-
--- json schemas
-nvim_lsp.jsonls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
+-- 语言服务与相关设置
+local servers = {
+    bashls = {},
+    bufls = {},
+    neocmake = {},
+    dockerls = {},
+    dotls = {},
+    gopls = {},
+    jsonls = {
         json = {
             schemas = require('schemastore').json.schemas(),
             validate = { enable = true },
         },
     },
-}
-
--- lua
-nvim_lsp.lua_ls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    settings = {
+    yamlls = {
+        yaml = {
+            schemastore = {
+                enable = true,
+                url = "https://www.schemastore.org/api/json/catalog.json",
+            },
+            schemas = require('schemastore').yaml.schemas(),
+            hover = true,
+            completion = true,
+            validate = true,
+        },
+    },
+    clangd = {},
+    pyright = {},
+    marksman = {},
+    lua_ls = {
         Lua = {
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
@@ -677,5 +668,37 @@ nvim_lsp.lua_ls.setup({
                 }
             },
         },
+    },
+}
+
+for lsp, sets in pairs(servers) do
+    nvim_lsp[lsp].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = sets,
+    })
+end
+
+local null_ls = require("null-ls")
+null_ls.setup({
+    on_attach = on_attach,
+    -- register any number of sources simultaneously
+    sources = {
+        null_ls.builtins.formatting.buf,
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.formatting.shfmt,
+        null_ls.builtins.formatting.pg_format,
+        null_ls.builtins.formatting.black,
+
+        null_ls.builtins.diagnostics.hadolint,
+        null_ls.builtins.diagnostics.shellcheck,
+        null_ls.builtins.diagnostics.markdownlint,
+        null_ls.builtins.diagnostics.golangci_lint,
+        null_ls.builtins.diagnostics.yamllint,
+        null_ls.builtins.diagnostics.buf,
+        null_ls.builtins.diagnostics.zsh,
+
+        null_ls.builtins.code_actions.gitsigns,
+        null_ls.builtins.code_actions.shellcheck,
     },
 })

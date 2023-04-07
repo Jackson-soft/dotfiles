@@ -66,6 +66,14 @@
 		)
   )
 
+
+(use-package window
+  :ensure nil
+  :config
+  (setq switch-to-buffer-in-dedicated-window 'pop
+		switch-to-buffer-obey-display-actions t)
+  )
+
 ;; Good pixel line scrolling
 (use-package pixel-scroll
   :ensure nil

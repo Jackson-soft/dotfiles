@@ -13,9 +13,9 @@
 
 (use-package xref
   :ensure nil
-  :hook ((xref-after-return xref-after-jump) . recenter)
   :config
-  (setq xref-search-program 'ripgrep)
+  (setq xref-search-program 'ripgrep
+		xref-history-storage 'xref-window-local-history)
   )
 
 (use-package imenu

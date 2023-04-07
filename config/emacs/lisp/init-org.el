@@ -125,18 +125,16 @@
 		  org-export-with-toc nil
 		  org-export-with-priority t
 		  org-export-with-smart-quotes t
+		  org-export-with-broken-links 'mark
+		  org-export-preserve-breaks t
 		  org-export-headline-levels 5
-		  org-export-coding-system 'utf-8
-		  org-export-with-broken-links 'mark)
+		  org-export-default-language "zh-CN"  ;; 默认是en
+		  org-export-coding-system 'utf-8)
 	)
 
-  (use-package ox-html
-	:ensure nil
+  (use-package ox-pandoc
 	:config
-	(setq org-html-doctype "html5"
-		  org-html-html5-fancy t
-		  org-html-checkbox-type 'unicode)
-	)
+	(setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html)))
 
   (use-package ob-restclient)
 
