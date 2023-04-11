@@ -387,7 +387,10 @@ require("lazy").setup({
         event = { "BufReadPre", "BufNewFile" },
     },
 
-    { "jose-elias-alvarez/null-ls.nvim" },
+    {
+        "jose-elias-alvarez/null-ls.nvim",
+        event = { "BufReadPre", "BufNewFile" },
+    },
 
     -- Auto close parentheses
     {
@@ -550,7 +553,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- LSP settings
-local nvim_lsp = require("lspconfig")
+local nvimLsp = require("lspconfig")
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -560,7 +563,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagn
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
+local onAttach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -587,7 +590,11 @@ local on_attach = function(client, bufnr)
         vim.api.nvim_create_autocmd("BufWritePre", {
             group = vim.api.nvim_create_augroup("Format", { clear = true }),
             buffer = bufnr,
-            callback = vim.lsp.buf.formatting_sync,
+            callback = function()
+                -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                -- vim.lsp.buf.formatting_sync()
+                vim.lsp.buf.format({ bufnr = bufnr })
+            end,
         })
     end
 end
@@ -672,33 +679,40 @@ local servers = {
 }
 
 for lsp, sets in pairs(servers) do
-    nvim_lsp[lsp].setup({
-        on_attach = on_attach,
+    nvimLsp[lsp].setup({
+        on_attach = onAttach,
         capabilities = capabilities,
         settings = sets,
     })
 end
 
-local null_ls = require("null-ls")
-null_ls.setup({
-    on_attach = on_attach,
+local nullLs = require("null-ls")
+nullLs.setup({
+    on_attach = onAttach,
     -- register any number of sources simultaneously
     sources = {
-        null_ls.builtins.formatting.buf,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.formatting.shfmt,
-        null_ls.builtins.formatting.pg_format,
-        null_ls.builtins.formatting.black,
+        nullLs.builtins.formatting.buf,
+        nullLs.builtins.formatting.prettier,
+        nullLs.builtins.formatting.shfmt,
+        -- nullLs.builtins.formatting.pg_format,
+        nullLs.builtins.formatting.sqlfluff.with({
+            extra_args = { "--dialect", "mysql" }, -- change to your dialect
+        }),
+        nullLs.builtins.formatting.ruff,
 
-        null_ls.builtins.diagnostics.hadolint,
-        null_ls.builtins.diagnostics.shellcheck,
-        null_ls.builtins.diagnostics.markdownlint,
-        null_ls.builtins.diagnostics.golangci_lint,
-        null_ls.builtins.diagnostics.yamllint,
-        null_ls.builtins.diagnostics.buf,
-        null_ls.builtins.diagnostics.zsh,
+        nullLs.builtins.diagnostics.hadolint,
+        nullLs.builtins.diagnostics.shellcheck,
+        nullLs.builtins.diagnostics.markdownlint,
+        nullLs.builtins.diagnostics.golangci_lint,
+        nullLs.builtins.diagnostics.yamllint,
+        nullLs.builtins.diagnostics.buf,
+        nullLs.builtins.diagnostics.zsh,
+        nullLs.builtins.diagnostics.ruff,
+        nullLs.builtins.diagnostics.sqlfluff.with({
+            extra_args = { "--dialect", "mysql" }, -- change to your dialect
+        }),
 
-        null_ls.builtins.code_actions.gitsigns,
-        null_ls.builtins.code_actions.shellcheck,
+        nullLs.builtins.code_actions.gitsigns,
+        nullLs.builtins.code_actions.shellcheck,
     },
 })

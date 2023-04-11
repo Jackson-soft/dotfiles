@@ -51,18 +51,14 @@
   :init
   (require 'apheleia-formatters)
 
-  (add-to-list 'apheleia-formatters '(pg-format . ("pg_format"
-												   "--comma-break"
-												   "--wrap-comment"
-												   "--nogrouping"
-												   "--keep-newline")))
+  (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "format" "--dialect" "mysql" "--disable-progress-bar" "-f" "-n" "-")))
 
   (dolist (alist '((markdown-mode . prettier-markdown)
 				   (gfm-mode . prettier-markdown)
 				   (dockerfile-ts-mode . shfmt)
 				   (protobuf-ts-mode . clang-format)
 				   (emacs-lisp-mode . lisp-indent)
-				   (sql-mode . pg-format)))
+				   (sql-mode . sql-format)))
     (add-to-list 'apheleia-mode-alist alist))
   )
 

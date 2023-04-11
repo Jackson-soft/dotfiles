@@ -64,6 +64,12 @@
   :hook (after-init . electric-indent-mode)
   )
 
+(use-package vundo
+  :bind ("C-x u" . vundo)
+  :config
+  (setq vundo-glyph-alist vundo-unicode-symbols)
+  )
+
 (use-package uniquify
   :ensure nil
   :config

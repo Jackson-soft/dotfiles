@@ -30,7 +30,7 @@ zinit depth"1" light-mode for \
         ${ZI_REPO}/history-search-multi-word
 
 # Load starship theme
-zinit ice as"null" from"gh-r" sbin"starship" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh"
+zinit ice as"null" from"gh-r" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh" completions sbin"starship"
 zinit light starship/starship
 
 # git extensions
@@ -42,27 +42,29 @@ zinit wait"0a" lucid depth"1" for \
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
     sbin"bin/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
-    mv"man/exa.1 -> $ZPFX/share/man/man1" cp"completions/exa.zsh -> ${ZINIT[COMPLETIONS_DIR]}/_exa" ogham/exa \
-    sbin"**/bat" atload"alias cat='bat'" cp"**/autocomplete/bat.zsh -> ${ZINIT[COMPLETIONS_DIR]}/_bat" @sharkdp/bat \
-    sbin"zoxide" atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" cp"completions/_zoxide -> ${ZINIT[COMPLETIONS_DIR]}/_zoxide" ajeetdsouza/zoxide \
+    cp"**/exa.1 -> $ZPFX/share/man/man1" mv"completions/exa.zsh -> _exa" completions sbin"**/exa" ogham/exa \
+    atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/share/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions sbin"**/bat" @sharkdp/bat \
+    atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" completions sbin"zoxide" ajeetdsouza/zoxide \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"difft" Wilfred/difftastic \
-    sbin"**/rg" mv"**/doc/rg.1 -> $ZPFX/share/man/man1" cp"**/complete/_rg -> ${ZINIT[COMPLETIONS_DIR]}/_rg" BurntSushi/ripgrep \
-    sbin"**/fd" mv"**/fd.1 -> $ZPFX/share/man/man1" cp"**/autocomplete/_fd -> ${ZINIT[COMPLETIONS_DIR]}/_fd" @sharkdp/fd \
+    cp"**/doc/rg.1 -> $ZPFX/share/man/man1" completions sbin"**/rg" BurntSushi/ripgrep \
+    cp"**/fd.1 -> $ZPFX/share/man/man1" completions sbin"**/fd" @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
-    sbin"cheat* -> cheat" cheat/cheat \
     sbin"jq* -> jq" stedolan/jq \
     sbin"buf* -> buf" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh); compdef _golangci-lint golangci-lint" golangci/golangci-lint \
+    sbin"ruff" charliermarsh/ruff \
     sbin"bin/lua-language-server" LuaLS/lua-language-server \
     sbin"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
     sbin"bin/pandoc" jgm/pandoc \
+    atload"alias ps='procs'" sbin"procs" dalance/procs \
+    atload"alias help=tldr" mv"tealdeer* -> tldr" dl'https://github.com/dbrgn/tealdeer/releases/latest/download/completions_zsh -> _tldr;' completions sbin"tldr" dbrgn/tealdeer \
     sbin"marksman* -> marksman" artempyanykh/marksman \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
 
-zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" sbin"fzf" \
+zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" completions sbin"fzf" \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;'})"
 zinit light junegunn/fzf
 
