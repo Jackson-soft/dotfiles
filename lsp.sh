@@ -18,5 +18,3 @@ npms=(
 for p in "${npms[@]}"; do
 	npm i -g "${p}"
 done
-
-# pip3 install black mypy

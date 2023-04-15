@@ -11,9 +11,9 @@ ln -sf "$(pwd)"/clang-tidy.yaml "$HOME"/.clang-tidy
 ln -sf "$(pwd)"/golangci.yml "$HOME"/.golangci.yml
 
 configHome="${XDG_CONFIG_HOME:-$HOME/.config}"
-ln -snf "$(pwd)"/config/emacs "$configHome"/emacs
+ln -sf "$(pwd)"/config/emacs "$configHome"/emacs
 ln -sf "$(pwd)"/config/nvim "$configHome"/nvim
-ln -sf "$(pwd)"/config/kitty "$configHome"/kitty
+ln -sf "$(pwd)"/config/wezterm "$configHome"/wezterm
 ln -sf "$(pwd)"/config/starship.toml "$configHome"/starship.toml
 
 # gitconfig

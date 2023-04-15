@@ -59,7 +59,8 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
     sbin"bin/pandoc" jgm/pandoc \
-    atload"alias ps='procs'" sbin"procs" dalance/procs \
+    atload"alias ps=procs" sbin"procs" dalance/procs \
+    atload"alias top=btm" completions sbin"btm" ClementTsang/bottom \
     atload"alias help=tldr" mv"tealdeer* -> tldr" dl'https://github.com/dbrgn/tealdeer/releases/latest/download/completions_zsh -> _tldr;' completions sbin"tldr" dbrgn/tealdeer \
     sbin"marksman* -> marksman" artempyanykh/marksman \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
