@@ -48,10 +48,8 @@
 (use-package apheleia
   :hook (prog-mode . apheleia-mode)
   :bind ("C-c M-f" . apheleia-format-buffer)
-  :init
-  (require 'apheleia-formatters)
-
-  (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "format" "--dialect" "mysql" "--disable-progress-bar" "-f" "-n" "-")))
+  :config
+  (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "mysql" "--disable-progress-bar" "-f" "-n" "-")))
 
   (dolist (alist '((markdown-mode . prettier-markdown)
 				   (gfm-mode . prettier-markdown)

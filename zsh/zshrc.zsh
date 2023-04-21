@@ -36,6 +36,7 @@ zinit light starship/starship
 # git extensions
 zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
+    skywind3000/z.lua \
     wfxr/forgit
 
 # Modern Unix commands
@@ -44,7 +45,6 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"bin/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
     cp"**/exa.1 -> $ZPFX/share/man/man1" mv"completions/exa.zsh -> _exa" completions sbin"**/exa" ogham/exa \
     atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/share/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions sbin"**/bat" @sharkdp/bat \
-    atclone"zoxide init zsh > z.zsh" atpull"%atclone" src"z.zsh" completions sbin"zoxide" ajeetdsouza/zoxide \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"difft" Wilfred/difftastic \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1" completions sbin"**/rg" BurntSushi/ripgrep \

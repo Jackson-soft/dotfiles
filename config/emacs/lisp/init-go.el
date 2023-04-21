@@ -9,12 +9,9 @@
   :ensure nil
   :config
   (setq go-ts-mode-indent-offset tab-width)
-  )
 
-(use-package go-mode
-  :config
   (use-package gotest
-	:bind (:map go-mode-map
+	:bind (:map go-ts-mode-map
 				("C-c g f" . go-test-current-file)
 				("C-c g t" . go-test-current-test)
 				("C-c g p" . go-test-current-project)
@@ -26,7 +23,7 @@
 	)
 
   (use-package go-tag
-	:bind (:map go-mode-map
+	:bind (:map go-ts-mode-map
 				("C-c g a" . go-tag-add)
 				("C-c g r" . go-tag-remove))
 	:config
