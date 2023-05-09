@@ -72,13 +72,14 @@ require("lazy").setup({
     -- comment
     {
         "numToStr/Comment.nvim",
+        event = 'BufRead',
         config = true
     },
 
     -- file tree
     {
         "nvim-tree/nvim-tree.lua",
-        lazy = true,
+        event = 'CursorHold',
         cmd = {
             "NvimTreeToggle",
             "NvimTreeOpen",
@@ -100,6 +101,7 @@ require("lazy").setup({
     -- UI to select things (files, grep results, open buffers...)
     {
         "nvim-telescope/telescope.nvim",
+        event = 'CursorHold',
         config = function()
             local telescope = require("telescope")
             telescope.setup({
@@ -300,11 +302,15 @@ require("lazy").setup({
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
+                    ['<C-n>'] = cmp.mapping.select_next_item(),
+                    ['<C-p>'] = cmp.mapping.select_prev_item(),
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                    ["<CR>"] = cmp.mapping.confirm({
+                        behavior = cmp.ConfirmBehavior.Replace,
+                        select = true }),
                     ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
@@ -433,7 +439,10 @@ require("lazy").setup({
     },
 
     -- lua
-    { "spacewander/openresty-vim" },
+    {
+        "spacewander/openresty-vim",
+        ft = { "nginx" },
+    },
 
     {
         "b0o/schemastore.nvim",
@@ -456,6 +465,7 @@ require("lazy").setup({
     -- Terminal
     {
         "akinsho/toggleterm.nvim",
+        event = 'CursorHold',
         opts = {
             open_mapping = [[<c-\>]],
             shade_filetypes = { "none" },
@@ -474,7 +484,7 @@ require("lazy").setup({
 
 ---- Settings ----
 
---- Tab Configuration {{{
+--- Tab Configuration
 local indent = 4
 vim.opt.shiftwidth = indent
 vim.opt.tabstop = indent
@@ -482,7 +492,6 @@ vim.opt.softtabstop = indent
 
 vim.opt.smartindent = true
 vim.opt.expandtab = true
---- }}}
 
 --- Numbering
 vim.wo.number = true

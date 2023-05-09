@@ -54,8 +54,8 @@
   )
 
 ;; Display icons for buffers
-(use-package all-the-icons-ibuffer
-  :hook (ibuffer-mode . all-the-icons-ibuffer-mode)
+(use-package nerd-icons-ibuffer
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode)
   )
 
 (provide 'init-buffer)

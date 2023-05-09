@@ -141,8 +141,8 @@
   :hook (embark-collect-mode . consult-preview-at-point-mode)
   )
 
-(use-package all-the-icons-completion
-  :hook (emacs-startup . all-the-icons-completion-mode)
+(use-package nerd-icons-completion
+  :hook (emacs-startup . nerd-icons-completion-mode)
   )
 
 (provide 'init-completion)

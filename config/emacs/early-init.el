@@ -13,7 +13,6 @@
 	  gc-cons-percentage 0.5
 	  read-process-output-max (* 1024 1024)
 	  load-prefer-newer t
-	  ffap-machine-p-known 'reject ;; Don't ping things that look like domain names.
 	  inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
 
 ;; Inhibit resizing frame
@@ -26,7 +25,7 @@
 (push '(vertical-scroll-bars) default-frame-alist)
 (push '(cursor-type . bar) default-frame-alist)
 (push '(fullscreen . maximized) default-frame-alist)
-(push '(font . "Fira Code-17") default-frame-alist)
+(push '(font . "FiraCode Nerd Font-17") default-frame-alist)
 (when (eq system-type 'darwin)
   (push '(ns-transparent-titlebar . t) default-frame-alist)
   (push '(ns-appearance . dark) default-frame-alist)

@@ -21,12 +21,14 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || exa -T {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--preview 'exa -T {} | head -200'"
 export FZF_DEFAULT_OPTS="
-       --info=inline
-       --exact
+       --height=70%
        --reverse
-       --height '70%'
-       --multi
+       --info=inline
        --border
+       --margin=1
+       --padding=1
+       --exact
+       --multi
        --cycle
        --prompt='∼ '
        --marker='✓'

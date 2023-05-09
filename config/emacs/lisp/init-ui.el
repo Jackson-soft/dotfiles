@@ -5,9 +5,7 @@
 ;;
 ;;; Code:
 
-(use-package all-the-icons
-  :if (display-graphic-p)
-  )
+(use-package nerd-icons)
 
 ;; 显示时间
 (use-package time
