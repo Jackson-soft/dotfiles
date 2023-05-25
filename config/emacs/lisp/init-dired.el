@@ -63,7 +63,7 @@
 		 ("M-j" . dirvish-fd-jump))
   :config
   (dirvish-peek-mode)
-  (setq dirvish-attributes '(file-size collapse subtree-state vc-state git-msg)
+  (setq dirvish-attributes '(nerd-icons file-size collapse subtree-state vc-state git-msg)
 		dirvish-mode-line-format '(:left (sort symlink) :right (omit yank index)))
   )
 

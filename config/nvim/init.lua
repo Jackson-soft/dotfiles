@@ -105,13 +105,19 @@ require("lazy").setup({
         config = function()
             local telescope = require("telescope")
             telescope.setup({
+                defaults = {
+                    mappings = {
+                        i = {
+                            -- map actions.which_key to <C-h> (default: <C-/>)
+                            ["<C-h>"] = "which_key"
+                        }
+                    }
+                },
                 extensions = {
                     fzf = {
                         fuzzy = true,                   -- false will only do exact matching
                         override_generic_sorter = true, -- override the generic sorter
                         override_file_sorter = true,    -- override the file sorter
-                        case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
-                        -- the default case_mode is "smart_case"
                     },
                 },
             })
@@ -405,9 +411,9 @@ require("lazy").setup({
         opts = {
             check_ts = true,
             ts_config = {
-                lua = { "string", "source" },
-                javascript = { "string", "template_string" },
-                java = false,
+                lua = { 'string' }, -- it will not add a pair on that treesitter node
+                javascript = { 'template_string' },
+                java = false,       -- don't check treesitter on java
             },
         },
     },
@@ -574,25 +580,29 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagn
 -- after the language server attaches to the current buffer
 local onAttach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = '[G]oto [D]eclaration' })
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = '[G]oto [D]efinition' })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = 'Hover Documentation' })
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr, desc = '[G]oto [I]mplementation' })
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = 'Signature Documentation' })
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, {
+        buffer = bufnr,
+        desc =
+        '[W]orkspace [A]dd Folder'
+    })
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder,
+        { buffer = bufnr, desc = '[W]orkspace [R]emove Folder' })
     vim.keymap.set('n', '<space>wl', function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    end, { buffer = bufnr, desc = '[W]orkspace [L]ist Folders' })
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { buffer = bufnr, desc = 'Type [D]efinition' })
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { buffer = bufnr, desc = '[R]e[n]ame' })
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, { buffer = bufnr, desc = '[C]ode [A]ction' })
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = '[G]oto [R]eferences' })
     -- vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 
     if client.server_capabilities.documentFormattingProvider then
@@ -602,7 +612,7 @@ local onAttach = function(client, bufnr)
             callback = function()
                 -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
                 -- vim.lsp.buf.formatting_sync()
-                vim.lsp.buf.format({ bufnr = bufnr })
+                vim.lsp.buf.format({ async = true })
             end,
         })
     end
