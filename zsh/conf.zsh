@@ -21,20 +21,19 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || exa -T {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--preview 'exa -T {} | head -200'"
 export FZF_DEFAULT_OPTS="
-       --height=70%
-       --reverse
-       --info=inline
-       --border
-       --margin=1
-       --padding=1
+       --height 80%
+       --layout reverse
+       --info inline
+       --border block
+       --scrollbar '▌▐'
+       --padding 1,2
        --exact
-       --multi
        --cycle
-       --prompt='∼ '
-       --marker='✓'
-       --color='dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254'
-       --color='info:254,prompt:37,spinner:108,pointer:235,marker:235'
-       --preview-window=:hidden
+       --prompt '∼ '
+       --marker '✓'
+       --color 'dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254'
+       --color 'info:254,prompt:37,spinner:108,pointer:235,marker:235'
+       --preview-window :hidden
        --bind '?:toggle-preview'
        "
 
@@ -53,9 +52,12 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
 # == fzf-tab
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:descriptions' format '[%d]'
-zstyle ':fzf-tab:*' popup-min-size 50 8
+zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:complete:kill:argument-rest' fzf-preview 'ps --pid=$word -o cmd --no-headers -w -w'
+zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags '--preview-window=down:3:wrap'
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
+zstyle ":fzf-tab:*" fzf-flags --color=bg+:23
 zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*' file-sort modification

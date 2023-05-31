@@ -29,7 +29,6 @@ config.font_size = 17
 
 -- Window
 config.native_macos_fullscreen_mode = true
-config.window_background_opacity = 0.9
 config.window_padding = {
     left = 0,
     right = 0,
