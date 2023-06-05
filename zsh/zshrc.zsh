@@ -50,7 +50,7 @@ zinit wait lucid as"null" from"gh-r" for \
     cp"**/doc/rg.1 -> $ZPFX/share/man/man1" completions sbin"**/rg" BurntSushi/ripgrep \
     cp"**/fd.1 -> $ZPFX/share/man/man1" completions sbin"**/fd" @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
-    sbin"jq* -> jq" stedolan/jq \
+    sbin"jq* -> jq" jqlang/jq \
     sbin"buf* -> buf" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh); compdef _golangci-lint golangci-lint" golangci/golangci-lint \
     sbin"ruff" charliermarsh/ruff \
