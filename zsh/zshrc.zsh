@@ -42,17 +42,17 @@ zinit wait"0a" lucid depth"1" for \
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
     sbin"bin/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
-    cp"**/exa.1 -> $ZPFX/share/man/man1" mv"completions/exa.zsh -> _exa" completions sbin"**/exa" ogham/exa \
-    atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/share/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions sbin"**/bat" @sharkdp/bat \
+    cp"**/exa.1 -> $ZPFX/man/man1" mv"completions/exa.zsh -> _exa" completions sbin"**/exa" ogham/exa \
+    atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions sbin"**/bat" @sharkdp/bat \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"difft" Wilfred/difftastic \
-    cp"**/doc/rg.1 -> $ZPFX/share/man/man1" completions sbin"**/rg" BurntSushi/ripgrep \
-    cp"**/fd.1 -> $ZPFX/share/man/man1" completions sbin"**/fd" @sharkdp/fd \
+    cp"**/doc/rg.1 -> $ZPFX/man/man1" completions sbin"**/rg" BurntSushi/ripgrep \
+    cp"**/fd.1 -> $ZPFX/man/man1" completions sbin"**/fd" @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
     sbin"jq* -> jq" jqlang/jq \
     sbin"buf* -> buf" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh); compdef _golangci-lint golangci-lint" golangci/golangci-lint \
-    sbin"ruff" charliermarsh/ruff \
+    sbin"ruff" astral-sh/ruff \
     sbin"bin/lua-language-server" LuaLS/lua-language-server \
     sbin"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
@@ -65,7 +65,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
 
 zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" completions sbin"fzf" \
-    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/share/man/man1/fzf.1;'})"
+    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})"
 zinit light junegunn/fzf
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
