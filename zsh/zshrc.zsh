@@ -4,28 +4,27 @@ ZI_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
 ZI_BIN="${ZI_HOME}/zinit.git"
 
 if [[ ! -e ${ZI_BIN}/zinit.zsh ]] {
-    command mkdir -p "$(dirname ${ZI_HOME})" && command git clone "https://github.com/${ZI_REPO}/zinit.git" ${ZI_BIN}
+    command mkdir -p "$(dirname ${ZI_HOME})" && command git clone --depth=1 "https://github.com/${ZI_REPO}/zinit.git" ${ZI_BIN}
     command chmod g-rwX ${ZI_HOME} && zcompile ${ZI_BIN}/zinit.zsh
 }
 
 if [[ -e $ZI_BIN/zinit.zsh ]] {
-    builtin source ${ZI_BIN}/zinit.zsh \
-    && autoload -Uz _zinit \
-    && (( ${+_comps} )) \
-    && _comps[zinit]=_zinit
+    builtin source ${ZI_BIN}/zinit.zsh
+    autoload -Uz _zinit
+    (( ${+_comps} )) && _comps[zinit]=_zinit
 }
 ### End of Zinit's installer chunk
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
 zinit depth"1" light-mode for \
         ${ZI_REPO}/zinit-annex-{'bin-gem-node','patch-dl'} \
-    atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay" \
-        ${ZI_REPO}/fast-syntax-highlighting \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
+        ${ZI_REPO}/fast-syntax-highlighting \
+    blockf \
+        zsh-users/zsh-completions \
     atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
-    blockf atpull'zinit creinstall -q .' \
-        zsh-users/zsh-completions \
     trackbinds bindmap"^R -> ^H" \
         ${ZI_REPO}/history-search-multi-word
 
@@ -70,5 +69,3 @@ zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" completions s
 zinit light junegunn/fzf
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
-
-export PATH=/usr/local/opt/llvm/bin:$PATH:$HOME/go/bin

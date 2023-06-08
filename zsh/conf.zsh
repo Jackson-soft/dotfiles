@@ -25,8 +25,6 @@ export FZF_DEFAULT_OPTS="
        --layout reverse
        --info inline
        --border block
-       --scrollbar '▌▐'
-       --padding 1,2
        --exact
        --cycle
        --prompt '∼ '
