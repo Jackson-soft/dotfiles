@@ -15,9 +15,22 @@ if [[ -e $ZI_BIN/zinit.zsh ]] {
 }
 ### End of Zinit's installer chunk
 
-# see https://thevaluable.dev/zsh-completion-guide-examples
-zinit depth"1" light-mode for \
-        ${ZI_REPO}/zinit-annex-{'bin-gem-node','patch-dl'} \
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode depth"1" for \
+    ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
+
+# Load starship theme
+zinit ice as"null" from"gh-r" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh" completions sbin"starship"
+zinit light starship/starship
+
+# fzf: fuzzy finder
+zinit ice wait lucid as"null" from"gh-r" src"key-bindings.zsh" completions sbin"fzf" \
+    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})"
+zinit light junegunn/fzf
+
+# Completion enhancements
+zinit wait lucid depth"1" for \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
         ${ZI_REPO}/fast-syntax-highlighting \
@@ -27,10 +40,6 @@ zinit depth"1" light-mode for \
         zsh-users/zsh-autosuggestions \
     trackbinds bindmap"^R -> ^H" \
         ${ZI_REPO}/history-search-multi-word
-
-# Load starship theme
-zinit ice as"null" from"gh-r" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh" completions sbin"starship"
-zinit light starship/starship
 
 # git extensions
 zinit wait"0a" lucid depth"1" for \
@@ -52,7 +61,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"jq* -> jq" jqlang/jq \
     sbin"buf* -> buf" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh); compdef _golangci-lint golangci-lint" golangci/golangci-lint \
-    sbin"ruff" astral-sh/ruff \
+    sbin"ruff" @astral-sh/ruff \
     sbin"bin/lua-language-server" LuaLS/lua-language-server \
     sbin"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
@@ -63,9 +72,5 @@ zinit wait lucid as"null" from"gh-r" for \
     atload"alias help=tldr" mv"tealdeer* -> tldr" dl'https://github.com/dbrgn/tealdeer/releases/latest/download/completions_zsh -> _tldr;' completions sbin"tldr" dbrgn/tealdeer \
     sbin"marksman* -> marksman" artempyanykh/marksman \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
-
-zinit ice wait"0b" lucid as"null" from"gh-r" src"key-bindings.zsh" completions sbin"fzf" \
-    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})"
-zinit light junegunn/fzf
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
