@@ -181,6 +181,7 @@ require("lazy").setup({
                 "gitignore",
                 "go",
                 "gomod",
+                "gosum",
                 "gowork",
                 "html",
                 "http",
