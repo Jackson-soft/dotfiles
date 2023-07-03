@@ -2,20 +2,20 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (use-package icomplete
-;;   :ensure nil
-;;   :hook (after-init . fido-vertical-mode)
-;;   :bind (:map icomplete-minibuffer-map
-;;			  ("RET" . icomplete-fido-ret)
-;;			  ("C-k" . icomplete-fido-kill)
-;;			  ("C-d" . icomplete-fido-delete-char)
-;;			  ("DEL" . icomplete-fido-backward-updir))
-;;   :config
-;;   (setq icomplete-in-buffer t
-;;		icomplete-tidy-shadowed-file-names t
-;;		icomplete-show-matches-on-no-input t
-;;		icomplete-scroll t)
-;;   )
+(use-package icomplete
+  :ensure nil
+  :hook (after-init . fido-vertical-mode)
+  :bind (:map icomplete-minibuffer-map
+			  ("RET" . icomplete-fido-ret)
+			  ("C-k" . icomplete-fido-kill)
+			  ("C-d" . icomplete-fido-delete-char)
+			  ("DEL" . icomplete-fido-backward-updir))
+  :config
+  (setq icomplete-in-buffer t
+		icomplete-tidy-shadowed-file-names t
+		icomplete-show-matches-on-no-input t
+		icomplete-scroll t)
+  )
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -25,25 +25,25 @@
         completion-category-overrides '((file (styles . (partial-completion)))))
   )
 
-(use-package vertico
-  :hook (after-init . vertico-mode)
-  :config
-  (setq vertico-count 10                    ; Number of candidates to display
-		vertico-resize t)
-  )
+;; (use-package vertico
+;;   :hook (after-init . vertico-mode)
+;;   :config
+;;   (setq vertico-count 10                    ; Number of candidates to display
+;;		vertico-resize t)
+;;   )
 
-;; Configure directory extension.
-(use-package vertico-directory
-  :after vertico
-  :ensure nil
-  ;; More convenient directory navigation commands
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  ;; Tidy shadowed file names
-  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
-  )
+;; ;; Configure directory extension.
+;; (use-package vertico-directory
+;;   :after vertico
+;;   :ensure nil
+;;   ;; More convenient directory navigation commands
+;;   :bind (:map vertico-map
+;;               ("RET" . vertico-directory-enter)
+;;               ("DEL" . vertico-directory-delete-char)
+;;               ("M-DEL" . vertico-directory-delete-word))
+;;   ;; Tidy shadowed file names
+;;   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)
+;;   )
 
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)

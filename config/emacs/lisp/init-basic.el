@@ -99,6 +99,7 @@
 		;; show the name of character in `what-cursor-position'
 		what-cursor-show-names t
 		set-mark-command-repeat-pop t
+		save-interprogram-paste-before-kill t
 		indent-tabs-mode nil
 
 		;; show column/filesize in modeline

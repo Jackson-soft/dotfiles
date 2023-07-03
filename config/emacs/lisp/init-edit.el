@@ -119,36 +119,30 @@
 		 ("C-M-<"       . mc/skip-to-previous-like-this))
   )
 
-;; (use-package ispell
-;;   :ensure nil
-;;   :bind (("C-c i c" . ispell-comments-and-strings)
-;;		 ("C-c i p" . ispell-comment-or-string-at-point)
-;;		 ("C-c i k" . ispell-kill-ispell)
-;;		 ("C-c i m" . ispell-message)
-;;		 ("C-c i r" . ispell-region))
-;;   :config
-;;   (setq ispell-following-word t
-;;		ispell-quietly t         ;; Supress messages in ispell-word
-;;		ispell-program-name "aspell"
-;;		ispell-dictionary "en_US"
-;;		ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--camel-case" "--run-together-limit=16"))
-;;   )
-
-(use-package jinx
-  :hook (emacs-startup . global-jinx-mode)
-  :bind (("M-$" . jinx-correct)
-         ("C-M-$" . jinx-languages))
+(use-package ispell
+  :ensure nil
+  :bind (("C-c i c" . ispell-comments-and-strings)
+		 ("C-c i p" . ispell-comment-or-string-at-point)
+		 ("C-c i k" . ispell-kill-ispell)
+		 ("C-c i m" . ispell-message)
+		 ("C-c i r" . ispell-region))
+  :config
+  (setq ispell-following-word t
+		ispell-quietly t         ;; Supress messages in ispell-word
+		ispell-program-name "aspell"
+		ispell-dictionary "en_US"
+		ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--camel-case" "--run-together-limit=16"))
   )
 
-;; ;; 单词拼写检查
-;; (use-package flyspell
-;;   :ensure nil
-;;   :hook (((text-mode outline-mode) . flyspell-mode)
-;;		 (prog-mode . flyspell-prog-mode))
-;;   :config
-;;   (setq flyspell-issue-welcome-flag nil
-;;		flyspell-issue-message-flag nil)
-;;   )
+;; 单词拼写检查
+(use-package flyspell
+  :ensure nil
+  :hook (((text-mode outline-mode) . flyspell-mode)
+		 (prog-mode . flyspell-prog-mode))
+  :config
+  (setq flyspell-issue-welcome-flag nil
+		flyspell-issue-message-flag nil)
+  )
 
 (provide 'init-edit)
 

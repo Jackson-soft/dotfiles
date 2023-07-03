@@ -18,6 +18,8 @@ linters:
     enable-all: true
     disable:
         - cyclop
+        - depguard
+        - deadcode
         - funlen
         - varnamelen
         - gci
@@ -35,6 +37,8 @@ linters:
         - paralleltest
         - wrapcheck
         - stylecheck
+        - structcheck
         - wsl
         - tagliatelle # Implementing against APIs, can't change tags.
         - exhaustivestruct # Not for general usage.
+        - varcheck
