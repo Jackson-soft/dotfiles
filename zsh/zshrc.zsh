@@ -25,7 +25,7 @@ zinit ice as"null" from"gh-r" atclone"starship init zsh > init.zsh; starship com
 zinit light starship/starship
 
 # fzf: fuzzy finder
-zinit ice wait lucid as"null" from"gh-r" src"key-bindings.zsh" completions sbin"fzf" \
+zinit ice wait"0" lucid as"null" from"gh-r" src"key-bindings.zsh" completions sbin"fzf" \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})"
 zinit light junegunn/fzf
 
@@ -44,7 +44,7 @@ zinit wait lucid depth"1" for \
 # git extensions
 zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
-    skywind3000/z.lua \
+    skywind3000/z.lua atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once echo fzf)" \
     wfxr/forgit
 
 # Modern Unix commands

@@ -57,7 +57,7 @@ require("lazy").setup({
     },
 
     {
-        "TimUntersberger/neogit",
+        "NeogitOrg/neogit",
         lazy = true,
         opts = {
             integrations = {
@@ -141,11 +141,20 @@ require("lazy").setup({
     },
 
     -- Themes
+    -- {
+    --     "folke/tokyonight.nvim",
+    --     priority = 1000,
+    --     config = function()
+    --         vim.cmd.colorscheme 'tokyonight-night'
+    --     end,
+    -- },
+
     {
-        "folke/tokyonight.nvim",
+        "catppuccin/nvim",
+        name = "catppuccin",
         priority = 1000,
         config = function()
-            vim.cmd.colorscheme 'tokyonight-night'
+            vim.cmd.colorscheme("catppuccin-macchiato")
         end,
     },
 
