@@ -21,7 +21,7 @@ zinit light-mode depth"1" for \
     ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
 
 # Load starship theme
-zinit ice as"null" from"gh-r" atclone"starship init zsh > init.zsh; starship completions zsh > _starship" atpull"%atclone" src"init.zsh" completions sbin"starship"
+zinit ice as"null" from"gh-r" atload"source <(starship init zsh); starship completions zsh > _starship" completions sbin"starship"
 zinit light starship/starship
 
 # fzf: fuzzy finder
@@ -44,7 +44,7 @@ zinit wait lucid depth"1" for \
 # git extensions
 zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
-    skywind3000/z.lua atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once echo fzf)" \
+    skywind3000/z.lua atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf)" \
     wfxr/forgit
 
 # Modern Unix commands
