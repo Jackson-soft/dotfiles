@@ -21,7 +21,7 @@ zinit light-mode depth"1" for \
     ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
 
 # Load starship theme
-zinit ice as"null" from"gh-r" atload"source <(starship init zsh); starship completions zsh > _starship" completions sbin"starship"
+zinit ice as"null" from"gh-r" atload"eval '$(starship init zsh)'" sbin"starship"
 zinit light starship/starship
 
 # fzf: fuzzy finder
@@ -59,8 +59,8 @@ zinit wait lucid as"null" from"gh-r" for \
     cp"**/fd.1 -> $ZPFX/man/man1" completions sbin"**/fd" @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
     sbin"jq* -> jq" jqlang/jq \
-    sbin"buf* -> buf" bufbuild/buf \
-    sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh); compdef _golangci-lint golangci-lint" golangci/golangci-lint \
+    sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
+    sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh)" golangci/golangci-lint \
     sbin"ruff" @astral-sh/ruff \
     sbin"bin/lua-language-server" LuaLS/lua-language-server \
     sbin"hadolint* -> hadolint" hadolint/hadolint \

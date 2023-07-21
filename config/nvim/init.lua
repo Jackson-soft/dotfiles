@@ -106,6 +106,17 @@ require("lazy").setup({
             local telescope = require("telescope")
             telescope.setup({
                 defaults = {
+                    vimgrep_arguments = {
+                        "rg",
+                        "--color=never",
+                        "--no-heading",
+                        "--with-filename",
+                        "--line-number",
+                        "--column",
+                        "--smart-case",
+                    },
+                    color_devicons = true,
+                    use_less = true,
                     mappings = {
                         i = {
                             -- map actions.which_key to <C-h> (default: <C-/>)
@@ -297,9 +308,23 @@ require("lazy").setup({
         },
     },
 
+    {
+        "HiPhish/rainbow-delimiters.nvim",
+        event = "BufReadPost",
+    },
+
+    {
+        'nvimdev/lspsaga.nvim',
+        event = 'LspAttach',
+        config = function()
+            require('lspsaga').setup({})
+        end,
+    },
+
     -- Completion and linting
     {
         "hrsh7th/nvim-cmp",
+        event = "VimEnter",
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
@@ -406,11 +431,6 @@ require("lazy").setup({
 
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
-    },
-
-    {
-        "jose-elias-alvarez/null-ls.nvim",
         event = { "BufReadPre", "BufNewFile" },
     },
 
@@ -636,7 +656,7 @@ vim.diagnostic.config({
     severity_sort = true,
 })
 
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
 for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -662,9 +682,7 @@ local servers = {
         yaml = {
             schemastore = {
                 enable = true,
-                url = "https://www.schemastore.org/api/json/catalog.json",
             },
-            schemas = require('schemastore').yaml.schemas(),
             hover = true,
             completion = true,
             validate = true,
@@ -714,34 +732,3 @@ for lsp, sets in pairs(servers) do
         settings = sets,
     })
 end
-
-local nullLs = require("null-ls")
-nullLs.setup({
-    on_attach = onAttach,
-    -- register any number of sources simultaneously
-    sources = {
-        nullLs.builtins.formatting.buf,
-        nullLs.builtins.formatting.prettier,
-        nullLs.builtins.formatting.shfmt,
-        -- nullLs.builtins.formatting.pg_format,
-        nullLs.builtins.formatting.sqlfluff.with({
-            extra_args = { "--dialect", "mysql" }, -- change to your dialect
-        }),
-        nullLs.builtins.formatting.ruff,
-
-        nullLs.builtins.diagnostics.hadolint,
-        nullLs.builtins.diagnostics.shellcheck,
-        nullLs.builtins.diagnostics.markdownlint,
-        nullLs.builtins.diagnostics.golangci_lint,
-        nullLs.builtins.diagnostics.yamllint,
-        nullLs.builtins.diagnostics.buf,
-        nullLs.builtins.diagnostics.zsh,
-        nullLs.builtins.diagnostics.ruff,
-        nullLs.builtins.diagnostics.sqlfluff.with({
-            extra_args = { "--dialect", "mysql" }, -- change to your dialect
-        }),
-
-        nullLs.builtins.code_actions.gitsigns,
-        nullLs.builtins.code_actions.shellcheck,
-    },
-})
