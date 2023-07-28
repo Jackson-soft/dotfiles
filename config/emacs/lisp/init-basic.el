@@ -155,7 +155,7 @@
 
 ;; 谷歌翻译
 (use-package go-translate
-  :bind ("C-c g" . gts-do-translate)
+  :bind ("C-c C-t" . gts-do-translate)
   :config
   (setq gts-translate-list '(("en" "zh"))
 		gts-default-translator (gts-translator
