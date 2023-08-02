@@ -78,6 +78,10 @@
 (use-package pixel-scroll
   :ensure nil
   :hook (after-init . pixel-scroll-precision-mode)
+  :config
+  (setq pixel-scroll-precision-interpolate-page t)
+  (defalias 'scroll-up-command 'pixel-scroll-interpolate-down)
+  (defalias 'scroll-down-command 'pixel-scroll-interpolate-up)
   )
 
 (use-package files

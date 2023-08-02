@@ -5,7 +5,8 @@
 ;;
 ;;; Code:
 
-(use-package nerd-icons)
+(use-package nerd-icons
+  :demand t)
 
 ;; 显示时间
 (use-package time
