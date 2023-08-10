@@ -197,6 +197,7 @@
               ("C-c l r" . eglot-rename)
               ("C-c l f" . eglot-format))
   :config
+  (setq eglot-report-progress nil)
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("bufls" "serve")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))
@@ -212,10 +213,43 @@
 															 "--header-insertion-decorators")))
   )
 
-(use-package yasnippet
-  :hook (prog-mode . yas-minor-mode)
-  :config
-  (use-package yasnippet-snippets)
+;; (use-package yasnippet
+;;   :hook (prog-mode . yas-minor-mode)
+;;   :config
+;;   (use-package yasnippet-snippets)
+;;   )
+
+(use-package eglot-tempel
+  :after eglot
+  )
+
+;; Configure Tempel
+(use-package tempel
+  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+         ("M-*" . tempel-insert))
+  :hook (prog-mode . tempel-abbrev-mode)
+
+  :init
+  ;; Setup completion at point
+  (defun tempel-setup-capf ()
+    ;; Add the Tempel Capf to `completion-at-point-functions'.
+    ;; `tempel-expand' only triggers on exact matches. Alternatively use
+    ;; `tempel-complete' if you want to see all matches, but then you
+    ;; should also configure `tempel-trigger-prefix', such that Tempel
+    ;; does not trigger too often when you don't expect it. NOTE: We add
+    ;; `tempel-expand' *before* the main programming mode Capf, such
+    ;; that it will be tried first.
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+
+  (add-hook 'conf-mode-hook 'tempel-setup-capf)
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+  )
+
+(use-package tempel-collection
+  :after tempel
   )
 
 (provide 'init-lsp)

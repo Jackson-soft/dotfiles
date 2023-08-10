@@ -119,25 +119,37 @@
 		 ("C-M-<"       . mc/skip-to-previous-like-this))
   )
 
-(use-package ispell
-  :ensure nil
+;; 单词拼写检查
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages))
   :config
-  (setq ispell-following-word t
-		ispell-quietly t         ;; Supress messages in ispell-word
-		ispell-program-name "aspell"
-		ispell-dictionary "en_US"
-		ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--camel-case" "--run-together-limit=16"))
+  ;; 中文不检查
+  (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
   )
 
-;; 单词拼写检查
-(use-package flyspell
-  :ensure nil
-  :hook (((text-mode outline-mode) . flyspell-mode)
-		 (prog-mode . flyspell-prog-mode))
-  :config
-  (setq flyspell-issue-welcome-flag nil
-		flyspell-issue-message-flag nil)
-  )
+;; (use-package ispell
+;;   :ensure nil
+;;   :config
+;;   (setq ispell-following-word t
+;;		ispell-quietly t         ;; Supress messages in ispell-word
+;;		;; ispell-program-name "aspell"
+;;		ispell-program-name "enchant-2"
+;;		;; ispell-dictionary "en_US"
+;;		;; ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--camel-case" "--run-together-limit=16"))
+;;		)
+;;   )
+
+;; ;; 单词拼写检查
+;; (use-package flyspell
+;;   :ensure nil
+;;   :hook (((text-mode outline-mode) . flyspell-mode)
+;;		 (prog-mode . flyspell-prog-mode))
+;;   :config
+;;   (setq flyspell-issue-welcome-flag nil
+;;		flyspell-issue-message-flag nil)
+;;   )
 
 (provide 'init-edit)
 

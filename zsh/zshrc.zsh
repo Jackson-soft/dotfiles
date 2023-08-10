@@ -8,11 +8,9 @@ if [[ ! -e ${ZI_BIN}/zinit.zsh ]] {
     command chmod g-rwX ${ZI_HOME} && zcompile ${ZI_BIN}/zinit.zsh
 }
 
-if [[ -e $ZI_BIN/zinit.zsh ]] {
-    builtin source ${ZI_BIN}/zinit.zsh
-    autoload -Uz _zinit
-    (( ${+_comps} )) && _comps[zinit]=_zinit
-}
+source ${ZI_BIN}/zinit.zsh
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
 
 # Load a few important annexes, without Turbo
@@ -36,7 +34,7 @@ zinit wait lucid depth"1" for \
         ${ZI_REPO}/fast-syntax-highlighting \
     blockf \
         zsh-users/zsh-completions \
-    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     trackbinds bindmap"^R -> ^H" \
         ${ZI_REPO}/history-search-multi-word
