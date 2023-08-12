@@ -20,7 +20,6 @@
 
 ;; OSX GUI 下自动导入 PATH
 (use-package exec-path-from-shell
-  :when (eq system-type 'darwin)
   :init(exec-path-from-shell-initialize)
   )
 

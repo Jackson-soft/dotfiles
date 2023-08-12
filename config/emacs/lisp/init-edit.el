@@ -125,6 +125,7 @@
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages))
   :config
+  (setq jinx-languages "en_US")
   ;; 中文不检查
   (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
   )

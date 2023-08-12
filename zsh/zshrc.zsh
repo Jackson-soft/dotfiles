@@ -10,13 +10,6 @@ if [[ ! -e ${ZI_BIN}/zinit.zsh ]] {
 
 source ${ZI_BIN}/zinit.zsh
 
-# https://medium.com/@dannysmith/little-thing-2-speeding-up-zsh-f1860390f92
-autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-    compinit
-done
-compinit -C
-
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
@@ -37,7 +30,7 @@ zinit light junegunn/fzf
 
 # Completion enhancements
 zinit wait lucid depth"1" for \
-    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    atinit"zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
         ${ZI_REPO}/fast-syntax-highlighting \
     blockf \
