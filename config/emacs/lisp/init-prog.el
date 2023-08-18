@@ -7,6 +7,13 @@
 
 ;;; Code:
 
+(use-package prog-mode
+  :ensure nil
+  :hook
+  (prog-mode . (lambda()
+                 (setq-local indent-tabs-mode nil)))
+  )
+
 (use-package treesit
   :ensure nil
   :config
@@ -53,7 +60,7 @@
   :diminish eldoc-box-hover-mode
   )
 
-;; show trailing whitespaces
+;; show trailing white spaces
 (use-package whitespace
   :ensure nil
   :hook ((prog-mode text-mode) . whitespace-mode)

@@ -74,7 +74,7 @@
 		switch-to-buffer-obey-display-actions t)
   )
 
-;; Good pixel line scrolling
+;; good pixel line scrolling
 (use-package pixel-scroll
   :ensure nil
   :hook (after-init . pixel-scroll-precision-mode)
@@ -97,6 +97,7 @@
   :bind (("C-z" . undo-redo)
 		 ([remap just-one-space] . cycle-spacing))
   :config
+  (setq-default indent-tabs-mode nil)
   (setq visual-line-fringe-indicators '(nil right-curly-arrow)
 		;; eliminate duplicates
 		kill-do-not-save-duplicates t
@@ -104,7 +105,6 @@
 		what-cursor-show-names t
 		set-mark-command-repeat-pop t
 		save-interprogram-paste-before-kill t
-		indent-tabs-mode nil
 
 		;; show column/filesize in modeline
 		column-number-mode t
