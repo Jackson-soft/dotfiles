@@ -2,12 +2,15 @@
 
 ## Options section
 setopt EXTENDED_GLOB
-# Use modern file-locking mechanisms, for better safety & performance.
-setopt HIST_FCNTL_LOCK
-# Keep only the most recent copy of each duplicate entry in history.
-setopt HIST_IGNORE_ALL_DUPS
-# Auto-sync history between concurrent sessions.
-setopt SHARE_HISTORY
+setopt HIST_FCNTL_LOCK      # Use modern file-locking mechanisms, for better safety & performance.
+setopt HIST_IGNORE_ALL_DUPS # Keep only the most recent copy of each duplicate entry in history.
+setopt SHARE_HISTORY        # Auto-sync history between concurrent sessions.
+setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
+setopt ALWAYS_TO_END        # Move cursor to the end of a completed word.
+setopt PATH_DIRS            # Perform path search even on command names with slashes.
+setopt AUTO_MENU            # Show completion menu on a successive tab press.
+setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
+setopt AUTO_PARAM_SLASH     # If completed parameter is a directory, add a trailing slash.
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
 bindkey -e
@@ -46,8 +49,15 @@ export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-R
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
-# == fzf-tab
+# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# Group matches and describe.
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*' rehash true
+# fzf-tab
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
@@ -60,7 +70,6 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*' file-sort modification
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion:*' rehash true
 zstyle ':completion:*:match:*' original only
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' verbose yes

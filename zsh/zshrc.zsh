@@ -19,31 +19,27 @@ autoload -Uz _zinit
 zinit light-mode depth"1" for \
     ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
 
-# Load starship theme
-zinit ice as"null" from"gh-r" atload"eval '$(starship init zsh)'" sbin"starship"
-zinit light starship/starship
-
-# fzf: fuzzy finder
-zinit ice wait"0" lucid as"null" from"gh-r" src"key-bindings.zsh" completions sbin"fzf" \
-    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})"
-zinit light junegunn/fzf
+zinit as"null" from"gh-r" light-mode for \
+    sbin"starship" atload"eval '$(starship init zsh)'" starship/starship \
+    sbin"fzf" src'key-bindings.zsh' compile'key-bindings.zsh' completions \
+    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})" junegunn/fzf
 
 # Completion enhancements
-zinit wait lucid depth"1" for \
+zinit wait lucid depth"1" light-mode nocd for \
     atinit"zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
         ${ZI_REPO}/fast-syntax-highlighting \
-    blockf \
-        zsh-users/zsh-completions \
-    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"!_zsh_autosuggest_start" \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     trackbinds bindmap"^R -> ^H" \
-        ${ZI_REPO}/history-search-multi-word
+        ${ZI_REPO}/history-search-multi-word \
+    blockf atpull'zinit creinstall -q .' \
+        zsh-users/zsh-completions
 
 # git extensions
 zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
-    skywind3000/z.lua atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf)" \
+    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf)" skywind3000/z.lua \
     wfxr/forgit
 
 # Modern Unix commands
