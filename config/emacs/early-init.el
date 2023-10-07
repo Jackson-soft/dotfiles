@@ -20,12 +20,15 @@
 	  frame-resize-pixelwise t)
 
 ;; Faster to disable these here (before they've been initialized)
-(push '(menu-bar-lines . 0) default-frame-alist)
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
-(push '(cursor-type . bar) default-frame-alist)
-(push '(fullscreen . maximized) default-frame-alist)
-(push '(font . "FiraCode Nerd Font-17") default-frame-alist)
+(setq default-frame-alist
+      '((menu-bar-lines . 0)
+        (tool-bar-lines . 0)
+        (vertical-scroll-bars . nil) ;; 滚动条
+        (horizontal-scroll-bars . nil) ;; 水平滚动条
+        (cursor-type . bar)
+        (fullscreen . maximized)
+        (font . "FiraCode Nerd Font-17")))
+
 (when (eq system-type 'darwin)
   (push '(ns-transparent-titlebar . t) default-frame-alist)
   (push '(ns-appearance . dark) default-frame-alist)

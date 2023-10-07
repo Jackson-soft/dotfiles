@@ -199,7 +199,9 @@ require("lazy").setup({
                 "css",
                 "dockerfile",
                 "dot",
+                "doxygen",
                 "diff",
+                "git_config",
                 "gitignore",
                 "go",
                 "gomod",
@@ -213,6 +215,7 @@ require("lazy").setup({
                 "lua",
                 "make",
                 "markdown",
+                "org",
                 "proto",
                 "python",
                 "regex",
@@ -418,7 +421,7 @@ require("lazy").setup({
             { "ray-x/cmp-treesitter" },
             {
                 "saadparwaiz1/cmp_luasnip",
-                dependencies = { "L3MON4D3/LuaSnip" },
+                dependencies = { "L3MON4D3/LuaSnip", run = "make install_jsregexp" },
             },
             {
                 "tamago324/cmp-zsh",

@@ -25,6 +25,7 @@
           (cmake      . ("https://github.com/uyha/tree-sitter-cmake"))
           (dockerfile . ("https://github.com/camdencheek/tree-sitter-dockerfile"))
           (dot        . ("https://github.com/rydesun/tree-sitter-dot"))
+          (doxygen    . ("https://github.com/amaanq/tree-sitter-doxygen"))
           (elisp      . ("https://github.com/Wilfred/tree-sitter-elisp"))
           (go         . ("https://github.com/tree-sitter/tree-sitter-go"))
           (gomod      . ("https://github.com/camdencheek/tree-sitter-go-mod"))
@@ -38,7 +39,6 @@
           (lua        . ("https://github.com/MunifTanjim/tree-sitter-lua"))
           (make       . ("https://github.com/alemuller/tree-sitter-make"))
           (markdown   . ("https://github.com/MDeiml/tree-sitter-markdown"))
-          (org        . ("https://github.com/milisims/tree-sitter-org"))
           (python     . ("https://github.com/tree-sitter/tree-sitter-python"))
           (proto      . ("https://github.com/treywood/tree-sitter-proto"))
           (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
@@ -143,8 +143,9 @@ Else, call `comment-or-uncomment-region' on the current line."
   (separedit-default-mode 'markdown-mode)
   )
 
-(use-package expand-region
-  :bind ("C-=" . er/expand-region)
+(use-package expreg
+  :bind (("C-=" . expreg-expand)
+         ("C--" . expreg-contract))
   )
 
 (provide 'init-prog)

@@ -117,11 +117,15 @@
 		 ("C-;" . embark-dwim)        ;; good alternative: M-.
 		 ("M-n" . embark-next-symbol)
 		 ("M-p" . embark-previous-symbol))
-  :custom
-  (prefix-help-command #'embark-prefix-help-command)
-  (embark-cycle-key ".")
-  (embark-help-key "?")
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
+  ;; strategy, if you want to see the documentation from multiple providers.
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   :config
+  (setq embark-cycle-key "."
+        embark-help-key "?")
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
 			   '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
