@@ -46,12 +46,12 @@ zinit wait"0a" lucid depth"1" for \
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
     sbin"bin/exa" atload"alias ls='exa --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'" \
-    cp"**/exa.1 -> $ZPFX/man/man1" mv"completions/exa.zsh -> _exa" completions sbin"**/exa" ogham/exa \
-    atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions sbin"**/bat" @sharkdp/bat \
+    cp"**/exa.1 -> $ZPFX/man/man1" mv"completions/exa.zsh -> _exa" completions ogham/exa \
+    sbin"**/bat" atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions @sharkdp/bat \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"difft" Wilfred/difftastic \
-    cp"**/doc/rg.1 -> $ZPFX/man/man1" completions sbin"**/rg" BurntSushi/ripgrep \
-    cp"**/fd.1 -> $ZPFX/man/man1" completions sbin"**/fd" @sharkdp/fd \
+    sbin"**/rg" cp"**/doc/rg.1 -> $ZPFX/man/man1" completions BurntSushi/ripgrep \
+    sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
     sbin"jq* -> jq" jqlang/jq \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
@@ -62,9 +62,9 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
     sbin"bin/pandoc" jgm/pandoc \
-    atload"alias ps=procs" sbin"procs" dalance/procs \
-    atload"alias top=btm" completions sbin"btm" ClementTsang/bottom \
-    atload"alias help=tldr" mv"tealdeer* -> tldr" dl'https://github.com/dbrgn/tealdeer/releases/latest/download/completions_zsh -> _tldr;' completions sbin"tldr" dbrgn/tealdeer \
+    sbin"procs" atload"alias ps=procs" dalance/procs \
+    sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \
+    sbin"tldr" atload"alias help=tldr" mv"tealdeer* -> tldr" dl'https://github.com/dbrgn/tealdeer/releases/latest/download/completions_zsh -> _tldr;' completions dbrgn/tealdeer \
     sbin"marksman* -> marksman" artempyanykh/marksman \
     sbin"**/shfmt* -> shfmt" @mvdan/sh
 

@@ -9,9 +9,8 @@
 
 (use-package prog-mode
   :ensure nil
-  :hook
-  (prog-mode . (lambda()
-                 (setq-local indent-tabs-mode nil)))
+  :hook (prog-mode . (lambda()
+                       (setq-local indent-tabs-mode nil)))
   )
 
 (use-package treesit
@@ -131,7 +130,7 @@ Else, call `comment-or-uncomment-region' on the current line."
 (use-package hideshow
   :ensure nil
   :hook (prog-mode . hs-minor-mode)
-  :bind ("C--" . hs-toggle-hiding)
+  :bind ("C-<tab>" . hs-toggle-hiding)
   )
 
 ;; Edit comment/string/docstring/code block in separate buffer
