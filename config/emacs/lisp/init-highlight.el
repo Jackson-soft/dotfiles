@@ -36,12 +36,6 @@
   )
 
 ;; 缩进标识
-;; (use-package hl-indent-scope
-;;   :commands (hl-indent-scope-mode)
-;;   :hook ((c-mode c++-mode cmake-mode python-mode emacs-lisp-mode go-mode) . hl-indent-scope-mode)
-;;   )
-
-;; Highlight indentions
 (use-package highlight-indent-guides
   :diminish
   :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)

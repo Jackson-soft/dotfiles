@@ -19,15 +19,5 @@
 [merge]
     conflictstyle = diff3
 
-[pager]
-    difftool = true
-
 [diff]
-    tool = difftastic
     colorMoved = default
-
-[difftool]
-	prompt = false
-
-[difftool "difftastic"]
-	cmd = difft "$LOCAL" "$REMOTE"
