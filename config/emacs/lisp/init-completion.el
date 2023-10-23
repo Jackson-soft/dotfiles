@@ -106,6 +106,12 @@
 		 ("C-x C-j" . consult-dir-jump-file))
   )
 
+(use-package consult-todo
+  :demand t
+  :bind (("M-s t" . consult-todo)
+         ("M-s T" . consult-todo-all))
+  )
+
 (use-package marginalia
   :hook (after-init . marginalia-mode)
   :bind ("M-A" . marginalia-cycle)

@@ -174,14 +174,9 @@ require("lazy").setup({
     -- Add indentation guides even on blank lines
     {
         "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
         event = { "BufReadPost", "BufNewFile" },
-        opts = {
-            show_current_context = true,
-            show_current_context_start = true,
-        },
-        config = function()
-            vim.opt.list = true
-        end,
+        opts = {},
     },
 
     -- Highlights
