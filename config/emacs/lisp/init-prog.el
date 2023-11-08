@@ -13,6 +13,10 @@
                        (setq-local indent-tabs-mode nil)))
   )
 
+(use-package surround
+  :bind-keymap ("M-'" . surround-keymap)
+  )
+
 (use-package treesit
   :ensure nil
   :config

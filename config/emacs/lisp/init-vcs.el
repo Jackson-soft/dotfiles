@@ -20,13 +20,18 @@
   :hook (vterm-mode . with-editor-export-editor)
   )
 
-;; NOTE: `diff-hl' depends on `vc'
+;; `diff-hl' depends on `vc'
 (use-package vc
   :ensure nil
-  :custom
-  (vc-follow-symlinks t)
-  (vc-allow-async-revert t)
-  (vc-handled-backends '(Git))
+  :config
+  (setq vc-allow-async-revert t)
+  )
+
+(use-package vc-hooks
+  :ensure nil
+  :config
+  (setq vc-follow-symlinks t
+        vc-handled-backends '(Git))
   )
 
 (use-package diff-mode

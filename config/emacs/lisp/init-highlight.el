@@ -36,14 +36,6 @@
   )
 
 ;; 缩进标识
-(use-package highlight-indent-guides
-  :diminish
-  :hook ((prog-mode yaml-mode) . highlight-indent-guides-mode)
-  :config
-  (setq highlight-indent-guides-method 'character
-		highlight-indent-guides-responsive 'top
-		highlight-indent-guides-suppress-auto-error t)
-  )
 
 ;; Dimming Unused Windows
 (use-package dimmer

@@ -88,8 +88,8 @@ For most users, Esc+ will be the best choice.
 *** =procs=
 [[https://github.com/dalance/procs][procs]] 是 ~ps~ 命令的替代品。
 
-*** ~exa~
-[[https://github.com/ogham/exa][exa]] 是 ~ls~ 命令的替代品。它同样有一个竞品 [[https://github.com/Peltoche/lsd][lsd]] ，两者功能性上差不多，看个人口味来取舍。
+*** ~eza~
+[[https://github.com/eza-community/eza][eza]] 是 ~ls~ 命令的替代品，目前有个小问题，就是官方一直没提供 ~mac~ 的二进制。它同样有一个竞品 [[https://github.com/Peltoche/lsd][lsd]] ，两者功能性上差不多，看个人口味来取舍。
 
 *** ~vivid~
 [[https://github.com/sharkdp/vivid][vivid]] 是环境变量 =LS_COLORS= 的数据源。可以做以下配置:
@@ -113,6 +113,9 @@ zinit light ajeetdsouza/zoxide
 它延伸出两个命令：
 - ~z~ :: 这个应该叫 ~cd~ 命令的智能版；
 - ~zi~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
+
+*** ~z.lua~
+    [[https://github.com/skywind3000/z.lua][z.lua]] 同样是一个快速目录跳转工具，是用 ~lua~ 写的。
 
 ** 插件管理
 [[https://github.com/zdharma-continuum/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的几个点：
@@ -189,13 +192,13 @@ forgit_fixup=gfu
 所有配置都在 [[file:config/nvim/init.lua][init.lua]] ，用到 ~Neovim~ 内置的 ~tree-siter~ 和 ~lsp~ 。
 
 * 终端
-原来在 ~Mac OS~ 上一直用 ~iTerm2~ ，后来改用跨平台终端 [[https://github.com/kovidgoyal/kitty][kitty]] ,主要原因是：
+原来在 ~Mac OS~ 上一直用 ~iTerm2~ ，后来改用跨平台终端 [[https://github.com/wez/wezterm][wezterm]] ,主要原因是：
 - 跨平台
 - 配置文件化
 
-至于说 ~GPU~ 加速，目前没什么感觉，配置文件参见 [[file:config/kitty/kitty.conf][kitty.conf]] 。
+至于说 ~GPU~ 加速，目前没什么感觉，配置文件参见 [[file:wezterm.lua][wezterm.lua]] 。
 
-~PS~ : ~kitty~ 还有一个 ~Rust~ 写的竞品 [[https://github.com/alacritty/alacritty][Alacritty]] ，但它的作者对于有些功能的执拗，不愿实现有些对我来说比较实用的功能，
+~PS~ : ~wezterm~ 还有一个 ~Rust~ 写的竞品 [[https://github.com/alacritty/alacritty][Alacritty]] ，但它的作者对于有些功能的执拗，不愿实现有些对我来说比较实用的功能，
 故没用（比如：标签，作者对于标签一直觉得可以搭配 ~tmux~ 来实现，具体参见 [[https://github.com/alacritty/alacritty/issues/1544][Investigate macOS tabs]] ）。
 
 最近发现了一个比较新的 =C++= 写的现代终端 [[https://github.com/contour-terminal/contour][Contour]] ，目前完成度较低，保持观望中。
@@ -217,4 +220,5 @@ forgit_fixup=gfu
 
 * 一些 =GUI= 工具
 ** 对比工具
-[[https://github.com/yousseb/meld][Meld]] 是一个跨平台的文件对比工具，可以比较文件、目录和版本控制项目。
++ [[https://github.com/yousseb/meld][Meld]] 是由 ~Gnome~ 提供的跨平台的文件对比工具，可以比较文件、目录和版本控制项目。
++ [[https://github.com/KDE/kdiff3][KDiff3]] 是由 ~KDE~ 发起的强大的跨平台差异比对及合并工具。
