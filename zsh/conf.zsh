@@ -16,16 +16,13 @@ setopt AUTO_PARAM_SLASH     # If completed parameter is a directory, add a trail
 bindkey -e
 
 alias -g ...='../..'
-if (( $+commands[eza] )) ; then
-    alias ls='eza --color=auto --group-directories-first --time-style=long-iso';alias ll='ls -lh';alias la='ls -abghHliS';alias tree='ls -T'
-fi
 
 # fzf
 # https://github.com/junegunn/fzf
 export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg --files --hidden --follow --glob '!.git' || find ."
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || eza -T {}) 2> /dev/null | head -200'"
-export FZF_ALT_C_OPTS="--preview 'eza -T {} | head -200'"
+export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || lsd --tree {}) 2> /dev/null | head -200'"
+export FZF_ALT_C_OPTS="--preview 'lsd --tree {} | head -200'"
 export FZF_DEFAULT_OPTS="
        --height 80%
        --layout reverse
@@ -66,7 +63,7 @@ zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:complete:kill:argument-rest' fzf-preview 'ps --pid=$word -o cmd --no-headers -w -w'
 zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags '--preview-window=down:3:wrap'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'lsd -1 --color=always $realpath'
 zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
 zstyle ":fzf-tab:*" fzf-flags --color=bg+:23
 zstyle ':fzf-tab:*' switch-group ',' '.'
