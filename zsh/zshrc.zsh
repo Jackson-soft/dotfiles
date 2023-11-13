@@ -39,18 +39,18 @@ zinit wait lucid depth"1" light-mode nocd for \
 # git extensions
 zinit wait"0a" lucid depth"1" for \
     as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
-    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf)" skywind3000/z.lua \
+    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua \
     wfxr/forgit
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
-    sbin"**/lsd" atload"alias ls='lsd --group-directories-first';alias ll='ls -alh';alias la='ls -a';alias tree='ls --tree'" completions lsd-rs/lsd \
+    sbin"**/lsd" atload"alias ls='lsd --group-directories-first';alias ll='ls -alh';alias la='ls -a';alias tree='ls --tree'" cp"**/lsd.1 -> $ZPFX/man/man1" completions lsd-rs/lsd \
     sbin"**/bat" atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions @sharkdp/bat \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/rg" cp"**/doc/rg.1 -> $ZPFX/man/man1" completions BurntSushi/ripgrep \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
-    sbin"**/vivid" atload'export LS_COLORS="$(vivid generate one-dark)"' @sharkdp/vivid \
+    sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
     sbin"jq* -> jq" jqlang/jq \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh)" golangci/golangci-lint \
