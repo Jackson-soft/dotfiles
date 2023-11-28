@@ -45,7 +45,7 @@ zinit wait"0a" lucid depth"1" for \
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
-    sbin"**/lsd" atload"alias ls='lsd --group-directories-first';alias ll='ls -alh';alias la='ls -a';alias tree='ls --tree'" cp"**/lsd.1 -> $ZPFX/man/man1" completions lsd-rs/lsd \
+    sbin"**/lsd" atload"alias ls='lsd';alias ll='ls -Alh';alias la='ls -A';alias tree='ls --tree'" cp"**/lsd.1 -> $ZPFX/man/man1" completions lsd-rs/lsd \
     sbin"**/bat" atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions @sharkdp/bat \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/rg" cp"**/doc/rg.1 -> $ZPFX/man/man1" completions BurntSushi/ripgrep \

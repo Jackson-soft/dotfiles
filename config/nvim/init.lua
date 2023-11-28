@@ -488,14 +488,16 @@ require("lazy").setup({
 
     -- http
     {
-        "NTBBloodbath/rest.nvim",
+        "rest-nvim/rest.nvim",
         ft = { "http" },
         keys = {
             { "<leader>rt", "<cmd>RestNvim<cr>", desc = "rest neovim" },
         },
-        opts = {
-            result_split_horizontal = true,
-        },
+        config = function()
+            require("rest-nvim").setup({
+                result_split_horizontal = true,
+            })
+        end
     },
 
 

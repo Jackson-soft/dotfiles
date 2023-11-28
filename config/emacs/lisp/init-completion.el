@@ -22,7 +22,7 @@
   :init
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion))))
+        completion-category-overrides '((eglot (styles orderless))))
   )
 
 (use-package vertico

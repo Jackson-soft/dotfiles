@@ -19,7 +19,7 @@ end
 -- This is where you actually apply your config choices
 
 -- color scheme
-config.color_scheme = 'tokyonight_moon'
+config.color_scheme = 'Catppuccin Mocha'
 
 config.default_cursor_style = 'BlinkingBar'
 
