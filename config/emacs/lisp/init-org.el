@@ -145,8 +145,8 @@
 							   (emacs-lisp . t)))
   )
 
-(use-package toc-org
-  :hook (org-mode . toc-org-mode)
+(use-package org-make-toc
+  :hook (org-mode . org-make-toc-mode)
   )
 
 ;; 自动显示隐藏光标所在位置的修饰符号
