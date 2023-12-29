@@ -20,7 +20,7 @@ zinit light-mode depth"1" for \
     ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
 
 zinit as"null" from"gh-r" light-mode for \
-    sbin"starship" atload"eval '$(starship init zsh)'" starship/starship \
+    sbin"starship" atload'eval "$(starship init zsh)"' starship/starship \
     sbin"fzf" src'key-bindings.zsh' compile'key-bindings.zsh' completions \
     dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})" junegunn/fzf
 
