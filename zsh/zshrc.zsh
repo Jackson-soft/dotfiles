@@ -21,8 +21,7 @@ zinit light-mode depth"1" for \
 
 zinit as"null" from"gh-r" light-mode for \
     sbin"starship" atload'eval "$(starship init zsh)"' starship/starship \
-    sbin"fzf" src'key-bindings.zsh' compile'key-bindings.zsh' completions \
-    dl="$(print -c https://raw.githubusercontent.com/junegunn/fzf/master/{shell/{'key-bindings.zsh;','completion.zsh -> _fzf;'},'man/man1/fzf.1 -> $ZPFX/man/man1/fzf.1;'})" junegunn/fzf
+    sbin"fzf" src'key-bindings.zsh' dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh' junegunn/fzf
 
 # Completion enhancements
 zinit wait lucid depth"1" light-mode nocd for \
@@ -38,20 +37,14 @@ zinit wait lucid depth"1" light-mode nocd for \
 
 # git extensions
 zinit wait"0a" lucid depth"1" for \
-    as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
     atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua \
     wfxr/forgit
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
-    sbin"**/lsd" atload"alias ls='lsd';alias ll='ls -Alh';alias la='ls -A';alias tree='ls --tree'" cp"**/lsd.1 -> $ZPFX/man/man1" completions lsd-rs/lsd \
-    sbin"**/bat" atload"alias cat='bat -p --wrap character'" cp"**/bat.1 -> $ZPFX/man/man1" mv"**/autocomplete/bat.zsh -> _bat" completions @sharkdp/bat \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
-    sbin"**/rg" cp"**/doc/rg.1 -> $ZPFX/man/man1" completions BurntSushi/ripgrep \
-    sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
-    sbin"jq* -> jq" jqlang/jq \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh)" golangci/golangci-lint \
     sbin"ruff" @astral-sh/ruff \
@@ -59,11 +52,17 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"hadolint* -> hadolint" hadolint/hadolint \
     sbin"**/shellcheck" koalaman/shellcheck \
     sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
-    sbin"bin/pandoc" jgm/pandoc \
-    sbin"procs" atload"alias ps=procs" dalance/procs \
-    sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \
-    sbin"tldr" atload"alias help=tldr" mv"tealdeer* -> tldr" dl'https://github.com/dbrgn/tealdeer/releases/latest/download/completions_zsh -> _tldr;' completions dbrgn/tealdeer \
     sbin"marksman* -> marksman" artempyanykh/marksman \
-    sbin"**/shfmt* -> shfmt" @mvdan/sh
+
+if (( $+commands[eza] )); then
+    alias ls='eza --color=auto --icons --group-directories-first'
+    alias ll='ls -Alh --time-style=long-iso'
+    alias la='ls -A'
+    alias tree='ls --tree'
+fi
+(( $+commands[bat] )) && alias cat='bat -p --wrap character'
+(( $+commands[btm] )) && alias top=btm
+(( $+commands[procs] )) && alias ps=procs
+(( $+commands[tldr] )) && alias help=tldr
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh

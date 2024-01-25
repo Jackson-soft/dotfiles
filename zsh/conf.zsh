@@ -21,8 +21,8 @@ alias -g ...='../..'
 # https://github.com/junegunn/fzf
 export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg --files --hidden --follow --glob '!.git' || find ."
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || lsd --tree {}) 2> /dev/null | head -200'"
-export FZF_ALT_C_OPTS="--preview 'lsd --tree {} | head -200'"
+export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || eza --tree {}) 2> /dev/null | head -200'"
+export FZF_ALT_C_OPTS="--preview '(eza --tree --icons --level 3 --color=always --group-directories-first {} || tree -NC {} || ls --color=always --group-directories-first {}) 2>/dev/null | head -200'"
 export FZF_DEFAULT_OPTS="
        --height 80%
        --layout reverse
