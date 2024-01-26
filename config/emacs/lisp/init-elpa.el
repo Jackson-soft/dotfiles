@@ -13,6 +13,7 @@
 
 ;; packages
 (use-package package
+  :ensure nil
   :config
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   )

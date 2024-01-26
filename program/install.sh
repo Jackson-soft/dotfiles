@@ -12,17 +12,17 @@ packages=(
     procs
     tealdeer
     pandoc
+    ruff
     shfmt
+    shellcheck
     jq
+    hadolint
 )
 
 npms=(
     # formator
     prettier
-    # linter
-    markdownlint-cli
     # lsp
-    typescript
     yaml-language-server
     bash-language-server
     vscode-langservers-extracted      # css json html eslint

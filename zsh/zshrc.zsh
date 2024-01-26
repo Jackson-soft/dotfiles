@@ -44,21 +44,19 @@ zinit wait"0a" lucid depth"1" for \
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
+    sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh)" golangci/golangci-lint \
-    sbin"ruff" @astral-sh/ruff \
     sbin"bin/lua-language-server" LuaLS/lua-language-server \
-    sbin"hadolint* -> hadolint" hadolint/hadolint \
-    sbin"**/shellcheck" koalaman/shellcheck \
     sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
     sbin"marksman* -> marksman" artempyanykh/marksman \
 
 if (( $+commands[eza] )); then
     alias ls='eza --color=auto --icons --group-directories-first'
-    alias ll='ls -Alh --time-style=long-iso'
-    alias la='ls -A'
-    alias tree='ls --tree'
+    alias ll='ls -aFlh --time-style=long-iso'
+    alias la='ls -a'
+    alias tree='ls -T'
 fi
 (( $+commands[bat] )) && alias cat='bat -p --wrap character'
 (( $+commands[btm] )) && alias top=btm
