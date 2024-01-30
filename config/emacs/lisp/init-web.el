@@ -5,9 +5,6 @@
 ;;
 ;;; Code:
 
-;; json
-(use-package jsonian)
-
 (use-package web-mode
   :mode ("\\.html?\\'" . web-mode)
   :config

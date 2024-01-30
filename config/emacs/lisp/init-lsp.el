@@ -110,8 +110,8 @@
 
 (use-package eglot
   :ensure nil
-  :hook (((json-mode js-mode web-mode go-ts-mode dockerfile-ts-mode c-mode c++-mode c++-ts-mode cmake-ts-mode lua-mode
-					 css-mode sh-mode yaml-mode protobuf-ts-mode graphviz-dot-mode markdown-mode) . eglot-ensure))
+  :hook (((json-ts-mode js-mode web-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-mode
+                        css-mode bash-ts-mode yaml-mode protobuf-ts-mode graphviz-dot-mode markdown-mode) . eglot-ensure))
   :bind (:map eglot-mode-map
 			  ("C-c e a" . eglot-code-actions)
 			  ("C-c e r" . eglot-rename)
