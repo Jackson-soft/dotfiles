@@ -4,7 +4,6 @@
 packages=(
     # modern tools
     bat
-    fd
     ripgrep
     eza
     git-extras
