@@ -11,7 +11,7 @@ sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 sudo dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge
 sudo dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/vscode
 
-sudo dnf install -y microsoft-edge-stable vscode
+sudo dnf install -y microsoft-edge-stable code
 
 sudo dnf autoremove -y
 sudo dnf remove --oldinstallonly -y
