@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Packages
-packages=(
-    # modern tools
+# tools
+tools=(
+    # modern tool
     bat
     ripgrep
     eza
@@ -45,7 +45,7 @@ function check() {
 }
 
 function brewTool() {
-    for app in "${packages[@]}"; do
+    for app in "${tools[@]}"; do
         brew install -q "${app}"
     done
     brew cleanup
@@ -53,7 +53,7 @@ function brewTool() {
 
 # should use sudo
 function dnfTool() {
-    for app in "${packages[@]}"; do
+    for app in "${tools[@]}"; do
         dnf install -y "${app}"
     done
 }

@@ -28,7 +28,7 @@ zinit wait lucid depth"1" light-mode nocd for \
     atinit"zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
         ${ZI_REPO}/fast-syntax-highlighting \
-    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;" atload"_zsh_autosuggest_start" \
+    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;ZSH_AUTOSUGGEST_STRATEGY=(history completion match_prev_cmd)" atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     trackbinds bindmap"^R -> ^H" \
         ${ZI_REPO}/history-search-multi-word \
