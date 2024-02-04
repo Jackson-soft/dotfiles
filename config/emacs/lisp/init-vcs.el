@@ -12,6 +12,8 @@
 		 ("C-c M-g" . magit-file-dispatch))
   :custom
   (magit-diff-refine-hunk t)
+  :config
+  (use-package forge)
   )
 
 (use-package git-modes)

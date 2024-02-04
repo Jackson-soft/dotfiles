@@ -449,6 +449,55 @@ require("lazy").setup({
         },
     },
 
+    -- formatter
+    {
+        "stevearc/conform.nvim",
+        event = { "BufWritePre" },
+        cmd = { "ConformInfo" },
+        keys = {
+            {
+                -- Customize or remove this keymap to your liking
+                "<leader>bf",
+                function()
+                    require("conform").format({ async = true, lsp_fallback = true })
+                end,
+                mode = "",
+                desc = "Buffer Format",
+            },
+        },
+        -- Everything in opts will be passed to setup()
+        opts = {
+            -- Define your formatters
+            formatters_by_ft = {
+                sh = { 'shfmt' },
+                sql = { 'sqlfluff' },
+                json = { "jq" },
+                yaml = { "prettier" },
+                markdown = { "prettier" },
+            },
+            -- Set up format-on-save
+            format_on_save = { timeout_ms = 500, lsp_fallback = true },
+            -- Customize formatters
+            formatters = {
+                shfmt = {
+                    prepend_args = { "-i", "4" },
+                },
+                prettier = {
+                    options = {
+                        ft_parsers = {
+                            markdown = "markdown",
+                            yaml = "yaml",
+                        },
+                    },
+                },
+            },
+        },
+        init = function()
+            -- If you want the formatexpr, here is the place to set it
+            vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+        end,
+    },
+
     -- Whichkey
     {
         "folke/which-key.nvim",

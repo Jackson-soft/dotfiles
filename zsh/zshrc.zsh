@@ -54,7 +54,7 @@ zinit wait lucid as"null" from"gh-r" for \
 
 if (( $+commands[eza] )); then
     alias ls='eza --color=auto --icons --group-directories-first'
-    alias ll='ls -aFlh --time-style=long-iso'
+    alias ll='ls -alh --time-style=long-iso'
     alias la='ls -a'
     alias tree='ls -T'
 fi
