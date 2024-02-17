@@ -14,14 +14,13 @@ ln -sf "$(pwd)"/wezterm.lua "$HOME"/.wezterm.lua
 configHome="${XDG_CONFIG_HOME:-$HOME/.config}"
 ln -sf "$(pwd)"/config/emacs "$configHome"/emacs
 ln -sf "$(pwd)"/config/nvim "$configHome"/nvim
-ln -sf "$(pwd)"/config/lsd "$configHome"/lsd
 ln -sf "$(pwd)"/config/starship.toml "$configHome"/starship.toml
 
 # gitconfig
 addGit="\n[include]\n\tpath = ${HOME}/myDoc/dotfiles/gitconfig.inc"
 gitConf="${HOME}/.gitconfig"
 if [ ! -f "${gitConf}" ]; then
-	echo "${addGit}" >"${gitConf}"
+    echo "${addGit}" >"${gitConf}"
 else
-	echo "${addGit}" >>"${gitConf}"
+    echo "${addGit}" >>"${gitConf}"
 fi
