@@ -43,7 +43,7 @@ zi light wfxr/forgit
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
-    sbin"**/zoxide" atload'eval "$(zoxide init zsh)"' ajeetdsouza/zoxide \
+    sbin"zoxide" atload'eval "$(zoxide init zsh)"' completions ajeetdsouza/zoxide \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \

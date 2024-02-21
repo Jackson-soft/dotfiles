@@ -16,6 +16,7 @@ tools=(
     shellcheck
     jq
     hadolint
+    ugrep
 )
 
 npms=(
@@ -27,7 +28,6 @@ npms=(
     vscode-langservers-extracted      # css json html eslint
     dockerfile-language-server-nodejs # docker
     pyright                           # python
-    dot-language-server               # dot
 )
 
 function npmTool() {
