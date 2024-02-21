@@ -26,16 +26,14 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git ~/myDoc/dotfile
 ~zinit~ 的安装配置如下：
 #+begin_src shell
 zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
-    src'key-bindings.zsh'
+    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' src'key-bindings.zsh'
 zinit light junegunn/fzf
 #+end_src
 
 这里需要说明一下， =fzf= 的键位绑定需要 ~source key-bindings.zsh~ ，但我们从 =from"gh-r"= 即( =github-release= )下载的二进制包里是
 没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添加
 #+begin_src shell
-dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' \
-src'key-bindings.zsh'
+dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' src'key-bindings.zsh'
 #+end_src
 
 *注意：*
@@ -85,6 +83,9 @@ For most users, Esc+ will be the best choice.
 *** ~ripgrep~
 [[https://github.com/BurntSushi/ripgrep][ripgrep]] 是一个文本搜索工具。
 
+*** ~ugrep~
+    [[https://github.com/Genivia/ugrep][ugrep]] 同样是一个搜索工具。可以是 ~grep~ 的平替，且带有 ~TUI~ 。
+
 *** =procs=
 [[https://github.com/dalance/procs][procs]] 是 ~ps~ 命令的替代品。
 
@@ -103,11 +104,8 @@ export LS_COLORS="$(vivid generate molokai)"
 [[https://github.com/ajeetdsouza/zoxide][zoxide]] 是一个快速目录跳转工具，支持模糊匹配和历史纪录。配置如下：
 #+begin_src shell
 # 快速跳转目录
-zinit ice wait"2" as"null" from"gh-r" lucid \
-    mv"**/man/zoxide.1 -> $ZPFX/share/man/man1/" sbin"**/zoxide" \
-    atclone"zoxide init zsh > init.zsh" \
-    atpull"%atclone" src"init.zsh" nocompile'!'
-zinit light ajeetdsouza/zoxide
+zi ice wait"2" as"null" from"gh-r" lucid sbin"**/zoxide" atload'eval "$(zoxide init zsh)"'
+zi light ajeetdsouza/zoxide
 #+end_src
 
 它延伸出两个命令：
@@ -115,7 +113,11 @@ zinit light ajeetdsouza/zoxide
 - ~zi~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
 
 *** ~z.lua~
-    [[https://github.com/skywind3000/z.lua][z.lua]] 同样是一个快速目录跳转工具，是用 ~lua~ 写的。
+    [[https://github.com/skywind3000/z.lua][z.lua]] 同样是一个快速目录跳转工具，是用 ~lua~ 写的。配置如下：
+    #+begin_src shell
+zi wait"0a" lucid depth"1" for \
+    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua
+    #+end_src
 
 ** 插件管理
 [[https://github.com/zdharma-continuum/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的几个点：
@@ -198,8 +200,7 @@ forgit_fixup=gfu
 
 至于说 ~GPU~ 加速，目前没什么感觉，配置文件参见 [[file:wezterm.lua][wezterm.lua]] 。
 
-~PS~ : ~wezterm~ 还有一个 ~Rust~ 写的竞品 [[https://github.com/alacritty/alacritty][Alacritty]] ，但它的作者对于有些功能的执拗，不愿实现有些对我来说比较实用的功能，
-故没用（比如：标签，作者对于标签一直觉得可以搭配 ~tmux~ 来实现，具体参见 [[https://github.com/alacritty/alacritty/issues/1544][Investigate macOS tabs]] ）。
+~PS~ : ~wezterm~ 还有一个 ~Rust~ 写的竞品 [[https://github.com/alacritty/alacritty][Alacritty]] 。
 
 最近发现了一个比较新的 =C++= 写的现代终端 [[https://github.com/contour-terminal/contour][Contour]] ，目前完成度较低，保持观望中。
 

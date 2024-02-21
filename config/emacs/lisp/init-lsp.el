@@ -124,7 +124,7 @@
                                             :documentOnTypeFormattingProvider))
 
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("bufls" "serve")))
+  (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) . ("clangd"
                                                                    "-j=5"

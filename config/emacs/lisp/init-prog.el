@@ -56,7 +56,7 @@
 (use-package xref
   :ensure nil
   :config
-  (setq xref-search-program 'ripgrep
+  (setq xref-search-program 'ugrep
 		xref-history-storage 'xref-window-local-history)
   )
 

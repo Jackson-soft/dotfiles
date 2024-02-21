@@ -36,14 +36,14 @@ zinit wait lucid depth"1" light-mode nocd for \
         zsh-users/zsh-completions
 
 # git extensions
-zinit wait"0a" lucid depth"1" for \
-    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua \
-    wfxr/forgit
+zi ice wait"0a" lucid depth"1"
+zi light wfxr/forgit
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
+    sbin"**/zoxide" atload'eval "$(zoxide init zsh)"' ajeetdsouza/zoxide \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
