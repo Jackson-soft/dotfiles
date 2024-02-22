@@ -50,7 +50,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh)" golangci/golangci-lint \
     sbin"bin/lua-language-server" LuaLS/lua-language-server \
     sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
-    sbin"marksman* -> marksman" artempyanykh/marksman \
+    sbin"marksman* -> marksman" artempyanykh/marksman
 
 if (( $+commands[eza] )); then
     alias ls='eza --color=auto --icons --group-directories-first'
@@ -58,9 +58,9 @@ if (( $+commands[eza] )); then
     alias la='ls -a'
     alias tree='ls -T'
 fi
+
 (( $+commands[bat] )) && alias cat='bat -p --wrap character'
 (( $+commands[btm] )) && alias top=btm
-(( $+commands[procs] )) && alias ps=procs
 (( $+commands[tldr] )) && alias help=tldr
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh

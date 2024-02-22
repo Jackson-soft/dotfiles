@@ -8,7 +8,6 @@ tools=(
     eza
     git-extras
     bottom
-    procs
     tealdeer
     pandoc
     ruff

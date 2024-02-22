@@ -20,4 +20,3 @@ fish_style_pwd_dir_length = 1
 
 [git_branch]
 format = "[$symbol$branch]($style) "
-
