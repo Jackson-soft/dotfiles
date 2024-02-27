@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 ### Added by Zinit's installer
 local ZI_REPO="zdharma-continuum"
 ZI_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
@@ -20,11 +27,13 @@ zinit light-mode depth"1" for \
     ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
 
 zinit as"null" from"gh-r" light-mode for \
-    sbin"starship" atload'eval "$(starship init zsh)"' starship/starship \
     sbin"fzf" src'key-bindings.zsh' dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh' junegunn/fzf
 
+zinit ice depth"1" atload'source ~/.p10k.zsh'
+zinit light romkatv/powerlevel10k
+
 # Completion enhancements
-zinit wait lucid depth"1" light-mode nocd for \
+zinit wait lucid depth"1" light-mode for \
     atinit"zicompinit; zicdreplay" \
         Aloxaf/fzf-tab \
         ${ZI_REPO}/fast-syntax-highlighting \

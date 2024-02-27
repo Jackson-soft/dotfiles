@@ -63,7 +63,7 @@ zstyle ':completion:*' file-sort modification
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' completer _expand_alias _expand _complete _ignored _approximate
-zstyle ':completion:*' menu select=2
+zstyle ':completion:*' menu no
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' accept-exact '*(N)'
 
