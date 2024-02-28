@@ -52,7 +52,6 @@ export LESS=-R
 # zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 # Group matches and describe.
-zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:options' description 'yes'
@@ -62,7 +61,7 @@ zstyle ':completion:*' rehash true
 zstyle ':completion:*' file-sort modification
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' verbose yes
-zstyle ':completion:*' completer _expand_alias _expand _complete _ignored _approximate
+zstyle ':completion:*' completer _complete _prefix _expand _correct _prefix _match _approximate
 zstyle ':completion:*' menu no
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' accept-exact '*(N)'

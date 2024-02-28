@@ -29,7 +29,7 @@ zinit light-mode depth"1" for \
 zinit as"null" from"gh-r" light-mode for \
     sbin"fzf" src'key-bindings.zsh' dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh' junegunn/fzf
 
-zinit ice depth"1" atload'source ~/.p10k.zsh'
+zinit ice depth"1" atload"[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh"
 zinit light romkatv/powerlevel10k
 
 # Completion enhancements
@@ -45,14 +45,14 @@ zinit wait lucid depth"1" light-mode for \
         zsh-users/zsh-completions
 
 # git extensions
-zi ice wait"0a" lucid depth"1"
-zi light wfxr/forgit
+zinit wait"0a" lucid depth"1" for \
+    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua \
+    wfxr/forgit
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
-    sbin"zoxide" atload'eval "$(zoxide init zsh)"' completions ajeetdsouza/zoxide \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
