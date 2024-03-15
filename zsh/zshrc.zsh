@@ -24,13 +24,8 @@ autoload -Uz _zinit
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode depth"1" for \
-    ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
-
-zinit as"null" from"gh-r" light-mode for \
-    sbin"fzf" atload'eval "$(fzf --zsh)"' junegunn/fzf
-
-zinit ice depth"1" atload"[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh"
-zinit light romkatv/powerlevel10k
+    ${ZI_REPO}/zinit-annex-bin-gem-node \
+    atload"[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" romkatv/powerlevel10k
 
 # Completion enhancements
 zinit wait lucid depth"1" light-mode for \
@@ -52,6 +47,7 @@ zinit wait"0a" lucid depth"1" for \
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
+    sbin"fzf" atload'eval "$(fzf --zsh)"'  junegunn/fzf \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
