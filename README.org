@@ -25,22 +25,13 @@ git clone --depth 1 https://github.com/Jackson-soft/dotfiles.git ~/myDoc/dotfile
 
 ~zinit~ 的安装配置如下：
 #+begin_src shell
-zinit ice as"null" wait lucid from"gh-r" sbin"fzf" \
-    dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' src'key-bindings.zsh'
+zinit ice as"null" wait lucid from"gh-r" sbin"fzf" atload'eval "$(fzf --zsh)"'
 zinit light junegunn/fzf
-#+end_src
-
-这里需要说明一下， =fzf= 的键位绑定需要 ~source key-bindings.zsh~ ，但我们从 =from"gh-r"= 即( =github-release= )下载的二进制包里是
-没有 ~key-bindings.zsh~ 这个文件，所以需要单独来下载这个文件，即添加
-#+begin_src shell
-dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh -> key-bindings.zsh' src'key-bindings.zsh'
 #+end_src
 
 *注意：*
 - =sbin= 关键字需要 [[https://github.com/zdharma-continuum/zinit-annex-bin-gem-node][zdharma-continuum/zinit-annex-bin-gem-node]] 插件来支持。
-- =dl= 关键字需要 [[https://github.com/zdharma-continuum/zinit-annex-patch-dl][zdharma-continuum/zinit-annex-patch-dl]] 插件来支持。
-- 二进制的安装如果要放到 =$PATH= 里可以用 =as"program"= 或 =as"null"= 两种方式，区别在于 =as"program"= 是每个二进制的安装都是单独的目录,
-  而 =as"null"= 是统一在  =~/.zinit/polaris/bin= 目录下。个人建议是用 =as"null"= 这种方式，这样 =$PATH= 相对比较简洁。
+- 二进制的安装如果要放到 =$PATH= 里可以用 =as"program"= 或 =as"null"= 两种方式，区别在于 =as"program"= 是每个二进制的安装都是单独的目录,而 =as"null"= 是统一在 =~/.zinit/polaris/bin= 目录下。个人建议是用 =as"null"= 这种方式，这样 =$PATH= 相对比较简洁。
 
 如果 ~Mac~ 有用 ~iterm2~ 的同学要注意， ~ALT-C~ 有可能会失效，解决方法是：
 
@@ -159,10 +150,6 @@ zstyle ':fzf-tab:*' switch-group ',' '.'
 - ~git fuzzy stash~
 - ~git fuzzy diff~
 - ~git fuzzy pr~
-
-**** 主题
-[[https://github.com/starship/starship][starship]] 是一个 ~Rust~ 写的跨 ~shell~ 的主题。相比于 [[https://github.com/romkatv/powerlevel10k][Powerlevel10k]]
-比较简洁，配置也相对简单，具体参见 [[file:config/starship.toml][starship.toml]] 。
 
 **** ~forgit~
 [[https://github.com/wfxr/forgit][forgit]] 依赖于 ~fzf~ 的 ~git~ 命令封装工具。
