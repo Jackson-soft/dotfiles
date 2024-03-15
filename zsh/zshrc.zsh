@@ -27,7 +27,7 @@ zinit light-mode depth"1" for \
     ${ZI_REPO}/zinit-annex-{'patch-dl','bin-gem-node'}
 
 zinit as"null" from"gh-r" light-mode for \
-    sbin"fzf" src'key-bindings.zsh' dl'https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh' junegunn/fzf
+    sbin"fzf" atload'eval "$(fzf --zsh)"' junegunn/fzf
 
 zinit ice depth"1" atload"[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh"
 zinit light romkatv/powerlevel10k
