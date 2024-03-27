@@ -19,11 +19,13 @@
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((eglot (styles orderless))))
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles basic partial-completion))
+                                   (eglot (styles orderless))))
   )
+
 
 (use-package vertico
   :bind (:map vertico-map

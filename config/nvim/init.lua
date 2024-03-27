@@ -9,13 +9,7 @@ vim.g.maplocalleader = ' '
 --    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        lazypath,
-    })
+    vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -61,11 +55,12 @@ require("lazy").setup({
         lazy = true,
         opts = {
             integrations = {
+                telescope = true,
                 diffview = true,
             },
         },
         keys = {
-            { "<leader>gg", "<Cmd>Neogit<CR>", desc = "Open Neogit" },
+            { "<leader>ng", "<Cmd>Neogit<CR>", desc = "Open Neogit" },
         },
     },
 
@@ -74,6 +69,11 @@ require("lazy").setup({
         "numToStr/Comment.nvim",
         event = 'BufRead',
         config = true
+    },
+
+    {
+        'folke/todo-comments.nvim',
+        event = 'VimEnter',
     },
 
     -- file tree
@@ -101,7 +101,7 @@ require("lazy").setup({
     -- UI to select things (files, grep results, open buffers...)
     {
         "nvim-telescope/telescope.nvim",
-        event = 'CursorHold',
+        event = 'VimEnter',
         config = function()
             local telescope = require("telescope")
             telescope.setup({
@@ -137,19 +137,21 @@ require("lazy").setup({
 
             local builtin = require('telescope.builtin')
             vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
-            vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-            vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-            vim.keymap.set('n', '<leader>eb', builtin.buffers, { desc = 'Find existing buffers' })
-            vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-            vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, { desc = "[D]ocument [S]ymbols" })
-            vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-            vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-            vim.keymap.set("n", "<leader>fb", ":Telescope file_browser<CR>", { noremap = true, desc = "file browser" }
+            vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[S]earch [F]iles' })
+            vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+            vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find existing buffers' })
+            vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[S]earch [H]elp' })
+            vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "[D]ocument [S]ymbols" })
+            vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
+            vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+            vim.keymap.set("n", "<leader>fl", ":Telescope file_browser<CR>",
+                { noremap = true, desc = "file browser" }
             )
         end,
         dependencies = {
             { "nvim-telescope/telescope-fzf-native.nvim",   build = 'make' },
             { "nvim-telescope/telescope-file-browser.nvim", lazy = true },
+            { 'nvim-telescope/telescope-ui-select.nvim' },
         },
     },
 
@@ -166,7 +168,7 @@ require("lazy").setup({
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
-        config = function()
+        init = function()
             vim.cmd.colorscheme("catppuccin-macchiato")
         end,
     },
@@ -175,7 +177,7 @@ require("lazy").setup({
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
-        event = { "BufReadPost", "BufNewFile" },
+        event = 'VeryLazy',
         opts = {},
     },
 
@@ -183,7 +185,6 @@ require("lazy").setup({
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        event = { "BufReadPost", "BufNewFile" },
         opts = {
             ensure_installed = {
                 "bash",
@@ -501,7 +502,7 @@ require("lazy").setup({
     -- Whichkey
     {
         "folke/which-key.nvim",
-        event = "VeryLazy",
+        event = 'VimEnter',
         config = true,
     },
 
@@ -539,14 +540,25 @@ require("lazy").setup({
     {
         "rest-nvim/rest.nvim",
         ft = { "http" },
-        keys = {
-            { "<leader>rt", "<cmd>RestNvim<cr>", desc = "rest neovim" },
-        },
         config = function()
             require("rest-nvim").setup({
-                result_split_horizontal = true,
+                keybinds = {
+                    {
+                        "<localleader>rr", "<cmd>Rest run<cr>", "Run request under the cursor",
+                    },
+                    {
+                        "<localleader>rl", "<cmd>Rest run last<cr>", "Re-run latest request",
+                    },
+                },
             })
-        end
+        end,
+        dependencies = {
+            {
+                "vhyrro/luarocks.nvim",
+                priority = 1000,
+                config = true,
+            },
+        }
     },
 
 
@@ -581,8 +593,8 @@ vim.opt.softtabstop = indent
 vim.opt.smartindent = true
 vim.opt.expandtab = true
 
---- Numbering
-vim.wo.number = true
+-- Make line numbers default
+vim.opt.number = true
 --Set colorscheme (order is important here)
 vim.opt.termguicolors = true
 --Set highlight on search
@@ -592,35 +604,19 @@ vim.opt.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o
 --Enable mouse mode
 vim.opt.mouse = "a"
 -- Sync clipboard between OS and Neovim.
-vim.o.clipboard = 'unnamedplus'
+--  Remove this option if you want your OS clipboard to remain independent.
+--  See `:help 'clipboard'`
+vim.opt.clipboard = 'unnamedplus'
 vim.opt.mousefocus = true
-vim.opt.inccommand = "split"
+
 -- Enable break indent
-vim.o.breakindent = true
+vim.opt.breakindent = true
 
 -- Save undo history
-vim.o.undofile = true
-
--- Case insensitive searching UNLESS /C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
+vim.opt.undofile = true
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
-
--- Make line numbers default
-vim.opt.cursorline = true
-
--- Change preview window location
-vim.g.splitbelow = true
 
 ---- Plugin Settings ----
 -- 开启 Folding 模块 zc zo
@@ -630,23 +626,61 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 vim.opt.foldlevel = 99
 
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+-- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+-- Keep signcolumn on by default
+vim.opt.signcolumn = 'yes'
 
--- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+-- Decrease update time
+vim.opt.updatetime = 250
+
+-- Decrease mapped sequence wait time
+-- Displays which-key popup sooner
+vim.opt.timeoutlen = 300
+
+-- Configure how new splits should be opened
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+-- Sets how neovim will display certain whitespace characters in the editor.
+--  See `:help 'list'`
+--  and `:help 'listchars'`
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+-- Preview substitutions live, as you type!
+vim.opt.inccommand = 'split'
+
+-- Show which line your cursor is on
+vim.opt.cursorline = true
+
+-- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 10
+
+-- Set highlight on search, but clear on pressing <Esc> in normal mode
+vim.opt.hlsearch = true
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+-- Keybinds to make split navigation easier.
+--  Use CTRL+<hjkl> to switch between windows
+--
+--  See `:help wincmd` for a list of all window commands
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
 vim.api.nvim_create_autocmd('TextYankPost', {
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
     callback = function()
         vim.highlight.on_yank()
     end,
-    group = highlight_group,
-    pattern = '*',
 })
 
 -- LSP settings
