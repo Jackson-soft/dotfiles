@@ -4,7 +4,7 @@ BasedOnStyle: LLVM
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
-UseCRLF: false
+LineEnding: LF
 SortIncludes: true
 ---
 Language: Cpp
@@ -27,8 +27,6 @@ AllowShortFunctionsOnASingleLine: Empty
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: false
-AlwaysBreakAfterDefinitionReturnType: None
-AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: true
 BinPackArguments: false
@@ -54,17 +52,17 @@ BreakBeforeConceptDeclarations: false
 BreakBeforeBinaryOperators: All
 BreakBeforeTernaryOperators: true
 ColumnLimit: 120
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
+PackConstructorInitializers: BinPack
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
-DeriveLineEnding: true
 DerivePointerAlignment: false
 DisableFormat: false
 ExperimentalAutoDetectBinPacking: false
 IncludeBlocks: Regroup
 IndentCaseLabels: true
 IndentWrappedFunctionNames: false
+IndentRequiresClause: false
 KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
@@ -75,12 +73,10 @@ SpaceBeforeAssignmentOperators: true
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
-SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 2
+SpacesInParens: Never
 SpacesInAngles: false
-SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: false
-SpacesInParentheses: false
 SpacesInSquareBrackets: false
 RequiresClausePosition: WithPreceding
 SeparateDefinitionBlocks: Always

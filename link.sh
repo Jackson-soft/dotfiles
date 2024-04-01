@@ -15,6 +15,7 @@ ln -sf "$(pwd)"/wezterm.lua "$HOME"/.wezterm.lua
 configHome="${XDG_CONFIG_HOME:-$HOME/.config}"
 ln -sf "$(pwd)"/config/emacs "$configHome"/emacs
 ln -sf "$(pwd)"/config/nvim "$configHome"/nvim
+ln -sf "$(pwd)"/config/sqlfluff.cfg "$configHome"/sqlfluff
 
 # gitconfig
 addGit="\n[include]\n\tpath = ${HOME}/myDoc/dotfiles/gitconfig.inc"
