@@ -4,13 +4,17 @@
 setopt EXTENDED_GLOB
 setopt HIST_FCNTL_LOCK      # Use modern file-locking mechanisms, for better safety & performance.
 setopt HIST_IGNORE_ALL_DUPS # Keep only the most recent copy of each duplicate entry in history.
-setopt SHARE_HISTORY        # Auto-sync history between concurrent sessions.
 setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
 setopt ALWAYS_TO_END        # Move cursor to the end of a completed word.
 setopt PATH_DIRS            # Perform path search even on command names with slashes.
 setopt AUTO_MENU            # Show completion menu on a successive tab press.
 setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
 setopt AUTO_PARAM_SLASH     # If completed parameter is a directory, add a trailing slash.
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
 bindkey -e
