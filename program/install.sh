@@ -7,7 +7,6 @@ tools=(
     ripgrep
     eza
     git-extras
-    bottom
     tealdeer
     pandoc
     ruff
