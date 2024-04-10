@@ -83,29 +83,13 @@
   (setq cape-dict-case-fold t)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-abbrev)
   (add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
 
   (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-  )
-
-;; dabbrev (dynamic word completion)
-(use-package dabbrev
-  :ensure nil
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
-  :config
-  (setq dabbrev-abbrev-char-regexp "\\sw\\|\\s_"
-		dabbrev-abbrev-skip-leading-regexp "[$*/=~']"
-		dabbrev-backward-only nil
-		dabbrev-case-distinction 'case-replace
-		dabbrev-case-fold-search nil
-		dabbrev-case-replace 'case-replace
-		dabbrev-check-other-buffers t
-		dabbrev-eliminate-newlines t
-		dabbrev-upcase-means-case-search t)
   )
 
 (use-package eglot

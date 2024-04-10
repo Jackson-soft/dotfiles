@@ -2,20 +2,20 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (use-package icomplete
-;;   :ensure nil
-;;   :hook (after-init . icomplete-vertical-mode)
-;;   :bind (:map icomplete-minibuffer-map
-;;            ("RET" . icomplete-fido-ret)
-;;            ("C-k" . icomplete-fido-kill)
-;;            ("C-d" . icomplete-fido-delete-char)
-;;            ("DEL" . icomplete-fido-backward-updir))
-;;   :config
-;;   (setq icomplete-in-buffer t
-;;      icomplete-tidy-shadowed-file-names t
-;;      icomplete-show-matches-on-no-input t
-;;      icomplete-scroll t)
-;;   )
+(use-package icomplete
+  :ensure nil
+  :hook (after-init . icomplete-vertical-mode)
+  :bind (:map icomplete-minibuffer-map
+              ("RET" . icomplete-fido-ret)
+              ("C-k" . icomplete-fido-kill)
+              ("C-d" . icomplete-fido-delete-char)
+              ("DEL" . icomplete-fido-backward-updir))
+  :config
+  (setq icomplete-in-buffer t
+        icomplete-tidy-shadowed-file-names t
+        icomplete-show-matches-on-no-input t
+        icomplete-scroll t)
+  )
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -26,18 +26,17 @@
                                    (eglot (styles orderless))))
   )
 
-
-(use-package vertico
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
-  :hook ((after-init . vertico-mode)
-         (rfn-eshadow-update-overlay . vertico-directory-tidy))
-  :config
-  (setq vertico-cycle t
-        vertico-resize t)
-  )
+;; (use-package vertico
+;;   :bind (:map vertico-map
+;;               ("RET" . vertico-directory-enter)
+;;               ("DEL" . vertico-directory-delete-char)
+;;               ("M-DEL" . vertico-directory-delete-word))
+;;   :hook ((after-init . vertico-mode)
+;;          (rfn-eshadow-update-overlay . vertico-directory-tidy))
+;;   :config
+;;   (setq vertico-cycle t
+;;         vertico-resize t)
+;;   )
 
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)

@@ -51,6 +51,7 @@
 
   ;; (load-theme 'modus-vivendi)
   (load-theme 'modus-operandi)
+  ;; (load-theme 'modus-operandi-tinted)
 
   (setq scroll-margin 2           ;; better scrolling experience
 		scroll-step 1
@@ -105,6 +106,7 @@
 		what-cursor-show-names t
 		set-mark-command-repeat-pop t
 		save-interprogram-paste-before-kill t
+        read-extended-command-predicate #'command-completion-default-include-p
 
 		;; show column/filesize in modeline
 		column-number-mode t

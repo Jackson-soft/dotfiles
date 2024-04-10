@@ -25,10 +25,6 @@
   (use-package edit-indirect)
   )
 
-(use-package markdown-toc
-  :hook ((markdown-mode gfm-mode) . markdown-toc-mode)
-  )
-
 (provide 'init-markdown)
 
 ;;; init-markdown.el ends here

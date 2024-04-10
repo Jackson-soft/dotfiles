@@ -23,6 +23,7 @@
     )
 
   (use-package go-tag
+    :ensure nil
     :bind (:map go-ts-mode-map
                 ("C-c g a" . go-tag-add)
                 ("C-c g r" . go-tag-remove))

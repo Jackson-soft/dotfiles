@@ -66,9 +66,11 @@ require("lazy").setup({
 
     -- comment
     {
-        "numToStr/Comment.nvim",
-        event = 'BufRead',
-        config = true
+        'echasnovski/mini.comment',
+        version = false,
+        config = function()
+            require('mini.comment').setup()
+        end
     },
 
     {
@@ -533,7 +535,6 @@ require("lazy").setup({
 
     {
         "b0o/schemastore.nvim",
-        lazy = true,
     },
 
     -- http
@@ -543,12 +544,8 @@ require("lazy").setup({
         config = function()
             require("rest-nvim").setup({
                 keybinds = {
-                    {
-                        "<localleader>rr", "<cmd>Rest run<cr>", "Run request under the cursor",
-                    },
-                    {
-                        "<localleader>rl", "<cmd>Rest run last<cr>", "Re-run latest request",
-                    },
+                    { "<localleader>rr", "<cmd>Rest run<cr>",      "Run request under the cursor", },
+                    { "<localleader>rl", "<cmd>Rest run last<cr>", "Re-run latest request", },
                 },
             })
         end,
@@ -782,6 +779,9 @@ local servers = {
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                 version = "LuaJIT",
+            },
+            completion = {
+                displayContext = 1,
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
