@@ -2,8 +2,8 @@
 
 dnf upgrade --refresh
 
-if ! command -v dnf5 &> /dev/null; then
-    dnf install -y dnf5
+if ! command -v dnf5 &>/dev/null; then
+    dnf install -y dnf5 dnf5-plugins
 fi
 
 # enable the RPM Fusion software repositories
