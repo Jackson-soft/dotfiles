@@ -66,6 +66,6 @@ if (( $+commands[eza] )); then
 fi
 
 (( $+commands[bat] )) && alias cat='bat -p --wrap character'
-(( $+commands[tldr] )) && alias help=tldr
+(( $+commands[tldr] )) && alias help='tldr'
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh

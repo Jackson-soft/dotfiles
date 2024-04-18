@@ -36,7 +36,7 @@ function npmTool() {
 
 function check() {
     # Check brew
-    if ! command -v brew >/dev/null 2>&1; then
+    if ! command -v brew &>/dev/null; then
         xcode-select --install
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
