@@ -52,7 +52,7 @@ function brewTool() {
 # should use sudo
 function dnfTool() {
     for app in "${tools[@]}"; do
-        dnf install -y "${app}"
+        dnf5 install -y "${app}"
     done
 }
 
