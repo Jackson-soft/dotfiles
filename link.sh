@@ -18,7 +18,7 @@ ln -sf "$(pwd)"/config/nvim "$configHome"/nvim
 ln -sf "$(pwd)"/config/sqlfluff.cfg "$configHome"/sqlfluff
 
 # gitconfig
-addGit="\n[include]\n\tpath = ${HOME}/myDoc/dotfiles/gitconfig.inc"
+addGit="\\n[include]\\n\\tpath = ${HOME}/myDoc/dotfiles/gitconfig.inc"
 gitConf="${HOME}/.gitconfig"
 if [ ! -f "${gitConf}" ]; then
     echo "${addGit}" >"${gitConf}"

@@ -5,7 +5,7 @@ IndentWidth: 4
 TabWidth: 4
 UseTab: Never
 LineEnding: LF
-SortIncludes: true
+ColumnLimit: 120
 ---
 Language: Cpp
 SortUsingDeclarations: true
@@ -51,7 +51,6 @@ BraceWrapping:
 BreakBeforeConceptDeclarations: false
 BreakBeforeBinaryOperators: All
 BreakBeforeTernaryOperators: true
-ColumnLimit: 120
 PackConstructorInitializers: BinPack
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
@@ -84,4 +83,3 @@ Standard: Latest
 ReflowComments: true
 ---
 Language: Proto
-ColumnLimit: 120
