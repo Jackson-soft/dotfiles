@@ -47,7 +47,7 @@ zinit wait"0a" lucid depth"1" for \
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
-    sbin"fzf" atload'eval "$(fzf --zsh)"'  junegunn/fzf \
+    sbin"fzf" atload'eval "$(fzf --zsh)"' junegunn/fzf \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \

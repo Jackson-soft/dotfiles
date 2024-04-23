@@ -101,6 +101,10 @@
 			  ("C-c e r" . eglot-rename)
 			  ("C-c e f" . eglot-format))
   :config
+  (use-package consult-eglot
+    :bind (:map eglot-mode-map
+                ("M-s s" . consult-eglot-symbols)))
+
   (setq eglot-report-progress nil
         eglot-autoshutdown t
         eglot-ignored-server-capabilities '(:documentLinkProvider

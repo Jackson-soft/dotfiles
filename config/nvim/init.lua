@@ -384,7 +384,6 @@ require("lazy").setup({
                     { name = "buffer" },
                     { name = "path" },
                     { name = "treesitter" },
-                    { name = "zsh" },
                     { name = 'nvim_lsp_signature_help' },
                 }),
             })
@@ -421,14 +420,6 @@ require("lazy").setup({
             {
                 "saadparwaiz1/cmp_luasnip",
                 dependencies = { "L3MON4D3/LuaSnip", run = "make install_jsregexp" },
-            },
-            {
-                "tamago324/cmp-zsh",
-                dependencies = { "Shougo/deol.nvim" },
-                opts = {
-                    zshrc = true,                      -- Source the zshrc (adding all custom completions). default: false
-                    filetypes = { "deoledit", "zsh" }, -- Filetypes to enable cmp_zsh source. default: {"*"}
-                },
             },
         },
     },
