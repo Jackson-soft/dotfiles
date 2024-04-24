@@ -6,7 +6,6 @@ tools=(
     bat
     ripgrep
     eza
-    git-extras
     tealdeer
     pandoc
     ruff
