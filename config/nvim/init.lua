@@ -42,8 +42,6 @@ require("lazy").setup({
     {
         "sindrets/diffview.nvim",
         lazy = true,
-        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
-        config = true,
         keys = {
             { "<leader>dv", "<cmd>DiffviewOpen<cr>",  desc = "DiffView Open" },
             { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "DiffView Close" },
@@ -55,7 +53,6 @@ require("lazy").setup({
         lazy = true,
         opts = {
             integrations = {
-                telescope = true,
                 diffview = true,
             },
         },
@@ -67,7 +64,6 @@ require("lazy").setup({
     -- comment
     {
         'echasnovski/mini.comment',
-        version = false,
         config = function()
             require('mini.comment').setup()
         end
@@ -82,13 +78,6 @@ require("lazy").setup({
     {
         "nvim-tree/nvim-tree.lua",
         event = 'CursorHold',
-        cmd = {
-            "NvimTreeToggle",
-            "NvimTreeOpen",
-            "NvimTreeFindFile",
-            "NvimTreeFindFileToggle",
-            "NvimTreeRefresh",
-        },
         keys = { { "<leader>nt", "<cmd>NvimTreeToggle<CR>", desc = "NvimTree" } },
         opts = {
             diagnostics = {
@@ -102,61 +91,31 @@ require("lazy").setup({
 
     -- UI to select things (files, grep results, open buffers...)
     {
-        "nvim-telescope/telescope.nvim",
-        event = 'VimEnter',
-        config = function()
-            local telescope = require("telescope")
-            telescope.setup({
-                defaults = {
-                    vimgrep_arguments = {
-                        "rg",
-                        "--color=never",
-                        "--no-heading",
-                        "--with-filename",
-                        "--line-number",
-                        "--column",
-                        "--smart-case",
-                    },
-                    color_devicons = true,
-                    use_less = true,
-                    mappings = {
-                        i = {
-                            -- map actions.which_key to <C-h> (default: <C-/>)
-                            ["<C-h>"] = "which_key"
-                        }
-                    }
-                },
-                extensions = {
-                    fzf = {
-                        fuzzy = true,                   -- false will only do exact matching
-                        override_generic_sorter = true, -- override the generic sorter
-                        override_file_sorter = true,    -- override the file sorter
-                    },
-                },
-            })
-            telescope.load_extension("fzf")
-            telescope.load_extension("file_browser")
-
-            local builtin = require('telescope.builtin')
-            vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
-            vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[S]earch [F]iles' })
-            vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-            vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find existing buffers' })
-            vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-            vim.keymap.set("n", "<leader>fs", builtin.lsp_document_symbols, { desc = "[D]ocument [S]ymbols" })
-            vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-            vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-            vim.keymap.set("n", "<leader>fl", ":Telescope file_browser<CR>",
-                { noremap = true, desc = "file browser" }
-            )
-        end,
-        dependencies = {
-            { "nvim-telescope/telescope-fzf-native.nvim",   build = 'make' },
-            { "nvim-telescope/telescope-file-browser.nvim", lazy = true },
-            { 'nvim-telescope/telescope-ui-select.nvim' },
+        "ibhagwan/fzf-lua",
+        event = { "VeryLazy" },
+        keys = {
+            { "<leader>f/", "<cmd>FzfLua <CR>",                                      desc = "FzfLua self" },
+            { "<leader>ff", "<cmd>FzfLua files<CR>",                                 desc = "files" },
+            { "<leader>fb", "<cmd>FzfLua buffers<CR>",                               desc = "buffers" },
+            { "<leader>fl", "<cmd>FzfLua live_grep<CR>",                             desc = "live grep" },
+            { "<leader>fh", "<cmd>FzfLua help_tags<CR>",                             desc = "help" },
+            { "<leader>fH", "<cmd>FzfLua highlights<CR>",                            desc = "highlights" },
+            { "<leader>fm", "<cmd>FzfLua oldfiles<CR>",                              desc = "mru" }, -- mru: most recent used
+            { "<leader>fc", "<cmd>FzfLua commands<CR>",                              desc = "commands" },
+            { "<leader>fj", "<cmd>FzfLua jumps<CR>",                                 desc = "jumplist" },
+            { "<leader>fk", "<cmd>FzfLua keymaps<CR>",                               desc = "keymaps" },
+            { "<leader>fq", "<cmd>FzfLua quickfix<CR>",                              desc = "quickfix" },
+            { "<leader>fw", "<cmd>FzfLua grep_cword<CR>",                            desc = "cword" },
+            { "<leader>fa", "<cmd>lua require('helper.asynctask').fzf_select()<CR>", desc = "asynctask" },
+            { "<leader>d",  "<cmd>FzfLua lsp_document_diagnostics<CR>",              desc = "lsp_document_diagnostics" },
+            { "<leader>fd", "<cmd>FzfLua lsp_definitions<CR>",                       desc = "lsp_definition" },
+            { "<leader>fr", "<cmd>FzfLua lsp_references<CR>",                        desc = "lsp_references" },
+            { "<leader>fi", "<cmd>FzfLua lsp_implementations<CR>",                   desc = "lsp_implementations" },
+            { "<leader>fs", "<cmd>FzfLua lsp_document_symbols<CR>",                  desc = "lsp_document_symbols" },
+            { "<leader>fS", "<cmd>FzfLua lsp_workspace_symbols<CR>",                 desc = "lsp_workspace_symbols" },
+            { "<C-f>",      "<cmd>FzfLua grep_curbuf<CR>",                           desc = "lines" },
         },
     },
-
     -- Themes
     -- {
     --     "folke/tokyonight.nvim",
@@ -447,7 +406,6 @@ require("lazy").setup({
     {
         "stevearc/conform.nvim",
         event = { "BufWritePre" },
-        cmd = { "ConformInfo" },
         keys = {
             {
                 -- Customize or remove this keymap to your liking

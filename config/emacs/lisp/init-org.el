@@ -112,8 +112,7 @@
 	:ensure nil
 	:hook (org-babel-after-execute . org-redisplay-inline-images)
 	:config
-	(setq org-src-preserve-indentation t
-		  org-src-window-setup 'other-window)
+	(setq org-src-preserve-indentation t)
 	)
 
   ;; export
@@ -179,26 +178,6 @@
   :hook ((org-mode markdown-mode) . valign-mode)
   :config
   (setq valign-fancy-bar t)
-  )
-
-(use-package org-roam
-  :hook (org-mode . org-roam-db-autosync-mode)
-  :bind (("C-c n a" . org-id-get-create)
-		 ("C-c n l" . org-roam-buffer-toggle)
-		 ("C-c n f" . org-roam-node-find)
-		 ("C-c n g" . org-roam-graph)
-		 ("C-c n i" . org-roam-node-insert)
-		 ("C-c n c" . org-roam-capture)
-		 ("C-c n j" . org-roam-dailies-capture-today)
-		 ("C-c n r" . org-roam-ref-find)
-		 ("C-c n R" . org-roam-ref-add)
-		 ("C-c n s" . org-roam-db-sync))
-  :config
-  (use-package emacsql-sqlite-builtin)
-
-  (setq org-roam-directory (file-truename "~/myDoc/myBlog")
-		org-roam-database-connector 'sqlite-builtin
-		org-roam-completion-everywhere t)
   )
 
 ;; dot
