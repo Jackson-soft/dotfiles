@@ -28,12 +28,13 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || eza -T {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--preview '(eza --tree --icons --level 3 --color=always --group-directories-first {} || tree -NC {} || ls --color=always --group-directories-first {}) 2>/dev/null | head -200'"
 export FZF_DEFAULT_OPTS="
-       --height 80%
        --layout reverse
-       --info inline
-       --border block
+       --info inline-right
+       --border
+       --multi
        --exact
        --cycle
+       --highlight-line
        --prompt '∼ '
        --marker '✓'
        --color 'dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254'
