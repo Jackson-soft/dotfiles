@@ -63,11 +63,10 @@ require("lazy").setup({
 
     -- comment
     {
-        'echasnovski/mini.comment',
-        config = function()
-            require('mini.comment').setup()
-        end
+        'echasnovski/mini.comment', opts = {}
     },
+
+    { 'echasnovski/mini.surround', event = "VeryLazy", opts = {} },
 
     {
         'folke/todo-comments.nvim',

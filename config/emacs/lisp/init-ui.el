@@ -8,6 +8,11 @@
 (use-package nerd-icons
   :demand t)
 
+(use-package modus-themes
+  :bind ("<f5>" . modus-themes-toggle)
+  :init (load-theme 'modus-operandi-tinted :no-confim)
+  )
+
 ;; 显示时间
 (use-package time
   :ensure nil

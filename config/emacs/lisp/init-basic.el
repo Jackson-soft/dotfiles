@@ -22,36 +22,15 @@
 
 (use-package emacs
   :ensure nil
-  :bind ("<f5>" . modus-themes-toggle)
-  :init
-  (setq modus-themes-syntax '(faint alt-syntax green-strings yellow-comments)
-		modus-themes-links '(neutral-underline background)
-		modus-themes-box-buttons '(variable-pitch flat faint 0.9)
-		modus-themes-prompts '(intense bold)
-		modus-themes-mode-line '(moody accented borderless)
-		modus-themes-lang-checkers '(text-also background)
-		modus-themes-hl-line '(intense)
-		modus-themes-subtle-line-numbers t
-		modus-themes-markup '(bold italic)
-		modus-themes-paren-match '(bold intense)
-		modus-themes-region '(bg-only no-extend)
-		modus-themes-org-blocks 'tinted-background
-		modus-themes-headings '((t . (variable-pitch extrabold)))
-		)
   :config
   (setq-default tab-width 4
 				tab-always-indent 'complete
 				tab-first-completion 'word-or-paren-or-punct
 				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
 				fill-column 120
-				window-combination-resize t
-				major-mode 'text-mode)
+				window-combination-resize t)
 
   (transient-mark-mode t) ;; 标记高亮
-
-  ;; (load-theme 'modus-vivendi)
-  (load-theme 'modus-operandi)
-  ;; (load-theme 'modus-operandi-tinted)
 
   (setq scroll-margin 2           ;; better scrolling experience
 		scroll-step 1
@@ -66,7 +45,6 @@
 		use-dialog-box nil  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
 		)
   )
-
 
 (use-package window
   :ensure nil
@@ -161,13 +139,15 @@
 
 ;; 谷歌翻译
 (use-package go-translate
-  :bind ("C-c C-t" . gts-do-translate)
+  :bind ("C-c C-t" . gt-do-translate)
   :config
-  (setq gts-translate-list '(("en" "zh"))
-		gts-default-translator (gts-translator
-								:picker (gts-prompt-picker)
-								:engines (list (gts-google-rpc-engine))
-								:render (gts-buffer-render)))
+  (setq gt-default-translator
+        (gt-translator
+         :taker (gt-taker :langs '(en zh) :text 'word)
+         :engines (list (gt-google-rpc-engine)
+                        (gt-youdao-dict-engine)
+                        (gt-youdao-suggest-engine))
+         :render (gt-buffer-render)))
   )
 
 (provide 'init-basic)
