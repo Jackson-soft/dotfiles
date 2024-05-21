@@ -542,7 +542,8 @@ vim.opt.termguicolors = true
 --Set highlight on search
 vim.opt.showmatch = true
 
-vim.opt.guicursor = [[n-v-c:ver25,i-ci-ve:ver35,ve:ver35,i-ci:ver25,r-cr:hor20,o:hor50]]
+-- 光标设置成竖线
+vim.opt.guicursor = 'a:ver25'
 --Enable mouse mode
 vim.opt.mouse = "a"
 -- Sync clipboard between OS and Neovim.
