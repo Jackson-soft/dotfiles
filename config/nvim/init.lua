@@ -685,7 +685,6 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- 语言服务与相关设置
 local servers = {
     bashls = {},
-    bufls = {},
     neocmake = {},
     dockerls = {},
     dotls = {},
