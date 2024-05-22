@@ -1,8 +1,8 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+-- NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -283,21 +283,14 @@ require("lazy").setup({
         event = "VimEnter",
         config = function()
             local cmp = require("cmp")
-            local luasnip = require("luasnip")
-
-            local has_words_before = function()
-                local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-                return col ~= 0
-                    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") ==
-                    nil
-            end
 
             cmp.setup({
                 snippet = {
-                    expand = function(args)
-                        luasnip.lsp_expand(args.body)
+                    expand = function(arg)
+                        vim.snippet.expand(arg.body)
                     end,
                 },
+                completion = { completeopt = "menu,menuone,noinsert" },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-n>'] = cmp.mapping.select_next_item(),
                     ['<C-p>'] = cmp.mapping.select_prev_item(),
@@ -309,24 +302,14 @@ require("lazy").setup({
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true
                     }),
-                    ["<Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        elseif luasnip.expand_or_jumpable() then
-                            luasnip.expand_or_jump()
-                        elseif has_words_before() then
-                            cmp.complete()
-                        else
-                            fallback()
+                    ["<Tab>"] = cmp.mapping(function()
+                        if vim.snippet.active({ direction = 1 }) then
+                            vim.snippet.jump(1)
                         end
                     end, { "i", "s" }),
-                    ["<S-Tab>"] = cmp.mapping(function(fallback)
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        elseif luasnip.jumpable(-1) then
-                            luasnip.jump(-1)
-                        else
-                            fallback()
+                    ["<S-Tab>"] = cmp.mapping(function()
+                        if vim.snippet.active({ direction = -1 }) then
+                            vim.snippet.jump(-1)
                         end
                     end, { "i", "s" }),
                 }),
@@ -370,10 +353,6 @@ require("lazy").setup({
             { "hrsh7th/cmp-path" },
             { "hrsh7th/cmp-cmdline" },
             { "ray-x/cmp-treesitter" },
-            {
-                "saadparwaiz1/cmp_luasnip",
-                dependencies = { "L3MON4D3/LuaSnip", run = "make install_jsregexp" },
-            },
         },
     },
 
@@ -420,13 +399,15 @@ require("lazy").setup({
                 json = { "jq" },
                 yaml = { "prettier" },
                 markdown = { "prettier" },
+                proto = { "clang_format" },
+                ["_"] = { "trim_whitespace" },
             },
             -- Set up format-on-save
             format_on_save = { timeout_ms = 500, lsp_fallback = true },
             -- Customize formatters
             formatters = {
                 shfmt = {
-                    prepend_args = { "-i", "4" },
+                    prepend_args = { "-i", "4", "-ci", "-bn" },
                 },
                 prettier = {
                     options = {
@@ -557,9 +538,6 @@ vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
 
 ---- Plugin Settings ----
 -- 开启 Folding 模块 zc zo
@@ -715,6 +693,7 @@ local servers = {
                 version = "LuaJIT",
             },
             completion = {
+                callSnippet = 'Replace',
                 displayContext = 1,
             },
             diagnostics = {
@@ -725,8 +704,13 @@ local servers = {
                 },
             },
             workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+                library = {
+                    vim.env.VIMRUNTIME,
+                    -- Depending on the usage, you might want to add additional paths here.
+                    -- "${3rd}/luv/library"
+                    -- "${3rd}/busted/library",
+                },
             },
             -- Do not send telemetry data containing a randomized but unique identifier
             telemetry = {
