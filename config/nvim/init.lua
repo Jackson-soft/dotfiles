@@ -101,7 +101,7 @@ require("lazy").setup({
             { "<leader>fq", "<cmd>FzfLua quickfix<CR>",                              desc = "quickfix" },
             { "<leader>fw", "<cmd>FzfLua grep_cword<CR>",                            desc = "cword" },
             { "<leader>fa", "<cmd>lua require('helper.asynctask').fzf_select()<CR>", desc = "asynctask" },
-            { "<leader>d",  "<cmd>FzfLua lsp_document_diagnostics<CR>",              desc = "lsp_document_diagnostics" },
+            { "<leader>fD", "<cmd>FzfLua lsp_document_diagnostics<CR>",              desc = "lsp_document_diagnostics" },
             { "<leader>fd", "<cmd>FzfLua lsp_definitions<CR>",                       desc = "lsp_definition" },
             { "<leader>fr", "<cmd>FzfLua lsp_references<CR>",                        desc = "lsp_references" },
             { "<leader>fi", "<cmd>FzfLua lsp_implementations<CR>",                   desc = "lsp_implementations" },
@@ -542,7 +542,7 @@ vim.opt.undofile = true
 ---- Plugin Settings ----
 -- 开启 Folding 模块 zc zo
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- 默认不要折叠
 -- https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 vim.opt.foldlevel = 99
@@ -572,7 +572,13 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 3
+vim.opt.scrolloff = 10
+
+-- Enable line wrapping
+vim.opt.wrap = true
+
+-- Enables syntax highlighting
+vim.opt.syntax = 'enable'
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -600,9 +606,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- LSP settings
 local nvimLsp = require("lspconfig")
-
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
