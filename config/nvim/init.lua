@@ -285,11 +285,6 @@ require("lazy").setup({
             local cmp = require("cmp")
 
             cmp.setup({
-                snippet = {
-                    expand = function(arg)
-                        vim.snippet.expand(arg.body)
-                    end,
-                },
                 completion = { completeopt = "menu,menuone,noinsert" },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -302,21 +297,26 @@ require("lazy").setup({
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true
                     }),
+
                     ["<Tab>"] = cmp.mapping(function()
-                        if vim.snippet.active({ direction = 1 }) then
-                            vim.snippet.jump(1)
+                        if cmp.visible() then
+                            cmp.select_next_item()
+                        else
+                            cmp.complete()
                         end
                     end, { "i", "s" }),
+
                     ["<S-Tab>"] = cmp.mapping(function()
-                        if vim.snippet.active({ direction = -1 }) then
-                            vim.snippet.jump(-1)
+                        if cmp.visible() then
+                            cmp.select_prev_item()
+                        else
+                            cmp.complete()
                         end
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
                     { name = "nvim_lua" },
-                    { name = "luasnip" },
                     { name = "buffer" },
                     { name = "path" },
                     { name = "treesitter" },
@@ -400,7 +400,7 @@ require("lazy").setup({
                 yaml = { "prettier" },
                 markdown = { "prettier" },
                 proto = { "clang_format" },
-                ["_"] = { "trim_whitespace" },
+                -- ["_"] = { "trim_whitespace" },
             },
             -- Set up format-on-save
             format_on_save = { timeout_ms = 500, lsp_fallback = true },
@@ -572,7 +572,7 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 3
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
@@ -684,7 +684,7 @@ local servers = {
         },
     },
     clangd = {},
-    pyright = {},
+    ruff = {},
     marksman = {},
     lua_ls = {
         Lua = {
