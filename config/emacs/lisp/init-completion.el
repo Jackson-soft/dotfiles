@@ -4,13 +4,7 @@
 
 (use-package icomplete
   :ensure nil
-  ;; :hook (after-init . icomplete-vertical-mode)
   :hook (after-init . fido-vertical-mode)
-  ;; :bind (:map icomplete-minibuffer-map
-  ;;             ("RET" . icomplete-fido-ret)
-  ;;             ("C-k" . icomplete-fido-kill)
-  ;;             ("C-d" . icomplete-fido-delete-char)
-  ;;             ("DEL" . icomplete-fido-backward-updir))
   :config
   (setq icomplete-in-buffer t
         icomplete-tidy-shadowed-file-names t

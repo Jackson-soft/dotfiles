@@ -8,9 +8,6 @@
 (use-package text-mode
   :ensure nil
   :hook (text-mode . visual-line-mode) ;; 根据窗口大小自动折行
-  :config
-  (setq word-wrap t
-		word-wrap-by-category t)
   )
 
 (use-package outline
@@ -61,29 +58,6 @@
 		org-special-ctrl-a/e t
 		org-special-ctrl-k t
 		)
-
-  ;; 快速插入截图到文件
-  (defun org-insert-image ()
-	"insert a image from clipboard"
-	(interactive)
-	(let* ((path (concat default-directory "./"))
-		   (fname (read-string "Enter file name: "))
-		   (image-file (concat path fname)))
-	  (if (not (file-exists-p path))
-		  (mkdir path))
-	  (do-applescript (concat
-					   "set the_path to \"" image-file "\" \n"
-					   "set png_data to the clipboard as «class PNGf» \n"
-					   "set the_file to open for access (POSIX file the_path as string) with write permission \n"
-					   "write png_data to the_file \n"
-					   "close access the_file"))
-	  ;; (shell-command (concat "pngpaste " image-file))
-	  (org-insert-link nil
-					   (concat "file:" image-file)
-					   "")
-	  (message image-file))
-	(org-display-inline-images)
-	)
 
   (use-package org-id
 	:ensure nil
@@ -153,19 +127,6 @@
   :hook (org-mode . org-appear-mode)
   :config
   (setq org-appear-autolinks t)
-  )
-
-;; Drag and drop images to org-mode
-(use-package org-download
-  :hook ((org-mode dired-mode) . org-download-enable)
-  :bind (:map org-mode-map
-			  ("C-c i c" . org-download-clipboard)
-			  ("C-c i d" . org-download-delete)
-			  ("C-c i e" . org-download-edit)
-			  ("C-c i s" . org-download-screenshot)
-			  ("C-c i y" . org-download-yank)
-			  ("C-c i n" . org-download-rename-at-point)
-			  ("C-c i l" . org-download-rename-last-file))
   )
 
 ;; "prettier" bullets

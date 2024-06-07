@@ -14,6 +14,8 @@ tools=(
     jq
     hadolint
     ugrep
+    graphviz # dot
+    neovim
 )
 
 npms=(

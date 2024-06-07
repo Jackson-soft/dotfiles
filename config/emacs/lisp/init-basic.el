@@ -22,14 +22,14 @@
 
 (use-package emacs
   :ensure nil
-  :config
+  :init
   (setq-default tab-width 4
 				tab-always-indent 'complete
 				tab-first-completion 'word-or-paren-or-punct
 				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
 				fill-column 120
 				window-combination-resize t)
-
+  :config
   (transient-mark-mode t) ;; 标记高亮
 
   (setq scroll-margin 2           ;; better scrolling experience
@@ -43,7 +43,7 @@
 		display-raw-bytes-as-hex t    ;; Improve display
 		use-file-dialog nil
 		use-dialog-box nil  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
-		)
+		word-wrap-by-category t)
   )
 
 (use-package window
@@ -75,20 +75,22 @@
   :ensure nil
   :bind (("C-z" . undo-redo)
 		 ([remap just-one-space] . cycle-spacing))
-  :config
+  :init
   (setq-default indent-tabs-mode nil)
-  (setq visual-line-fringe-indicators '(nil right-curly-arrow)
+
+  (setq column-number-mode t        ;; show column/filesize in modeline
+        line-number-mode t
+        line-move-visual nil
+        track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
+        set-mark-command-repeat-pop t  ; Repeating C-SPC after popping mark pops it again
+        visual-line-fringe-indicators '(nil right-curly-arrow)
 		;; eliminate duplicates
 		kill-do-not-save-duplicates t
 		;; show the name of character in `what-cursor-position'
 		what-cursor-show-names t
-		set-mark-command-repeat-pop t
 		save-interprogram-paste-before-kill t
         read-extended-command-predicate #'command-completion-default-include-p
-
-		;; show column/filesize in modeline
-		column-number-mode t
-		size-indication-mode t)
+        )
   )
 
 ;; abbrev mode configuration

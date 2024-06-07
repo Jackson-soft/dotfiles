@@ -7,12 +7,6 @@
 
 ;;; Code:
 
-(use-package prog-mode
-  :ensure nil
-  :hook (prog-mode . (lambda()
-                       (setq-local indent-tabs-mode nil)))
-  )
-
 (use-package surround
   :bind-keymap ("M-'" . surround-keymap)
   )
@@ -34,6 +28,7 @@
           (gomod      . ("https://github.com/camdencheek/tree-sitter-go-mod"))
           (gosum      . ("https://github.com/amaanq/tree-sitter-go-sum"))
           (gowork     . ("https://github.com/omertuc/tree-sitter-go-work"))
+          (gitcommit  . ("https://github.com/gbprod/tree-sitter-gitcommit"))
           (html       . ("https://github.com/tree-sitter/tree-sitter-html"))
           (http       . ("https://github.com/rest-nvim/tree-sitter-http"))
           (java       . ("https://github.com/tree-sitter/tree-sitter-java"))
