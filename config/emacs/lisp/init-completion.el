@@ -81,18 +81,26 @@
 		 ("M-s" . consult-history)                 ;; orig. next-matching-history-element
 		 ("M-r" . consult-history))                ;; orig. previous-matching-history-element
   :hook (completion-list-mode . consult-preview-at-point-mode)
-  :custom
-  (register-preview-delay 0.5)
-  (register-preview-function #'consult-register-format)
-  (xref-show-xrefs-function #'consult-xref)
-  (xref-show-definitions-function #'consult-xref)
+  :init
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
   :config
   (setq consult-preview-key "M-.")
 
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
   (setq consult-narrow-key "<") ;; "C-+"
-  (advice-add #'register-preview :override #'consult-register-window)
   )
 
 (use-package consult-dir

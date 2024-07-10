@@ -111,22 +111,23 @@ require("lazy").setup({
         },
     },
     -- Themes
+    {
+        "folke/tokyonight.nvim",
+        priority = 1000,
+        config = function()
+            vim.cmd.colorscheme('tokyonight-night')
+        end,
+        opts = {},
+    },
+
     -- {
-    --     "folke/tokyonight.nvim",
+    --     "catppuccin/nvim",
+    --     name = "catppuccin",
     --     priority = 1000,
-    --     config = function()
-    --         vim.cmd.colorscheme 'tokyonight-night'
+    --     init = function()
+    --         vim.cmd.colorscheme("catppuccin-macchiato")
     --     end,
     -- },
-
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        priority = 1000,
-        init = function()
-            vim.cmd.colorscheme("catppuccin-macchiato")
-        end,
-    },
 
     -- Add indentation guides even on blank lines
     {
@@ -163,6 +164,8 @@ require("lazy").setup({
                 "javascript",
                 "json",
                 "jsonc",
+                "vim",
+                "vimdoc",
                 "lua",
                 "make",
                 "markdown",
@@ -472,24 +475,18 @@ require("lazy").setup({
 
     -- http
     {
-        "rest-nvim/rest.nvim",
+        'mistweaverco/kulala.nvim',
         ft = { "http" },
         config = function()
-            require("rest-nvim").setup({
-                keybinds = {
-                    { "<localleader>rr", "<cmd>Rest run<cr>",      "Run request under the cursor", },
-                    { "<localleader>rl", "<cmd>Rest run last<cr>", "Re-run latest request", },
-                },
-            })
+            require('kulala').setup()
         end,
-        dependencies = {
+        keys = {
             {
-                "vhyrro/luarocks.nvim",
-                priority = 1000,
-                config = true,
-                opts = {
-                    rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }
-                }
+                "<leader>kr",
+                function()
+                    require("kulala").run()
+                end,
+                desc = "Run Request",
             },
         },
     },
@@ -610,6 +607,12 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
         vim.highlight.on_yank()
     end,
+})
+
+vim.filetype.add({
+    extension = {
+        ['http'] = 'http',
+    },
 })
 
 -- LSP settings
