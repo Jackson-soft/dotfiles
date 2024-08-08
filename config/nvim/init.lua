@@ -470,25 +470,33 @@ require("lazy").setup({
     },
 
     {
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {},
+    },
+
+    {
         "b0o/schemastore.nvim",
     },
 
     -- http
     {
         'mistweaverco/kulala.nvim',
-        ft = { "http" },
-        config = function()
-            require('kulala').setup()
+        ft = "http",
+        init = function()
+            vim.filetype.add({
+                extension = { ["http"] = "http" },
+            })
         end,
-        keys = {
-            {
-                "<leader>kr",
-                function()
-                    require("kulala").run()
-                end,
-                desc = "Run Request",
-            },
-        },
+        keys = function()
+            local kulala = require("kulala")
+            return {
+                { "<leader>rr", kulala.run,         desc = "Send the request" },
+                { "<leader>rt", kulala.toggle_view, desc = "Toggle headers/body" },
+                { "<leader>rp", kulala.jump_prev,   desc = "Jump to previous request" },
+                { "<leader>rn", kulala.jump_next,   desc = "Jump to next request" },
+            }
+        end,
+        opts = {},
     },
 
     -- Terminal
@@ -607,12 +615,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
         vim.highlight.on_yank()
     end,
-})
-
-vim.filetype.add({
-    extension = {
-        ['http'] = 'http',
-    },
 })
 
 -- LSP settings
