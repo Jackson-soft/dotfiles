@@ -55,7 +55,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
     sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh)" golangci/golangci-lint \
     sbin"bin/lua-language-server" bpick"*x64.tar.gz" LuaLS/lua-language-server \
-    sbin"neocmakelsp* -> neocmakelsp" Decodetalkers/neocmakelsp \
+    sbin"neocmakelsp* -> neocmakelsp" neocmakelsp/neocmakelsp \
     sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \
     sbin"marksman* -> marksman" artempyanykh/marksman
 

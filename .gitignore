@@ -40,3 +40,4 @@ plugin
 tree-sitter/
 lazy-lock.json
 eln-cache
+tramp

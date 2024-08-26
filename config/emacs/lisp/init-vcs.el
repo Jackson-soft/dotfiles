@@ -12,7 +12,10 @@
 		 ("C-c M-g" . magit-file-dispatch))
   :custom
   (magit-diff-refine-hunk t)
+  (magit-revision-show-gravatars t)
   :config
+
+  ;; Access Git forges from Magit
   (use-package forge)
   )
 
