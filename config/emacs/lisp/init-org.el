@@ -141,6 +141,11 @@
   (setq valign-fancy-bar t)
   )
 
+;; (use-package corg
+;;   :vc (:url "https://gitlab.com/isamert/corg.el")
+;;   :hook (org-mode . corg-setup)
+;;   )
+
 ;; dot
 (use-package graphviz-dot-mode)
 

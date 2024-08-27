@@ -36,6 +36,21 @@
   )
 
 ;; 缩进标识
+(if (>= emacs-major-version 30)
+    (use-package indent-bars
+      :vc (:url "https://github.com/jdtsmith/indent-bars"
+                :branch "main")
+      :hook (prog-mode . indent-bars-mode)
+      :config
+      (require 'indent-bars-ts)
+      :custom
+      (indent-bars-treesit-support t)
+      (indent-bars-treesit-ignore-blank-lines-types '("module"))
+      (indent-bars-no-descend-string t)
+      (indent-bars-prefer-character t)
+      (indent-bars-treesit-wrap '((c argument_list parameter_list init_declarator)))
+      )
+  )
 
 ;; Dimming Unused Windows
 (use-package dimmer

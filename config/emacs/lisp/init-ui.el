@@ -13,6 +13,17 @@
   :init (load-theme 'modus-operandi-tinted :no-confim)
   )
 
+;; Display available keybindings in popup
+(if (>= emacs-major-version 30)
+    (use-package which-key
+      :ensure nil
+      :diminish
+      :hook (after-init . which-key-mode)
+      :config
+      (setq which-key-show-remaining-keys t)
+      )
+  )
+
 ;; 显示时间
 (use-package time
   :ensure nil

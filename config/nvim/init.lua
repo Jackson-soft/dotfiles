@@ -681,7 +681,6 @@ local servers = {
     bashls = {},
     neocmake = {},
     dockerls = {},
-    dotls = {},
     gopls = {},
     jsonls = {
         json = {
@@ -752,3 +751,9 @@ for lsp, sets in pairs(servers) do
         settings = sets,
     })
 end
+
+nvimLsp.dotls.setup({
+    cmd = { 'dot-ls' },
+    on_attach = onAttach,
+    capabilities = capabilities,
+})
