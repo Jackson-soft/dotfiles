@@ -288,6 +288,11 @@ require("lazy").setup({
             local cmp = require("cmp")
 
             cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+                    end,
+                },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-n>'] = cmp.mapping.select_next_item(),
                     ['<C-p>'] = cmp.mapping.select_prev_item(),
