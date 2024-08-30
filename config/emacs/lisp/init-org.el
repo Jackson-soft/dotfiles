@@ -142,7 +142,7 @@
   )
 
 ;; (use-package corg
-;;   :vc (:url `https://github.com/isamert/corg.el`
+;;   :vc (:url "https://github.com/isamert/corg.el"
 ;;             :branch "main")
 ;;   :hook (org-mode . corg-setup)
 ;;   )
