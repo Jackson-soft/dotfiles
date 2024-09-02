@@ -36,7 +36,7 @@
   )
 
 ;; 缩进标识
-(if (not (version< emacs-version "30"))
+(if (version< "29.4" emacs-version)
     (use-package indent-bars
       :vc (:url "https://github.com/jdtsmith/indent-bars"
                 :branch "main")

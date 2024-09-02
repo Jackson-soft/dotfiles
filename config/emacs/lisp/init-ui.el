@@ -14,7 +14,7 @@
   )
 
 ;; Display available keybindings in popup
-(if (not (version< emacs-version "30"))
+(if (version< "29.4" emacs-version)
     (use-package which-key
       :ensure nil
       :diminish
