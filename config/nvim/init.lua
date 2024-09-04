@@ -180,7 +180,6 @@ require("lazy").setup({
                     "typescript",
                     "yaml",
                 },
-                sync_install = true,
                 auto_install = true,
                 highlight = { enable = true },
                 incremental_selection = {
@@ -195,6 +194,7 @@ require("lazy").setup({
                 indent = { enable = true },
                 refactor = {
                     highlight_definitions = { enable = true, clear_on_cursor_move = true },
+                    highlight_current_scope = { enable = true },
                     smart_rename = {
                         enable = true,
                         keymaps = {
@@ -565,8 +565,8 @@ vim.opt.undofile = true
 
 ---- Plugin Settings ----
 -- 开启 Folding 模块 zc zo
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 -- 默认不要折叠
 -- https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 vim.opt.foldlevel = 99
