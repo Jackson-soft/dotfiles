@@ -5,16 +5,9 @@
 ;;
 ;;; Code:
 
-(use-package lua-mode
-  :config
-  (setq lua-indent-level tab-width
-		lua-indent-string-contents t)
-  )
-
 (use-package flymake-sqlfluff
   :hook (sql-mode . flymake-sqlfluff-load)
   )
-
 
 (use-package yaml-mode)
 
@@ -30,18 +23,6 @@
 
 (use-package flymake-hadolint
   :hook (dockerfile-ts-mode . flymake-hadolint-setup)
-  )
-
-;; restclient
-(use-package restclient
-  :mode (("\\.http\\'" . restclient-mode)
-		 ("\\.rest\\'" . restclient-mode))
-  )
-
-(use-package restclient-test
-  :diminish
-  :hook ((restclient-mode . restclient-test-mode)
-		 (restclient-test-mode . flymake-mode))
   )
 
 (use-package systemd)

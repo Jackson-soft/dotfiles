@@ -109,12 +109,9 @@
 	:config
 	(setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html)))
 
-  (use-package ob-restclient)
-
   (org-babel-do-load-languages
    'org-babel-load-languages '((shell . t)
 							   (dot . t)
-							   (restclient . t)
 							   (emacs-lisp . t)))
   )
 
