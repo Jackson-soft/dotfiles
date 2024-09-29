@@ -34,7 +34,6 @@
 (require 'init-shell)
 (require 'init-script)
 (require 'init-emacs-lisp)
-(require 'init-markdown)
 (require 'init-python)
 (require 'init-web)
 

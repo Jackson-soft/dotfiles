@@ -133,7 +133,7 @@
 
 ;; 表格对齐
 (use-package valign
-  :hook ((org-mode markdown-mode) . valign-mode)
+  :hook ((org-mode markdown-ts-mode) . valign-mode)
   :config
   (setq valign-fancy-bar t)
   )
@@ -146,6 +146,10 @@
 
 ;; dot
 (use-package graphviz-dot-mode)
+
+(use-package markdown-ts-mode
+  :mode ("\\.md\\'" . markdown-ts-mode)
+  )
 
 (provide 'init-org)
 

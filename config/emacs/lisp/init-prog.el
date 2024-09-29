@@ -36,8 +36,8 @@
           (json       . ("https://github.com/tree-sitter/tree-sitter-json"))
           (lua        . ("https://github.com/tree-sitter-grammars/tree-sitter-lua"))
           (make       . ("https://github.com/tree-sitter-grammars/tree-sitter-make"))
-          (markdown . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" nil "tree-sitter-markdown/src"))
-          (markdown-inline   . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" nil "tree-sitter-markdown-inline/src"))
+          (markdown . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
+          (markdown-inline . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src"))
           (python     . ("https://github.com/tree-sitter/tree-sitter-python"))
           (proto      . ("https://github.com/treywood/tree-sitter-proto"))
           (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
@@ -89,7 +89,7 @@
   :config
   (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "mysql" "--disable-progress-bar" "-f" "-n" "-")))
 
-  (dolist (alist '((markdown-mode . prettier-markdown)
+  (dolist (alist '((markdown-ts-mode . prettier-markdown)
 				   (gfm-mode . prettier-markdown)
 				   (dockerfile-ts-mode . shfmt)
 				   (protobuf-ts-mode . clang-format)
@@ -139,7 +139,7 @@ Else, call `comment-or-uncomment-region' on the current line."
               ("C-c '" . separedit))
   :custom
   (separedit-remove-trailing-spaces-in-comment t)
-  (separedit-default-mode 'markdown-mode)
+  (separedit-default-mode 'markdown-ts-mode)
   )
 
 (use-package expreg
