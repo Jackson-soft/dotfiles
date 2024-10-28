@@ -9,10 +9,8 @@
   :hook (sql-mode . flymake-sqlfluff-load)
   )
 
-(use-package yaml-mode)
-
 (use-package yaml-pro
-  :hook (yaml-mode . yaml-pro-mode)
+  :mode ("\\.ya?ml\\'" . yaml-pro-ts-mode)
   )
 
 (use-package protobuf-ts-mode)
