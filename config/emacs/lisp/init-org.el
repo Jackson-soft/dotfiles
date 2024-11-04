@@ -8,6 +8,8 @@
 (use-package text-mode
   :ensure nil
   :hook (text-mode . visual-line-mode) ;; 根据窗口大小自动折行
+  :config
+  (set text-mode-ispell-word-completion nil)
   )
 
 (use-package outline
@@ -123,7 +125,11 @@
 (use-package org-appear
   :hook (org-mode . org-appear-mode)
   :config
-  (setq org-appear-autolinks t)
+  (setq org-appear-autolinks t
+        org-appear-autosubmarkers t
+        org-appear-autoentities t
+        org-appear-autokeywords t
+        org-appear-inside-latex t)
   )
 
 ;; "prettier" bullets
