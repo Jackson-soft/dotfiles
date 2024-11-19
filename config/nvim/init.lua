@@ -386,95 +386,63 @@ require("lazy").setup({
 
     -- Completion and linting
     {
-        "hrsh7th/nvim-cmp",
-        event = "VimEnter",
-        config = function()
-            local cmp = require("cmp")
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "luvit-meta/library", words = { "vim%.uv" } },
+            },
+        },
+    },
 
-            cmp.setup({
-                snippet = {
-                    expand = function(args)
-                        vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
-                    end,
+    { "Bilal2453/luvit-meta",      lazy = true },
+
+    {
+        'saghen/blink.cmp',
+        lazy = false, -- lazy loading handled internally
+        -- optional: provides snippets for the snippet source
+        dependencies = 'rafamadriz/friendly-snippets',
+
+        -- use a release tag to download pre-built binaries
+        version = 'v0.*',
+        -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+        -- build = 'cargo build --release',
+        -- If you use nix, you can build from source using latest nightly rust with:
+        -- build = 'nix run .#build-plugin',
+
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+            sources = {
+                -- add lazydev to your completion providers
+                completion = {
+                    enabled_providers = { "lsp", "path", "snippets", "buffer", "lazydev" },
                 },
-                mapping = cmp.mapping.preset.insert({
-                    ['<C-n>'] = cmp.mapping.select_next_item(),
-                    ['<C-p>'] = cmp.mapping.select_prev_item(),
-                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm({
-                        behavior = cmp.ConfirmBehavior.Replace,
-                        select = true
-                    }),
-
-                    ["<Tab>"] = cmp.mapping(function()
-                        if cmp.visible() then
-                            cmp.select_next_item()
-                        else
-                            cmp.complete()
-                        end
-                    end, { "i", "s" }),
-
-                    ["<S-Tab>"] = cmp.mapping(function()
-                        if cmp.visible() then
-                            cmp.select_prev_item()
-                        else
-                            cmp.complete()
-                        end
-                    end, { "i", "s" }),
-                }),
-                sources = cmp.config.sources({
-                    { name = "lazydev",                group_index = 0, }, -- set group index to 0 to skip loading LuaLS completions
-                    { name = "nvim_lsp" },
-                    { name = "nvim_lua" },
-                    { name = "buffer" },
-                    { name = "path" },
-                    { name = "treesitter" },
-                    { name = 'nvim_lsp_signature_help' },
-                }),
-            })
-
-            -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-            cmp.setup.cmdline({ '/', '?' }, {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = cmp.config.sources({
-                    { name = 'buffer' },
-                })
-            })
-
-            -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-            cmp.setup.cmdline(':', {
-                mapping = cmp.mapping.preset.cmdline(),
-                sources = cmp.config.sources({
-                    { name = 'path' },
-                    { name = 'cmdline' },
-                }),
-                matching = { disallow_symbol_nonprefix_matching = false }
-            })
-        end,
-        dependencies = {
-            { "hrsh7th/cmp-nvim-lsp" },
-            { "hrsh7th/cmp-nvim-lsp-signature-help" },
-            { "hrsh7th/cmp-nvim-lua" },
-            { "hrsh7th/cmp-buffer" },
-            { "hrsh7th/cmp-path" },
-            { "hrsh7th/cmp-cmdline" },
-            { "ray-x/cmp-treesitter" },
-            {
-                "folke/lazydev.nvim",
-                ft = "lua", -- only load on lua files
-                opts = {
-                    library = {
-                        -- See the configuration section for more details
-                        -- Load luvit types when the `vim.uv` word is found
-                        { path = "luvit-meta/library", words = { "vim%.uv" } },
-                    },
+                providers = {
+                    -- dont show LuaLS require statements when lazydev has items
+                    lsp = { fallback_for = { "lazydev" } },
+                    lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
                 },
             },
-            { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-        },
+            -- 'default' for mappings similar to built-in completion
+            -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+            -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+            -- see the "default configuration" section below for full documentation on how to define
+            -- your own keymap.
+            keymap = { preset = 'enter' },
+
+            -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+            -- adjusts spacing to ensure icons are aligned
+            nerd_font_variant = 'normal',
+
+            -- experimental auto-brackets support
+            accept = { auto_brackets = { enabled = true } },
+
+            -- experimental signature help support
+            trigger = { signature_help = { enabled = true } }
+        }
     },
 
     {
@@ -685,11 +653,10 @@ local onAttach = function(client, bufnr)
     end
 end
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
 -- 语言服务与相关设置
 local servers = {
     bashls = {},
+    buf_ls = {},
     neocmake = {},
     dockerls = {},
     gopls = {},
@@ -754,6 +721,8 @@ local servers = {
         },
     },
 }
+
+local capabilities = require('blink.cmp').get_lsp_capabilities()
 
 for lsp, sets in pairs(servers) do
     nvimLsp[lsp].setup({

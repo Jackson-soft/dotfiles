@@ -22,17 +22,18 @@
   (setq vterm-always-compile-module t)
   )
 
-(use-package vterm-toggle
-  :bind ("C-`" . vterm-toggle)
+(use-package toggle-term
+  :bind (("M-o f" . toggle-term-find)
+         ("M-o t" . toggle-term-term)
+         ("M-o v" . toggle-term-vterm)
+         ("M-o a" . toggle-term-eat)
+         ("M-o s" . toggle-term-shell)
+         ("M-o e" . toggle-term-eshell)
+         ("M-o i" . toggle-term-ielm)
+         ("M-o o" . toggle-term-toggle))
   :config
-  (setq vterm-toggle-fullscreen-p nil)
-  (add-to-list 'display-buffer-alist
-			   '((lambda(bufname _) (with-current-buffer bufname (equal major-mode 'vterm-mode)))
-				 (display-buffer-reuse-window display-buffer-in-direction)
-				 (direction . bottom)
-				 (dedicated . t)
-				 (reusable-frames . visible)
-				 (window-height . 0.3)))
+  (setq toggle-term-size 25
+        toggle-term-switch-upon-toggle t)
   )
 
 (provide 'init-shell)
