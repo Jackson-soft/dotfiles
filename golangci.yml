@@ -1,44 +1,26 @@
 ---
 linters-settings:
     revive:
-        # severity: error
-        # enable-all-rules: true
+        enable-all-rules: true
         rules:
-            - name: add-constant
-              severity: warning
-              disabled: false
-              arguments:
-                  - maxLitCount: "3"
-                    allowStrs: '""'
-                    allowInts: "0,1,2"
-                    allowFloats: "0.0,0.,1.0,1.,2.0,2."
             - name: exported # 强制要求给导出函数写文档
               disabled: true
 linters:
     enable-all: true
     disable:
+        - exportloopref
         - cyclop
         - depguard
-        - deadcode
         - funlen
         - varnamelen
         - gci
         - gochecknoglobals
         - godot
-        - golint
         - gofumpt
         - lll
-        - maligned
-        - scopelint
-        - interfacer
-        - ifshort
         - nlreturn
-        - nosnakecase
         - paralleltest
         - wrapcheck
         - stylecheck
-        - structcheck
         - wsl
         - tagliatelle # Implementing against APIs, can't change tags.
-        - exhaustivestruct # Not for general usage.
-        - varcheck

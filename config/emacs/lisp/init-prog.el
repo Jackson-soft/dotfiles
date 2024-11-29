@@ -8,7 +8,7 @@
 ;;; Code:
 
 (use-package surround
-  :bind-keymap ("M-'" . surround-keymap)
+  :bind ("M-'" . surround-keymap)
   )
 
 (use-package treesit
@@ -87,7 +87,7 @@
   :hook (prog-mode . apheleia-mode)
   :bind ("C-c M-f" . apheleia-format-buffer)
   :config
-  (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "mysql" "--disable-progress-bar" "-f" "-n" "-")))
+  (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "postgres" "--disable-progress-bar" "-f" "-n" "-")))
 
   (dolist (alist '((markdown-ts-mode . prettier-markdown)
 				   (gfm-mode . prettier-markdown)
