@@ -24,7 +24,11 @@
 
 		completion-pcm-complete-word-inserts-delimiters t
 		completion-cycle-threshold 3
-		completion-ignore-case t
+        completion-auto-help 'visible
+        completion-auto-select t
+        completion-ignore-case t
+        completions-format 'one-column
+        completions-sort 'historical
 		completions-detailed t
 		completions-group t)
   )

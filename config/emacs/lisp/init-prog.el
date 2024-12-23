@@ -98,6 +98,19 @@
     (add-to-list 'apheleia-mode-alist alist))
   )
 
+;; 彩虹括号
+(use-package prism
+  :hook (prog-mode . prism-mode)
+  )
+
+(use-package symbol-overlay
+  :bind (("M-i" . symbol-overlay-put)
+         ("M-C" . symbol-overlay-remove-all)
+         ("M-n" . symbol-overlay-switch-forward)
+         ("M-p" . symbol-overlay-switch-backward))
+  :hook (prog-mode . symbol-overlay-mode)
+  )
+
 ;; 注释
 (use-package newcomment
   :ensure nil

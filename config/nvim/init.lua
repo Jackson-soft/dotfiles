@@ -397,31 +397,23 @@ require("lazy").setup({
         },
     },
 
-    { "Bilal2453/luvit-meta",      lazy = true },
-
     {
         'saghen/blink.cmp',
         lazy = false, -- lazy loading handled internally
 
         -- use a release tag to download pre-built binaries
         version = 'v0.*',
-        -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-        -- build = 'cargo build --release',
-        -- If you use nix, you can build from source using latest nightly rust with:
-        -- build = 'nix run .#build-plugin',
-
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
         opts = {
             sources = {
                 -- add lazydev to your completion providers
-                completion = {
-                    enabled_providers = { "lsp", "path", "snippets", "buffer", "lazydev" },
-                },
+                default = { "lazydev", "lsp", "path", "snippets", "buffer" },
                 providers = {
                     -- dont show LuaLS require statements when lazydev has items
-                    lsp = { fallback_for = { "lazydev" } },
-                    lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                        score_offset = 100,
+                    },
                 },
             },
             -- 'default' for mappings similar to built-in completion
@@ -432,12 +424,17 @@ require("lazy").setup({
             keymap = { preset = 'enter' },
 
             -- experimental auto-brackets support
-            accept = { auto_brackets = { enabled = true } },
+            completion = {
+                documentation = { auto_show = true },
+                ghost_text = {
+                    enabled = true,
+                },
+            },
 
             -- experimental signature help support
-            trigger = { signature_help = { enabled = true } }
+            signature = { enabled = true }
         },
-        opts_extend = { "sources.completion.enabled_providers" }
+        opts_extend = { "sources.default" }
     },
 
     {
