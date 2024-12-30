@@ -421,13 +421,22 @@ require("lazy").setup({
             -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
             -- see the "default configuration" section below for full documentation on how to define
             -- your own keymap.
-            keymap = { preset = 'enter' },
+            keymap = {
+                preset = 'enter',
+                ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+                ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+            },
 
             -- experimental auto-brackets support
             completion = {
                 documentation = { auto_show = true },
                 ghost_text = {
                     enabled = true,
+                },
+                list = {
+                    selection = function(ctx)
+                        return ctx.mode == 'cmdline' and 'auto_insert' or 'preselect'
+                    end
                 },
             },
 
