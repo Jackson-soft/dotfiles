@@ -433,11 +433,6 @@ require("lazy").setup({
                 ghost_text = {
                     enabled = true,
                 },
-                list = {
-                    selection = function(ctx)
-                        return ctx.mode == 'cmdline' and 'auto_insert' or 'preselect'
-                    end
-                },
             },
 
             -- experimental signature help support
@@ -448,7 +443,162 @@ require("lazy").setup({
 
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
+        config = function()
+            --  This function gets run when an LSP attaches to a particular buffer.
+            --    That is to say, every time a new file is opened that is associated with
+            --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
+            --    function will be executed to configure the current buffer
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+                callback = function(event)
+                    -- NOTE: Remember that Lua is a real programming language, and as such it is possible
+                    -- to define small helper and utility functions so you don't have to repeat yourself.
+                    --
+                    -- In this case, we create a function that lets us more easily define mappings specific
+                    -- for LSP related items. It sets the mode, buffer and description for us each time.
+                    local map = function(keys, func, desc, mode)
+                        mode = mode or 'n'
+                        vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+                    end
+
+                    -- Rename the variable under your cursor.
+                    --  Most Language Servers support renaming across files, etc.
+                    map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+
+                    -- Execute a code action, usually your cursor needs to be on top of an error
+                    -- or a suggestion from your LSP for this to activate.
+                    map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+
+                    -- WARN: This is not Goto Definition, this is Goto Declaration.
+                    --  For example, in C this would take you to the header.
+                    map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
+                    -- The following two autocommands are used to highlight references of the
+                    -- word under your cursor when your cursor rests there for a little while.
+                    --    See `:help CursorHold` for information about when this is executed
+                    --
+                    -- When you move your cursor, the highlights will be cleared (the second autocommand).
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+                        local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight',
+                            { clear = false })
+                        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                            buffer = event.buf,
+                            group = highlight_augroup,
+                            callback = vim.lsp.buf.document_highlight,
+                        })
+
+                        vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                            buffer = event.buf,
+                            group = highlight_augroup,
+                            callback = vim.lsp.buf.clear_references,
+                        })
+
+                        vim.api.nvim_create_autocmd('LspDetach', {
+                            group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+                            callback = function(event2)
+                                vim.lsp.buf.clear_references()
+                                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+                            end,
+                        })
+                    end
+
+                    -- The following code creates a keymap to toggle inlay hints in your
+                    -- code, if the language server you are using supports them
+                    --
+                    -- This may be unwanted, since they displace some of your code
+                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+                        map('<leader>th', function()
+                            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+                        end, '[T]oggle Inlay [H]ints')
+                    end
+                end,
+            })
+
+            -- Enable the following language servers
+            -- 语言服务与相关设置
+            local servers = {
+                bashls = {},
+                buf_ls = {},
+                neocmake = {},
+                dockerls = {},
+                gopls = {},
+                jsonls = {
+                    json = {
+                        schemas = require('schemastore').json.schemas(),
+                        validate = { enable = true },
+                    },
+                },
+                yamlls = {
+                    yaml = {
+                        schemastore = {
+                            enable = true,
+                        },
+                        hover = true,
+                        completion = true,
+                        validate = true,
+                    },
+                },
+                clangd = {},
+                ruff = {},
+                marksman = {},
+                lua_ls = {
+                    Lua = {
+                        runtime = {
+                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                            version = "LuaJIT",
+                        },
+                        completion = {
+                            callSnippet = 'Replace',
+                            displayContext = 1,
+                        },
+                        diagnostics = {
+                            -- Get the language server to recognize the `vim` global
+                            globals = { "vim" },
+                            neededFileStatus = {
+                                ["codestyle-check"] = "Any",
+                            },
+                        },
+                        workspace = {
+                            checkThirdParty = false,
+                            library = {
+                                vim.env.VIMRUNTIME,
+                                -- Depending on the usage, you might want to add additional paths here.
+                                -- "${3rd}/luv/library"
+                                -- "${3rd}/busted/library",
+                            },
+                        },
+                        -- Do not send telemetry data containing a randomized but unique identifier
+                        telemetry = {
+                            enable = false,
+                        },
+                        format = {
+                            enable = true,
+                            -- Put format options here
+                            -- NOTE: the value should be STRING!!
+                            defaultConfig = {
+                                indent_style = "space",
+                                indent_size = "4",
+                            }
+                        },
+                    },
+                },
+            }
+            local nvimLsp = require("lspconfig")
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
+
+            for lsp, sets in pairs(servers) do
+                nvimLsp[lsp].setup({
+                    capabilities = capabilities,
+                    settings = sets,
+                })
+            end
+
+            nvimLsp.dotls.setup({
+                cmd = { 'dot-ls' },
+                capabilities = capabilities,
+            })
+        end,
     },
 
     -- Auto close parentheses
@@ -477,7 +627,7 @@ require("lazy").setup({
                     require("conform").format({ async = true, lsp_fallback = true })
                 end,
                 mode = "",
-                desc = "Buffer Format",
+                desc = "[B]uffer [F]ormat",
             },
         },
         -- Everything in opts will be passed to setup()
@@ -596,145 +746,3 @@ require("lazy").setup({
         },
     },
 }, {})
-
--- LSP settings
-local nvimLsp = require("lspconfig")
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local onAttach = function(client, bufnr)
-    local map = function(keys, func, desc)
-        vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
-    end
-
-    -- Mappings.
-    -- Rename the variable under your cursor.
-    --  Most Language Servers support renaming across files, etc.
-    map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-    -- Execute a code action, usually your cursor needs to be on top of an error
-    -- or a suggestion from your LSP for this to activate.
-    map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-
-    -- WARN: This is not Goto Definition, this is Goto Declaration.
-    --  For example, in C this would take you to the header.
-    map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
-    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-        local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
-        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-            buffer = bufnr,
-            group = highlight_augroup,
-            callback = vim.lsp.buf.document_highlight,
-        })
-
-        vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-            buffer = bufnr,
-            group = highlight_augroup,
-            callback = vim.lsp.buf.clear_references,
-        })
-
-        vim.api.nvim_create_autocmd('LspDetach', {
-            group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
-            callback = function(event)
-                vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event.buf }
-            end,
-        })
-    end
-
-    -- The following autocommand is used to enable inlay hints in your
-    -- code, if the language server you are using supports them
-    --
-    -- This may be unwanted, since they displace some of your code
-    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-        map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
-        end, '[T]oggle Inlay [H]ints')
-    end
-end
-
--- 语言服务与相关设置
-local servers = {
-    bashls = {},
-    buf_ls = {},
-    neocmake = {},
-    dockerls = {},
-    gopls = {},
-    jsonls = {
-        json = {
-            schemas = require('schemastore').json.schemas(),
-            validate = { enable = true },
-        },
-    },
-    yamlls = {
-        yaml = {
-            schemastore = {
-                enable = true,
-            },
-            hover = true,
-            completion = true,
-            validate = true,
-        },
-    },
-    clangd = {},
-    ruff = {},
-    marksman = {},
-    lua_ls = {
-        Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                version = "LuaJIT",
-            },
-            completion = {
-                callSnippet = 'Replace',
-                displayContext = 1,
-            },
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = { "vim" },
-                neededFileStatus = {
-                    ["codestyle-check"] = "Any",
-                },
-            },
-            workspace = {
-                checkThirdParty = false,
-                library = {
-                    vim.env.VIMRUNTIME,
-                    -- Depending on the usage, you might want to add additional paths here.
-                    -- "${3rd}/luv/library"
-                    -- "${3rd}/busted/library",
-                },
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-                enable = false,
-            },
-            format = {
-                enable = true,
-                -- Put format options here
-                -- NOTE: the value should be STRING!!
-                defaultConfig = {
-                    indent_style = "space",
-                    indent_size = "4",
-                }
-            },
-        },
-    },
-}
-
-local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-for lsp, sets in pairs(servers) do
-    nvimLsp[lsp].setup({
-        on_attach = onAttach,
-        capabilities = capabilities,
-        settings = sets,
-    })
-end
-
-nvimLsp.dotls.setup({
-    cmd = { 'dot-ls' },
-    on_attach = onAttach,
-    capabilities = capabilities,
-})
