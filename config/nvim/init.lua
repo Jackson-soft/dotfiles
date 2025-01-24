@@ -376,14 +376,6 @@ require("lazy").setup({
         event = "BufReadPost",
     },
 
-    {
-        'nvimdev/lspsaga.nvim',
-        event = 'LspAttach',
-        config = function()
-            require('lspsaga').setup({})
-        end,
-    },
-
     -- Completion and linting
     {
         "folke/lazydev.nvim",
