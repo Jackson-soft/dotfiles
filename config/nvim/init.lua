@@ -46,6 +46,8 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- https://stackoverflow.com/questions/8316139/how-to-set-the-default-to-unfolded-when-you-open-a-file
 vim.opt.foldlevel = 99
 
+vim.opt.diffopt = "internal,filler,closeoff,indent-heuristic,linematch:60,algorithm:histogram"
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -424,6 +426,13 @@ require("lazy").setup({
                 documentation = { auto_show = true },
                 ghost_text = {
                     enabled = true,
+                },
+                list = {
+                    selection = {
+                        preselect = function(ctx)
+                            return ctx.mode ~= 'cmdline' and not require('blink.cmp').snippet_active({ direction = 1 })
+                        end,
+                    },
                 },
             },
 
