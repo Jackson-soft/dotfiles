@@ -10,9 +10,10 @@
   :bind (("C-x g" . magit-status)
 		 ("C-x M-g" . magit-dispatch)
 		 ("C-c M-g" . magit-file-dispatch))
-  :custom
-  (magit-diff-refine-hunk t)
-  (magit-revision-show-gravatars t)
+  :config
+  (setq magit-format-file-function #'magit-format-file-nerd-icons
+        magit-diff-refine-hunk 'all
+        magit-revision-show-gravatars t)
   )
 
 (use-package git-modes)
