@@ -53,7 +53,6 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
-    sbin"**/golangci-lint" atload"source <(golangci-lint completion zsh)" golangci/golangci-lint \
     sbin"bin/lua-language-server" bpick"*x64.tar.gz" LuaLS/lua-language-server \
     sbin"neocmakelsp* -> neocmakelsp" neocmakelsp/neocmakelsp \
     sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \

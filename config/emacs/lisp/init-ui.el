@@ -9,19 +9,20 @@
   :demand t)
 
 (use-package modus-themes
+  :ensure nil
+  :demand t
   :bind ("<f5>" . modus-themes-toggle)
-  :init (load-theme 'modus-operandi-tinted :no-confim)
+  :init
+  (load-theme 'modus-operandi-tinted t)
   )
 
 ;; Display available keybindings in popup
-(if (version< "29.4" emacs-version)
-    (use-package which-key
-      :ensure nil
-      :diminish
-      :hook (after-init . which-key-mode)
-      :config
-      (setq which-key-show-remaining-keys t)
-      )
+(use-package which-key
+  :ensure nil
+  :diminish
+  :hook (after-init . which-key-mode)
+  :config
+  (setq which-key-show-remaining-keys t)
   )
 
 ;; 显示时间
@@ -39,6 +40,8 @@
 			  '("%e"
 				mode-line-front-space
 				(:propertize ("" mode-line-mule-info mode-line-modified))
+                "  "
+                (project-mode-line project-mode-line-format)
                 mode-line-frame-identification
                 mode-line-buffer-identification
                 (:propertize " %l:%c " 'face 'modus-themes-bold)

@@ -49,6 +49,12 @@
           (toml       . ("https://github.com/tree-sitter/tree-sitter-toml"))))
   )
 
+(use-package project
+  :ensure nil
+  :config
+  (setq project-mode-line t)
+  )
+
 (use-package xref
   :ensure nil
   :config

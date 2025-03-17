@@ -8,7 +8,6 @@ linters-settings:
 linters:
     enable-all: true
     disable:
-        - exportloopref
         - cyclop
         - depguard
         - funlen
@@ -24,3 +23,4 @@ linters:
         - stylecheck
         - wsl
         - tagliatelle # Implementing against APIs, can't change tags.
+        - tenv
