@@ -272,7 +272,6 @@ require("lazy").setup({
                     "make",
                     "markdown",
                     "markdown_inline",
-                    "org",
                     "proto",
                     "python",
                     "regex",
