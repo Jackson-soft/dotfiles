@@ -395,7 +395,7 @@ require("lazy").setup({
         lazy = false, -- lazy loading handled internally
 
         -- use a release tag to download pre-built binaries
-        version = 'v0.*',
+        version = '1.*',
         opts = {
             sources = {
                 -- add lazydev to your completion providers
