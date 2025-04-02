@@ -48,7 +48,7 @@ zinit wait"0a" lucid depth"1" for \
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 zinit wait lucid as"null" from"gh-r" for \
-    sbin"**/eza" if'[[ $OSTYPE != darwin* ]] && (( $+commands[unzip] ))' eza-community/eza \
+    sbin"**/eza" if'[[ $OSTYPE != darwin* ]]' eza-community/eza \
     sbin"fzf" atload'eval "$(fzf --zsh)"' junegunn/fzf \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
