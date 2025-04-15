@@ -4,6 +4,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+
+vim.g.have_nerd_font = true
 ---- Settings ----
 
 --- Tab Configuration
@@ -547,58 +549,36 @@ require("lazy").setup({
 
             -- Enable the following language servers
             -- 语言服务与相关设置
-            local servers = {
-                bashls = {},
-                buf_ls = {},
-                neocmake = {},
-                dockerls = {},
-                gopls = {},
-                jsonls = {
-                    json = {
-                        schemas = require('schemastore').json.schemas(),
-                        validate = { enable = true },
-                    },
-                },
-                yamlls = {
-                    yaml = {
-                        schemastore = {
-                            enable = true,
-                        },
-                        hover = true,
-                        completion = true,
-                        validate = true,
-                    },
-                },
-                clangd = {},
-                ruff = {},
-                marksman = {},
-                lua_ls = {
-                    Lua = {
+
+            vim.lsp.config('clangd', {
+                cmd = { 'clangd', '--background-index' },
+                init_options = { fallbackFlags = { vim.bo.filetype == 'cpp' and '-std=c++23' or nil } },
+            })
+
+            vim.lsp.config('lua_ls', {
+                on_init = function(client)
+                    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
                         runtime = {
-                            -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                            version = "LuaJIT",
+                            -- Tell the language server which version of Lua you're using
+                            -- (most likely LuaJIT in the case of Neovim)
+                            version = 'LuaJIT'
                         },
                         completion = {
                             callSnippet = 'Replace',
                             displayContext = 1,
                         },
-                        diagnostics = {
-                            -- Get the language server to recognize the `vim` global
-                            globals = { "vim" },
-                            neededFileStatus = {
-                                ["codestyle-check"] = "Any",
-                            },
-                        },
+                        -- Make the server aware of Neovim runtime files
                         workspace = {
                             checkThirdParty = false,
                             library = {
-                                vim.env.VIMRUNTIME,
+                                vim.env.VIMRUNTIME
                                 -- Depending on the usage, you might want to add additional paths here.
                                 -- "${3rd}/luv/library"
                                 -- "${3rd}/busted/library",
-                            },
+                            }
+                            -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
+                            -- library = vim.api.nvim_get_runtime_file("", true)
                         },
-                        -- Do not send telemetry data containing a randomized but unique identifier
                         telemetry = {
                             enable = false,
                         },
@@ -611,23 +591,18 @@ require("lazy").setup({
                                 indent_size = "4",
                             }
                         },
-                    },
-                },
-            }
-            local nvimLsp = require("lspconfig")
-            local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-            for lsp, sets in pairs(servers) do
-                nvimLsp[lsp].setup({
-                    capabilities = capabilities,
-                    settings = sets,
-                })
-            end
-
-            nvimLsp.dotls.setup({
-                cmd = { 'dot-ls' },
-                capabilities = capabilities,
+                    })
+                end,
+                settings = {
+                    Lua = {}
+                }
             })
+
+            vim.lsp.config("*", {
+                capabilities = require("blink.cmp").get_lsp_capabilities(),
+            })
+
+            vim.lsp.enable({ "bashls", "clangd", "lua_ls", "gopls" })
         end,
     },
 
