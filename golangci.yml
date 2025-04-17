@@ -1,26 +1,43 @@
----
-linters-settings:
-    revive:
-        enable-all-rules: true
-        rules:
-            - name: exported # 强制要求给导出函数写文档
-              disabled: true
+version: "2"
 linters:
-    enable-all: true
+    default: all
     disable:
         - cyclop
         - depguard
         - funlen
-        - varnamelen
-        - gci
         - gochecknoglobals
         - godot
-        - gofumpt
         - lll
         - nlreturn
         - paralleltest
+        - tagliatelle
+        - varnamelen
         - wrapcheck
-        - stylecheck
         - wsl
-        - tagliatelle # Implementing against APIs, can't change tags.
-        - tenv
+    settings:
+        revive:
+            enable-all-rules: true
+            rules:
+                - name: exported
+                  disabled: true
+    exclusions:
+        generated: lax
+        presets:
+            - comments
+            - common-false-positives
+            - legacy
+            - std-error-handling
+        paths:
+            - third_party$
+            - builtin$
+            - examples$
+formatters:
+    enable:
+        - gofmt
+        - goimports
+    exclusions:
+        generated: lax
+        paths:
+            - third_party$
+            - builtin$
+            - examples$
