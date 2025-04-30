@@ -52,20 +52,20 @@
 (use-package project
   :ensure nil
   :config
-  (setq project-mode-line t)
+  (setopt project-mode-line t)
   )
 
 (use-package xref
   :ensure nil
   :config
-  (setq xref-search-program 'ugrep
-		xref-history-storage 'xref-window-local-history)
+  (setopt xref-search-program 'ugrep
+		  xref-history-storage 'xref-window-local-history)
   )
 
 (use-package imenu
   :ensure nil
   :config
-  (setq imenu-auto-rescan t)
+  (setopt imenu-auto-rescan t)
   )
 
 (use-package eldoc-box

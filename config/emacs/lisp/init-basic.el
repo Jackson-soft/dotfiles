@@ -14,10 +14,11 @@
   :bind ("<f10>" . toggle-frame-fullscreen)
   :config
   ;; Display dividers between windows
-  (setq window-divider-default-places t  ;; 窗口间显示分割线
-		window-divider-default-bottom-width 1
-		window-divider-default-right-width 1
-		window-resize-pixelwise t)
+  (setopt window-divider-default-places t  ;; 窗口间显示分割线
+		  window-divider-default-bottom-width 1
+		  window-divider-default-right-width 1)
+
+  (setq window-resize-pixelwise t)
   )
 
 (use-package emacs
@@ -49,8 +50,8 @@
 (use-package window
   :ensure nil
   :config
-  (setq switch-to-buffer-in-dedicated-window 'pop
-		switch-to-buffer-obey-display-actions t)
+  (setopt switch-to-buffer-in-dedicated-window 'pop
+		  switch-to-buffer-obey-display-actions t)
   )
 
 ;; good pixel line scrolling
@@ -58,7 +59,7 @@
   :ensure nil
   :hook (after-init . pixel-scroll-precision-mode)
   :config
-  (setq pixel-scroll-precision-interpolate-page t)
+  (setopt pixel-scroll-precision-interpolate-page t)
   (defalias 'scroll-up-command 'pixel-scroll-interpolate-down)
   (defalias 'scroll-down-command 'pixel-scroll-interpolate-up)
   )
@@ -66,9 +67,10 @@
 (use-package files
   :ensure nil
   :config
-  (setq confirm-kill-processes nil      ;; 关闭emacs 时无需额外确认
-		create-lockfiles nil            ;; No lock files
-		make-backup-files nil)          ;; Forbide to make backup files
+  (setopt confirm-kill-processes nil      ;; 关闭emacs 时无需额外确认
+		  make-backup-files nil)          ;; Forbide to make backup files
+
+  (setq create-lockfiles nil)            ;; No lock files
   )
 
 (use-package simple
@@ -110,7 +112,7 @@
 (use-package select
   :ensure nil
   :config
-  (setq select-enable-primary t)       ;; 支持emacs和外部程序的粘贴
+  (setopt select-enable-primary t)       ;; 支持emacs和外部程序的粘贴
   )
 
 ;; Paste at point NOT at cursor 是用滚轴鼠标
