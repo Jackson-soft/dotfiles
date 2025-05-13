@@ -27,6 +27,8 @@
   :hook (prog-mode . flymake-mode)
   :bind (("M-n" . flymake-goto-next-error)
          ("M-p" . flymake-goto-prev-error))
+  :custom
+  (flymake-show-diagnostics-at-end-of-line t)
   )
 
 ;; flymake linter
@@ -65,22 +67,23 @@
 (use-package corfu
   :hook ((after-init . global-corfu-mode)
          (global-corfu-mode . corfu-popupinfo-mode))
-  :config
-  (setq corfu-auto t                 ;; Enable auto completion
-        corfu-cycle t                ;; Enable cycling for `corfu-next/previous`
-        corfu-preview-current nil
-        corfu-auto-prefix 2)
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-preview-current nil)    ;; Disable current candidate preview
+  (corfu-auto t)   ;; Enable auto completion
+  (corfu-auto-prefix 2)
   )
 
 (use-package nerd-icons-corfu
   :after corfu
-  :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+  :init
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
   )
 
 ;; Add extensions
 (use-package cape
   :init
-  (setq cape-dict-case-fold t)
+  (setopt cape-dict-case-fold t)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
@@ -100,13 +103,13 @@
 			  ("C-c e a" . eglot-code-actions)
 			  ("C-c e r" . eglot-rename)
 			  ("C-c e f" . eglot-format))
+  :custom
+  (eglot-report-progress nil)
+  (eglot-autoshutdown t)
+  (eglot-ignored-server-capabilities '(:documentLinkProvider
+                                       :inlayHintProvider
+                                       :documentOnTypeFormattingProvider))
   :config
-  (setq eglot-report-progress nil
-        eglot-autoshutdown t
-        eglot-ignored-server-capabilities '(:documentLinkProvider
-                                            :inlayHintProvider
-                                            :documentOnTypeFormattingProvider))
-
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))

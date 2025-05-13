@@ -12,27 +12,26 @@
   :ensure nil
   :hook (window-setup . window-divider-mode)
   :bind ("<f10>" . toggle-frame-fullscreen)
-  :config
-  ;; Display dividers between windows
-  (setopt window-divider-default-places t  ;; 窗口间显示分割线
-		  window-divider-default-bottom-width 1
-		  window-divider-default-right-width 1)
+  :custom
+  (window-divider-default-places t)  ;; 窗口间显示分割线
+  (window-divider-default-bottom-width 1)
+  (window-divider-default-right-width 1)
 
-  (setq window-resize-pixelwise t)
+  (window-resize-pixelwise t)
   )
 
 (use-package emacs
   :ensure nil
+  :custom
+  (tab-always-indent 'complete)
+  (tab-first-completion 'word-or-paren-or-punct)
+  (transient-mark-mode t) ;; 标记高亮
   :init
   (setq-default tab-width 4
-				tab-always-indent 'complete
-				tab-first-completion 'word-or-paren-or-punct
 				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
 				fill-column 120
 				window-combination-resize t)
   :config
-  (transient-mark-mode t) ;; 标记高亮
-
   (setq scroll-margin 2           ;; better scrolling experience
 		scroll-step 1
 		scroll-conservatively 101 ;; > 100
@@ -49,50 +48,52 @@
 
 (use-package window
   :ensure nil
-  :config
-  (setopt switch-to-buffer-in-dedicated-window 'pop
-		  switch-to-buffer-obey-display-actions t)
+  :custom
+  (switch-to-buffer-in-dedicated-window 'pop)
+  (switch-to-buffer-obey-display-actions t)
   )
 
 ;; good pixel line scrolling
 (use-package pixel-scroll
   :ensure nil
   :hook (after-init . pixel-scroll-precision-mode)
+  :custom
+  (pixel-scroll-precision-interpolate-page t)
   :config
-  (setopt pixel-scroll-precision-interpolate-page t)
   (defalias 'scroll-up-command 'pixel-scroll-interpolate-down)
   (defalias 'scroll-down-command 'pixel-scroll-interpolate-up)
   )
 
 (use-package files
   :ensure nil
-  :config
-  (setopt confirm-kill-processes nil      ;; 关闭emacs 时无需额外确认
-		  make-backup-files nil)          ;; Forbide to make backup files
+  :custom
+  (confirm-kill-processes nil)      ;; 关闭emacs 时无需额外确认
+  (make-backup-files nil)          ;; Forbide to make backup files
 
-  (setq create-lockfiles nil)            ;; No lock files
+  (create-lockfiles nil)            ;; No lock files
   )
 
 (use-package simple
   :ensure nil
   :bind (("C-z" . undo-redo)
 		 ([remap just-one-space] . cycle-spacing))
+  :custom
+  (read-extended-command-predicate #'command-completion-default-include-p)
   :init
   (setq-default indent-tabs-mode nil)
 
-  (setq column-number-mode t        ;; show column/filesize in modeline
-        line-number-mode t
-        line-move-visual nil
-        track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
-        set-mark-command-repeat-pop t  ; Repeating C-SPC after popping mark pops it again
-        visual-line-fringe-indicators '(nil right-curly-arrow)
-		;; eliminate duplicates
-		kill-do-not-save-duplicates t
-		;; show the name of character in `what-cursor-position'
-		what-cursor-show-names t
-		save-interprogram-paste-before-kill t
-        read-extended-command-predicate #'command-completion-default-include-p
-        )
+  (setopt column-number-mode t        ;; show column/filesize in modeline
+          line-number-mode t
+          line-move-visual nil
+          track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
+          set-mark-command-repeat-pop t  ; Repeating C-SPC after popping mark pops it again
+          visual-line-fringe-indicators '(nil right-curly-arrow)
+          ;; eliminate duplicates
+          kill-do-not-save-duplicates t
+          ;; show the name of character in `what-cursor-position'
+          what-cursor-show-names t
+          save-interprogram-paste-before-kill t
+          )
   )
 
 ;; abbrev mode configuration
@@ -111,8 +112,8 @@
 
 (use-package select
   :ensure nil
-  :config
-  (setopt select-enable-primary t)       ;; 支持emacs和外部程序的粘贴
+  :custom
+  (select-enable-primary t)       ;; 支持emacs和外部程序的粘贴
   )
 
 ;; Paste at point NOT at cursor 是用滚轴鼠标

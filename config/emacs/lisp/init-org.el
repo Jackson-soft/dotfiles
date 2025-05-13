@@ -8,15 +8,15 @@
 (use-package text-mode
   :ensure nil
   :hook (text-mode . visual-line-mode) ;; 根据窗口大小自动折行
-  :config
-  (set text-mode-ispell-word-completion nil)
+  :custom
+  (text-mode-ispell-word-completion nil)
   )
 
 (use-package outline
   :ensure nil
-  :config
-  (setq outline-minor-mode-highlight 'override
-		outline-minor-mode-cycle t)
+  :custom
+  (outline-minor-mode-highlight 'override)
+  (outline-minor-mode-cycle t)
   )
 
 (use-package org
@@ -25,46 +25,46 @@
   (org-fontify-quote-and-verse-blocks t)
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
   (org-return-follows-link t)
+  (org-modules '(org-habit
+                 org-id
+                 org-protocol
+                 org-tempo
+                 org-toc
+                 org-mac-link
+                 ol-eww
+                 ol-info))
   :config
-  (setq org-modules '(org-tempo
-					  org-id
-					  org-toc
-					  org-habit
-					  org-protocol
-					  org-mac-link
-					  ol-eww
-					  ol-info)
-		org-pretty-entities t
-		;; org-auto-align-tags nil
-		org-tags-column 0
-		org-startup-with-inline-images t
-		org-insert-heading-respect-content t
-		org-ellipsis "...#"
+  (setopt org-pretty-entities t
+          ;; org-auto-align-tags nil
+          org-tags-column 0
+          org-startup-with-inline-images t
+          org-insert-heading-respect-content t
+          org-ellipsis "...#"
 
-		;; Org Logging
-		org-log-into-drawer t
-		org-log-done 'time
+          ;; Org Logging
+          org-log-into-drawer t
+          org-log-done 'time
 
-		org-support-shift-select 'always
-		org-hide-macro-markers t
-		org-hide-emphasis-markers t
-		org-highlight-latex-and-related '(native script entities)
-		org-export-backends '(md latex html icalendar odt)
-		org-yank-adjusted-subtrees t
-		;; prettify
-		org-loop-over-headlines-in-active-region t
-		org-fontify-todo-headline t
-		org-fontify-done-headline t
-		org-fontify-whole-heading-line t
-		org-adapt-indentation t
-		org-special-ctrl-a/e t
-		org-special-ctrl-k t
-		)
+          org-support-shift-select 'always
+          org-hide-macro-markers t
+          org-hide-emphasis-markers t
+          org-highlight-latex-and-related '(native script entities)
+          org-export-backends '(md latex html icalendar odt)
+          org-yank-adjusted-subtrees t
+          ;; prettify
+          org-loop-over-headlines-in-active-region t
+          org-fontify-todo-headline t
+          org-fontify-done-headline t
+          org-fontify-whole-heading-line t
+          org-adapt-indentation t
+          org-special-ctrl-a/e t
+          org-special-ctrl-k t
+          )
 
   (use-package org-id
 	:ensure nil
-	:config
-	(setq org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+	:custom
+	(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
 	)
 
   ;;; Citations

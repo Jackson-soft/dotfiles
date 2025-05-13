@@ -46,10 +46,10 @@
 (use-package paren
   :ensure nil
   :config
-  (setq show-paren-when-point-inside-paren t
-		show-paren-when-point-in-periphery t
-        blink-matching-paren-highlight-offscreen t
-		show-paren-context-when-offscreen 'child-frame)
+  (setopt show-paren-when-point-inside-paren t
+		  show-paren-when-point-in-periphery t
+          blink-matching-paren-highlight-offscreen t
+		  show-paren-context-when-offscreen 'child-frame)
   )
 
 ;; Automatic parenthesis pairing
@@ -57,7 +57,7 @@
   :ensure nil
   :hook (after-init . electric-pair-mode)
   :config
-  (setq electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+  (setopt electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   )
 
 (use-package electric

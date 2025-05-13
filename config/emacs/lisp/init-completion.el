@@ -6,10 +6,10 @@
   :ensure nil
   :hook (after-init . fido-vertical-mode)
   :config
-  (setq icomplete-in-buffer t
-        icomplete-tidy-shadowed-file-names t
-        icomplete-show-matches-on-no-input t
-        icomplete-scroll t)
+  (setopt icomplete-in-buffer t
+          icomplete-tidy-shadowed-file-names t
+          icomplete-show-matches-on-no-input t
+          icomplete-scroll t)
   )
 
 ;; Optionally use the `orderless' completion style.
