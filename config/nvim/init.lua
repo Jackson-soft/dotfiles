@@ -597,7 +597,7 @@ require("lazy").setup({
                 capabilities = require("blink.cmp").get_lsp_capabilities(),
             })
 
-            vim.lsp.enable({ "bashls", "clangd", "lua_ls", "gopls" })
+            vim.lsp.enable({ "bashls", "clangd", "lua_ls", "gopls", "neocmake" })
         end,
     },
 
