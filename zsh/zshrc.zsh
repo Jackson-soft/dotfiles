@@ -52,7 +52,6 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"fzf" atload'eval "$(fzf --zsh)"' junegunn/fzf \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
-    sbin"**/vivid" atload'export LS_COLORS="$(vivid generate catppuccin-macchiato)"' @sharkdp/vivid \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
     sbin"bin/lua-language-server" bpick"*x64.tar.gz" LuaLS/lua-language-server \
     sbin"neocmakelsp* -> neocmakelsp" neocmakelsp/neocmakelsp \
