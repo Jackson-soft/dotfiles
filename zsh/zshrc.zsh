@@ -53,7 +53,7 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
-    sbin"bin/lua-language-server" bpick"*x64.tar.gz" LuaLS/lua-language-server \
+    sbin"bin/lua-language-server" bpick"*64.tar.gz" LuaLS/lua-language-server \
     sbin"neocmakelsp* -> neocmakelsp" neocmakelsp/neocmakelsp \
     sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \
     sbin"marksman* -> marksman" artempyanykh/marksman

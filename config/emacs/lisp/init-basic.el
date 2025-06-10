@@ -53,15 +53,12 @@
   (switch-to-buffer-obey-display-actions t)
   )
 
-;; good pixel line scrolling
-(use-package pixel-scroll
-  :ensure nil
-  :hook (after-init . pixel-scroll-precision-mode)
+(use-package ultra-scroll
+  :vc (:url "https://github.com/jdtsmith/ultra-scroll")
+  :hook (after-init . ultra-scroll-mode)
   :custom
-  (pixel-scroll-precision-interpolate-page t)
-  :config
-  (defalias 'scroll-up-command 'pixel-scroll-interpolate-down)
-  (defalias 'scroll-down-command 'pixel-scroll-interpolate-up)
+  (scroll-conservatively 3) ; or whatever value you prefer, since v0.4
+  (scroll-margin 0)        ; important: scroll-margin>0 not yet supported
   )
 
 (use-package files
@@ -137,22 +134,21 @@
 (use-package recentf
   :ensure nil
   :hook (after-init . recentf-mode)
-  :config
-  (setq recentf-max-saved-items 300
-		recentf-filename-handlers '(abbreviate-file-name))
+  :custom
+  (recentf-max-saved-items 300)
+  (recentf-filename-handlers '(abbreviate-file-name))
   )
 
 ;; 谷歌翻译
 (use-package go-translate
   :bind ("C-c C-t" . gt-do-translate)
-  :config
-  (setq gt-default-translator
-        (gt-translator
-         :taker (gt-taker :langs '(en zh) :text 'word)
-         :engines (list (gt-google-rpc-engine)
-                        (gt-youdao-dict-engine)
-                        (gt-youdao-suggest-engine))
-         :render (gt-buffer-render)))
+  :custom
+  (gt-default-translator (gt-translator
+                          :taker (gt-taker :langs '(en zh) :text 'word)
+                          :engines (list (gt-google-rpc-engine)
+                                         (gt-youdao-dict-engine)
+                                         (gt-youdao-suggest-engine))
+                          :render (gt-buffer-render)))
   )
 
 (provide 'init-basic)

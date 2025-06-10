@@ -51,15 +51,15 @@
 
 (use-package project
   :ensure nil
-  :config
-  (setopt project-mode-line t)
+  :custom
+  (project-mode-line t)
   )
 
 (use-package xref
   :ensure nil
-  :config
-  (setopt xref-search-program 'ugrep
-		  xref-history-storage 'xref-window-local-history)
+  :custom
+  (xref-search-program 'ugrep)
+  (xref-history-storage 'xref-window-local-history)
   )
 
 (use-package imenu

@@ -137,6 +137,12 @@
   :hook (org-mode . org-modern-mode)
   )
 
+(use-package org-modern-indent
+  :vc (:url "https://github.com/jdtsmith/org-modern-indent")
+  :config
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 90)
+  )
+
 ;; 表格对齐
 (use-package valign
   :hook ((org-mode markdown-ts-mode) . valign-mode)
