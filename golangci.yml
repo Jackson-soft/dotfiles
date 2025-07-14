@@ -20,6 +20,8 @@ linters:
             rules:
                 - name: exported
                   disabled: true
+                - name: line-length-limit
+                  disabled: true
     exclusions:
         generated: lax
         presets:

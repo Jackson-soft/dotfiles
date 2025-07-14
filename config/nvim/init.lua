@@ -418,9 +418,7 @@ require("lazy").setup({
             -- see the "default configuration" section below for full documentation on how to define
             -- your own keymap.
             keymap = {
-                preset = 'enter',
-                ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
-                ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+                preset = 'default',
             },
 
             -- experimental auto-brackets support
@@ -436,6 +434,11 @@ require("lazy").setup({
                         end,
                     },
                 },
+            },
+
+            cmdline = {
+                keymap = { preset = 'inherit' },
+                completion = { menu = { auto_show = true } },
             },
 
             -- experimental signature help support

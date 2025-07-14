@@ -36,6 +36,13 @@
   :hook (flymake-mode . flymake-collection-hook-setup)
   )
 
+(use-package flyover
+  :diminish
+  :hook (flymake-mode . flyover-mode)
+  :custom
+  (flyover-checkers '(flymake))
+  )
+
 ;; https://company-mode.github.io/manual/
 ;; (use-package company
 ;;   ;; :hook (after-init . global-company-mode)
