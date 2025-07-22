@@ -104,7 +104,7 @@
 
 (use-package eglot
   :ensure nil
-  :hook (((json-ts-mode js-mode web-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-mode
+  :hook (((json-ts-mode js-mode web-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode
                         css-mode bash-ts-mode yaml-mode protobuf-ts-mode graphviz-dot-mode markdown-ts-mode) . eglot-ensure))
   :bind (:map eglot-mode-map
 			  ("C-c e a" . eglot-code-actions)
@@ -132,40 +132,49 @@
                                                                    "--header-insertion-decorators")))
   )
 
-(use-package yasnippet
-  :hook (prog-mode . yas-minor-mode)
-  :config
-  (use-package yasnippet-snippets)
+;; (use-package yasnippet
+;;   :hook (prog-mode . yas-minor-mode)
+;;   :config
+;;   (use-package yasnippet-snippets)
+;;   )
+
+
+;; Configure Tempel
+(use-package tempel
+  ;; Require trigger prefix before template name when completing.
+  ;; :custom
+  ;; (tempel-trigger-prefix "<")
+
+  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+         ("M-*" . tempel-insert))
+
+  :init
+
+  ;; Setup completion at point
+  (defun tempel-setup-capf ()
+    ;; Add the Tempel Capf to `completion-at-point-functions'.
+    ;; `tempel-expand' only triggers on exact matches. Alternatively use
+    ;; `tempel-complete' if you want to see all matches, but then you
+    ;; should also configure `tempel-trigger-prefix', such that Tempel
+    ;; does not trigger too often when you don't expect it. NOTE: We add
+    ;; `tempel-expand' *before* the main programming mode Capf, such
+    ;; that it will be tried first.
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+
+  (add-hook 'conf-mode-hook 'tempel-setup-capf)
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+
+  ;; Optionally make the Tempel templates available to Abbrev,
+  ;; either locally or globally. `expand-abbrev' is bound to C-x '.
+  ;; (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
   )
 
-;; (use-package eglot-tempel
-;;   :after eglot
-;;   )
-
-;; ;; Configure Tempel
-;; (use-package tempel
-;;   :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
-;;          ("M-*" . tempel-insert))
-;;   ;; :hook (prog-mode . tempel-abbrev-mode)
-;;   ;; :hook (eglot-managed-mode . (lambda ()
-;;   ;;                               (setq-local completion-at-point-functions
-;;   ;;                                           (list (cape-super-capf
-;;   ;;                                                  #'eglot-completion-at-point
-;;   ;;                                                  #'tempel-expand
-;;   ;;                                                  #'cape-keyword)))))
-
-;;   :init
-;;   (defun tempel-setup-capf ()
-;;     (setq-local completion-at-point-functions
-;;                 (cons #'tempel-expand
-;;                       completion-at-point-functions)))
-;;   :hook ((prog-mode . tempel-setup-capf)
-;;          (text-mode . tempel-setup-capf))
-;;   )
-
-;; (use-package tempel-collection
-;;   :after tempel
-;;   )
+;; Optional: Add tempel-collection.
+;; The package is young and doesn't have comprehensive coverage.
+(use-package tempel-collection)
 
 (provide 'init-lsp)
 

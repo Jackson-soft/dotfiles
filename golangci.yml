@@ -18,10 +18,33 @@ linters:
         revive:
             enable-all-rules: true
             rules:
+                - name: add-constant
+                  severity: warning
+                  disabled: false
+                  exclude: [""]
+                  arguments:
+                      - max-lit-count: "3"
+                        allow-strs: '"0"'
+                        allow-ints: "0,1,2"
+                        allow-floats: "0.0,0.,1.0,1.,2.0,2."
+                      - name: dot-imports
+                        severity: warning
+                        disabled: false
+                        exclude: [""]
+                        arguments:
+                            - allowed-packages: ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"]
                 - name: exported
                   disabled: true
                 - name: line-length-limit
                   disabled: true
+                - name: var-naming
+                  severity: warning
+                  disabled: false
+                  exclude: [""]
+                  arguments:
+                      - ["ID", "IP"] # AllowList
+                      - ["VM"] # DenyList
+                      - - upper-case-const: true
     exclusions:
         generated: lax
         presets:

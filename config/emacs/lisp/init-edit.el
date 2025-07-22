@@ -100,8 +100,8 @@
 ;; replace
 (use-package replace
   :ensure nil
-  :config
-  (setq list-matching-lines-jump-to-current-line t)
+  :custom
+  (list-matching-lines-jump-to-current-line t)
   )
 
 ;; 多块编辑
