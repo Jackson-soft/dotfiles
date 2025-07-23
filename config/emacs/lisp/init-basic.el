@@ -54,7 +54,6 @@
   )
 
 (use-package ultra-scroll
-  :vc (:url "https://github.com/jdtsmith/ultra-scroll")
   :hook (after-init . ultra-scroll-mode)
   :custom
   (scroll-conservatively 3) ; or whatever value you prefer, since v0.4

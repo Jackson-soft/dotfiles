@@ -104,6 +104,12 @@
   (list-matching-lines-jump-to-current-line t)
   )
 
+(use-package visual-replace
+  :bind (("C-c r" . visual-replace)
+         :map isearch-mode-map
+         ("C-c r" . visual-replace-from-isearch))
+  )
+
 ;; 多块编辑
 (use-package iedit
   :bind (("C-x i" . iedit-mode)

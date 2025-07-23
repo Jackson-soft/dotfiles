@@ -48,10 +48,13 @@
   (indent-bars-treesit-wrap '((c argument_list parameter_list init_declarator)))
   )
 
-
 ;; Dimming Unused Windows
 (use-package dimmer
   :hook (after-init . dimmer-mode)
+  )
+
+(use-package volatile-highlights
+  :hook (after-init . volatile-highlights-mode)
   )
 
 (provide 'init-highlight)
