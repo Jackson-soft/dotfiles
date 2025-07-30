@@ -24,8 +24,8 @@
 (use-package display-line-numbers
   :ensure nil
   :hook(after-init . global-display-line-numbers-mode)
-  :config
-  (setq display-line-numbers-width-start t)
+  :custom
+  (display-line-numbers-width-start t)
   )
 
 ;; Delete selection if you insert
@@ -45,19 +45,19 @@
 ;; Highlight parenthesises
 (use-package paren
   :ensure nil
-  :config
-  (setopt show-paren-when-point-inside-paren t
-		  show-paren-when-point-in-periphery t
-          blink-matching-paren-highlight-offscreen t
-		  show-paren-context-when-offscreen 'child-frame)
+  :custom
+  (show-paren-when-point-inside-paren t)
+  (show-paren-when-point-in-periphery t)
+  (blink-matching-paren-highlight-offscreen t)
+  (show-paren-context-when-offscreen 'child-frame)
   )
 
 ;; Automatic parenthesis pairing
 (use-package elec-pair
   :ensure nil
   :hook (after-init . electric-pair-mode)
-  :config
-  (setopt electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+  :custom
+  (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   )
 
 (use-package electric
@@ -67,16 +67,16 @@
 
 (use-package vundo
   :bind ("C-x u" . vundo)
-  :config
-  (setq vundo-glyph-alist vundo-unicode-symbols)
+  :custom
+  (vundo-glyph-alist vundo-unicode-symbols)
   )
 
 (use-package uniquify
   :ensure nil
-  :config
-  (setq uniquify-buffer-name-style 'forward
-		uniquify-separator " • "
-		uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+  :custom
+  (uniquify-buffer-name-style 'forward)
+  (uniquify-separator " • ")
+  (uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
   )
 
 ;; search
@@ -87,14 +87,14 @@
 			  ([escape]                    . isearch-cancel)
 			  ;; Edit the search string instead of jumping back
 			  ([remap isearch-delete-char] . isearch-del-char))
-  :config
-  (setq isearch-allow-motion t  ;; M-< and M-> move to the first/last occurrence of the current search string.
-		isearch-motion-changes-direction t
-		isearch-regexp-lax-whitespace t
-		isearch-resume-in-command-history t
-		isearch-lazy-count t         ;; lazy isearch
-		isearch-repeat-on-direction-change t
-		lazy-highlight-buffer t)
+  :custom
+  (isearch-allow-motion t)  ;; M-< and M-> move to the first/last occurrence of the current search string.
+  (isearch-motion-changes-direction t)
+  (isearch-regexp-lax-whitespace t)
+  (isearch-resume-in-command-history t)
+  (isearch-lazy-count t)         ;; lazy isearch
+  (isearch-repeat-on-direction-change t)
+  (lazy-highlight-buffer t)
   )
 
 ;; replace
@@ -131,8 +131,8 @@
   :hook (emacs-startup . global-jinx-mode)
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages))
-  :config
-  (setq jinx-languages "en_US")
+  :custom
+  (jinx-languages "en_US")
   ;; 中文不检查
   (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
   )

@@ -25,6 +25,17 @@
 
 (use-package systemd)
 
+(use-package web-mode
+  :mode ("\\.html?\\'" . web-mode)
+  :custom
+  (web-mode-enable-auto-pairing t)
+  (web-mode-enable-css-colorization t)
+  (web-mode-enable-part-face t)
+  (web-mode-enable-comment-interpolation t)
+  (web-mode-enable-current-column-highlight t)
+  (web-mode-enable-current-element-highlight t)
+  )
+
 (provide 'init-script)
 
 ;;; init-script.el ends here

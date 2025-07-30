@@ -18,8 +18,8 @@
 
 (use-package vterm
   :hook (vterm-mode . (lambda() (display-line-numbers-mode -1)))
-  :config
-  (setq vterm-always-compile-module t)
+  :custom
+  (vterm-always-compile-module t)
   )
 
 (use-package toggle-term
@@ -31,9 +31,9 @@
          ("M-o e" . toggle-term-eshell)
          ("M-o i" . toggle-term-ielm)
          ("M-o o" . toggle-term-toggle))
-  :config
-  (setq toggle-term-size 25
-        toggle-term-switch-upon-toggle t)
+  :custom
+  (toggle-term-size 25)
+  (toggle-term-switch-upon-toggle t)
   )
 
 (provide 'init-shell)

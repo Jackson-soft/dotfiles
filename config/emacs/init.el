@@ -34,8 +34,6 @@
 (require 'init-shell)
 (require 'init-script)
 (require 'init-emacs-lisp)
-(require 'init-python)
-(require 'init-web)
 
 (when (file-exists-p custom-file)
   (load custom-file))

@@ -22,7 +22,13 @@
 (use-package org
   :ensure nil
   :custom
+  (org-startup-indented t)
   (org-fontify-quote-and-verse-blocks t)
+  (org-hide-emphasis-markers t)
+  (org-hide-macro-markers t)
+  (org-pretty-entities t)
+  (org-fold-catch-invisible-edits 'show)
+  (org-startup-with-inline-images t)
   (org-link-frame-setup '((file . find-file))) ;; 同一个窗口下打开org文件, 默认是在另一个窗口打
   (org-return-follows-link t)
   (org-modules '(org-habit
@@ -34,10 +40,7 @@
                  ol-eww
                  ol-info))
   :config
-  (setopt org-pretty-entities t
-          ;; org-auto-align-tags nil
-          org-tags-column 0
-          org-startup-with-inline-images t
+  (setopt org-tags-column 0
           org-insert-heading-respect-content t
           org-ellipsis "...#"
 
@@ -46,8 +49,6 @@
           org-log-done 'time
 
           org-support-shift-select 'always
-          org-hide-macro-markers t
-          org-hide-emphasis-markers t
           org-highlight-latex-and-related '(native script entities)
           org-export-backends '(md latex html icalendar odt)
           org-yank-adjusted-subtrees t
@@ -71,24 +72,24 @@
   ;;; Org-Cite
   (use-package oc
 	:ensure nil
-	:config
-	(setq org-cite-export-processors '((beamer natbib)
-									   (latex biblatex)
-									   (t csl)))
+	:custom
+	(org-cite-export-processors '((beamer natbib)
+								  (latex biblatex)
+								  (t csl)))
 	)
 
   (use-package org-table
 	:ensure nil
-	:config
-	(setq org-table-header-line-p t)
+	:custom
+	(org-table-header-line-p t)
 	)
 
   ;; Write codes in org-mode
   (use-package org-src
 	:ensure nil
 	:hook (org-babel-after-execute . org-redisplay-inline-images)
-	:config
-	(setq org-src-preserve-indentation t)
+	:custom
+	(org-src-preserve-indentation t)
 	)
 
   ;; export
@@ -108,8 +109,8 @@
 	)
 
   (use-package ox-pandoc
-	:config
-	(setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html)))
+	:custom
+	(org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html)))
 
   (org-babel-do-load-languages
    'org-babel-load-languages '((shell . t)
@@ -139,28 +140,25 @@
 
 (use-package org-modern-indent
   :vc (:url "https://github.com/jdtsmith/org-modern-indent")
-  :config
-  (add-hook 'org-mode-hook #'org-modern-indent-mode 90)
+  :hook (org-mode-hook . org-modern-indent-mode)
   )
 
 ;; 表格对齐
 (use-package valign
   :hook ((org-mode markdown-ts-mode) . valign-mode)
-  :config
-  (setq valign-fancy-bar t)
+  :custom
+  (valign-fancy-bar t)
   )
-
-;; (use-package corg
-;;   :vc (:url "https://github.com/isamert/corg.el"
-;;             :branch "main")
-;;   :hook (org-mode . corg-setup)
-;;   )
 
 ;; dot
 (use-package graphviz-dot-mode)
 
-(use-package markdown-ts-mode
-  :mode ("\\.md\\'" . markdown-ts-mode)
+(use-package markdown-mode
+  :mode ("README\\.md\\'" . gfm-mode)
+  :bind (:map markdown-mode-map
+              ("C-c C-e" . markdown-do))
+  :custom
+  (markdown-command "multimarkdown")
   )
 
 (provide 'init-org)

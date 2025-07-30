@@ -8,8 +8,8 @@
 
 (use-package help
   :ensure nil
-  :config
-  (setq help-window-select t)
+  :custom
+  (help-window-select t)
   )
 
 ;; A better *Help* buffer

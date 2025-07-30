@@ -16,7 +16,6 @@
   (window-divider-default-places t)  ;; 窗口间显示分割线
   (window-divider-default-bottom-width 1)
   (window-divider-default-right-width 1)
-
   (window-resize-pixelwise t)
   )
 
@@ -31,19 +30,19 @@
 				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
 				fill-column 120
 				window-combination-resize t)
-  :config
-  (setq scroll-margin 2           ;; better scrolling experience
-		scroll-step 1
-		scroll-conservatively 101 ;; > 100
-		scroll-preserve-screen-position t  ;; 滚动时保持光标位置
-		use-short-answers t
-		mode-line-compact t
-		visible-bell t ;; 错误操作时的窗口闪动警告
-		ring-bell-function 'ignore
-		display-raw-bytes-as-hex t    ;; Improve display
-		use-file-dialog nil
-		use-dialog-box nil  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
-		word-wrap-by-category t)
+  :custom
+  (scroll-margin 2)           ;; better scrolling experience
+  (scroll-step 1)
+  (scroll-conservatively 101) ;; > 100
+  (scroll-preserve-screen-position t)  ;; 滚动时保持光标位置
+  (use-short-answers t)
+  (mode-line-compact t)
+  (visible-bell t) ;; 错误操作时的窗口闪动警告
+  (ring-bell-function 'ignore)
+  (display-raw-bytes-as-hex t)    ;; Improve display
+  (use-file-dialog nil)
+  (use-dialog-box nil)  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
+  (word-wrap-by-category t)
   )
 
 (use-package window
@@ -65,7 +64,6 @@
   :custom
   (confirm-kill-processes nil)      ;; 关闭emacs 时无需额外确认
   (make-backup-files nil)          ;; Forbide to make backup files
-
   (create-lockfiles nil)            ;; No lock files
   )
 
@@ -75,30 +73,26 @@
 		 ([remap just-one-space] . cycle-spacing))
   :custom
   (read-extended-command-predicate #'command-completion-default-include-p)
+  (column-number-mode t)        ;; show column/filesize in modeline
+  (line-number-mode t)
+  (line-move-visual nil)
+  (track-eol t)                     ;; Keep cursor at end of lines. Require line-move-visual is nil.
+  (set-mark-command-repeat-pop t)  ;; Repeating C-SPC after popping mark pops it again
+  (visual-line-fringe-indicators '(nil right-curly-arrow))
+  (kill-do-not-save-duplicates t)  ;; eliminate duplicates
+  (what-cursor-show-names t) ;; show the name of character in `what-cursor-position'
+  (save-interprogram-paste-before-kill t)
   :init
   (setq-default indent-tabs-mode nil)
-
-  (setopt column-number-mode t        ;; show column/filesize in modeline
-          line-number-mode t
-          line-move-visual nil
-          track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
-          set-mark-command-repeat-pop t  ; Repeating C-SPC after popping mark pops it again
-          visual-line-fringe-indicators '(nil right-curly-arrow)
-          ;; eliminate duplicates
-          kill-do-not-save-duplicates t
-          ;; show the name of character in `what-cursor-position'
-          what-cursor-show-names t
-          save-interprogram-paste-before-kill t
-          )
   )
 
 ;; abbrev mode configuration
 (use-package abbrev
   :ensure nil
   :hook (after-init . abbrev-mode)
-  :config
-  (setq save-abbrevs 'silent
-		abbrev-suggest t)
+  :custom
+  (save-abbrevs 'silent)
+  (abbrev-suggest t)
   )
 
 (use-package repeat
@@ -122,11 +116,11 @@
 (use-package autorevert
   :ensure nil
   :hook (after-init . global-auto-revert-mode)
-  :config
-  (setq auto-revert-avoid-polling t ;; don't do pooling for autorevert (use notifications).
-		auto-revert-verbose nil ;; not show message when file changes
-		auto-revert-check-vc-info t
-		global-auto-revert-non-file-buffers t)
+  :custom
+  (auto-revert-avoid-polling t) ;; don't do pooling for autorevert (use notifications).
+  (auto-revert-verbose nil) ;; not show message when file changes
+  (auto-revert-check-vc-info t)
+  (global-auto-revert-non-file-buffers t)
   )
 
 ;; 显示打开文件历史

@@ -16,23 +16,23 @@
 
 (use-package c-ts-mode
   :ensure nil
-  :config
-  (setq c-ts-mode-indent-offset tab-width)
+  :custom
+  (c-ts-mode-indent-offset tab-width)
   )
 
 ;; Highlight "#if 0" as comments
 (use-package hideif
   :ensure nil
   :hook ((c-ts-mode c++-ts-mode) . hide-ifdef-mode)
-  :config
-  (setq hide-ifdef-initially t
-		hide-ifdef-shadow t)
+  :custom
+  (hide-ifdef-initially t)
+  (hide-ifdef-shadow t)
   )
 
 (use-package cmake-ts-mode
   :ensure nil
-  :config
-  (setq cmake-ts-mode-indent-offset tab-width)
+  :custom
+  (cmake-ts-mode-indent-offset tab-width)
   )
 
 (provide 'init-cpp)

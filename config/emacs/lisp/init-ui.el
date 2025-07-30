@@ -21,18 +21,18 @@
   :ensure nil
   :diminish
   :hook (after-init . which-key-mode)
-  :config
-  (setq which-key-show-remaining-keys t)
+  :custom
+  (which-key-show-remaining-keys t)
   )
 
 ;; 显示时间
 (use-package time
   :ensure nil
   :hook (after-init . display-time-mode)
-  :config
-  (setq display-time-format "%Y-%m-%d %H:%M"
-        display-time-24hr-format t
-		display-time-default-load-average nil)
+  :custom
+  (display-time-format "%Y-%m-%d %H:%M")
+  (display-time-24hr-format t)
+  (display-time-default-load-average nil)
   )
 
 ;; Mode line settings

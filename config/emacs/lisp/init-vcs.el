@@ -10,10 +10,10 @@
   :bind (("C-x g" . magit-status)
 		 ("C-x M-g" . magit-dispatch)
 		 ("C-c M-g" . magit-file-dispatch))
-  :config
-  (setq magit-format-file-function #'magit-format-file-nerd-icons
-        magit-diff-refine-hunk 'all
-        magit-revision-show-gravatars t)
+  :custom
+  (magit-format-file-function #'magit-format-file-nerd-icons)
+  (magit-diff-refine-hunk 'all)
+  (magit-revision-show-gravatars t)
   )
 
 (use-package git-modes)
@@ -25,31 +25,31 @@
 ;; `diff-hl' depends on `vc'
 (use-package vc
   :ensure nil
-  :config
-  (setq vc-allow-async-revert t)
+  :custom
+  (vc-allow-async-revert t)
   )
 
 (use-package vc-hooks
   :ensure nil
-  :config
-  (setq vc-follow-symlinks t
-        vc-handled-backends '(Git))
+  :custom
+  (vc-follow-symlinks t)
+  (vc-handled-backends '(Git))
   )
 
 (use-package diff-mode
   :ensure nil
-  :config
-  (setq diff-default-read-only t
-		diff-font-lock-syntax 'hunk-also)
+  :custom
+  (diff-default-read-only t)
+  (diff-font-lock-syntax 'hunk-also)
   )
 
 ;; Visual diff interface
 (use-package ediff
   :ensure nil
-  :config
-  (setq ediff-show-clashes-only t
-		ediff-window-setup-function 'ediff-setup-windows-plain
-		ediff-split-window-function 'split-window-horizontally)
+  :custom
+  (ediff-show-clashes-only t)
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-split-window-function 'split-window-horizontally)
   )
 
 ;; 高亮合并冲突

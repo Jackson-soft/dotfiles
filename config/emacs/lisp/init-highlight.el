@@ -30,7 +30,7 @@
 		 (magit-pre-refresh  . diff-hl-magit-pre-refresh)
 		 (magit-post-refresh . diff-hl-magit-post-refresh)
 		 (dired-mode . diff-hl-dired-mode))
-  :config
+  :custom
   (diff-hl-margin-mode t)
   (diff-hl-flydiff-mode t)
   )
