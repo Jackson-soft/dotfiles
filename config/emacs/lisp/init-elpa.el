@@ -14,7 +14,7 @@
 ;; packages
 (use-package package
   :ensure nil
-  :config
+  :custom
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   )
 
@@ -23,7 +23,8 @@
 ;; OSX GUI 下自动导入 PATH
 (when (eq system-type 'darwin)
   (use-package exec-path-from-shell
-    :init(exec-path-from-shell-initialize)
+    :init
+    (exec-path-from-shell-initialize)
     )
   )
 

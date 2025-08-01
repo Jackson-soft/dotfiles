@@ -30,7 +30,8 @@
 
 (use-package dired-x
   :ensure nil
-  :hook (dired-mode . dired-omit-mode)
+  :hook
+  (dired-mode . dired-omit-mode)
   :custom
   ;; Make dired-omit-mode hide all "dotfiles"
   (dired-omit-files (concat dired-omit-files "\\|^\\..*$"))

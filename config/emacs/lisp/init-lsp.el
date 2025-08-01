@@ -24,21 +24,25 @@
 
 (use-package flymake
   :ensure nil
-  :hook (prog-mode . flymake-mode)
-  :bind (("M-n" . flymake-goto-next-error)
-         ("M-p" . flymake-goto-prev-error))
+  :hook
+  (prog-mode . flymake-mode)
+  :bind
+  (("M-n" . flymake-goto-next-error)
+   ("M-p" . flymake-goto-prev-error))
   :custom
   (flymake-show-diagnostics-at-end-of-line t)
   )
 
 ;; flymake linter
 (use-package flymake-collection
-  :hook (flymake-mode . flymake-collection-hook-setup)
+  :hook
+  (flymake-mode . flymake-collection-hook-setup)
   )
 
 (use-package flyover
   :diminish
-  :hook (flymake-mode . flyover-mode)
+  :hook
+  (flymake-mode . flyover-mode)
   :custom
   (flyover-checkers '(flymake))
   )
@@ -72,8 +76,9 @@
 ;;   )
 
 (use-package corfu
-  :hook ((after-init . global-corfu-mode)
-         (global-corfu-mode . corfu-popupinfo-mode))
+  :hook
+  ((after-init . global-corfu-mode)
+   (global-corfu-mode . corfu-popupinfo-mode))
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-preview-current nil)    ;; Disable current candidate preview
@@ -104,19 +109,19 @@
 
 (use-package eglot
   :ensure nil
-  :hook (((json-ts-mode js-mode web-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode
-                        css-mode bash-ts-mode yaml-mode protobuf-ts-mode graphviz-dot-mode markdown-ts-mode) . eglot-ensure))
-  :bind (:map eglot-mode-map
-			  ("C-c e a" . eglot-code-actions)
-			  ("C-c e r" . eglot-rename)
-			  ("C-c e f" . eglot-format))
+  :hook
+  (((json-ts-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode bash-ts-mode yaml-pro-ts-mode protobuf-ts-mode graphviz-dot-mode markdown-mode) . eglot-ensure))
+  :bind
+  (:map eglot-mode-map
+		("C-c e a" . eglot-code-actions)
+		("C-c e r" . eglot-rename)
+		("C-c e f" . eglot-format))
   :custom
   (eglot-report-progress nil)
   (eglot-autoshutdown t)
   (eglot-ignored-server-capabilities '(:documentLinkProvider
                                        :inlayHintProvider
                                        :documentOnTypeFormattingProvider))
-  :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))
@@ -132,49 +137,47 @@
                                                                    "--header-insertion-decorators")))
   )
 
-;; (use-package yasnippet
-;;   :hook (prog-mode . yas-minor-mode)
-;;   :config
-;;   (use-package yasnippet-snippets)
-;;   )
+(use-package yasnippet
+  :hook (prog-mode . yas-minor-mode)
+  :config
+  (use-package yasnippet-snippets)
+  )
 
 
 ;; Configure Tempel
-(use-package tempel
-  ;; Require trigger prefix before template name when completing.
-  ;; :custom
-  ;; (tempel-trigger-prefix "<")
+;; (use-package tempel
+;;   ;; Require trigger prefix before template name when completing.
+;;   :custom
+;;   (tempel-trigger-prefix "<")
+;;   :bind
+;;   (("M-+" . tempel-complete) ;; Alternative tempel-expand
+;;    ("M-*" . tempel-insert)
+;;    (:map tempel-map
+;;          ("<tab>" . tempel-next)
+;;          ("<backtab>" . tempel-previous)
+;;          ("C-]" . tempel-next)))
+;;   :init
+;;   ;; Setup completion at point
+;;   (defun tempel-setup-capf ()
+;;     ;; Add the Tempel Capf to `completion-at-point-functions'.
+;;     ;; `tempel-expand' only triggers on exact matches. Alternatively use
+;;     ;; `tempel-complete' if you want to see all matches, but then you
+;;     ;; should also configure `tempel-trigger-prefix', such that Tempel
+;;     ;; does not trigger too often when you don't expect it. NOTE: We add
+;;     ;; `tempel-expand' *before* the main programming mode Capf, such
+;;     ;; that it will be tried first.
+;;     (setq-local completion-at-point-functions
+;;                 (cons #'tempel-expand
+;;                       completion-at-point-functions)))
 
-  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
-         ("M-*" . tempel-insert))
+;;   (add-hook 'conf-mode-hook 'tempel-setup-capf)
+;;   (add-hook 'prog-mode-hook 'tempel-setup-capf)
+;;   (add-hook 'text-mode-hook 'tempel-setup-capf)
+;;   )
 
-  :init
-
-  ;; Setup completion at point
-  (defun tempel-setup-capf ()
-    ;; Add the Tempel Capf to `completion-at-point-functions'.
-    ;; `tempel-expand' only triggers on exact matches. Alternatively use
-    ;; `tempel-complete' if you want to see all matches, but then you
-    ;; should also configure `tempel-trigger-prefix', such that Tempel
-    ;; does not trigger too often when you don't expect it. NOTE: We add
-    ;; `tempel-expand' *before* the main programming mode Capf, such
-    ;; that it will be tried first.
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand
-                      completion-at-point-functions)))
-
-  (add-hook 'conf-mode-hook 'tempel-setup-capf)
-  (add-hook 'prog-mode-hook 'tempel-setup-capf)
-  (add-hook 'text-mode-hook 'tempel-setup-capf)
-
-  ;; Optionally make the Tempel templates available to Abbrev,
-  ;; either locally or globally. `expand-abbrev' is bound to C-x '.
-  ;; (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
-  )
-
-;; Optional: Add tempel-collection.
-;; The package is young and doesn't have comprehensive coverage.
-(use-package tempel-collection)
+;; ;; Optional: Add tempel-collection.
+;; ;; The package is young and doesn't have comprehensive coverage.
+;; (use-package tempel-collection)
 
 (provide 'init-lsp)
 

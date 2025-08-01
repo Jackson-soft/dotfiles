@@ -8,7 +8,8 @@
 ;;; Code:
 
 (use-package surround
-  :bind ("M-'" . surround-keymap)
+  :bind
+  ("M-'" . surround-keymap)
   )
 
 (use-package treesit
@@ -69,29 +70,32 @@
   )
 
 (use-package eldoc-box
-  :hook (eldoc-mode . eldoc-box-hover-mode)
+  :hook
+  (eldoc-mode . eldoc-box-hover-mode)
   :diminish eldoc-box-hover-mode
   )
 
 ;; show trailing white spaces
 (use-package whitespace
   :ensure nil
-  :hook ((prog-mode text-mode) . whitespace-mode)
-  :config
-  (setq indicate-empty-lines t
-		whitespace-action '(auto-cleanup)
-		whitespace-style
-		'(face             ;; visualize things below
-		  trailing         ;; trailing blanks
-		  empty            ;; empty lines at beginning/end of buffer
-		  space-before-tab ;; spaces before tab
-		  space-after-tab))
+  :hook
+  ((prog-mode text-mode) . whitespace-mode)
+  :custom
+  (indicate-empty-lines t)
+  (whitespace-action '(auto-cleanup))
+  (whitespace-style '(face             ;; visualize things below
+                      trailing         ;; trailing blanks
+                      empty            ;; empty lines at beginning/end of buffer
+                      space-before-tab ;; spaces before tab
+                      space-after-tab))
   )
 
 ;; format
 (use-package apheleia
-  :hook (prog-mode . apheleia-mode)
-  :bind ("C-c M-f" . apheleia-format-buffer)
+  :hook
+  (prog-mode . apheleia-mode)
+  :bind
+  ("C-c M-f" . apheleia-format-buffer)
   :config
   (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "postgres" "--disable-progress-bar" "-f" "-n" "-")))
 
@@ -106,21 +110,25 @@
 
 ;; 彩虹括号
 (use-package prism
-  :hook (prog-mode . prism-mode)
+  :hook
+  (prog-mode . prism-mode)
   )
 
 (use-package symbol-overlay
-  :bind (("M-i" . symbol-overlay-put)
-         ("M-C" . symbol-overlay-remove-all)
-         ("M-n" . symbol-overlay-switch-forward)
-         ("M-p" . symbol-overlay-switch-backward))
-  :hook (prog-mode . symbol-overlay-mode)
+  :bind
+  (("M-i" . symbol-overlay-put)
+   ("M-C" . symbol-overlay-remove-all)
+   ("M-n" . symbol-overlay-switch-forward)
+   ("M-p" . symbol-overlay-switch-backward))
+  :hook
+  (prog-mode . symbol-overlay-mode)
   )
 
 ;; 注释
 (use-package newcomment
   :ensure nil
-  :bind ([remap comment-dwim] . comment-or-uncomment)
+  :bind
+  ([remap comment-dwim] . comment-or-uncomment)
   :config
   (defun comment-or-uncomment ()
 	"Comment or uncomment the current line or region.
@@ -148,22 +156,26 @@ Else, call `comment-or-uncomment-region' on the current line."
 ;; 折叠
 (use-package hideshow
   :ensure nil
-  :hook (prog-mode . hs-minor-mode)
-  :bind ("C-<tab>" . hs-toggle-hiding)
+  :hook
+  (prog-mode . hs-minor-mode)
+  :bind
+  ("C-<tab>" . hs-toggle-hiding)
   )
 
 ;; Edit comment/string/docstring/code block in separate buffer
 (use-package separedit
-  :bind (:map prog-mode-map
-              ("C-c '" . separedit))
+  :bind
+  (:map prog-mode-map
+        ("C-c '" . separedit))
   :custom
   (separedit-remove-trailing-spaces-in-comment t)
   (separedit-default-mode 'markdown-ts-mode)
   )
 
 (use-package expreg
-  :bind (("C-=" . expreg-expand)
-         ("C--" . expreg-contract))
+  :bind
+  (("C-=" . expreg-expand)
+   ("C--" . expreg-contract))
   )
 
 (provide 'init-prog)

@@ -6,10 +6,12 @@
 ;;; Code:
 
 (use-package magit
-  :hook (git-commit-setup . git-commit-turn-on-flyspell)
-  :bind (("C-x g" . magit-status)
-		 ("C-x M-g" . magit-dispatch)
-		 ("C-c M-g" . magit-file-dispatch))
+  :hook
+  (git-commit-setup . git-commit-turn-on-flyspell)
+  :bind
+  (("C-x g" . magit-status)
+   ("C-x M-g" . magit-dispatch)
+   ("C-c M-g" . magit-file-dispatch))
   :custom
   (magit-format-file-function #'magit-format-file-nerd-icons)
   (magit-diff-refine-hunk 'all)
@@ -19,7 +21,8 @@
 (use-package git-modes)
 
 (use-package with-editor
-  :hook (vterm-mode . with-editor-export-editor)
+  :hook
+  (vterm-mode . with-editor-export-editor)
   )
 
 ;; `diff-hl' depends on `vc'
@@ -55,6 +58,12 @@
 ;; 高亮合并冲突
 (use-package smerge-mode
   :ensure nil
+  :bind
+  (:map smerge-mode-map
+        ("C-c ^ u" . smerge-keep-upper)  ;; Keep the changes from the upper version.
+        ("C-c ^ l" . smerge-keep-lower)  ;; Keep the changes from the lower version.
+        ("C-c ^ n" . smerge-next)        ;; Move to the next conflict.
+        ("C-c ^ p" . smerge-previous))  ;; Move to the previous conflict.
   )
 
 (provide 'init-vcs)

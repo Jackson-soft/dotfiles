@@ -10,8 +10,10 @@
 ;; 启动emacs时窗口最大化
 (use-package frame
   :ensure nil
-  :hook (window-setup . window-divider-mode)
-  :bind ("<f10>" . toggle-frame-fullscreen)
+  :hook
+  (window-setup . window-divider-mode)
+  :bind
+  ("<f10>" . toggle-frame-fullscreen)
   :custom
   (window-divider-default-places t)  ;; 窗口间显示分割线
   (window-divider-default-bottom-width 1)
@@ -25,12 +27,6 @@
   (tab-always-indent 'complete)
   (tab-first-completion 'word-or-paren-or-punct)
   (transient-mark-mode t) ;; 标记高亮
-  :init
-  (setq-default tab-width 4
-				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
-				fill-column 120
-				window-combination-resize t)
-  :custom
   (scroll-margin 2)           ;; better scrolling experience
   (scroll-step 1)
   (scroll-conservatively 101) ;; > 100
@@ -43,6 +39,12 @@
   (use-file-dialog nil)
   (use-dialog-box nil)  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
   (word-wrap-by-category t)
+  (truncate-lines t)                              ;; Enable line truncation to avoid wrapping long lines.
+  :init
+  (setq-default tab-width 4
+				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
+				fill-column 120
+				window-combination-resize t)
   )
 
 (use-package window
@@ -53,7 +55,8 @@
   )
 
 (use-package ultra-scroll
-  :hook (after-init . ultra-scroll-mode)
+  :hook
+  (after-init . ultra-scroll-mode)
   :custom
   (scroll-conservatively 3) ; or whatever value you prefer, since v0.4
   (scroll-margin 0)        ; important: scroll-margin>0 not yet supported
@@ -69,8 +72,9 @@
 
 (use-package simple
   :ensure nil
-  :bind (("C-z" . undo-redo)
-		 ([remap just-one-space] . cycle-spacing))
+  :bind
+  (("C-z" . undo-redo)
+   ([remap just-one-space] . cycle-spacing))
   :custom
   (read-extended-command-predicate #'command-completion-default-include-p)
   (column-number-mode t)        ;; show column/filesize in modeline
@@ -89,7 +93,8 @@
 ;; abbrev mode configuration
 (use-package abbrev
   :ensure nil
-  :hook (after-init . abbrev-mode)
+  :hook
+  (after-init . abbrev-mode)
   :custom
   (save-abbrevs 'silent)
   (abbrev-suggest t)
@@ -97,7 +102,8 @@
 
 (use-package repeat
   :ensure nil
-  :hook (after-init . repeat-mode)
+  :hook
+  (after-init . repeat-mode)
   )
 
 (use-package select
@@ -109,13 +115,15 @@
 ;; Paste at point NOT at cursor 是用滚轴鼠标
 (use-package mwheel
   :ensure nil
-  :hook (after-init . mouse-wheel-mode)
+  :hook
+  (after-init . mouse-wheel-mode)
   )
 
 ;; Auto refresh
 (use-package autorevert
   :ensure nil
-  :hook (after-init . global-auto-revert-mode)
+  :hook
+  (after-init . global-auto-revert-mode)
   :custom
   (auto-revert-avoid-polling t) ;; don't do pooling for autorevert (use notifications).
   (auto-revert-verbose nil) ;; not show message when file changes
@@ -126,7 +134,8 @@
 ;; 显示打开文件历史
 (use-package recentf
   :ensure nil
-  :hook (after-init . recentf-mode)
+  :hook
+  (after-init . recentf-mode)
   :custom
   (recentf-max-saved-items 300)
   (recentf-filename-handlers '(abbreviate-file-name))
@@ -134,7 +143,8 @@
 
 ;; 谷歌翻译
 (use-package go-translate
-  :bind ("C-c C-t" . gt-do-translate)
+  :bind
+  ("C-c C-t" . gt-do-translate)
   :custom
   (gt-default-translator (gt-translator
                           :taker (gt-taker :langs '(en zh) :text 'word)

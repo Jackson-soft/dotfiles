@@ -11,7 +11,8 @@
 (use-package modus-themes
   :ensure nil
   :demand t
-  :bind ("<f5>" . modus-themes-toggle)
+  :bind
+  ("<f5>" . modus-themes-toggle)
   :init
   (load-theme 'modus-operandi-tinted t)
   )
@@ -20,7 +21,8 @@
 (use-package which-key
   :ensure nil
   :diminish
-  :hook (after-init . which-key-mode)
+  :hook
+  (after-init . which-key-mode)
   :custom
   (which-key-show-remaining-keys t)
   )
@@ -28,7 +30,8 @@
 ;; 显示时间
 (use-package time
   :ensure nil
-  :hook (after-init . display-time-mode)
+  :hook
+  (after-init . display-time-mode)
   :custom
   (display-time-format "%Y-%m-%d %H:%M")
   (display-time-24hr-format t)

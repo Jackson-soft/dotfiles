@@ -9,7 +9,8 @@
 
 (use-package minibuffer
   :ensure nil
-  :hook (minibuffer-setup . cursor-intangible-mode)
+  :hook
+  (minibuffer-setup . cursor-intangible-mode)
   :custom
   (minibuffer-electric-default-mode t)   ;; 当输入内容后，prompt的default值就会被隐藏
   (minibuffer-depth-indicate-mode t)   ;; 显示minibuffer深度
@@ -32,7 +33,8 @@
 ;; minibuffer history
 (use-package savehist
   :ensure nil
-  :hook (after-init . savehist-mode)
+  :hook
+  (after-init . savehist-mode)
   :custom
   (history-length 1000)
   (savehist-additional-variables '(mark-ring
@@ -45,8 +47,10 @@
 
 (use-package ibuffer
   :ensure nil
-  :bind ("C-x C-b" . ibuffer)
-  :hook (ibuffer-mode . ibuffer-auto-mode)
+  :bind
+  ("C-x C-b" . ibuffer)
+  :hook
+  (ibuffer-mode . ibuffer-auto-mode)
   :custom
   (ibuffer-expert t)
   (ibuffer-movement-cycle nil)
@@ -54,7 +58,8 @@
 
 ;; Display icons for buffers
 (use-package nerd-icons-ibuffer
-  :hook (ibuffer-mode . nerd-icons-ibuffer-mode)
+  :hook
+  (ibuffer-mode . nerd-icons-ibuffer-mode)
   )
 
 (provide 'init-buffer)

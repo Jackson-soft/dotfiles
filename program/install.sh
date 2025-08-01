@@ -26,7 +26,6 @@ npms=(
     bash-language-server
     vscode-langservers-extracted      # css json html eslint
     dockerfile-language-server-nodejs # docker
-    pyright                           # python
 )
 
 function npmTool() {

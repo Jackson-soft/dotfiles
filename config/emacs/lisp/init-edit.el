@@ -23,7 +23,8 @@
 
 (use-package display-line-numbers
   :ensure nil
-  :hook(after-init . global-display-line-numbers-mode)
+  :hook
+  (after-init . global-display-line-numbers-mode)
   :custom
   (display-line-numbers-width-start t)
   )
@@ -31,15 +32,17 @@
 ;; Delete selection if you insert
 (use-package delsel
   :ensure nil
-  :hook (after-init . delete-selection-mode)
+  :hook
+  (after-init . delete-selection-mode)
   )
 
 ;; use zap-up-to-char instead of zap-to-char
 (use-package misc
   :ensure nil
-  :bind (("M-U" . upcase-char) ;; 当前光标字母变大写
-		 ("M-z" . zap-up-to-char)
-		 ("M-Z" . zap-to-char)) ;; M-S-z
+  :bind
+  (("M-U" . upcase-char) ;; 当前光标字母变大写
+   ("M-z" . zap-up-to-char)
+   ("M-Z" . zap-to-char)) ;; M-S-z
   )
 
 ;; Highlight parenthesises
@@ -55,18 +58,21 @@
 ;; Automatic parenthesis pairing
 (use-package elec-pair
   :ensure nil
-  :hook (after-init . electric-pair-mode)
+  :hook
+  (after-init . electric-pair-mode)
   :custom
   (electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
   )
 
 (use-package electric
   :ensure nil
-  :hook (after-init . electric-indent-mode)
+  :hook
+  (after-init . electric-indent-mode)
   )
 
 (use-package vundo
-  :bind ("C-x u" . vundo)
+  :bind
+  ("C-x u" . vundo)
   :custom
   (vundo-glyph-alist vundo-unicode-symbols)
   )
@@ -82,11 +88,12 @@
 ;; search
 (use-package isearch
   :ensure nil
-  :bind (:map isearch-mode-map
-			  ("C-c C-o"                   . isearch-occur)
-			  ([escape]                    . isearch-cancel)
-			  ;; Edit the search string instead of jumping back
-			  ([remap isearch-delete-char] . isearch-del-char))
+  :bind
+  (:map isearch-mode-map
+		("C-c C-o"                   . isearch-occur)
+		([escape]                    . isearch-cancel)
+		;; Edit the search string instead of jumping back
+		([remap isearch-delete-char] . isearch-del-char))
   :custom
   (isearch-allow-motion t)  ;; M-< and M-> move to the first/last occurrence of the current search string.
   (isearch-motion-changes-direction t)
@@ -105,32 +112,37 @@
   )
 
 (use-package visual-replace
-  :bind (("C-c r" . visual-replace)
-         :map isearch-mode-map
-         ("C-c r" . visual-replace-from-isearch))
+  :bind
+  (("C-c r" . visual-replace)
+   :map isearch-mode-map
+   ("C-c r" . visual-replace-from-isearch))
   )
 
 ;; 多块编辑
 (use-package iedit
-  :bind (("C-x i" . iedit-mode)
-		 ("C-x r RET" . iedit-rectangle-mode))
+  :bind
+  (("C-x i" . iedit-mode)
+   ("C-x r RET" . iedit-rectangle-mode))
   )
 
 ;; 多光标编辑
 (use-package multiple-cursors
-  :bind (("C-S-c C-S-c" . mc/edit-lines)
-		 ("C->"         . mc/mark-next-like-this)
-		 ("C-<"         . mc/mark-previous-like-this)
-		 ("C-c C-<"     . mc/mark-all-like-this)
-		 ("C-M->"       . mc/skip-to-next-like-this)
-		 ("C-M-<"       . mc/skip-to-previous-like-this))
+  :bind
+  (("C-S-c C-S-c" . mc/edit-lines)
+   ("C->"         . mc/mark-next-like-this)
+   ("C-<"         . mc/mark-previous-like-this)
+   ("C-c C-<"     . mc/mark-all-like-this)
+   ("C-M->"       . mc/skip-to-next-like-this)
+   ("C-M-<"       . mc/skip-to-previous-like-this))
   )
 
 ;; 单词拼写检查
 (use-package jinx
-  :hook (emacs-startup . global-jinx-mode)
-  :bind (("M-$" . jinx-correct)
-         ("C-M-$" . jinx-languages))
+  :hook
+  (emacs-startup . global-jinx-mode)
+  :bind
+  (("M-$" . jinx-correct)
+   ("C-M-$" . jinx-languages))
   :custom
   (jinx-languages "en_US")
   ;; 中文不检查
