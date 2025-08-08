@@ -145,6 +145,7 @@
    ("C-M-$" . jinx-languages))
   :custom
   (jinx-languages "en_US")
+  :config
   ;; 中文不检查
   (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
   )

@@ -78,7 +78,8 @@
 (use-package corfu
   :hook
   ((after-init . global-corfu-mode)
-   (global-corfu-mode . corfu-popupinfo-mode))
+   (global-corfu-mode . corfu-popupinfo-mode)
+   (global-corfu-mode . corfu-history-mode))
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
   (corfu-preview-current nil)    ;; Disable current candidate preview
@@ -122,6 +123,7 @@
   (eglot-ignored-server-capabilities '(:documentLinkProvider
                                        :inlayHintProvider
                                        :documentOnTypeFormattingProvider))
+  :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))

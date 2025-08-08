@@ -85,11 +85,6 @@
   :hook
   (completion-list-mode . consult-preview-at-point-mode)
   :custom
-  ;; Tweak the register preview for `consult-register-load',
-  ;; `consult-register-store' and the built-in commands.  This improves the
-  ;; register formatting, adds thin separator lines, register sorting and hides
-  ;; the window mode line.
-  (advice-add #'register-preview :override #'consult-register-window)
   ;; Optionally configure the narrowing key.
   ;; Both < and C-+ work reasonably well.
   (consult-narrow-key "<") ;; "C-+"
@@ -98,6 +93,8 @@
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
   (register-preview-delay 0.5)
+  :config 
+  (advice-add #'register-preview :override #'consult-register-window)
   )
 
 (use-package consult-dir
@@ -132,11 +129,10 @@
   :custom
   ;; Optionally replace the key help with a completing-read interface
   (prefix-help-command #'embark-prefix-help-command)
-  ;; Show the Embark target at point via Eldoc.  You may adjust the Eldoc
-  ;; strategy, if you want to see the documentation from multiple providers.
-  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   (embark-cycle-key ".")
   (embark-help-key "?")
+  :config
+  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"

@@ -6,7 +6,8 @@
 ;;; Code:
 
 (use-package nerd-icons
-  :demand t)
+  :demand t
+  )
 
 (use-package modus-themes
   :ensure nil

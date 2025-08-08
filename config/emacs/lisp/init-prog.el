@@ -71,8 +71,10 @@
 
 (use-package eldoc-box
   :hook
-  (eldoc-mode . eldoc-box-hover-mode)
+  ((eldoc-mode eglot-managed-mode) . eldoc-box-hover-mode)
   :diminish eldoc-box-hover-mode
+  :custom
+  (add-to-list 'eglot-ignored-server-capabilites :hoverProvider)
   )
 
 ;; show trailing white spaces
@@ -100,11 +102,11 @@
   (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "postgres" "--disable-progress-bar" "-f" "-n" "-")))
 
   (dolist (alist '((markdown-ts-mode . prettier-markdown)
-				   (gfm-mode . prettier-markdown)
-				   (dockerfile-ts-mode . shfmt)
-				   (protobuf-ts-mode . clang-format)
-				   (emacs-lisp-mode . lisp-indent)
-				   (sql-mode . sql-format)))
+                   (gfm-mode . prettier-markdown)
+                   (dockerfile-ts-mode . shfmt)
+                   (protobuf-ts-mode . clang-format)
+                   (emacs-lisp-mode . lisp-indent)
+                   (sql-mode . sql-format)))
     (add-to-list 'apheleia-mode-alist alist))
   )
 
@@ -141,10 +143,10 @@ Else, call `comment-or-uncomment-region' on the current line."
 	(interactive)
 	(if (region-active-p)
 		(comment-or-uncomment-region (region-beginning) (region-end))
-	  (if (save-excursion
+      (if (save-excursion
 			(beginning-of-line)
 			(looking-at "\\s-*$"))
-		  (comment-dwim nil)
+          (comment-dwim nil)
 		(comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
 
   ;; `auto-fill' inside comments.
