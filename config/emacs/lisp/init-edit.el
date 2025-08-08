@@ -150,6 +150,19 @@
   (add-to-list 'jinx-exclude-regexps '(t "\\cc"))
   )
 
+;; 翻译
+(use-package gt
+  :bind
+  ("C-c C-t" . gt-do-translate)
+  :custom
+  (gt-default-translator (gt-translator
+                          :taker (gt-taker :langs '(en zh) :text 'word)
+                          :engines (list (gt-google-rpc-engine)
+                                         (gt-youdao-dict-engine)
+                                         (gt-youdao-suggest-engine))
+                          :render (gt-buffer-render)))
+  )
+
 ;; (use-package ispell
 ;;   :ensure nil
 ;;   :config

@@ -131,6 +131,8 @@
   :ensure nil
   :bind
   ([remap comment-dwim] . comment-or-uncomment)
+  :custom
+  (comment-auto-fill-only-comments t)
   :config
   (defun comment-or-uncomment ()
 	"Comment or uncomment the current line or region.
@@ -148,11 +150,6 @@ Else, call `comment-or-uncomment-region' on the current line."
 			(looking-at "\\s-*$"))
           (comment-dwim nil)
 		(comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
-
-  ;; `auto-fill' inside comments.
-  ;; The quoted text in `message-mode' are identified as comments, so only
-  ;; quoted text can be `auto-fill'ed.
-  (setq comment-auto-fill-only-comments t)
   )
 
 ;; 折叠

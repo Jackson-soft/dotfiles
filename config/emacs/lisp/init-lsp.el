@@ -47,44 +47,20 @@
   (flyover-checkers '(flymake))
   )
 
-;; https://company-mode.github.io/manual/
-;; (use-package company
-;;   ;; :hook (after-init . global-company-mode)
-;;   :hook (prog-mode . company-mode)
-;;   :bind (:map company-active-map
-;;            ("C-s"     . company-filter-candidates)
-;;            ([tab]     . company-complete-common-or-cycle)
-;;            ([backtab] . company-select-previous-or-abort))
-;;   :custom
-;;   (company-dabbrev-code-ignore-case nil)
-;;   (company-dabbrev-code-everywhere t)
-;;   (company-files-exclusions '(".git/" ".DS_Store"))
-;;   :config
-;;   (setq company-tooltip-align-annotations t ;; aligns annotation to the right
-;;      company-minimum-prefix-length 1
-;;      company-require-match 'company-explicit-action-p
-;;      company-tooltip-limit 12
-;;      company-tooltip-width-grow-only t
-;;      company-tooltip-flip-when-above t
-;;      company-transformers '(company-sort-by-occurrence)
-;;      company-backends '(company-files
-;;                         company-capf
-;;                         company-ispell
-;;                         (company-dabbrev-code company-keywords)
-;;                         company-dabbrev
-;;                         ))
-;;   )
-
 (use-package corfu
   :hook
   ((after-init . global-corfu-mode)
    (global-corfu-mode . corfu-popupinfo-mode)
    (global-corfu-mode . corfu-history-mode))
   :custom
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-preview-current nil)    ;; Disable current candidate preview
-  (corfu-auto t)   ;; Enable auto completion
-  (corfu-auto-prefix 2)
+  (corfu-cycle t)                    ; 循环选择候选项
+  (corfu-auto t)                     ; 自动弹出补全
+  (corfu-auto-prefix 2)              ; 最小前缀长度
+  (corfu-quit-at-boundary nil)       ; 不在边界退出
+  (corfu-quit-no-match nil)          ; 没有匹配时不退出
+  (corfu-preview-current 'insert)    ; 预览当前选项
+  (corfu-preselect 'prompt)          ; 预选择提示
+  (corfu-on-exact-match nil)         ; 精确匹配时的行为
   )
 
 (use-package nerd-icons-corfu
@@ -96,7 +72,6 @@
 ;; Add extensions
 (use-package cape
   :init
-  (setopt cape-dict-case-fold t)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
@@ -104,9 +79,18 @@
   (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+  :config
+  ;; 为不同模式配置不同的补全
+  (defun my/eglot-capf ()
+    (setq-local completion-at-point-functions
+                (list (cape-capf-super
+                       #'eglot-completion-at-point
+                       #'tempel-expand
+                       #'cape-dabbrev
+                       #'cape-file))))
 
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
-  )
+  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
+)
 
 (use-package eglot
   :ensure nil
@@ -139,47 +123,46 @@
                                                                    "--header-insertion-decorators")))
   )
 
-(use-package yasnippet
-  :hook (prog-mode . yas-minor-mode)
-  :config
-  (use-package yasnippet-snippets)
-  )
+;; (use-package yasnippet
+;;   :hook (prog-mode . yas-minor-mode)
+;;   :config
+;;   (use-package yasnippet-snippets)
+;;   )
 
 
 ;; Configure Tempel
-;; (use-package tempel
-;;   ;; Require trigger prefix before template name when completing.
-;;   :custom
-;;   (tempel-trigger-prefix "<")
-;;   :bind
-;;   (("M-+" . tempel-complete) ;; Alternative tempel-expand
-;;    ("M-*" . tempel-insert)
-;;    (:map tempel-map
-;;          ("<tab>" . tempel-next)
-;;          ("<backtab>" . tempel-previous)
-;;          ("C-]" . tempel-next)))
-;;   :init
-;;   ;; Setup completion at point
-;;   (defun tempel-setup-capf ()
-;;     ;; Add the Tempel Capf to `completion-at-point-functions'.
-;;     ;; `tempel-expand' only triggers on exact matches. Alternatively use
-;;     ;; `tempel-complete' if you want to see all matches, but then you
-;;     ;; should also configure `tempel-trigger-prefix', such that Tempel
-;;     ;; does not trigger too often when you don't expect it. NOTE: We add
-;;     ;; `tempel-expand' *before* the main programming mode Capf, such
-;;     ;; that it will be tried first.
-;;     (setq-local completion-at-point-functions
-;;                 (cons #'tempel-expand
-;;                       completion-at-point-functions)))
+(use-package tempel
+  :custom
+  (tempel-trigger-prefix "<")
+  :bind
+  (("M-+" . tempel-complete) ;; Alternative tempel-expand
+   ("M-*" . tempel-insert)
+   (:map tempel-map
+         ("<tab>" . tempel-next)
+         ("<backtab>" . tempel-previous)
+         ("C-]" . tempel-next)))
+  :init
+  ;; Setup completion at point
+  (defun tempel-setup-capf ()
+    ;; Add the Tempel Capf to `completion-at-point-functions'.
+    ;; `tempel-expand' only triggers on exact matches. Alternatively use
+    ;; `tempel-complete' if you want to see all matches, but then you
+    ;; should also configure `tempel-trigger-prefix', such that Tempel
+    ;; does not trigger too often when you don't expect it. NOTE: We add
+    ;; `tempel-expand' *before* the main programming mode Capf, such
+    ;; that it will be tried first.
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
 
-;;   (add-hook 'conf-mode-hook 'tempel-setup-capf)
-;;   (add-hook 'prog-mode-hook 'tempel-setup-capf)
-;;   (add-hook 'text-mode-hook 'tempel-setup-capf)
-;;   )
+  (add-hook 'conf-mode-hook 'tempel-setup-capf)
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf)
+  )
 
-;; ;; Optional: Add tempel-collection.
-;; ;; The package is young and doesn't have comprehensive coverage.
-;; (use-package tempel-collection)
+;; Optional: Add tempel-collection.
+;; The package is young and doesn't have comprehensive coverage.
+(use-package tempel-collection)
 
 (provide 'init-lsp)
 

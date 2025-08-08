@@ -141,19 +141,6 @@
   (recentf-filename-handlers '(abbreviate-file-name))
   )
 
-;; 谷歌翻译
-(use-package go-translate
-  :bind
-  ("C-c C-t" . gt-do-translate)
-  :custom
-  (gt-default-translator (gt-translator
-                          :taker (gt-taker :langs '(en zh) :text 'word)
-                          :engines (list (gt-google-rpc-engine)
-                                         (gt-youdao-dict-engine)
-                                         (gt-youdao-suggest-engine))
-                          :render (gt-buffer-render)))
-  )
-
 (provide 'init-basic)
 
 ;;; init-basic.el ends here
