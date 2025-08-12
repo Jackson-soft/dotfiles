@@ -4,14 +4,22 @@
 setopt EXTENDED_GLOB
 setopt HIST_FCNTL_LOCK      # Use modern file-locking mechanisms, for better safety & performance.
 setopt HIST_IGNORE_ALL_DUPS # Keep only the most recent copy of each duplicate entry in history.
+setopt HIST_IGNORE_SPACE    # Don't record commands starting with space
+setopt HIST_VERIFY          # Show command with history expansion to user before running it
 setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
 setopt ALWAYS_TO_END        # Move cursor to the end of a completed word.
 setopt PATH_DIRS            # Perform path search even on command names with slashes.
 setopt AUTO_MENU            # Show completion menu on a successive tab press.
 setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
 setopt AUTO_PARAM_SLASH     # If completed parameter is a directory, add a trailing slash.
-HISTSIZE=10000
-SAVEHIST=10000
+setopt CORRECT              # Try to correct the spelling of commands.
+setopt GLOB_DOTS            # Include dotfiles in globbing.
+setopt MARK_DIRS            # Mark directories with trailing slash in filename completion.
+
+# History settings
+HISTSIZE=50000              # Increased history size
+SAVEHIST=50000
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 setopt appendhistory
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
@@ -20,27 +28,36 @@ setopt SHARE_HISTORY
 bindkey -e
 
 alias -g ...='../..'
+alias -g ....='../../..'
 
 # fzf
 # https://github.com/junegunn/fzf
-export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' || rg --files --hidden --follow --glob '!.git' || find ."
+export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' --strip-cwd-prefix || rg --files --hidden --follow --glob '!.git' || find . -type f"
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || eza -T {}) 2> /dev/null | head -200'"
 export FZF_ALT_C_OPTS="--preview '(eza --tree --icons --level 3 --color=always --group-directories-first {} || tree -NC {} || ls --color=always --group-directories-first {}) 2>/dev/null | head -200'"
 export FZF_DEFAULT_OPTS="
        --layout reverse
        --info inline-right
-       --border
+       --border rounded
        --multi
        --exact
        --cycle
        --highlight-line
        --prompt '∼ '
        --marker '✓'
-       --color 'dark,hl:33,hl+:37,fg+:235,bg+:136,fg+:254'
-       --color 'info:254,prompt:37,spinner:108,pointer:235,marker:235'
+       --pointer '▶'
+       --separator '─'
+       --color 'fg:#ebdbb2,bg:#282828,hl:#fabd2f'
+       --color 'fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f'
+       --color 'info:#83a598,prompt:#bdae93,spinner:#fabd2f'
+       --color 'pointer:#83a598,marker:#fe8019,header:#665c54'
        --preview-window :hidden
        --bind '?:toggle-preview'
+       --bind 'ctrl-u:preview-page-up'
+       --bind 'ctrl-d:preview-page-down'
+       --bind 'ctrl-a:select-all'
+       --bind 'ctrl-r:toggle-all'
        "
 
 # Color man pages
@@ -116,3 +133,46 @@ zstyle ':completion:*:*:kill:*' insert-ids single
 if [ -f ~/.zshenv ]; then
     source ~/.zshenv
 fi
+
+# Useful functions
+# Extract archives
+extract() {
+    if [ -f $1 ]; then
+        case $1 in
+            *.tar.bz2)   tar xjf $1     ;;
+            *.tar.gz)    tar xzf $1     ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar e $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xf $1      ;;
+            *.tbz2)      tar xjf $1     ;;
+            *.tgz)       tar xzf $1     ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)     echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Create directory and cd into it
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Find and kill process by name
+fkill() {
+    local pid
+    if [ "$UID" != "0" ]; then
+        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+    else
+        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    fi
+
+    if [ "x$pid" != "x" ]; then
+        echo $pid | xargs kill -${1:-9}
+    fi
+}
+

@@ -19,6 +19,11 @@ source ${ZI_BIN}/zinit.zsh
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Initialize completion system
+autoload -Uz compinit
+compinit -i
+
 ### End of Zinit's installer chunk
 
 # Load a few important annexes, without Turbo
@@ -28,11 +33,10 @@ zinit light-mode depth"1" for \
     atload"[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" romkatv/powerlevel10k
 
 # Completion enhancements
-zinit wait lucid depth"1" light-mode for \
-    atinit"zicompinit; zicdreplay" \
-        Aloxaf/fzf-tab \
-        ${ZI_REPO}/fast-syntax-highlighting \
-    atinit"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;ZSH_AUTOSUGGEST_STRATEGY=(history completion match_prev_cmd)" atload"_zsh_autosuggest_start" \
+zinit wait"1" lucid depth"1" light-mode for \
+    atclone"build-fzf-tab-module" atpull"%atclone" Aloxaf/fzf-tab \
+    ${ZI_REPO}/fast-syntax-highlighting \
+    atload"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;ZSH_AUTOSUGGEST_STRATEGY=(history completion);ZSH_AUTOSUGGEST_USE_ASYNC=1" \
         zsh-users/zsh-autosuggestions \
     trackbinds bindmap"^R -> ^H" \
         ${ZI_REPO}/history-search-multi-word \
@@ -58,14 +62,50 @@ zinit wait lucid as"null" from"gh-r" for \
     sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \
     sbin"marksman* -> marksman" artempyanykh/marksman
 
+# Modern command aliases with fallbacks
 if (( $+commands[eza] )); then
     alias ls='eza --color=auto --icons --group-directories-first'
-    alias ll='ls -alh --time-style=long-iso'
+    alias ll='eza -alh --time-style=long-iso --icons --group-directories-first'
+    alias la='eza -a --icons'
+    alias tree='eza -T --icons'
+else
+    # Fallback to traditional ls with colors
+    if [[ $OSTYPE == darwin* ]]; then
+        alias ls='ls -G'
+        alias ll='ls -alh'
+    else
+        alias ls='ls --color=auto'
+        alias ll='ls -alh --color=auto'
+    fi
     alias la='ls -a'
-    alias tree='ls -T'
+    (( $+commands[tree] )) && alias tree='tree' || alias tree='find . -type d | head -20'
 fi
 
 (( $+commands[bat] )) && alias cat='bat -p --wrap character'
 (( $+commands[tldr] )) && alias help='tldr'
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
+
+# Load local customizations if they exist
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# Load work-specific configurations if they exist
+[[ -f ~/.zshrc.work ]] && source ~/.zshrc.work
+
+# macOS specific configurations
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Add Homebrew to PATH if it exists
+    if [[ -f "/opt/homebrew/bin/brew" ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [[ -f "/usr/local/bin/brew" ]]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    fi
+    
+    # macOS specific aliases
+    alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+fi
+
+# Performance: Compile zshrc if it's newer than the compiled version
+if [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]] || [[ ! -s "$HOME/.zshrc.zwc" ]]; then
+    zcompile "$HOME/.zshrc"
+fi
