@@ -34,7 +34,7 @@ zinit light-mode depth"1" for \
 
 # Completion enhancements
 zinit wait"1" lucid depth"1" light-mode for \
-    atclone"build-fzf-tab-module" atpull"%atclone" Aloxaf/fzf-tab \
+    atclone"source fzf-tab.zsh && build-fzf-tab-module" atpull"%atclone" Aloxaf/fzf-tab \
     ${ZI_REPO}/fast-syntax-highlighting \
     atload"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;ZSH_AUTOSUGGEST_STRATEGY=(history completion);ZSH_AUTOSUGGEST_USE_ASYNC=1" \
         zsh-users/zsh-autosuggestions \
