@@ -7,7 +7,7 @@
 
 ;; Load path
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory)) ;; 存放使用编辑器接口产生的配置信息
+(setopt custom-file (expand-file-name "custom.el" user-emacs-directory)) ;; 存放使用编辑器接口产生的配置信息
 
 ;; elpa
 (require 'init-elpa)

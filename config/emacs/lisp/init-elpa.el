@@ -6,10 +6,10 @@
 ;;; Code:
 
 ;; Should set before loading `use-package'
-(setq use-package-always-ensure t
-	  use-package-expand-minimally t
-	  use-package-compute-statistics t
-	  use-package-enable-imenu-support t)
+(setopt use-package-always-ensure t
+        use-package-expand-minimally t
+        use-package-compute-statistics t
+        use-package-enable-imenu-support t)
 
 ;; packages
 (use-package package

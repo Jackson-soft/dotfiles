@@ -105,6 +105,7 @@
   (eglot-report-progress nil)
   (eglot-autoshutdown t)
   (eglot-ignored-server-capabilities '(:documentLinkProvider
+                                       :hoverProvider
                                        :inlayHintProvider
                                        :documentOnTypeFormattingProvider))
   :config

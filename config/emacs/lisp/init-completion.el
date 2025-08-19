@@ -93,7 +93,7 @@
   (xref-show-xrefs-function #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
   (register-preview-delay 0.5)
-  :config 
+  :config
   (advice-add #'register-preview :override #'consult-register-window)
   )
 
@@ -127,12 +127,9 @@
    ("M-n" . embark-next-symbol)
    ("M-p" . embark-previous-symbol))
   :custom
-  ;; Optionally replace the key help with a completing-read interface
-  (prefix-help-command #'embark-prefix-help-command)
   (embark-cycle-key ".")
   (embark-help-key "?")
   :config
-  (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
