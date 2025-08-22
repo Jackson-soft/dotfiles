@@ -65,7 +65,7 @@
 (use-package files
   :ensure nil
   :custom
-  (save-abbrevs 'silent)
+  (save-abbrevs 'silently)
   (confirm-kill-processes nil)      ;; 关闭emacs 时无需额外确认
   (make-backup-files nil)          ;; Forbide to make backup files
   (create-lockfiles nil)            ;; No lock files

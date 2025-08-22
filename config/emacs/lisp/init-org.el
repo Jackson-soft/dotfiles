@@ -34,11 +34,17 @@
   (org-return-follows-link t)
   (org-modules '(org-habit
                  org-id
-                 org-protocol
                  org-tempo
-                 org-toc
                  org-mac-link
-                 ol-eww
+                 org-mouse
+                 org-protocol
+                 org-annotate-file
+                 org-expiry
+                 org-interactive-query
+                 org-collector
+                 org-panel
+                 org-screen
+                 org-toc
                  ol-info))
   (org-tags-column 0)
   (org-insert-heading-respect-content t)

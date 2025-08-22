@@ -54,6 +54,7 @@
   :ensure nil
   :custom
   (project-mode-line t)
+  (project-kill-buffers-display-buffer-list t)
   )
 
 (use-package xref
