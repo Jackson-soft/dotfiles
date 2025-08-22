@@ -65,6 +65,7 @@
 (use-package files
   :ensure nil
   :custom
+  (save-abbrevs 'silent)
   (confirm-kill-processes nil)      ;; 关闭emacs 时无需额外确认
   (make-backup-files nil)          ;; Forbide to make backup files
   (create-lockfiles nil)            ;; No lock files
@@ -96,7 +97,6 @@
   :hook
   (after-init . abbrev-mode)
   :custom
-  (save-abbrevs 'silent)
   (abbrev-suggest t)
   )
 
@@ -138,7 +138,6 @@
   (after-init . recentf-mode)
   :custom
   (recentf-max-saved-items 300)
-  (recentf-filename-handlers '(abbreviate-file-name))
   )
 
 (provide 'init-basic)
