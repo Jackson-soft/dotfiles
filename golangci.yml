@@ -4,6 +4,8 @@ linters:
     disable:
         - cyclop
         - depguard
+        - exhaustruct
+        - err113
         - funlen
         - gochecknoglobals
         - godot
@@ -38,13 +40,7 @@ linters:
                 - name: line-length-limit
                   disabled: true
                 - name: var-naming
-                  severity: warning
-                  disabled: false
-                  exclude: [""]
-                  arguments:
-                      - ["ID", "IP"] # AllowList
-                      - ["VM"] # DenyList
-                      - - upper-case-const: true
+                  disabled: true
     exclusions:
         generated: lax
         presets:

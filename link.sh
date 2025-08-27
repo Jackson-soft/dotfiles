@@ -9,7 +9,6 @@ ln -sf "$(pwd)"/clang-format.yaml "$HOME"/.clang-format
 ln -sf "$(pwd)"/clang-tidy.yaml "$HOME"/.clang-tidy
 ln -sf "$(pwd)"/golangci.yml "$HOME"/.golangci.yml
 # ln -sf "$(pwd)"/wezterm.lua "$HOME"/.wezterm.lua
-# ln -sf "$(pwd)"/stylelintrc.yaml "$HOME"/.stylelintrc.yaml
 # ln -sf "$(pwd)"/eslintrc.yaml "$HOME"/.eslintrc.yaml
 
 configHome="${XDG_CONFIG_HOME:-$HOME/.config}"

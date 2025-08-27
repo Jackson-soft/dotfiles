@@ -82,13 +82,9 @@
   :hook
   ((prog-mode text-mode) . whitespace-mode)
   :custom
-  (indicate-empty-lines t)
   (whitespace-action '(auto-cleanup))
-  (whitespace-style '(face             ;; visualize things below
-                      trailing         ;; trailing blanks
-                      empty            ;; empty lines at beginning/end of buffer
-                      space-before-tab ;; spaces before tab
-                      space-after-tab))
+  (whitespace-style
+   '(face tabs trailing lines-tail newline empty indentation::tab space-before-tab space-after-tab))
   )
 
 ;; format
