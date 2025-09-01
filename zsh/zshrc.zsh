@@ -45,7 +45,7 @@ zinit wait"1" lucid depth"1" light-mode for \
 
 # git extensions
 zinit wait"0a" lucid depth"1" for \
-    as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras \
+    as"program" src"etc/git-extras-completion.zsh" tj/git-extras \
     atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua \
     wfxr/forgit
 
