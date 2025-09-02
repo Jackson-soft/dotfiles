@@ -42,7 +42,7 @@
 								   search-ring
 								   regexp-search-ring
 								   extended-command-history)
-                                 )
+								 )
   )
 
 (use-package ibuffer

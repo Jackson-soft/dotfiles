@@ -2,16 +2,16 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package icomplete
-  :ensure nil
-  :hook
-  (after-init . fido-vertical-mode)
-  :custom
-  (icomplete-in-buffer t)
-  (icomplete-tidy-shadowed-file-names t)
-  (icomplete-show-matches-on-no-input t)
-  (icomplete-scroll t)
-  )
+;; (use-package icomplete
+;;   :ensure nil
+;;   :hook
+;;   (after-init . fido-vertical-mode)
+;;   :custom
+;;   (icomplete-in-buffer t)
+;;   (icomplete-tidy-shadowed-file-names t)
+;;   (icomplete-show-matches-on-no-input t)
+;;   (icomplete-scroll t)
+;;   )
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -19,20 +19,24 @@
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion))
-                                   (eglot (styles orderless))))
+								   (eglot (styles orderless))))
   )
 
-;; (use-package vertico
-;;   :bind (:map vertico-map
-;;               ("RET" . vertico-directory-enter)
-;;               ("DEL" . vertico-directory-delete-char)
-;;               ("M-DEL" . vertico-directory-delete-word))
-;;   :hook ((after-init . vertico-mode)
-;;          (rfn-eshadow-update-overlay . vertico-directory-tidy))
-;;   :config
-;;   (setq vertico-cycle t
-;;         vertico-resize t)
-;;   )
+(use-package vertico
+  :bind
+  (:map vertico-map
+		("RET" . vertico-directory-enter)
+		("DEL" . vertico-directory-delete-char)
+		("M-DEL" . vertico-directory-delete-word))
+  :hook
+  ((after-init . vertico-mode)
+   (rfn-eshadow-update-overlay . vertico-directory-tidy))
+  :custom
+  (vertico-scroll-margin 0) ;; Different scroll margin
+  (vertico-count 20) ;; Show more candidates
+  (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  )
 
 (use-package consult
   :bind
@@ -132,7 +136,7 @@
   :config
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
-               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+			   '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
 				 nil
 				 (window-parameters (mode-line-format . none))))
   )

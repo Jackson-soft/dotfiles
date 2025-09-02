@@ -40,6 +40,7 @@
   (use-dialog-box nil)  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
   (word-wrap-by-category t)
   (truncate-lines t)                              ;; Enable line truncation to avoid wrapping long lines.
+  (context-menu-mode t)
   :init
   (setq-default tab-width 4
 				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
