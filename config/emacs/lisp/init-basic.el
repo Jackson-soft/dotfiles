@@ -41,11 +41,23 @@
   (word-wrap-by-category t)
   (truncate-lines t)                              ;; Enable line truncation to avoid wrapping long lines.
   (context-menu-mode t)
+  (window-combination-resize t)
+  (indicate-empty-lines t)  ;; 如果文件末尾有空行，以可视地形式提醒
   :init
   (setq-default tab-width 4
-				indicate-empty-lines t  ;; 如果文件末尾有空行，以可视地形式提醒
-				fill-column 120
-				window-combination-resize t)
+				fill-column 120)
+  :config
+  (require-theme 'modus-themes)
+
+  ;; Add all your customizations prior to loading the themes
+  (setopt modus-themes-italic-constructs t
+		  modus-themes-bold-constructs nil)
+
+  ;; Maybe define some palette overrides, such as by using our presets
+  (setopt modus-themes-common-palette-overrides
+		  modus-themes-preset-overrides-intense)
+
+  (load-theme 'modus-operandi-tinted)
   )
 
 (use-package window

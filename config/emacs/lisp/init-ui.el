@@ -9,15 +9,6 @@
   :demand t
   )
 
-(use-package modus-themes
-  :ensure nil
-  :demand t
-  :bind
-  ("<f5>" . modus-themes-toggle)
-  :init
-  (load-theme 'modus-operandi-tinted t)
-  )
-
 ;; Display available keybindings in popup
 (use-package which-key
   :ensure nil
@@ -44,12 +35,12 @@
 			  '("%e"
 				mode-line-front-space
 				(:propertize ("" mode-line-mule-info mode-line-modified))
-                "  "
-                (project-mode-line project-mode-line-format)
-                mode-line-frame-identification
-                mode-line-buffer-identification
-                (:propertize " %l:%c " 'face 'modus-themes-bold)
-                (:propertize " %I " 'face 'modus-themes-bold)
+				"  "
+				(project-mode-line project-mode-line-format)
+				mode-line-frame-identification
+				mode-line-buffer-identification
+				(:propertize " %l:%c " 'face 'modus-themes-bold)
+				(:propertize " %I " 'face 'modus-themes-bold)
 				"  "
 				mode-line-modes
 

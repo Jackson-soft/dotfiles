@@ -148,7 +148,7 @@
 
 (use-package nerd-icons-completion
   :hook
-  (emacs-startup . nerd-icons-completion-mode)
+  (marginalia-mode . nerd-icons-completion-marginalia-setup)
   )
 
 (provide 'init-completion)
