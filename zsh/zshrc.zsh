@@ -21,8 +21,7 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Initialize completion system
-autoload -Uz compinit
-compinit -i
+autoload -U compinit && compinit
 
 ### End of Zinit's installer chunk
 
