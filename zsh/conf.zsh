@@ -84,26 +84,45 @@ zstyle ':completion:*' file-sort modification
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*' completer _complete _prefix _expand _correct _prefix _match _approximate
-zstyle ':completion:*' menu no
 zstyle ':completion:*' special-dirs true
 zstyle ':completion:*' accept-exact '*(N)'
 
-# fzf-tab
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:descriptions' format '[%d]'
+# ===== fzf-tab 高级预览配置 =====
+
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':fzf-tab:*' popup-min-size 50 8
 zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 zstyle ':fzf-tab:complete:cd:*' popup-pad 30 0
 
+# 补全描述格式
+zstyle ':completion:*:descriptions' format '[%d]'
+# 文件名着色
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# 禁用默认菜单，让 fzf-tab 接管
+zstyle ':completion:*' menu no
+
+# cd 补全时预览目录结构（需要 eza 或 exa）
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+
+# 文件补全时预览文件内容（bat 带语法高亮）
+zstyle ':fzf-tab:complete:*:*' fzf-preview '[[ -f $realpath ]] && bat --style=numbers --color=always --line-range=:200 $realpath || eza -1 --color=always $realpath'
+
+# git checkout 补全分支时预览最近提交
+zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview 'git log --oneline --graph --decorate --color=always $(echo {}) -n 20'
+
+# git checkout 补全 tag 时预览 tag 信息
+zstyle ':fzf-tab:complete:git-checkout:refs/tags/*' fzf-preview 'git show --color=always $(echo {}) | bat --style=plain --color=always --line-range=:200'
+
+# git checkout 补全 commit 时预览提交详情
+zstyle ':fzf-tab:complete:git-checkout:commit' fzf-preview 'git show --color=always $(echo {}) | bat --style=plain --color=always --line-range=:200'
+
+# 历史命令补全时预览完整命令
+zstyle ':fzf-tab:complete:history-words:*' fzf-preview 'echo {} | fold -w $COLUMNS'
+
 # git
-zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview \
-	'git diff $word | delta'
-zstyle ':fzf-tab:complete:git-log:*' fzf-preview \
-	'git log --color=always $word'
-zstyle ':fzf-tab:complete:git-help:*' fzf-preview \
-	'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff $word | delta'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview 'git log --color=always $word'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview 'git help $word | bat -plman --color=always'
 zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
 	'case "$group" in
 	"commit tag") git show --color=always $word ;;

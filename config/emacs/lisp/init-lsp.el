@@ -53,14 +53,12 @@
    (global-corfu-mode . corfu-popupinfo-mode)
    (global-corfu-mode . corfu-history-mode))
   :custom
-  (corfu-cycle t)                    ; 循环选择候选项
-  (corfu-auto t)                     ; 自动弹出补全
-  (corfu-auto-prefix 2)              ; 最小前缀长度
-  (corfu-quit-at-boundary nil)       ; 不在边界退出
-  (corfu-quit-no-match nil)          ; 没有匹配时不退出
-  (corfu-preview-current 'insert)    ; 预览当前选项
-  (corfu-preselect 'prompt)          ; 预选择提示
-  (corfu-on-exact-match nil)         ; 精确匹配时的行为
+  (corfu-cycle t)                ;; 循环选择候选项
+  (corfu-auto t)                 ;; 自动弹出补全
+  (corfu-auto-delay 0.0)         ;; 无延迟
+  (corfu-auto-prefix 1)          ;; 输入 1 个字符就触发
+  (corfu-preselect 'prompt)      ;; 预选提示
+  (corfu-on-exact-match nil)     ;; 精确匹配时不自动补全
   )
 
 (use-package nerd-icons-corfu
@@ -79,18 +77,7 @@
   (add-to-list 'completion-at-point-functions #'cape-dict)
   (add-to-list 'completion-at-point-functions #'cape-elisp-block)
   (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
-  :config
-  ;; 为不同模式配置不同的补全
-  (defun my/eglot-capf ()
-    (setq-local completion-at-point-functions
-                (list (cape-capf-super
-                       #'eglot-completion-at-point
-                       #'tempel-expand
-                       #'cape-dabbrev
-                       #'cape-file))))
-
-  (add-hook 'eglot-managed-mode-hook #'my/eglot-capf)
-)
+  )
 
 (use-package eglot
   :ensure nil
@@ -104,65 +91,57 @@
   :custom
   (eglot-report-progress nil)
   (eglot-autoshutdown t)
+  (eglot-stay-out-of '(company))
   (eglot-ignored-server-capabilities '(:documentLinkProvider
-                                       :hoverProvider
-                                       :inlayHintProvider
-                                       :documentOnTypeFormattingProvider))
+									   :hoverProvider
+									   :inlayHintProvider
+									   :documentOnTypeFormattingProvider))
   :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) . ("clangd"
-                                                                   "-j=5"
-                                                                   "--background-index"
-                                                                   "--clang-tidy"
-                                                                   "--compile-commands-dir=build"
-                                                                   "--completion-style=detailed"
-                                                                   "--pch-storage=disk"
-                                                                   "--all-scopes-completion"
-                                                                   "--header-insertion=iwyu"
-                                                                   "--header-insertion-decorators")))
+																   "-j=5"
+																   "--background-index"
+																   "--clang-tidy"
+																   "--compile-commands-dir=build"
+																   "--completion-style=detailed"
+																   "--pch-storage=disk"
+																   "--all-scopes-completion"
+																   "--header-insertion=iwyu"
+																   "--header-insertion-decorators")))
   )
 
 ;; (use-package yasnippet
-;;   :hook (prog-mode . yas-minor-mode)
+;;   :hook
+;;   (prog-mode . yas-minor-mode)
 ;;   :config
 ;;   (use-package yasnippet-snippets)
 ;;   )
 
-
-;; Configure Tempel
 (use-package tempel
-  :custom
-  (tempel-trigger-prefix "<")
   :bind
-  (("M-+" . tempel-complete) ;; Alternative tempel-expand
-   ("M-*" . tempel-insert)
-   (:map tempel-map
-         ("<tab>" . tempel-next)
-         ("<backtab>" . tempel-previous)
-         ("C-]" . tempel-next)))
+  (("M-+" . tempel-complete)
+   ("M-*" . tempel-insert))
   :init
-  ;; Setup completion at point
   (defun tempel-setup-capf ()
-    ;; Add the Tempel Capf to `completion-at-point-functions'.
-    ;; `tempel-expand' only triggers on exact matches. Alternatively use
-    ;; `tempel-complete' if you want to see all matches, but then you
-    ;; should also configure `tempel-trigger-prefix', such that Tempel
-    ;; does not trigger too often when you don't expect it. NOTE: We add
-    ;; `tempel-expand' *before* the main programming mode Capf, such
-    ;; that it will be tried first.
-    (setq-local completion-at-point-functions
-                (cons #'tempel-expand
-                      completion-at-point-functions)))
+	;; Add the Tempel Capf to `completion-at-point-functions'.
+	;; `tempel-expand' only triggers on exact matches. Alternatively use
+	;; `tempel-complete' if you want to see all matches, but then you
+	;; should also configure `tempel-trigger-prefix', such that Tempel
+	;; does not trigger too often when you don't expect it. NOTE: We add
+	;; `tempel-expand' *before* the main programming mode Capf, such
+	;; that it will be tried first.
+	(setq-local completion-at-point-functions
+				(cons #'tempel-expand
+					  completion-at-point-functions)))
 
   (add-hook 'conf-mode-hook 'tempel-setup-capf)
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
   (add-hook 'text-mode-hook 'tempel-setup-capf)
+  (add-hook 'eglot-managed-mode-hook 'tempel-setup-capf)
   )
 
-;; Optional: Add tempel-collection.
-;; The package is young and doesn't have comprehensive coverage.
 (use-package tempel-collection)
 
 (provide 'init-lsp)
