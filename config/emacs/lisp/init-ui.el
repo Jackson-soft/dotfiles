@@ -19,42 +19,36 @@
   (which-key-show-remaining-keys t)
   )
 
-;; 显示时间
+;; 时间显示
 (use-package time
   :ensure nil
-  :hook
-  (after-init . display-time-mode)
   :custom
-  (display-time-format "%Y-%m-%d %H:%M")
-  (display-time-24hr-format t)
+  (display-time-24hr-format t)       ;; 24 小时制
+  (display-time-day-and-date t)      ;; 显示日期和星期
+  (display-time-format "%Y-%m-%d %H:%M") ;; 自定义格式
   (display-time-default-load-average nil)
+  :init
+  (display-time-mode 1))             ;; 启用时间显示
+
+;; Moody - 丝带与标签风格的 mode-line
+(use-package moody
+  :config
+  ;; 替换默认的 mode-line 元素
+  (moody-replace-mode-line-front-space)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+
+  ;; 去掉默认边框，让外观更干净
+  (set-face-attribute 'mode-line-active nil
+					  :box 'unspecified
+					  :overline "blue"
+					  :underline `(:color "blue" :position t))
+
+  (set-face-attribute 'mode-line-inactive nil
+					  :box 'unspecified
+					  :overline "green"
+					  :underline `(:color "green" :position t))
   )
-
-;; Mode line settings
-(setq-default mode-line-format
-			  '("%e"
-				mode-line-front-space
-				(:propertize ("" mode-line-mule-info mode-line-modified))
-				"  "
-				(project-mode-line project-mode-line-format)
-				mode-line-frame-identification
-				mode-line-buffer-identification
-				(:propertize " %l:%c " 'face 'modus-themes-bold)
-				(:propertize " %I " 'face 'modus-themes-bold)
-				"  "
-				mode-line-modes
-
-				;; buffer encode
-				(:eval (propertize (format " %s " buffer-file-coding-system) 'face 'font-lock-comment-face))
-
-				;; git info
-				(vc-mode vc-mode)
-				"   "
-				;; data and time
-				mode-line-misc-info
-
-				mode-line-end-spaces
-				))
 
 (provide 'init-ui)
 

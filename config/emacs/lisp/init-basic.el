@@ -24,38 +24,51 @@
 (use-package emacs
   :ensure nil
   :custom
+  ;; 缩进与补全
   (tab-always-indent 'complete)
   (tab-first-completion 'word-or-paren-or-punct)
-  (transient-mark-mode t) ;; 标记高亮
-  (scroll-margin 2)           ;; better scrolling experience
+
+  ;; 滚动与光标
+  (scroll-margin 2)
   (scroll-step 1)
-  (scroll-conservatively 101) ;; > 100
-  (scroll-preserve-screen-position t)  ;; 滚动时保持光标位置
+  (scroll-conservatively 101)
+  (scroll-preserve-screen-position t)
+  (line-move-visual nil)
+  (track-eol t)
+
+  ;; 界面与提示
   (use-short-answers t)
   (mode-line-compact t)
-  (visible-bell t) ;; 错误操作时的窗口闪动警告
+  (visible-bell t)
   (ring-bell-function 'ignore)
-  (display-raw-bytes-as-hex t)    ;; Improve display
+  (display-raw-bytes-as-hex t)
+  (indicate-empty-lines t)
+
+  ;; 文件与对话框
   (use-file-dialog nil)
-  (use-dialog-box nil)  ;; 不使用对话框进行（是，否 取消）的选择，而是用minibuffer
+  (use-dialog-box nil)
+
+  ;; 文本显示
   (word-wrap-by-category t)
-  (truncate-lines t)                              ;; Enable line truncation to avoid wrapping long lines.
-  (context-menu-mode t)
+
+  ;; 窗口行为
   (window-combination-resize t)
-  (indicate-empty-lines t)  ;; 如果文件末尾有空行，以可视地形式提醒
+
   :init
+  ;; 模式开关
+  (transient-mark-mode 1)   ;; 高亮标记区域
+  (context-menu-mode 1)     ;; 右键菜单
   (setq-default tab-width 4
-				fill-column 120)
+		fill-column 120
+		truncate-lines t) ;; 不自动换行长行
+
   :config
   (require-theme 'modus-themes)
 
   ;; Add all your customizations prior to loading the themes
   (setopt modus-themes-italic-constructs t
-		  modus-themes-bold-constructs nil)
-
-  ;; Maybe define some palette overrides, such as by using our presets
-  (setopt modus-themes-common-palette-overrides
-		  modus-themes-preset-overrides-intense)
+	  modus-themes-bold-constructs nil
+	  modus-themes-common-palette-overrides modus-themes-preset-overrides-intense)
 
   (load-theme 'modus-operandi-tinted)
   )
@@ -85,23 +98,34 @@
   )
 
 (use-package simple
-  :ensure nil
+  :ensure nil  ;; 内置包，无需安装
   :bind
-  (("C-z" . undo-redo)
-   ([remap just-one-space] . cycle-spacing))
+  (("C-z" . undo-redo)                       ;; 撤销/重做
+   ([remap just-one-space] . cycle-spacing)) ;; 空格循环压缩
   :custom
+  ;; 命令补全过滤器
   (read-extended-command-predicate #'command-completion-default-include-p)
-  (column-number-mode t)        ;; show column/filesize in modeline
-  (line-number-mode t)
-  (line-move-visual nil)
-  (track-eol t)                     ;; Keep cursor at end of lines. Require line-move-visual is nil.
-  (set-mark-command-repeat-pop t)  ;; Repeating C-SPC after popping mark pops it again
+  ;; 光标移动与标记行为
+  (line-move-visual nil)                 ;; 按逻辑行移动
+  (track-eol t)                           ;; 保持在行尾
+  (set-mark-command-repeat-pop t)         ;; 连续 C-SPC 弹出多个 mark
+  ;; 视觉提示
   (visual-line-fringe-indicators '(nil right-curly-arrow))
-  (kill-do-not-save-duplicates t)  ;; eliminate duplicates
-  (what-cursor-show-names t) ;; show the name of character in `what-cursor-position'
-  (save-interprogram-paste-before-kill t)
+  ;; 剪贴板与 kill-ring
+  (kill-do-not-save-duplicates t)         ;; 不保存重复的 kill
+  (save-interprogram-paste-before-kill t) ;; 覆盖前保存外部剪贴板
+  ;; 光标信息
+  (what-cursor-show-names t)              ;; `what-cursor-position` 显示字符名
   :init
+  ;; 默认缩进使用空格
   (setq-default indent-tabs-mode nil)
+  ;; 启用列号和行号显示
+  (column-number-mode 1)
+  (line-number-mode 1)
+  ;; 启用重复模式（连续执行同类命令）
+  (repeat-mode 1)
+  ;; 启用选中即替换
+  (delete-selection-mode 1)
   )
 
 ;; abbrev mode configuration
@@ -111,12 +135,6 @@
   (after-init . abbrev-mode)
   :custom
   (abbrev-suggest t)
-  )
-
-(use-package repeat
-  :ensure nil
-  :hook
-  (after-init . repeat-mode)
   )
 
 (use-package select

@@ -27,31 +27,41 @@
   (after-init . global-hl-line-mode)
   )
 
-;; Highlight uncommitted changes
+;; 高亮未提交的更改
 (use-package diff-hl
   :hook
-  ((after-init . global-diff-hl-mode)
-   (magit-pre-refresh  . diff-hl-magit-pre-refresh)
-   (magit-post-refresh . diff-hl-magit-post-refresh)
-   (dired-mode . diff-hl-dired-mode))
-  :custom
-  (diff-hl-margin-mode t)
-  (diff-hl-flydiff-mode t)
-  )
+  ;; Magit 集成
+  (magit-pre-refresh  . diff-hl-magit-pre-refresh)
+  (magit-post-refresh . diff-hl-magit-post-refresh)
+  ;; Dired 集成
+  (dired-mode . diff-hl-dired-mode)
+  :init
+  ;; 启用全局 diff-hl
+  (global-diff-hl-mode 1)
+  ;; 在边距显示更改标记
+  (diff-hl-margin-mode 1)
+  ;; 实时更新更改标记
+  (diff-hl-flydiff-mode 1))
 
 ;; 缩进标识
 (use-package indent-bars
   :hook
-  (prog-mode . indent-bars-mode)
-  :config
-  (require 'indent-bars-ts)
+  (prog-mode . indent-bars-mode) ;; 所有编程模式启用
   :custom
+  ;; 启用 Tree-sitter 支持
   (indent-bars-treesit-support t)
+  ;; 忽略空行类型
   (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  ;; 不显示下降线条
   (indent-bars-no-descend-string t)
+  ;; 使用字符而不是线条
   (indent-bars-prefer-character t)
-  (indent-bars-treesit-wrap '((c argument_list parameter_list init_declarator)))
-  )
+  ;; 为特定语法节点包裹缩进线
+  (indent-bars-treesit-wrap
+   '((c argument_list parameter_list init_declarator)))
+  :config
+  ;; 加载 Tree-sitter 扩展
+  (require 'indent-bars-ts))
 
 ;; Dimming Unused Windows
 (use-package dimmer

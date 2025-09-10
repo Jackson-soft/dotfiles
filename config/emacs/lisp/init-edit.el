@@ -29,13 +29,6 @@
   (display-line-numbers-width-start t)
   )
 
-;; Delete selection if you insert
-(use-package delsel
-  :ensure nil
-  :hook
-  (after-init . delete-selection-mode)
-  )
-
 ;; use zap-up-to-char instead of zap-to-char
 (use-package misc
   :ensure nil
@@ -162,28 +155,6 @@
                                          (gt-youdao-suggest-engine))
                           :render (gt-buffer-render)))
   )
-
-;; (use-package ispell
-;;   :ensure nil
-;;   :config
-;;   (setq ispell-following-word t
-;;		ispell-quietly t         ;; Supress messages in ispell-word
-;;		;; ispell-program-name "aspell"
-;;		ispell-program-name "enchant-2"
-;;		;; ispell-dictionary "en_US"
-;;		;; ispell-extra-args '("--sug-mode=ultra" "--lang=en_US" "--run-together" "--camel-case" "--run-together-limit=16"))
-;;		)
-;;   )
-
-;; ;; 单词拼写检查
-;; (use-package flyspell
-;;   :ensure nil
-;;   :hook (((text-mode outline-mode) . flyspell-mode)
-;;		 (prog-mode . flyspell-prog-mode))
-;;   :config
-;;   (setq flyspell-issue-welcome-flag nil
-;;		flyspell-issue-message-flag nil)
-;;   )
 
 (provide 'init-edit)
 

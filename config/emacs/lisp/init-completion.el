@@ -20,45 +20,55 @@
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion))
 								   (eglot (styles orderless)))
-                   (eglot-capf (styles orderless)))
+								 (eglot-capf (styles orderless)))
   )
 
+;; Vertico 主体
 (use-package vertico
-  :bind
-  (:map vertico-map
-		("RET" . vertico-directory-enter)
-		("DEL" . vertico-directory-delete-char)
-		("M-DEL" . vertico-directory-delete-word))
-  :hook
-  ((after-init . vertico-mode)
-   (rfn-eshadow-update-overlay . vertico-directory-tidy))
   :custom
-  (vertico-scroll-margin 0) ;; Different scroll margin
-  (vertico-count 20) ;; Show more candidates
-  (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-  (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  ;; 行为设置
+  (vertico-scroll-margin 0)  ;; 滚动边距
+  (vertico-count 20)         ;; 显示候选数量
+  (vertico-resize t)         ;; 自动调整 minibuffer 高度
+  (vertico-cycle t)          ;; 循环选择候选项
+  :init
+  ;; 启用 Vertico
+  (vertico-mode 1)
+  :config
+  ;; 目录导航扩展
+  (use-package vertico-directory
+	:ensure nil
+	:after vertico
+	:bind (:map vertico-map
+				("RET"    . vertico-directory-enter)
+				("DEL"    . vertico-directory-delete-char)
+				("M-DEL"  . vertico-directory-delete-word))
+	:hook
+	(rfn-eshadow-update-overlay . vertico-directory-tidy))
   )
 
 (use-package consult
   :bind
-  (;; C-c bindings (mode-specific-map)
+  ( ;; C-c 系列（mode-specific-map）
    ("C-c M-x" . consult-mode-command)
-   ("C-c h" . consult-history)
-   ("C-c k" . consult-kmacro)
-   ("C-c m" . consult-man)
-   ("C-c i" . consult-info)
-   ;; C-x bindings (ctl-x-map)
-   ([remap repeat-complex-command] . consult-complex-command)     ;; C-x M-:
-   ([remap switch-to-buffer] . consult-buffer) ;; C-x b
-   ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-   ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
-   ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
-   ([remap project-switch-to-buffer] . consult-project-buffer)  ;; C-x p b
+   ("C-c h"   . consult-history)
+   ("C-c k"   . consult-kmacro)
+   ("C-c m"   . consult-man)
+   ("C-c i"   . consult-info)
+
+   ;; C-x 系列
+   ([remap repeat-complex-command] . consult-complex-command) ;; C-x M-:
+   ([remap switch-to-buffer]       . consult-buffer)          ;; C-x b
+   ("C-x 4 b" . consult-buffer-other-window)
+   ("C-x 5 b" . consult-buffer-other-frame)
+   ("C-x r b" . consult-bookmark)
+   ([remap project-switch-to-buffer] . consult-project-buffer) ;; C-x p b
    ("C-x C-r" . consult-recent-file)
-   ([remap bookmark-jump] . consult-bookmark)            ;; C-x r b
-   ;; Other custom bindings
-   ([remap yank-pop] . consult-yank-pop)  ;; M-y
-   ;; M-g bindings (goto-map)
+
+   ;; 其他常用
+   ([remap yank-pop] . consult-yank-pop) ;; M-y
+
+   ;; M-g 系列（goto-map）
    ("M-g f" . consult-flymake)
    ([remap goto-line] . consult-goto-line) ;; M-g g
    ("M-g o" . consult-outline)
@@ -66,7 +76,8 @@
    ("M-g k" . consult-global-mark)
    ("M-g i" . consult-imenu)
    ("M-g I" . consult-imenu-multi)
-   ;; M-s bindings (search-map)
+
+   ;; M-s 系列（search-map）
    ("M-s d" . consult-fd)
    ("M-s D" . consult-locate)
    ("M-s g" . consult-grep)
@@ -76,29 +87,33 @@
    ("M-s L" . consult-line-multi)
    ("M-s k" . consult-keep-lines)
    ("M-s u" . consult-focus-lines)
-   ;; Isearch integration
    ("M-s e" . consult-isearch-history)
+
+   ;; Isearch 集成
    :map isearch-mode-map
-   ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-   ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-   ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
-   ("M-s L" . consult-line-multi)            ;; needed by consult-line to detect isearch
-   ;; Minibuffer history
+   ("M-e"   . consult-isearch-history)
+   ("M-s e" . consult-isearch-history)
+   ("M-s l" . consult-line)
+   ("M-s L" . consult-line-multi)
+
+   ;; Minibuffer 历史
    :map minibuffer-local-map
-   ("M-s" . consult-history)                 ;; orig. next-matching-history-element
-   ("M-r" . consult-history))                ;; orig. previous-matching-history-element
+   ("M-s" . consult-history)
+   ("M-r" . consult-history))
   :hook
   (completion-list-mode . consult-preview-at-point-mode)
   :custom
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (consult-narrow-key "<") ;; "C-+"
+  ;; 缩小候选集的按键
+  (consult-narrow-key "<")
+  ;; 预览候选的按键
   (consult-preview-key "M-.")
-  ;; Use Consult to select xref locations with preview
-  (xref-show-xrefs-function #'consult-xref)
+  ;; Xref 集成
+  (xref-show-xrefs-function       #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
+  ;; 注册预览延迟
   (register-preview-delay 0.5)
   :config
+  ;; 用 Consult 的窗口替代默认 register-preview
   (advice-add #'register-preview :override #'consult-register-window)
   )
 
@@ -118,10 +133,10 @@
   )
 
 (use-package marginalia
-  :hook
-  (after-init . marginalia-mode)
   :bind
   ("M-A" . marginalia-cycle)
+  :init
+  (marginalia-mode 1)
   )
 
 (use-package embark
