@@ -41,7 +41,12 @@
   ;; 在边距显示更改标记
   (diff-hl-margin-mode 1)
   ;; 实时更新更改标记
-  (diff-hl-flydiff-mode 1))
+  (diff-hl-flydiff-mode 1)
+  :bind
+  ;; 快捷键：查看当前行的 diff 详情
+  (("C-c d" . diff-hl-show-hunk)
+   ;; 可选：撤销当前 hunk
+   ("C-c u" . diff-hl-revert-hunk)))
 
 ;; 缩进标识
 (use-package indent-bars
