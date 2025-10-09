@@ -41,6 +41,9 @@
   (web-mode-enable-current-element-highlight t)
   )
 
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode))
+
 (provide 'init-script)
 
 ;;; init-script.el ends here

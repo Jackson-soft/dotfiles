@@ -92,10 +92,6 @@
   (eglot-report-progress nil)
   (eglot-autoshutdown t)
   (eglot-stay-out-of '(company))
-  (eglot-ignored-server-capabilities '(:documentLinkProvider
-									   :hoverProvider
-									   :inlayHintProvider
-									   :documentOnTypeFormattingProvider))
   :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))

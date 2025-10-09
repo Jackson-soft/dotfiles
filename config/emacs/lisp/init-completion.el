@@ -140,27 +140,32 @@
   )
 
 (use-package embark
+  :ensure t
   :bind
-  (("C-h B" . embark-bindings) ;; alternative for `describe-bindings'
-   ("C-." . embark-act)         ;; pick some comfortable binding
-   ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("M-n" . embark-next-symbol)
-   ("M-p" . embark-previous-symbol))
+  (("C-h B" . embark-bindings)   ;; alternative for `describe-bindings'
+   ("C-."   . embark-act)        ;; 主入口
+   ("C-;"   . embark-dwim)       ;; 上下文敏感的 act
+   ("M-n"   . embark-next-symbol)
+   ("M-p"   . embark-previous-symbol))
   :custom
   (embark-cycle-key ".")
   (embark-help-key "?")
+  :init
+  ;; 提示当前可用的 action
+  (setq prefix-help-command #'embark-prefix-help-command)
   :config
-  ;; Hide the mode line of the Embark live/completions buffers
+  ;; 隐藏 Embark collect buffer 的 mode-line
   (add-to-list 'display-buffer-alist
 			   '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
 				 nil
-				 (window-parameters (mode-line-format . none))))
-  )
+				 (window-parameters (mode-line-format . none)))))
 
+;; 如果你用 consult，强烈推荐加上这个
 (use-package embark-consult
+  :ensure t
+  :after (embark consult)
   :hook
-  (embark-collect-mode . consult-preview-at-point-mode)
-  )
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package nerd-icons-completion
   :hook
