@@ -59,18 +59,17 @@
   (transient-mark-mode 1)   ;; 高亮标记区域
   (context-menu-mode 1)     ;; 右键菜单
   (setq-default tab-width 4
-		fill-column 120
-		truncate-lines t) ;; 不自动换行长行
+				fill-column 120
+				truncate-lines t) ;; 不自动换行长行
 
-  :config
   (require-theme 'modus-themes)
-
+  :config
   ;; Add all your customizations prior to loading the themes
   (setopt modus-themes-italic-constructs t
-	  modus-themes-bold-constructs nil
-	  modus-themes-common-palette-overrides modus-themes-preset-overrides-intense)
+		  modus-themes-bold-constructs nil
+		  modus-themes-common-palette-overrides modus-themes-preset-overrides-intense)
 
-  (load-theme 'modus-operandi-tinted)
+  (modus-themes-load-theme 'modus-operandi-tinted)
   )
 
 (use-package window

@@ -63,10 +63,10 @@ zinit wait lucid as"null" from"gh-r" for \
 
 # Modern command aliases with fallbacks
 if (( $+commands[eza] )); then
-    alias ls='eza --color=auto --icons --group-directories-first'
-    alias ll='eza -alh --time-style=long-iso --icons --group-directories-first'
-    alias la='eza -a --icons'
-    alias tree='eza -T --icons'
+    alias ls='eza --color=auto --icons=auto --group-directories-first'
+    alias ll='ls -lhA'
+    alias la='ls -A'
+    alias tree='ls -T'
 else
     # Fallback to traditional ls with colors
     if [[ $OSTYPE == darwin* ]]; then
@@ -74,7 +74,7 @@ else
         alias ll='ls -alh'
     else
         alias ls='ls --color=auto'
-        alias ll='ls -alh --color=auto'
+        alias ll='ls -alh'
     fi
     alias la='ls -a'
     (( $+commands[tree] )) && alias tree='tree' || alias tree='find . -type d | head -20'
