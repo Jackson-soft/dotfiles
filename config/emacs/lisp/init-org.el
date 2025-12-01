@@ -118,6 +118,7 @@
 
 ;; Org Modern - 美化外观
 (use-package org-modern
+  :diminish
   :hook
   (org-mode . org-modern-mode)
   :custom
@@ -130,13 +131,18 @@
 
 ;; Org Appear - 光标经过时显示隐藏标记
 (use-package org-appear
+  :diminish
   :hook
   (org-mode . org-appear-mode)
   :custom
+  (org-appear-autoemphasis t)
+  (org-appear-autoentities t)
+  (org-appear-autokeywords t)
   (org-appear-autolinks t)
   (org-appear-autosubmarkers t)
-  (org-appear-autoemphasis t)
-  (org-appear-autokeywords t))
+  (org-appear-inside-latex t)
+  (org-appear-manual-linger t)
+  (org-appear-delay 0.5))
 
 ;; Org Superstar - 美化标题层级符号
 (use-package org-superstar

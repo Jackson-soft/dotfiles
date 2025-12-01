@@ -16,38 +16,38 @@
   :ensure nil
   :config
   (setopt treesit-language-source-alist
-          '((bash       . ("https://github.com/tree-sitter/tree-sitter-bash"))
-            (c          . ("https://github.com/tree-sitter/tree-sitter-c"))
-            (cpp        . ("https://github.com/tree-sitter/tree-sitter-cpp"))
-            (css        . ("https://github.com/tree-sitter/tree-sitter-css"))
-            (cmake      . ("https://github.com/uyha/tree-sitter-cmake"))
-            (dockerfile . ("https://github.com/camdencheek/tree-sitter-dockerfile"))
-            (dot        . ("https://github.com/rydesun/tree-sitter-dot"))
-            (doxygen    . ("https://github.com/tree-sitter-grammars/tree-sitter-doxygen"))
-            (elisp      . ("https://github.com/Wilfred/tree-sitter-elisp"))
-            (go         . ("https://github.com/tree-sitter/tree-sitter-go"))
-            (gomod      . ("https://github.com/camdencheek/tree-sitter-go-mod"))
-            (gosum      . ("https://github.com/amaanq/tree-sitter-go-sum"))
-            (gowork     . ("https://github.com/omertuc/tree-sitter-go-work"))
-            (gitcommit  . ("https://github.com/gbprod/tree-sitter-gitcommit"))
-            (html       . ("https://github.com/tree-sitter/tree-sitter-html"))
-            (http       . ("https://github.com/rest-nvim/tree-sitter-http"))
-            (java       . ("https://github.com/tree-sitter/tree-sitter-java"))
-            (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
-            (json       . ("https://github.com/tree-sitter/tree-sitter-json"))
-            (lua        . ("https://github.com/tree-sitter-grammars/tree-sitter-lua"))
-            (make       . ("https://github.com/tree-sitter-grammars/tree-sitter-make"))
-            (markdown . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
-            (markdown-inline . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src"))
-            (python     . ("https://github.com/tree-sitter/tree-sitter-python"))
-            (proto      . ("https://github.com/treywood/tree-sitter-proto"))
-            (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
-            (tsx        . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
-            (rust       . ("https://github.com/tree-sitter/tree-sitter-rust"))
-            (sql        . ("https://github.com/derekstride/tree-sitter-sql"))
-            (vue        . ("https://github.com/tree-sitter-grammars/tree-sitter-vue"))
-            (yaml       . ("https://github.com/tree-sitter-grammars/tree-sitter-yaml"))
-            (toml       . ("https://github.com/tree-sitter/tree-sitter-toml"))))
+		  '((bash       . ("https://github.com/tree-sitter/tree-sitter-bash"))
+			(c          . ("https://github.com/tree-sitter/tree-sitter-c"))
+			(cpp        . ("https://github.com/tree-sitter/tree-sitter-cpp"))
+			(css        . ("https://github.com/tree-sitter/tree-sitter-css"))
+			(cmake      . ("https://github.com/uyha/tree-sitter-cmake"))
+			(dockerfile . ("https://github.com/camdencheek/tree-sitter-dockerfile"))
+			(dot        . ("https://github.com/rydesun/tree-sitter-dot"))
+			(doxygen    . ("https://github.com/tree-sitter-grammars/tree-sitter-doxygen"))
+			(elisp      . ("https://github.com/Wilfred/tree-sitter-elisp"))
+			(go         . ("https://github.com/tree-sitter/tree-sitter-go"))
+			(gomod      . ("https://github.com/camdencheek/tree-sitter-go-mod"))
+			(gosum      . ("https://github.com/amaanq/tree-sitter-go-sum"))
+			(gowork     . ("https://github.com/omertuc/tree-sitter-go-work"))
+			(gitcommit  . ("https://github.com/gbprod/tree-sitter-gitcommit"))
+			(html       . ("https://github.com/tree-sitter/tree-sitter-html"))
+			(http       . ("https://github.com/rest-nvim/tree-sitter-http"))
+			(java       . ("https://github.com/tree-sitter/tree-sitter-java"))
+			(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+			(json       . ("https://github.com/tree-sitter/tree-sitter-json"))
+			(lua        . ("https://github.com/tree-sitter-grammars/tree-sitter-lua"))
+			(make       . ("https://github.com/tree-sitter-grammars/tree-sitter-make"))
+			(markdown . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown/src"))
+			(markdown-inline . ("https://github.com/tree-sitter-grammars/tree-sitter-markdown" "split_parser" "tree-sitter-markdown-inline/src"))
+			(python     . ("https://github.com/tree-sitter/tree-sitter-python"))
+			(proto      . ("https://github.com/treywood/tree-sitter-proto"))
+			(typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
+			(tsx        . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
+			(rust       . ("https://github.com/tree-sitter/tree-sitter-rust"))
+			(sql        . ("https://github.com/derekstride/tree-sitter-sql"))
+			(vue        . ("https://github.com/tree-sitter-grammars/tree-sitter-vue"))
+			(yaml       . ("https://github.com/tree-sitter-grammars/tree-sitter-yaml"))
+			(toml       . ("https://github.com/tree-sitter/tree-sitter-toml"))))
   )
 
 (use-package project
@@ -70,10 +70,15 @@
   (imenu-auto-rescan t)
   )
 
-(use-package eldoc-box
+(use-package eldoc-mouse
   :hook
-  ((eldoc-mode eglot-managed-mode) . eldoc-box-hover-mode)
-  :diminish eldoc-box-hover-mode
+  ((eglot-managed-mode emacs-lisp-mode) . eldoc-mouse-mode)
+  :bind
+  (("C-h ." . eldoc-mouse-pop-doc-at-cursor))
+  :custom
+  (eldoc-mouse-mouse-timer 0.5) ;; 鼠标悬停延迟 0.5 秒
+  (org-appear-autoentities t)
+  (org-appear-autolinks t)
   )
 
 ;; show trailing white spaces
@@ -97,12 +102,12 @@
   (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "postgres" "--disable-progress-bar" "-f" "-n" "-")))
 
   (dolist (alist '((markdown-ts-mode . prettier-markdown)
-                   (gfm-mode . prettier-markdown)
-                   (dockerfile-ts-mode . shfmt)
-                   (protobuf-ts-mode . clang-format)
-                   (emacs-lisp-mode . lisp-indent)
-                   (sql-mode . sql-format)))
-    (add-to-list 'apheleia-mode-alist alist))
+				   (gfm-mode . prettier-markdown)
+				   (dockerfile-ts-mode . shfmt)
+				   (protobuf-ts-mode . clang-format)
+				   (emacs-lisp-mode . lisp-indent)
+				   (sql-mode . sql-format)))
+	(add-to-list 'apheleia-mode-alist alist))
   )
 
 ;; 彩虹括号
@@ -140,10 +145,10 @@ Else, call `comment-or-uncomment-region' on the current line."
 	(interactive)
 	(if (region-active-p)
 		(comment-or-uncomment-region (region-beginning) (region-end))
-      (if (save-excursion
+	  (if (save-excursion
 			(beginning-of-line)
 			(looking-at "\\s-*$"))
-          (comment-dwim nil)
+		  (comment-dwim nil)
 		(comment-or-uncomment-region (line-beginning-position) (line-end-position)))))
   )
 
@@ -160,7 +165,7 @@ Else, call `comment-or-uncomment-region' on the current line."
 (use-package separedit
   :bind
   (:map prog-mode-map
-        ("C-c '" . separedit))
+		("C-c '" . separedit))
   :custom
   (separedit-remove-trailing-spaces-in-comment t)
   (separedit-default-mode 'markdown-mode)
