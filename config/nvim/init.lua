@@ -359,7 +359,7 @@ require("lazy").setup({
                 "bash", "c", "cmake", "comment", "cpp", "css", "dockerfile",
                 "dot", "doxygen", "diff", "git_config", "gitignore",
                 "go", "gomod", "gosum", "gowork",
-                "html", "http", "javascript", "json", "jsonc",
+                "html", "http", "javascript", "json",
                 "vim", "vimdoc", "lua", "luadoc",
                 "make", "markdown", "markdown_inline",
                 "proto", "python", "regex", "sql", "toml", "typescript", "yaml",
