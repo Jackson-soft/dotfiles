@@ -26,6 +26,13 @@
   (helpful-mode . cursor-sensor-mode)
   )
 
+(use-package elisp-mode
+  :ensure nil
+  :custom
+  ;; Syntax highlighting of known Elisp symbols
+  (elisp-fontify-semantically t)
+  )
+
 (provide 'init-emacs-lisp)
 
 ;;; init-emacs-lisp.el ends here

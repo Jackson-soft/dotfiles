@@ -64,9 +64,7 @@
   ;; 为特定语法节点包裹缩进线
   (indent-bars-treesit-wrap
    '((c argument_list parameter_list init_declarator)))
-  :config
-  ;; 加载 Tree-sitter 扩展
-  (require 'indent-bars-ts))
+  )
 
 ;; Dimming Unused Windows
 (use-package dimmer
