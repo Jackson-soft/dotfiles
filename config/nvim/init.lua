@@ -898,13 +898,8 @@ require("lazy").setup({
         ft = "markdown",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
         opts = {
-            heading = {
-                enabled = true,
-                icons = { '󰲡 ', '󰲣 ', '󰲥 ', '󰲧 ', '󰲩 ', '󰲫 ' },
-            },
-            code = {
-                enabled = true,
-                style = 'normal',
+            completions = {
+                blink = { enabled = true },
             },
         },
     },
