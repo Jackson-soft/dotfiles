@@ -90,11 +90,7 @@ else
     compinit -C  # Skip security check if dump is fresh (<24h)
 fi
 
-# Performance: Compile zsh configs if newer than compiled version
-for f in "$HOME/.zshrc" "$HOME/myDoc/dotfiles/zsh/conf.zsh"; do
-    if [[ -f "$f" ]] && { [[ "$f" -nt "$f.zwc" ]] || [[ ! -s "$f.zwc" ]] }; then
-        zcompile "$f"
-    fi
-done
-
-unset f
+# Performance: Compile zshrc if newer than compiled version
+if [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]] || [[ ! -s "$HOME/.zshrc.zwc" ]]; then
+    zcompile "$HOME/.zshrc"
+fi
