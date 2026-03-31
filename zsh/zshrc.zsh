@@ -2,7 +2,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 ### Added by Zinit's installer
@@ -19,9 +19,6 @@ source ${ZI_BIN}/zinit.zsh
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Initialize completion system
-autoload -U compinit && compinit
 
 ### End of Zinit's installer chunk
 
@@ -85,26 +82,19 @@ fi
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
 
-# Load local customizations if they exist
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+# Initialize completion system (after plugins for full completion coverage)
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C  # Skip security check if dump is fresh (<24h)
+fi
 
-# Load work-specific configurations if they exist
-[[ -f ~/.zshrc.work ]] && source ~/.zshrc.work
-
-# macOS specific configurations
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    # Add Homebrew to PATH if it exists
-    if [[ -f "/opt/homebrew/bin/brew" ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    elif [[ -f "/usr/local/bin/brew" ]]; then
-        eval "$(/usr/local/bin/brew shellenv)"
+# Performance: Compile zsh configs if newer than compiled version
+for f in "$HOME/.zshrc" "$HOME/myDoc/dotfiles/zsh/conf.zsh"; do
+    if [[ -f "$f" ]] && { [[ "$f" -nt "$f.zwc" ]] || [[ ! -s "$f.zwc" ]] }; then
+        zcompile "$f"
     fi
+done
 
-    # macOS specific aliases
-    alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-fi
-
-# Performance: Compile zshrc if it's newer than the compiled version
-if [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]] || [[ ! -s "$HOME/.zshrc.zwc" ]]; then
-    zcompile "$HOME/.zshrc"
-fi
+unset f

@@ -17,12 +17,13 @@ setopt GLOB_DOTS            # Include dotfiles in globbing.
 setopt MARK_DIRS            # Mark directories with trailing slash in filename completion.
 
 # History settings
-HISTSIZE=50000              # Increased history size
+HISTSIZE=50000
 SAVEHIST=50000
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
-setopt appendhistory
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
+setopt HIST_REDUCE_BLANKS      # Remove superfluous blanks from each command
+setopt HIST_EXPIRE_DUPS_FIRST  # Expire duplicates first when trimming history
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
 bindkey -e
