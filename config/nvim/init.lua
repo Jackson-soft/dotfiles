@@ -345,24 +345,19 @@ require("lazy").setup({
     -- Treesitter: Syntax Highlighting & Text Objects
     {
         "nvim-treesitter/nvim-treesitter",
-        version = false,
+        lazy = false,
         build = ":TSUpdate",
-        event = { "BufReadPost", "BufNewFile" },
-        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
         dependencies = {
-            { "nvim-treesitter/nvim-treesitter-context",    opts = { max_lines = 3 } },
-            { "nvim-treesitter/nvim-treesitter-refactor" },
+            { "nvim-treesitter/nvim-treesitter-context"     },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
         opts = {
             ensure_installed = {
-                "bash", "c", "cmake", "comment", "cpp", "css", "dockerfile",
+                "bash", "cmake", "comment", "cpp", "css", "dockerfile",
                 "dot", "doxygen", "diff", "git_config", "gitignore",
                 "go", "gomod", "gosum", "gowork",
                 "html", "http", "javascript", "json",
-                "vim", "vimdoc", "lua", "luadoc",
-                "make", "markdown", "markdown_inline",
-                "proto", "python", "regex", "sql", "toml", "typescript", "yaml",
+                "make", "proto", "python", "regex", "sql", "toml", "typescript", "yaml",
             },
             auto_install = true,
             sync_install = false,
@@ -383,28 +378,6 @@ require("lazy").setup({
                     node_decremental = "<BS>",
                 },
             },
-
-            refactor = {
-                highlight_definitions = {
-                    enable = true,
-                    clear_on_cursor_move = true,
-                },
-                smart_rename = {
-                    enable = true,
-                    keymaps = { smart_rename = "grr" },
-                },
-                navigation = {
-                    enable = true,
-                    keymaps = {
-                        goto_definition = "gnd",
-                        list_definitions = "gnD",
-                        list_definitions_toc = "gO",
-                        goto_next_usage = "]u",
-                        goto_previous_usage = "[u",
-                    },
-                },
-            },
-
             textobjects = {
                 select = {
                     enable = true,
