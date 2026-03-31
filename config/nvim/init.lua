@@ -33,7 +33,6 @@ opt.breakindent = true
 
 -- Line Numbers & UI
 opt.number = true
-opt.termguicolors = true
 opt.signcolumn = 'yes'
 opt.cursorline = true
 opt.showmatch = true
@@ -75,7 +74,7 @@ opt.lazyredraw = false -- treesitter conflicts
 
 -- Folding (treesitter-based)
 opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldenable = true
@@ -136,7 +135,7 @@ autocmd('TextYankPost', {
     desc = 'Highlight when yanking text',
     group = augroup('highlight-yank', { clear = true }),
     callback = function()
-        vim.highlight.on_yank({ timeout = 200 })
+        vim.hl.on_yank({ timeout = 200 })
     end,
 })
 
@@ -163,6 +162,96 @@ autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
     group = augroup('checktime', { clear = true }),
     command = 'checktime',
 })
+
+-- ============================================================================
+-- LSP Configuration (Neovim 0.12 native)
+-- ============================================================================
+-- Keymaps on LspAttach
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = augroup('lsp-attach', { clear = true }),
+    callback = function(event)
+        local lsp_map = function(keys, func, desc, mode)
+            mode = mode or 'n'
+            vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+        end
+
+        -- Navigation
+        lsp_map('gd', vim.lsp.buf.definition, 'Goto Definition')
+        lsp_map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
+        lsp_map('gr', vim.lsp.buf.references, 'Goto References')
+        lsp_map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
+        lsp_map('gt', vim.lsp.buf.type_definition, 'Goto Type Definition')
+
+        -- Code Actions
+        lsp_map('<leader>ca', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
+        lsp_map('<leader>rn', vim.lsp.buf.rename, 'Rename')
+        lsp_map('<leader>bf', vim.lsp.buf.format, 'Format Buffer')
+
+        -- Diagnostics
+        lsp_map('<leader>e', vim.diagnostic.open_float, 'Show Diagnostic')
+        lsp_map('<leader>dl', vim.diagnostic.setloclist, 'Diagnostic List')
+
+        -- Hover & Signature
+        lsp_map('K', vim.lsp.buf.hover, 'Hover Documentation')
+        lsp_map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help', 'i')
+
+        -- Document Highlight on CursorHold
+        local client = vim.lsp.get_clients({ id = event.data.client_id })[1]
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+            local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
+            vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+                buffer = event.buf,
+                group = highlight_augroup,
+                callback = vim.lsp.buf.document_highlight,
+            })
+            vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+                buffer = event.buf,
+                group = highlight_augroup,
+                callback = vim.lsp.buf.clear_references,
+            })
+            vim.api.nvim_create_autocmd('LspDetach', {
+                group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
+                callback = function(event2)
+                    vim.lsp.buf.clear_references()
+                    vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = event2.buf }
+                end,
+            })
+        end
+
+        -- Inlay Hints Toggle
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+            lsp_map('<leader>th', function()
+                vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+            end, 'Toggle Inlay Hints')
+        end
+    end,
+})
+
+-- Diagnostic Configuration
+vim.diagnostic.config {
+    severity_sort = true,
+    float = {
+        border = 'rounded',
+        source = true,
+        header = '',
+        prefix = '',
+    },
+    underline = true,
+    update_in_insert = false,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '󰅚',
+            [vim.diagnostic.severity.WARN] = '󰀪',
+            [vim.diagnostic.severity.INFO] = '󰋽',
+            [vim.diagnostic.severity.HINT] = '󰌶',
+        },
+    },
+    virtual_text = {
+        spacing = 4,
+        source = true,
+        prefix = '●',
+    },
+}
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -345,10 +434,11 @@ require("lazy").setup({
     -- Treesitter: Syntax Highlighting & Text Objects
     {
         "nvim-treesitter/nvim-treesitter",
-        lazy = false,
+        event = { "BufReadPost", "BufNewFile" },
         build = ":TSUpdate",
+        cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
         dependencies = {
-            { "nvim-treesitter/nvim-treesitter-context"     },
+            { "nvim-treesitter/nvim-treesitter-context",    opts = { max_lines = 3 } },
             { "nvim-treesitter/nvim-treesitter-textobjects" },
         },
         opts = {
@@ -429,9 +519,7 @@ require("lazy").setup({
                 },
             },
         },
-        config = function(_, opts)
-            require("nvim-treesitter.configs").setup(opts)
-        end,
+        main = "nvim-treesitter.configs",
     },
 
     -- Rainbow Delimiters
@@ -529,208 +617,19 @@ require("lazy").setup({
 
             cmdline = { enabled = true },
         },
-        opts_extend = { "sources.default" }
-    },
-
-    -- LSP Configuration
-    {
-        "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            "saghen/blink.cmp",
-        },
-        config = function()
-            -- ================================================================
-            -- LSP Keymaps (on attach)
-            -- ================================================================
-            vim.api.nvim_create_autocmd('LspAttach', {
-                group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
-                callback = function(event)
-                    local lsp_map = function(keys, func, desc, mode)
-                        mode = mode or 'n'
-                        vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-                    end
-
-                    -- Navigation
-                    lsp_map('gd', vim.lsp.buf.definition, 'Goto Definition')
-                    lsp_map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
-                    lsp_map('gr', vim.lsp.buf.references, 'Goto References')
-                    lsp_map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
-                    lsp_map('gt', vim.lsp.buf.type_definition, 'Goto Type Definition')
-
-                    -- Code Actions
-                    lsp_map('<leader>ca', vim.lsp.buf.code_action, 'Code Action', { 'n', 'x' })
-                    lsp_map('<leader>rn', vim.lsp.buf.rename, 'Rename')
-                    lsp_map('<leader>bf', vim.lsp.buf.format, 'Format Buffer')
-
-                    -- Diagnostics
-                    lsp_map('<leader>e', vim.diagnostic.open_float, 'Show Diagnostic')
-                    lsp_map('<leader>dl', vim.diagnostic.setloclist, 'Diagnostic List')
-
-                    -- Hover & Signature
-                    lsp_map('K', vim.lsp.buf.hover, 'Hover Documentation')
-                    lsp_map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help', 'i')
-
-                    -- Workspace
-                    lsp_map('<leader>wa', vim.lsp.buf.add_workspace_folder, 'Add Workspace Folder')
-                    lsp_map('<leader>wr', vim.lsp.buf.remove_workspace_folder, 'Remove Workspace Folder')
-                    lsp_map('<leader>wl', function()
-                        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                    end, 'List Workspace Folders')
-
-                    -- Document Highlight on CursorHold
-                    local client = vim.lsp.get_client_by_id(event.data.client_id)
-                    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
-                        local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
-                        vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-                            buffer = event.buf,
-                            group = highlight_augroup,
-                            callback = vim.lsp.buf.document_highlight,
-                        })
-                        vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
-                            buffer = event.buf,
-                            group = highlight_augroup,
-                            callback = vim.lsp.buf.clear_references,
-                        })
-                        vim.api.nvim_create_autocmd('LspDetach', {
-                            group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
-                            callback = function(event2)
-                                vim.lsp.buf.clear_references()
-                                vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = event2.buf }
-                            end,
-                        })
-                    end
-
-                    -- Inlay Hints Toggle
-                    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-                        lsp_map('<leader>th', function()
-                            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-                        end, 'Toggle Inlay Hints')
-                    end
-                end,
+        opts_extend = { "sources.default" },
+        config = function(_, opts)
+            local blink = require('blink.cmp')
+            blink.setup(opts)
+            -- Set blink.cmp capabilities for all LSP servers
+            vim.lsp.config('*', {
+                capabilities = blink.get_lsp_capabilities(),
             })
-
-            -- ================================================================
-            -- Diagnostic Configuration
-            -- ================================================================
-            vim.diagnostic.config {
-                severity_sort = true,
-                float = {
-                    border = 'rounded',
-                    source = 'if_many',
-                    header = '',
-                    prefix = '',
-                },
-                underline = true,
-                update_in_insert = false,
-                signs = {
-                    text = {
-                        [vim.diagnostic.severity.ERROR] = '󰅚',
-                        [vim.diagnostic.severity.WARN] = '󰀪',
-                        [vim.diagnostic.severity.INFO] = '󰋽',
-                        [vim.diagnostic.severity.HINT] = '󰌶',
-                    },
-                },
-                virtual_text = {
-                    spacing = 4,
-                    source = 'if_many',
-                    prefix = '●',
-                },
-            }
-
-            -- ================================================================
-            -- Language Server Configurations
-            -- ================================================================
-            local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-            -- Clangd (C/C++)
-            vim.lsp.config('clangd', {
-                capabilities = capabilities,
-                cmd = {
-                    'clangd',
-                    '--background-index',
-                    '--clang-tidy',
-                    '--completion-style=detailed',
-                    '--header-insertion=iwyu',
-                    '--pch-storage=disk',
-                    '-j=4',
-                },
-                init_options = {
-                    fallbackFlags = { vim.bo.filetype == 'cpp' and '-std=c++23' or '-std=c17' },
-                },
-            })
-
-            -- Lua Language Server
-            vim.lsp.config('lua_ls', {
-                capabilities = capabilities,
-                settings = {
-                    Lua = {
-                        runtime = { version = 'LuaJIT' },
-                        completion = {
-                            callSnippet = 'Replace',
-                            displayContext = 1,
-                        },
-                        diagnostics = {
-                            globals = { 'vim' },
-                            disable = { 'missing-fields' },
-                        },
-                        workspace = {
-                            library = vim.api.nvim_get_runtime_file("", true),
-                            checkThirdParty = false,
-                        },
-                        telemetry = { enable = false },
-                        format = {
-                            enable = true,
-                            defaultConfig = {
-                                indent_style = "space",
-                                indent_size = "4",
-                            }
-                        },
-                        hint = {
-                            enable = true,
-                            setType = true,
-                        },
-                    },
-                },
-            })
-
-            -- Go Language Server
-            vim.lsp.config('gopls', {
-                capabilities = capabilities,
-                settings = {
-                    gopls = {
-                        analyses = {
-                            unusedparams = true,
-                            shadow = true,
-                        },
-                        staticcheck = true,
-                        gofumpt = true,
-                        hints = {
-                            assignVariableTypes = true,
-                            compositeLiteralFields = true,
-                            constantValues = true,
-                            functionTypeParameters = true,
-                            parameterNames = true,
-                            rangeVariableTypes = true,
-                        },
-                    },
-                },
-            })
-
-            -- Bash Language Server
-            vim.lsp.config('bashls', {
-                capabilities = capabilities,
-            })
-
-            -- CMake Language Server
-            vim.lsp.config('neocmake', {
-                capabilities = capabilities,
-            })
-
-            -- Enable all configured servers
-            vim.lsp.enable({ "bashls", "clangd", "lua_ls", "gopls", "neocmake" })
         end,
     },
+
+    -- nvim-lspconfig: provides default LSP server configs (lsp/*.lua) for vim.lsp.config
+    { "neovim/nvim-lspconfig",     lazy = false },
 
     -- Autopairs
     {
@@ -766,7 +665,7 @@ require("lazy").setup({
             {
                 "<leader>bf",
                 function()
-                    require("conform").format({ async = true, lsp_fallback = true })
+                    require("conform").format({ async = true, lsp_format = "fallback" })
                 end,
                 mode = { "n", "v" },
                 desc = "Format Buffer",
@@ -774,6 +673,7 @@ require("lazy").setup({
         },
         opts = {
             formatters_by_ft = {
+                lua = { lsp_format = "prefer" },
                 sh = { "shfmt" },
                 bash = { "shfmt" },
                 sql = { "sqlfluff" },
@@ -796,7 +696,7 @@ require("lazy").setup({
                 if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
                     return
                 end
-                return { timeout_ms = 1000, lsp_fallback = true }
+                return { timeout_ms = 1000, lsp_format = "fallback" }
             end,
 
             formatters = {
@@ -877,7 +777,7 @@ require("lazy").setup({
         },
     },
 
-    { "b0o/schemastore.nvim", lazy = true },
+    { "b0o/schemastore.nvim",      lazy = true },
 
     -- HTTP Client
     {
@@ -971,3 +871,76 @@ require("lazy").setup({
         },
     },
 })
+
+-- ============================================================================
+-- LSP Server Configurations (after lazy.nvim so nvim-lspconfig defaults are loaded)
+-- ============================================================================
+vim.lsp.config('clangd', {
+    cmd = {
+        'clangd',
+        '--background-index',
+        '--clang-tidy',
+        '--completion-style=detailed',
+        '--header-insertion=iwyu',
+        '--pch-storage=disk',
+        '-j=4',
+    },
+})
+
+vim.lsp.config('lua_ls', {
+    settings = {
+        Lua = {
+            runtime = { version = 'LuaJIT' },
+            completion = {
+                callSnippet = 'Replace',
+                displayContext = 1,
+            },
+            diagnostics = {
+                globals = { 'vim' },
+                disable = { 'missing-fields' },
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false,
+            },
+            telemetry = { enable = false },
+            format = {
+                enable = true,
+                defaultConfig = {
+                    indent_style = "space",
+                    indent_size = "4",
+                }
+            },
+            hint = {
+                enable = true,
+                setType = true,
+            },
+        },
+    },
+})
+
+vim.lsp.config('gopls', {
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+                shadow = true,
+            },
+            staticcheck = true,
+            gofumpt = true,
+            hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+            },
+        },
+    },
+})
+
+vim.lsp.config('bashls', {})
+vim.lsp.config('neocmake', {})
+
+vim.lsp.enable({ 'bashls', 'clangd', 'lua_ls', 'gopls', 'neocmake' })
