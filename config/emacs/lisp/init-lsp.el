@@ -27,8 +27,8 @@
   :hook
   (prog-mode . flymake-mode)
   :bind
-  (("M-n" . flymake-goto-next-error)
-   ("M-p" . flymake-goto-prev-error))
+  (("C-c n" . flymake-goto-next-error)
+   ("C-c p" . flymake-goto-prev-error))
   :custom
   (flymake-show-diagnostics-at-end-of-line t)
   )
@@ -91,7 +91,6 @@
   :custom
   (eglot-report-progress nil)
   (eglot-autoshutdown t)
-  (eglot-stay-out-of '(company))
   :config
   (add-to-list 'eglot-server-programs '(graphviz-dot-mode . ("dot-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))

@@ -19,8 +19,8 @@
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion))
-								   (eglot (styles orderless)))
-								 (eglot-capf (styles orderless)))
+								   (eglot (styles orderless))
+								   (eglot-capf (styles orderless))))
   )
 
 ;; Vertico 主体

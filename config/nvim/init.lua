@@ -6,18 +6,6 @@ vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 
 -- ============================================================================
--- Performance & Startup Optimization
--- ============================================================================
--- Faster loading times
-vim.loader.enable()
-
--- Disable some builtin providers (use external tools instead)
-vim.g.loaded_node_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_ruby_provider = 0
-
--- ============================================================================
 -- Editor Settings
 -- ============================================================================
 local opt = vim.opt

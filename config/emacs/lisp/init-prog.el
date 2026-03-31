@@ -77,8 +77,6 @@
   (("C-h ." . eldoc-mouse-pop-doc-at-cursor))
   :custom
   (eldoc-mouse-mouse-timer 0.5) ;; 鼠标悬停延迟 0.5 秒
-  (org-appear-autoentities t)
-  (org-appear-autolinks t)
   )
 
 ;; show trailing white spaces
@@ -119,9 +117,11 @@
 (use-package symbol-overlay
   :bind
   (("M-i" . symbol-overlay-put)
-   ("M-C" . symbol-overlay-remove-all)
-   ("M-n" . symbol-overlay-switch-forward)
-   ("M-p" . symbol-overlay-switch-backward))
+   ("M-C" . symbol-overlay-remove-all))
+  :bind
+  (:map symbol-overlay-map
+   ("n" . symbol-overlay-switch-forward)
+   ("p" . symbol-overlay-switch-backward))
   :hook
   (prog-mode . symbol-overlay-mode)
   )

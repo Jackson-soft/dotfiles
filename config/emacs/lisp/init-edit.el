@@ -15,7 +15,8 @@
 		 (end (string-to-number (nth 1 line)))
 		 )
 	(save-excursion
-	  (goto-line begin)
+	  (goto-char (point-min))
+	  (forward-line (1- begin))
 	  (kill-line (- end begin))))
   )
 

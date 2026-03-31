@@ -29,9 +29,6 @@
   (tab-first-completion 'word-or-paren-or-punct)
 
   ;; 滚动与光标
-  (scroll-margin 2)
-  (scroll-step 1)
-  (scroll-conservatively 101)
   (scroll-preserve-screen-position t)
   (line-move-visual nil)
   (track-eol t)
@@ -113,8 +110,6 @@
   ;; 命令补全过滤器
   (read-extended-command-predicate #'command-completion-default-include-p)
   ;; 光标移动与标记行为
-  (line-move-visual nil)                 ;; 按逻辑行移动
-  (track-eol t)                           ;; 保持在行尾
   (set-mark-command-repeat-pop t)         ;; 连续 C-SPC 弹出多个 mark
   ;; 视觉提示
   (visual-line-fringe-indicators '(nil right-curly-arrow))

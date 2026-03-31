@@ -22,7 +22,7 @@
 
 (use-package with-editor
   :hook
-  (vterm-mode . with-editor-export-editor)
+  (eat-mode . with-editor-export-editor)
   )
 
 ;; `diff-hl' depends on `vc'

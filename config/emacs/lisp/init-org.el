@@ -37,10 +37,7 @@
   (org-return-follows-link t)
   (org-ellipsis "...#")
   ;; 模块
-  (org-modules '(org-habit org-id org-tempo org-mac-link org-mouse
-						   org-protocol org-annotate-file org-expiry
-						   org-interactive-query org-collector org-panel
-						   org-screen org-toc ol-info))
+  (org-modules '(org-habit org-id org-tempo org-mouse org-protocol ol-info))
   ;; 编辑行为
   (org-tags-column 0)
   (org-insert-heading-respect-content t)
@@ -144,17 +141,6 @@
   (org-appear-manual-linger t)
   (org-appear-delay 0.5))
 
-;; Org Superstar - 美化标题层级符号
-(use-package org-superstar
-  :hook
-  (org-mode . org-superstar-mode)
-  :custom
-  ;; 不替换列表符号（交给 org-modern 管）
-  (org-superstar-remove-leading-stars t)
-  (org-superstar-leading-bullet ?\s)
-  ;; 不同层级的标题符号
-  (org-superstar-headline-bullets-list '("★" "◉" "○" "▷" "✿" "◇")))
-
 (use-package org-make-toc
   :hook
   (org-mode . org-make-toc-mode)
@@ -164,7 +150,7 @@
   :vc
   (:url "https://github.com/jdtsmith/org-modern-indent")
   :hook
-  (org-mode-hook . org-modern-indent-mode)
+  (org-mode . org-modern-indent-mode)
   )
 
 ;; 表格对齐
