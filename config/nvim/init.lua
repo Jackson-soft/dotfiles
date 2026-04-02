@@ -60,9 +60,7 @@ opt.updatetime = 250
 opt.timeoutlen = 300
 opt.lazyredraw = false -- treesitter conflicts
 
--- Folding (treesitter-based)
-opt.foldmethod = "expr"
-opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- Folding
 opt.foldlevel = 99
 opt.foldlevelstart = 99
 opt.foldenable = true
@@ -299,7 +297,7 @@ require("lazy").setup({
     -- ========================================================================
     -- Editor Enhancements
     -- ========================================================================
-    { 'echasnovski/mini.surround', event = "VeryLazy", opts = {} },
+    { 'echasnovski/mini.surround',   event = "VeryLazy", opts = {} },
 
     {
         'folke/todo-comments.nvim',
@@ -389,21 +387,26 @@ require("lazy").setup({
 
             ts.setup {}
 
-            -- Install parsers (runs async)
+            -- Install parsers
             ts.install {
-                "bash", "cmake", "comment", "cpp", "css", "dockerfile",
+                "bash", "c", "cmake", "cpp", "css", "dockerfile",
                 "dot", "doxygen", "diff", "git_config", "gitignore",
                 "go", "gomod", "gosum", "gowork",
                 "html", "http", "javascript", "json", "lua",
-                "make", "proto", "python", "regex", "sql", "toml", "typescript", "yaml",
+                "make", "markdown", "markdown_inline",
+                "proto", "python", "query", "regex",
+                "sql", "toml", "typescript", "vim", "vimdoc", "yaml",
             }
 
-            -- Treesitter-based indentation (replaces indent.enable)
+            -- Enable treesitter highlighting + folding per filetype
             vim.api.nvim_create_autocmd('FileType', {
-                group = vim.api.nvim_create_augroup('ts-indent', { clear = true }),
+                group = vim.api.nvim_create_augroup('ts-features', { clear = true }),
+                pattern = "*",
                 callback = function()
-                    local disabled = { python = true, yaml = true }
-                    if not disabled[vim.bo.filetype] then
+                    local ok = pcall(vim.treesitter.start)
+                    if ok then
+                        vim.wo[0][0].foldmethod = 'expr'
+                        vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
                         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
                     end
                 end,
@@ -511,16 +514,21 @@ require("lazy").setup({
     -- Blink.cmp: Completion Engine
     {
         'saghen/blink.cmp',
-        event = "InsertEnter",
+        lazy = false, -- blink.cmp does not support lazy-loading (cmdline needs it early)
         version = '1.*',
+        dependencies = { 'rafamadriz/friendly-snippets' },
         opts_extend = { "sources.default" },
         config = function()
             local blink = require('blink.cmp')
             blink.setup({
+                appearance = {
+                    nerd_font_variant = 'mono',
+                },
+
                 sources = {
-                    default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+                    default = { "lsp", "path", "snippets", "buffer" },
                     per_filetype = {
-                        lua = { "lazydev", "lsp", "path", "snippets", "buffer" },
+                        lua = { inherit_defaults = true, "lazydev" },
                     },
                     providers = {
                         lazydev = {
@@ -533,20 +541,21 @@ require("lazy").setup({
                             max_items = 4,
                             min_keyword_length = 4,
                         },
+                        snippets = {
+                            -- Hide snippets after typing a trigger character (e.g. ".")
+                            should_show_items = function(ctx)
+                                return ctx.trigger.initial_kind ~= 'trigger_character'
+                            end,
+                        },
                     },
                 },
 
                 keymap = {
-                    preset = 'default',
-                    ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
-                    ['<C-e>'] = { 'hide', 'fallback' },
-                    ['<CR>'] = { 'accept', 'fallback' },
-                    ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
-                    ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
-                    ['<C-n>'] = { 'select_next', 'fallback' },
-                    ['<C-p>'] = { 'select_prev', 'fallback' },
-                    ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
-                    ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+                    preset = 'enter',
+                    ['<Tab>'] = { 'snippet_forward', 'select_next', 'fallback' },
+                    ['<S-Tab>'] = { 'snippet_backward', 'select_prev', 'fallback' },
+                    ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
+                    ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
                 },
 
                 completion = {
@@ -555,6 +564,7 @@ require("lazy").setup({
                     list = { selection = { preselect = false, auto_insert = true } },
                     menu = {
                         draw = {
+                            treesitter = { 'lsp' },
                             columns = {
                                 { "label",     "label_description", gap = 1 },
                                 { "kind_icon", "kind" }
@@ -615,7 +625,7 @@ require("lazy").setup({
             {
                 "<leader>bf",
                 function()
-                    require("conform").format({ async = true, lsp_format = "fallback" })
+                    require("conform").format({ async = true })
                 end,
                 mode = { "n", "v" },
                 desc = "Format Buffer",
@@ -628,42 +638,43 @@ require("lazy").setup({
 
         config = function()
             require("conform").setup({
+                default_format_opts = {
+                    lsp_format = "fallback",
+                },
+
                 formatters_by_ft = {
                     lua = { lsp_format = "prefer" },
                     sh = { "shfmt" },
                     bash = { "shfmt" },
                     sql = { "sqlfluff" },
                     json = { "jq" },
-                    yaml = { "prettier" },
-                    markdown = { "prettier" },
+                    yaml = { "prettierd", "prettier", stop_after_first = true },
+                    markdown = { "prettierd", "prettier", stop_after_first = true },
                     proto = { "clang_format" },
                     c = { "clang_format" },
                     cpp = { "clang_format" },
-                    go = { "gofumpt", "goimports" },
-                    python = { "isort", "black" },
-                    javascript = { "prettier" },
-                    typescript = { "prettier" },
-                    ["_"] = { "trim_whitespace" },
+                    go = { "goimports", "gofmt" },
+                    python = { "ruff_format" },
+                    javascript = { "prettierd", "prettier", stop_after_first = true },
+                    typescript = { "prettierd", "prettier", stop_after_first = true },
+                    ["_"] = { "trim_whitespace", "trim_newlines" },
                 },
 
-                format_on_save = function(bufnr)
-                    -- Disable for specific filetypes
-                    local ignore_filetypes = { "sql", "java" }
-                    if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
-                        return
-                    end
-                    return { timeout_ms = 1000, lsp_format = "fallback" }
-                end,
+                format_on_save = {
+                    -- I recommend these options. See :help conform.format for details.
+                    lsp_format = "fallback",
+                    timeout_ms = 500,
+                },
 
                 formatters = {
                     shfmt = {
-                        prepend_args = { "-i", "4", "-ci", "-bn", "-sr" },
+                        append_args = { "-i", "4", "-ci", "-bn", "-sr" },
                     },
                     prettier = {
-                        prepend_args = { "--tab-width", "4" },
+                        append_args = { "--tab-width", "4" },
                     },
                     clang_format = {
-                        prepend_args = { "--style=file" },
+                        append_args = { "--style=file" },
                     },
                 },
             })
@@ -739,11 +750,10 @@ require("lazy").setup({
     -- ========================================================================
     {
         "akinsho/toggleterm.nvim",
-        keys = {
-            { [[<c-\>]], "<cmd>ToggleTerm<cr>", desc = "Toggle Terminal" },
-        },
+        keys = { [[<c-\>]] },
         config = function()
             require("toggleterm").setup({
+                open_mapping = [[<c-\>]],
                 shading_factor = 2,
                 direction = "float",
                 float_opts = {
