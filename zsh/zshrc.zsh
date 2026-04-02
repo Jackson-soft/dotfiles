@@ -15,6 +15,11 @@ if [[ ! -e ${ZI_BIN}/zinit.zsh ]] {
     command chmod g-rwX ${ZI_HOME} && zcompile ${ZI_BIN}/zinit.zsh
 }
 
+# Performance tuning (before sourcing zinit)
+declare -A ZINIT
+ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
+ZINIT[COMPINIT_OPTS]="-C"
+
 source ${ZI_BIN}/zinit.zsh
 
 autoload -Uz _zinit
@@ -28,19 +33,21 @@ zinit light-mode depth"1" for \
     ${ZI_REPO}/zinit-annex-bin-gem-node \
     atload"[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" romkatv/powerlevel10k
 
-# Completion enhancements
-zinit wait"1" lucid depth"1" light-mode for \
-    atclone"source fzf-tab.zsh && build-fzf-tab-module" atpull"%atclone" Aloxaf/fzf-tab \
-    ${ZI_REPO}/fast-syntax-highlighting \
-    atload"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;ZSH_AUTOSUGGEST_STRATEGY=(history completion);ZSH_AUTOSUGGEST_USE_ASYNC=1" \
+# Completion enhancements (wait"0" = load at first prompt for fast tab-completion)
+# Order: completions → compinit → fzf-tab (needs compinit) → autosuggestions → syntax-highlighting (last per docs)
+zinit lucid depth"1" light-mode for \
+    blockf atpull'zinit creinstall -q .' \
+        zsh-users/zsh-completions \
+    atinit"zicompinit; zicdreplay" atclone"source fzf-tab.zsh && build-fzf-tab-module" atpull"%atclone" \
+        Aloxaf/fzf-tab \
+    atload"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;ZSH_AUTOSUGGEST_STRATEGY=(history completion)" \
         zsh-users/zsh-autosuggestions \
     trackbinds bindmap"^R -> ^H" \
         ${ZI_REPO}/history-search-multi-word \
-    blockf atpull'zinit creinstall -q .' \
-        zsh-users/zsh-completions
+    ${ZI_REPO}/fast-syntax-highlighting
 
-# git extensions
-zinit wait"0a" lucid depth"1" for \
+# git extensions (deferred 1s – less urgent than completions)
+zinit wait"1" lucid depth"1" for \
     as"program" src"etc/git-extras-completion.zsh" tj/git-extras \
     atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua \
     wfxr/forgit
@@ -82,12 +89,9 @@ fi
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
 
-# Initialize completion system (after plugins for full completion coverage)
-autoload -Uz compinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-    compinit
-else
-    compinit -C  # Skip security check if dump is fresh (<24h)
+# 手动加载一下环境变量
+if [ -f ~/.zshenv ]; then
+    source ~/.zshenv
 fi
 
 # Performance: Compile zshrc if newer than compiled version
