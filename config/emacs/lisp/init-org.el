@@ -138,7 +138,8 @@
   (org-appear-autolinks t)
   (org-appear-autosubmarkers t)
   (org-appear-inside-latex t)
-  (org-appear-manual-linger t)
+  (org-appear-trigger 'manual)   ;; 手动触发显示隐藏标记
+  (org-appear-manual-linger t)   ;; 光标离开后仍保留片刻
   (org-appear-delay 0.5))
 
 (use-package org-make-toc

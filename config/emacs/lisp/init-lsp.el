@@ -5,22 +5,12 @@
 ;;
 ;;; Code:
 
-;; lsp tools
-;; npm i -g vscode-langservers-extracted
-;; npm i -g bash-language-server
-
-;; company-ispell dictionary
-;; sudo pacman -S words
-
-;; flycheck tools
-;; html -> sudo pacman -S tidy
-;; json -> brew install jq
-;; javascript/typescritp -> sudo npm i -g eslint
-;; markdown -> sudo npm i -g markdownlint-cli
-;; python3 -> sudo python3 -m pip install -U mypy
-;; yaml -> sudo npm i -g js-yaml
-;; dockerfile -> brew install hadolint
-;; shell -> brew install shellcheck
+;; LSP servers:
+;; npm i -g vscode-langservers-extracted bash-language-server
+;;
+;; Flymake linters:
+;; brew install hadolint shellcheck jq
+;; npm i -g markdownlint-cli eslint js-yaml
 
 (use-package flymake
   :ensure nil
@@ -55,8 +45,8 @@
   :custom
   (corfu-cycle t)                ;; 循环选择候选项
   (corfu-auto t)                 ;; 自动弹出补全
-  (corfu-auto-delay 0.0)         ;; 无延迟
-  (corfu-auto-prefix 1)          ;; 输入 1 个字符就触发
+  (corfu-auto-delay 0.1)         ;; 轻微延迟，减少无效补全请求
+  (corfu-auto-prefix 2)          ;; 输入 2 个字符触发，减少噪音
   (corfu-preselect 'prompt)      ;; 预选提示
   (corfu-on-exact-match nil)     ;; 精确匹配时不自动补全
   )
@@ -70,13 +60,21 @@
 ;; Add extensions
 (use-package cape
   :init
+  ;; 只添加常用且轻量的全局补全源
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-abbrev)
-  (add-to-list 'completion-at-point-functions #'cape-dict)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+  :config
+  ;; 将其余补全源仅添加到相关 mode
+  (defun my/cape-setup-elisp ()
+    (setq-local completion-at-point-functions
+                (append completion-at-point-functions
+                        (list #'cape-elisp-symbol #'cape-elisp-block))))
+  (defun my/cape-setup-prog ()
+    (setq-local completion-at-point-functions
+                (append completion-at-point-functions
+                        (list #'cape-keyword))))
+  (add-hook 'emacs-lisp-mode-hook #'my/cape-setup-elisp)
+  (add-hook 'prog-mode-hook #'my/cape-setup-prog)
   )
 
 (use-package eglot

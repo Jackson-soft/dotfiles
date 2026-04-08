@@ -42,7 +42,8 @@
   )
 
 (use-package restclient
-  :mode ("\\.http\\'" . restclient-mode))
+  :mode 
+  ("\\.http\\'" . restclient-mode))
 
 (provide 'init-script)
 

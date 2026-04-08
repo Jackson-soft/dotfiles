@@ -19,6 +19,14 @@
   )
 
 (use-package eat
+  :bind
+  (("C-`" . my/toggle-eat-drawer))
+  :hook
+  ;; Eshell 集成：用 Eat 替代 Term 运行 visual commands（如 htop、less 等）
+  (eshell-load . eat-eshell-visual-command-mode)
+  :custom
+  ;; 默认使用 semi-char 模式（大部分键发送给终端，保留 C-x/C-c 等 Emacs 键）
+  (eat-kill-buffer-on-exit t) ;; 进程退出后自动关闭 buffer
   :config
   (defvar my/eat-buffer-name "*eat*"
 	"底部弹出的 Eat 终端 buffer 名称。")
@@ -29,40 +37,13 @@
   (defvar my/eat-last-buffer nil
 	"记录切换到 Eat 前的 buffer。")
 
-  (defun my/create-eat-buffer-silently ()
-	"静默创建 eat buffer，不影响当前窗口。"
-	(let ((buf (get-buffer my/eat-buffer-name)))
-	  (unless (and buf (buffer-live-p buf))
-		;; 保存当前窗口配置，在临时窗口里启动 eat
-		(save-window-excursion
-		  (let ((temp-win (split-window (selected-window) nil 'below)))
-			(select-window temp-win)
-			;; 直接指定 buffer 名，避免生成 *eat*<1>
-			(condition-case err
-				(progn
-				  (eat nil my/eat-buffer-name)
-				  (setq buf (get-buffer my/eat-buffer-name))
-				  ;; 延迟进入 char 模式
-				  (when (and buf (eq major-mode 'eat-mode))
-					(run-at-time 0.05 nil
-								 (lambda ()
-								   (when (buffer-live-p buf)
-									 (with-current-buffer buf
-									   (ignore-errors (eat-char-mode))))))))
-			  (error
-			   (message "Failed to create eat buffer: %s" err)
-			   (setq buf nil)))
-			(when (window-live-p temp-win)
-			  (delete-window temp-win)))))
-	  buf))
-
   (defun my/toggle-eat-drawer ()
-	"在底部弹出或收起 Eat 终端，并自动进入 char 模式。"
+	"在底部弹出或收起 Eat 终端，并自动进入 semi-char 模式。"
 	(interactive)
 	(let* ((buf (get-buffer my/eat-buffer-name))
 		   (current-buf (current-buffer)))
 	  (if (and buf (buffer-live-p buf) (get-buffer-window buf))
-		  ;; 收起
+		  ;; 收起：关闭窗口，切回之前的 buffer
 		  (progn
 			(delete-window (get-buffer-window buf))
 			(when (and (bufferp my/eat-last-buffer)
@@ -72,18 +53,19 @@
 		;; 打开
 		(unless (string= (buffer-name current-buf) my/eat-buffer-name)
 		  (setq my/eat-last-buffer current-buf))
-		(unless (and buf (buffer-live-p buf))
-		  (setq buf (my/create-eat-buffer-silently)))
-		(when (and buf (buffer-live-p buf))
-		  (let ((drawer-win (split-window (selected-window) (- my/eat-window-height) 'below)))
-			(set-window-buffer drawer-win buf)
-			(select-window drawer-win)
-			(with-current-buffer buf
-			  (when (derived-mode-p 'eat-mode)
-				(ignore-errors (eat-char-mode)))))))))
-
-  ;; 绑定快捷键
-  (global-set-key (kbd "C-`") #'my/toggle-eat-drawer)
+		(let ((drawer-win (split-window (selected-window)
+										(- my/eat-window-height) 'below)))
+		  (select-window drawer-win)
+		  (if (and buf (buffer-live-p buf))
+			  ;; buffer 已存在，直接显示并切模式
+			  (progn
+				(set-window-buffer drawer-win buf)
+				(with-current-buffer buf
+				  (when (and (derived-mode-p 'eat-mode)
+							 (process-live-p (get-buffer-process buf)))
+					(eat-semi-char-mode))))
+			;; buffer 不存在，在当前窗口直接启动 eat
+			(eat nil my/eat-buffer-name))))))
   )
 
 (provide 'init-shell)

@@ -36,7 +36,6 @@
   ;; 界面与提示
   (use-short-answers t)
   (mode-line-compact t)
-  (visible-bell t)
   (ring-bell-function 'ignore)
   (display-raw-bytes-as-hex t)
   (indicate-empty-lines t)

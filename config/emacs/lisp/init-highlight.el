@@ -75,6 +75,11 @@
 (use-package volatile-highlights
   :hook
   (after-init . volatile-highlights-mode)
+  :custom
+  ;; 渐隐动画（高亮后自动淡出）
+  (vhl/animation-style 'pulse)
+  ;; 标记删除/剪切位置（零宽度高亮）
+  (vhl/highlight-zero-width-ranges t)
   )
 
 (provide 'init-highlight)

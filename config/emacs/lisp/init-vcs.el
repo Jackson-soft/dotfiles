@@ -6,8 +6,6 @@
 ;;; Code:
 
 (use-package magit
-  :hook
-  (git-commit-setup . git-commit-turn-on-flyspell)
   :bind
   (("C-x g" . magit-status)
    ("C-x M-g" . magit-dispatch)
@@ -22,7 +20,7 @@
 
 (use-package with-editor
   :hook
-  (eat-mode . with-editor-export-editor)
+  (eat-exec . with-editor-export-editor)
   )
 
 ;; `diff-hl' depends on `vc'

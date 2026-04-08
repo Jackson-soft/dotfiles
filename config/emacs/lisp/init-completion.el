@@ -21,6 +21,7 @@
   (completion-category-overrides '((file (styles basic partial-completion))
 								   (eglot (styles orderless))
 								   (eglot-capf (styles orderless))))
+  (completion-pcm-leading-wildcard t) ;; Emacs 31: partial-completion 表现类似 substring
   )
 
 ;; Vertico 主体
@@ -39,12 +40,42 @@
   (use-package vertico-directory
 	:ensure nil
 	:after vertico
-	:bind (:map vertico-map
-				("RET"    . vertico-directory-enter)
-				("DEL"    . vertico-directory-delete-char)
-				("M-DEL"  . vertico-directory-delete-word))
+	:bind
+	(:map vertico-map
+		  ("RET"    . vertico-directory-enter)
+		  ("DEL"    . vertico-directory-delete-char)
+		  ("M-DEL"  . vertico-directory-delete-word))
 	:hook
 	(rfn-eshadow-update-overlay . vertico-directory-tidy))
+
+  ;; 鼠标支持：滚轮滚动、点击选择候选
+  (vertico-mouse-mode 1)
+
+  ;; 重复上次补全会话
+  (use-package vertico-repeat
+	:ensure nil
+	:after vertico
+	:bind
+	("M-R" . vertico-repeat)
+	:hook
+	(minibuffer-setup . vertico-repeat-save))
+
+  ;; 为不同命令/类别配置不同显示模式
+  (vertico-multiform-mode 1)
+  (setq vertico-multiform-commands
+		'((consult-imenu buffer indexed)
+		  (consult-imenu-multi buffer indexed)
+		  (consult-outline buffer)
+		  (consult-grep buffer)
+		  (consult-ripgrep buffer)
+		  (consult-git-grep buffer)
+		  (consult-line buffer)
+		  (consult-line-multi buffer)
+		  (execute-extended-command unobtrusive)))
+  (setq vertico-multiform-categories
+		'((file (vertico-sort-function . vertico-sort-directories-first)
+				(:keymap . vertico-directory-map))
+		  (consult-grep buffer)))
   )
 
 (use-package consult
@@ -61,6 +92,7 @@
    ([remap switch-to-buffer]       . consult-buffer)          ;; C-x b
    ("C-x 4 b" . consult-buffer-other-window)
    ("C-x 5 b" . consult-buffer-other-frame)
+   ("C-x t b" . consult-buffer-other-tab)
    ("C-x r b" . consult-bookmark)
    ([remap project-switch-to-buffer] . consult-project-buffer) ;; C-x p b
    ("C-x C-r" . consult-recent-file)
@@ -69,6 +101,8 @@
    ([remap yank-pop] . consult-yank-pop) ;; M-y
 
    ;; M-g 系列（goto-map）
+   ("M-g e" . consult-compile-error)
+   ("M-g r" . consult-grep-match)
    ("M-g f" . consult-flymake)
    ([remap goto-line] . consult-goto-line) ;; M-g g
    ("M-g o" . consult-outline)
@@ -100,13 +134,9 @@
    :map minibuffer-local-map
    ("M-s" . consult-history)
    ("M-r" . consult-history))
-  :hook
-  (completion-list-mode . consult-preview-at-point-mode)
   :custom
   ;; 缩小候选集的按键
   (consult-narrow-key "<")
-  ;; 预览候选的按键
-  (consult-preview-key "M-.")
   ;; Xref 集成
   (xref-show-xrefs-function       #'consult-xref)
   (xref-show-definitions-function #'consult-xref)
@@ -115,6 +145,31 @@
   :config
   ;; 用 Consult 的窗口替代默认 register-preview
   (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; 预览策略：默认即时预览，对开销大的命令延迟预览
+  ;; 全局 consult-preview-key 保持默认 'any（即时预览）
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep consult-man
+   consult-bookmark consult-recent-file consult-xref
+   consult-source-bookmark consult-source-file-register
+   consult-source-recent-file consult-source-project-recent-file
+   :preview-key '(:debounce 0.4 any))
+
+  ;; consult-line：按 M-n 自动插入光标处的 symbol 或 region
+  (consult-customize
+   consult-line
+   :add-history (seq-some #'thing-at-point '(region symbol)))
+
+  ;; 允许预览时执行 hl-todo-mode，使预览也能高亮 TODO/FIXME
+  (add-to-list 'consult-preview-allowed-hooks 'hl-todo-mode)
+  (add-to-list 'consult-preview-allowed-hooks 'elide-head-mode)
+
+  ;; 定义常用 info 手册的搜索命令
+  (consult-info-define "emacs" "efaq" "elisp" "cl" "compat")
+  (consult-info-define 'completion
+					   "vertico" "consult" "marginalia" "orderless"
+					   "embark" "corfu" "cape")
   )
 
 (use-package consult-dir
@@ -135,8 +190,8 @@
 (use-package marginalia
   :bind
   ("M-A" . marginalia-cycle)
-  :init
-  (marginalia-mode 1)
+  :config
+  (marginalia-mode)
   )
 
 (use-package embark
@@ -163,9 +218,7 @@
 ;; 如果你用 consult，强烈推荐加上这个
 (use-package embark-consult
   :ensure t
-  :after (embark consult)
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+  )
 
 (use-package nerd-icons-completion
   :hook

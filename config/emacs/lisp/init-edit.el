@@ -7,27 +7,24 @@
 
 ;; brew install enchant
 
-(defun kill-lines (line)
-  "Call delete range line form LINE."
-  (interactive "s:")
-  (let* ((line (split-string line ","))
-		 (begin (string-to-number (nth 0 line)))
-		 (end (string-to-number (nth 1 line)))
-		 )
-	(save-excursion
-	  (goto-char (point-min))
-	  (forward-line (1- begin))
-	  (kill-line (- end begin))))
-  )
-
-(global-set-key (kbd "C-c C-k") 'kill-lines)
-
 (use-package display-line-numbers
   :ensure nil
   :hook
   (after-init . global-display-line-numbers-mode)
+  :bind
+  ("C-c C-k" . kill-lines)
   :custom
   (display-line-numbers-width-start t)
+  :config
+  (defun kill-lines (begin end)
+	"Kill lines from BEGIN to END (inclusive, 1-indexed)."
+	(interactive "nFrom line: \nnTo line: ")
+	(save-excursion
+	  (goto-char (point-min))
+	  (forward-line (1- begin))
+	  (let ((start (point)))
+		(forward-line (1+ (- end begin)))
+		(kill-region start (point)))))
   )
 
 ;; use zap-up-to-char instead of zap-to-char
@@ -115,7 +112,7 @@
 ;; 多块编辑
 (use-package iedit
   :bind
-  (("C-x i" . iedit-mode)
+  (("C-c i" . iedit-mode)      ;; 避免覆盖内置 C-x i (insert-file)
    ("C-x r RET" . iedit-rectangle-mode))
   )
 

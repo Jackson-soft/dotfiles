@@ -85,25 +85,28 @@
   :hook
   ((prog-mode text-mode) . whitespace-mode)
   :custom
-  (whitespace-action '(auto-cleanup))
+  ;; 仅显示问题，不自动清理（避免污染他人代码的 git diff）
+  ;; 如需保存时清理，可用 `whitespace-cleanup' 或 `before-save-hook'
   (whitespace-style
-   '(face tabs trailing lines-tail newline empty indentation::tab space-before-tab space-after-tab))
+   '(face tabs trailing lines-tail empty indentation::tab space-before-tab space-after-tab))
   )
 
 ;; format
 (use-package apheleia
   :hook
-  (prog-mode . apheleia-mode)
+  (after-init . apheleia-global-mode)
   :bind
   ("C-c M-f" . apheleia-format-buffer)
+  :custom
+  (apheleia-hide-log-buffers t)
   :config
-  (add-to-list 'apheleia-formatters '(sql-format . ("sqlfluff" "fix" "--dialect" "postgres" "--disable-progress-bar" "-f" "-n" "-")))
+  (setf (alist-get 'sql-format apheleia-formatters)
+		'("sqlfluff" "fix" "--dialect" "postgres" "--disable-progress-bar" "-f" "-n" "-"))
 
   (dolist (alist '((markdown-ts-mode . prettier-markdown)
 				   (gfm-mode . prettier-markdown)
 				   (dockerfile-ts-mode . shfmt)
 				   (protobuf-ts-mode . clang-format)
-				   (emacs-lisp-mode . lisp-indent)
 				   (sql-mode . sql-format)))
 	(add-to-list 'apheleia-mode-alist alist))
   )
@@ -117,9 +120,8 @@
 (use-package symbol-overlay
   :bind
   (("M-i" . symbol-overlay-put)
-   ("M-C" . symbol-overlay-remove-all))
-  :bind
-  (:map symbol-overlay-map
+   ("M-C" . symbol-overlay-remove-all)
+   :map symbol-overlay-map
    ("n" . symbol-overlay-switch-forward)
    ("p" . symbol-overlay-switch-backward))
   :hook
