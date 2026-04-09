@@ -1,4 +1,11 @@
 #!/bin/bash
+# Install essential Go development tools.
+set -euo pipefail
+
+if ! command -v go &>/dev/null; then
+    echo "Error: go is not installed." >&2
+    exit 1
+fi
 
 tools=(
     golang.org/x/tools/gopls
@@ -6,8 +13,9 @@ tools=(
     github.com/fatih/gomodifytags
 )
 
-if command -v go > /dev/null 2>&1; then
-    for p in "${tools[@]}"; do
-        go install "${p}"@latest
-    done
-fi
+for p in "${tools[@]}"; do
+    echo "Installing ${p##*/} …"
+    go install "${p}"@latest
+done
+
+echo "Done. All Go tools installed."

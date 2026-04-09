@@ -23,7 +23,6 @@ opt.breakindent = true
 opt.number = true
 opt.signcolumn = 'yes'
 opt.cursorline = true
-opt.showmatch = true
 opt.scrolloff = 10
 opt.sidescrolloff = 8
 opt.wrap = true
@@ -49,7 +48,8 @@ opt.ignorecase = true
 opt.smartcase = true
 opt.hlsearch = true
 opt.inccommand = 'split'
-opt.completeopt = { 'menu', 'menuone', 'noselect' }
+opt.completeopt =
+"menu,menuone,noselect,popup" -- Ensures the menu appears even for a single match and uses the native popup window.
 
 -- Splits
 opt.splitright = true
@@ -58,7 +58,6 @@ opt.splitbelow = true
 -- Performance
 opt.updatetime = 250
 opt.timeoutlen = 300
-opt.lazyredraw = false -- treesitter conflicts
 
 -- Folding
 opt.foldlevel = 99
@@ -91,10 +90,10 @@ map('v', '<', '<gv', { desc = 'Indent left' })
 map('v', '>', '>gv', { desc = 'Indent right' })
 
 -- Move lines
-map('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down' })
-map('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up' })
-map('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down' })
-map('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up' })
+map('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line down', silent = true })
+map('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line up', silent = true })
+map('v', '<A-j>', ":m '>+1<CR>gv=gv", { desc = 'Move selection down', silent = true })
+map('v', '<A-k>', ":m '<-2<CR>gv=gv", { desc = 'Move selection up', silent = true })
 
 -- Better paste (don't yank replaced text)
 map('x', '<leader>p', [["_dP]], { desc = 'Paste without yank' })
@@ -252,7 +251,7 @@ require("lazy").setup({
     -- ========================================================================
     -- Dependencies & Libraries
     -- ========================================================================
-    { "nvim-tree/nvim-web-devicons", lazy = true },
+    { "nvim-tree/nvim-web-devicons", opts = {} },
 
     -- ========================================================================
     -- Git Integration
@@ -260,38 +259,48 @@ require("lazy").setup({
     {
         "lewis6991/gitsigns.nvim",
         event = { "BufReadPre", "BufNewFile" },
-        config = function()
-            require('gitsigns').setup({
-                numhl = true,
-                signs = {
-                    add = { text = "+" },
-                },
-            })
-        end
-    },
-
-    {
-        "sindrets/diffview.nvim",
-        lazy = true,
-        keys = {
-            { "<leader>dv", "<cmd>DiffviewOpen<cr>",  desc = "DiffView Open" },
-            { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "DiffView Close" },
+        opts = {
+            numhl = true,
+            signs = {
+                add = { text = "+" },
+            },
+            on_attach = function(bufnr)
+                local gs = require('gitsigns')
+                local function gsmap(mode, l, r, desc)
+                    vim.keymap.set(mode, l, r, { buffer = bufnr, desc = 'Git: ' .. desc })
+                end
+                gsmap('n', ']h', function() gs.nav_hunk('next') end, 'Next hunk')
+                gsmap('n', '[h', function() gs.nav_hunk('prev') end, 'Prev hunk')
+                gsmap('n', '<leader>hs', gs.stage_hunk, 'Stage hunk')
+                gsmap('v', '<leader>hs', function() gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end,
+                    'Stage hunk')
+                gsmap('n', '<leader>hr', gs.reset_hunk, 'Reset hunk')
+                gsmap('v', '<leader>hr', function() gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end,
+                    'Reset hunk')
+                gsmap('n', '<leader>hp', gs.preview_hunk, 'Preview hunk')
+                gsmap('n', '<leader>hb', function() gs.blame_line({ full = true }) end, 'Blame line')
+                gsmap('n', '<leader>hd', gs.diffthis, 'Diff this')
+            end,
         },
     },
 
     {
         "NeogitOrg/neogit",
         lazy = true,
-        keys = {
-            { "<leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" }
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            { "sindrets/diffview.nvim", opts = {} },
         },
-        config = function()
-            require('neogit').setup({
-                integrations = {
-                    diffview = true,
-                },
-            })
-        end
+        keys = {
+            { "<leader>gg", "<cmd>Neogit<cr>",        desc = "Show Neogit UI" },
+            { "<leader>dv", "<cmd>DiffviewOpen<cr>",  desc = "DiffView Open" },
+            { "<leader>dc", "<cmd>DiffviewClose<cr>", desc = "DiffView Close" },
+        },
+        opts = {
+            integrations = {
+                diffview = true,
+            },
+        },
     },
 
     -- ========================================================================
@@ -312,9 +321,7 @@ require("lazy").setup({
     {
         "nvim-tree/nvim-tree.lua",
         keys = { { "<leader>nt", "<cmd>NvimTreeToggle<CR>", desc = "NvimTree" } },
-        config = function()
-            require("nvim-tree").setup {}
-        end,
+        opts = {},
     },
 
     -- FZF: Fuzzy Finder
@@ -322,26 +329,24 @@ require("lazy").setup({
         "ibhagwan/fzf-lua",
         cmd = "FzfLua",
         keys = {
-            { "<leader>f/", "<cmd>FzfLua <CR>",                                      desc = "FzfLua self" },
-            { "<leader>ff", "<cmd>FzfLua files<CR>",                                 desc = "files" },
-            { "<leader>fb", "<cmd>FzfLua buffers<CR>",                               desc = "buffers" },
-            { "<leader>fl", "<cmd>FzfLua live_grep<CR>",                             desc = "live grep" },
-            { "<leader>fh", "<cmd>FzfLua help_tags<CR>",                             desc = "help" },
-            { "<leader>fH", "<cmd>FzfLua highlights<CR>",                            desc = "highlights" },
-            { "<leader>fm", "<cmd>FzfLua oldfiles<CR>",                              desc = "mru" }, -- mru: most recent used
-            { "<leader>fc", "<cmd>FzfLua commands<CR>",                              desc = "commands" },
-            { "<leader>fj", "<cmd>FzfLua jumps<CR>",                                 desc = "jumplist" },
-            { "<leader>fk", "<cmd>FzfLua keymaps<CR>",                               desc = "keymaps" },
-            { "<leader>fq", "<cmd>FzfLua quickfix<CR>",                              desc = "quickfix" },
-            { "<leader>fw", "<cmd>FzfLua grep_cword<CR>",                            desc = "cword" },
-            { "<leader>fa", "<cmd>lua require('helper.asynctask').fzf_select()<CR>", desc = "asynctask" },
-            { "<leader>fD", "<cmd>FzfLua lsp_document_diagnostics<CR>",              desc = "lsp_document_diagnostics" },
-            { "<leader>fd", "<cmd>FzfLua lsp_definitions<CR>",                       desc = "lsp_definition" },
-            { "<leader>fr", "<cmd>FzfLua lsp_references<CR>",                        desc = "lsp_references" },
-            { "<leader>fi", "<cmd>FzfLua lsp_implementations<CR>",                   desc = "lsp_implementations" },
-            { "<leader>fs", "<cmd>FzfLua lsp_document_symbols<CR>",                  desc = "lsp_document_symbols" },
-            { "<leader>fS", "<cmd>FzfLua lsp_workspace_symbols<CR>",                 desc = "lsp_workspace_symbols" },
-            { "<C-f>",      "<cmd>FzfLua grep_curbuf<CR>",                           desc = "lines" },
+            { "<leader>f/", "<cmd>FzfLua <CR>",                      desc = "FzfLua self" },
+            { "<leader>ff", "<cmd>FzfLua files<CR>",                 desc = "files" },
+            { "<leader>fb", "<cmd>FzfLua buffers<CR>",               desc = "buffers" },
+            { "<leader>fl", "<cmd>FzfLua live_grep<CR>",             desc = "live grep" },
+            { "<leader>fh", "<cmd>FzfLua help_tags<CR>",             desc = "help" },
+            { "<leader>fH", "<cmd>FzfLua highlights<CR>",            desc = "highlights" },
+            { "<leader>fm", "<cmd>FzfLua oldfiles<CR>",              desc = "mru" },                 -- mru: most recent used
+            { "<leader>fc", "<cmd>FzfLua commands<CR>",              desc = "commands" },
+            { "<leader>fj", "<cmd>FzfLua jumps<CR>",                 desc = "jumplist" },
+            { "<leader>fk", "<cmd>FzfLua keymaps<CR>",               desc = "keymaps" },
+            { "<leader>fq", "<cmd>FzfLua quickfix<CR>",              desc = "quickfix" },
+            { "<leader>fw", "<cmd>FzfLua grep_cword<CR>",            desc = "cword" },
+            { "<leader>fD", "<cmd>FzfLua diagnostics_document<CR>",  desc = "document diagnostics" },
+            { "<leader>fd", "<cmd>FzfLua lsp_definitions<CR>",       desc = "lsp_definition" },
+            { "<leader>fr", "<cmd>FzfLua lsp_references<CR>",        desc = "lsp_references" },
+            { "<leader>fi", "<cmd>FzfLua lsp_implementations<CR>",   desc = "lsp_implementations" },
+            { "<leader>fs", "<cmd>FzfLua lsp_document_symbols<CR>",  desc = "lsp_document_symbols" },
+            { "<leader>fS", "<cmd>FzfLua lsp_workspace_symbols<CR>", desc = "lsp_workspace_symbols" },
         },
     },
 
@@ -369,9 +374,7 @@ require("lazy").setup({
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
         event = { "BufReadPost", "BufNewFile" },
-        config = function()
-            require("ibl").setup()
-        end
+        opts = {},
     },
 
     -- Treesitter: Syntax Highlighting & Text Objects
@@ -450,9 +453,9 @@ require("lazy").setup({
             end
 
             -- Swap
-            vim.keymap.set("n", "<leader>a", function() swap.swap_next("@parameter.inner") end,
+            vim.keymap.set("n", "<leader>sn", function() swap.swap_next("@parameter.inner") end,
                 { desc = "Swap next parameter" })
-            vim.keymap.set("n", "<leader>A", function() swap.swap_previous("@parameter.inner") end,
+            vim.keymap.set("n", "<leader>sp", function() swap.swap_previous("@parameter.inner") end,
                 { desc = "Swap prev parameter" })
 
             -- Move
@@ -601,7 +604,7 @@ require("lazy").setup({
                     javascript = { 'template_string' },
                     java = false,
                 },
-                disable_filetype = { "TelescopePrompt", "vim" },
+                disable_filetype = { "FzfLua", "vim" },
                 fast_wrap = {
                     map = '<M-e>',
                     chars = { '{', '[', '(', '"', "'" },
@@ -695,8 +698,10 @@ require("lazy").setup({
                 { "<leader>c", group = "Code" },
                 { "<leader>d", group = "Diagnostic/Diff" },
                 { "<leader>f", group = "Find" },
+                { "<leader>h", group = "Git Hunk" },
                 { "<leader>n", group = "NvimTree/Neogit" },
                 { "<leader>r", group = "Rename/HTTP" },
+                { "<leader>s", group = "Swap" },
                 { "<leader>t", group = "Toggle" },
                 { "<leader>p", group = "Peek/Paste" },
                 { "[",         group = "Previous" },
@@ -725,13 +730,11 @@ require("lazy").setup({
     {
         "MeanderingProgrammer/render-markdown.nvim",
         ft = "markdown",
-        config = function()
-            require('render-markdown').setup({
-                completions = {
-                    blink = { enabled = true },
-                },
-            })
-        end,
+        opts = {
+            completions = {
+                blink = { enabled = true },
+            },
+        },
     },
 
     -- HTTP Client
@@ -791,6 +794,7 @@ require("lazy").setup({
         rtp = {
             disabled_plugins = {
                 "gzip",
+                "netrwPlugin",
                 "tarPlugin",
                 "tohtml",
                 "tutor",
@@ -824,7 +828,6 @@ vim.lsp.config('lua_ls', {
                 displayContext = 1,
             },
             diagnostics = {
-                globals = { 'vim' },
                 disable = { 'missing-fields' },
             },
             workspace = {

@@ -1,27 +1,23 @@
 ---
 Checks: "bugprone-*,\
     boost-*,\
-    cert-*,\
+    cert-err33-c,\
     concurrency-*,\
     cppcoreguidelines-*,\
-    hicpp-*,\
-    llvm-*,\
     misc-*,\
     modernize-*,\
-    mpi-*,\
     performance-*,\
     portability-*,\
     readability-*"
 WarningsAsErrors: ""
-AnalyzeTemporaryDtors: true
 FormatStyle: file
 CheckOptions:
     modernize-use-nullptr.NullMacros: "NULL"
     bugprone-suspicious-enum-usage.StrictMode: "true"
     bugprone-misplaced-widening-cast.CheckImplicitCasts: "true"
     bugprone-sizeof-expression.WarnOnSizeOfIntegerExpression: "true"
+    bugprone-narrowing-conversions.PedanticMode: "true"
     cppcoreguidelines-init-variables.MathHeader: "<cmath>"
-    cppcoreguidelines-narrowing-conversions.PedanticMode: "true"
     misc-unused-parameters.StrictMode: "true"
     readability-uniqueptr-delete-release.PreferResetCall: "true"
     readability-qualified-auto.AddConstToQualified: "true"

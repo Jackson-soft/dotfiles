@@ -10,15 +10,16 @@ ColumnLimit: 120
 Language: Cpp
 SortUsingDeclarations: true
 AccessModifierOffset: -4
-AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: true
-AlignConsecutiveBitFields: true
-AlignConsecutiveDeclarations: true
+AlignAfterOpenBracket: true
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveBitFields: Consecutive
+AlignConsecutiveDeclarations: Consecutive
 AlignEscapedNewlines: Left
 AlignOperands: AlignAfterOperator
-AlignTrailingComments: true
+AlignTrailingComments:
+    Kind: Always
+    OverEmptyLines: 0
 AllowAllArgumentsOnNextLine: false
-AllowAllConstructorInitializersOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: false
@@ -28,9 +29,9 @@ AllowShortIfStatementsOnASingleLine: Never
 AllowShortLambdasOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: true
+BreakTemplateDeclarations: Yes
 BinPackArguments: false
-BinPackParameters: false
+BinPackParameters: OnePerLine
 BitFieldColonSpacing: Both
 BreakBeforeBraces: Custom
 BraceWrapping:
@@ -48,21 +49,22 @@ BraceWrapping:
     BeforeLambdaBody: false
     BeforeWhile: false
     SplitEmptyFunction: false
-BreakBeforeConceptDeclarations: false
+BreakBeforeConceptDeclarations: Never
 BreakBeforeBinaryOperators: All
 BreakBeforeTernaryOperators: true
 PackConstructorInitializers: BinPack
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
-Cpp11BracedListStyle: true
+Cpp11BracedListStyle: FunctionCall
 DerivePointerAlignment: false
-DisableFormat: false
-ExperimentalAutoDetectBinPacking: false
 IncludeBlocks: Regroup
 IndentCaseLabels: true
 IndentWrappedFunctionNames: false
 IndentRequiresClause: false
-KeepEmptyLinesAtTheStartOfBlocks: false
+KeepEmptyLines:
+    AtEndOfFile: false
+    AtStartOfBlock: false
+    AtStartOfFile: false
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
 PointerAlignment: Right
@@ -74,12 +76,12 @@ SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements
 SpacesBeforeTrailingComments: 2
 SpacesInParens: Never
-SpacesInAngles: false
+SpacesInAngles: Never
 SpacesInContainerLiterals: false
 SpacesInSquareBrackets: false
 RequiresClausePosition: WithPreceding
 SeparateDefinitionBlocks: Always
 Standard: Latest
-ReflowComments: true
+ReflowComments: Always
 ---
 Language: Proto

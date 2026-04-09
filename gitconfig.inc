@@ -2,9 +2,6 @@
     editor = nvim
     pager = delta
 
-[color]
-    ui = true
-
 [pull]
     rebase = false
 
@@ -13,8 +10,7 @@
 
 [delta]
     line-numbers = true
-    diff-so-fancy = true
-    navigate = true    # use n and N to move between diff sections
+    navigate = true
 
 [merge]
     conflictstyle = diff3

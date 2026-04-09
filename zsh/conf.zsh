@@ -20,8 +20,7 @@ setopt MARK_DIRS            # Mark directories with trailing slash in filename c
 HISTSIZE=50000
 SAVEHIST=50000
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
+setopt SHARE_HISTORY          # Share history between sessions (implies INC_APPEND_HISTORY)
 setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks from each command
 setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicates first when trimming history
 
@@ -211,6 +210,10 @@ extract() {
         *.zip) unzip $1 ;;
         *.Z) uncompress $1 ;;
         *.7z) 7z x $1 ;;
+        *.tar.xz) tar xJf $1 ;;
+        *.tar.zst) tar --zstd -xf $1 ;;
+        *.xz) xz -d $1 ;;
+        *.zst) zstd -d $1 ;;
         *) echo "'$1' cannot be extracted via extract()" ;;
         esac
     else
@@ -225,14 +228,9 @@ mkcd() {
 
 # Find and kill process by name
 fkill() {
-    local pid
-    if [ "$UID" != "0" ]; then
-        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
-    else
-        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-    fi
-
-    if [ "x$pid" != "x" ]; then
-        echo $pid | xargs kill -${1:-9}
-    fi
+    local pid sig=${1:-9}
+    pid=$(ps -u $UID -o pid,user,%cpu,%mem,start,command | sed 1d |
+        fzf -m --header='[kill process]' --preview='ps -p {1} -o command=' |
+        awk '{print $1}')
+    [[ -n "$pid" ]] && echo "$pid" | xargs kill -"$sig"
 }

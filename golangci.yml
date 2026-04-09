@@ -15,7 +15,7 @@ linters:
         - tagliatelle
         - varnamelen
         - wrapcheck
-        - wsl
+        - wsl_v5
     settings:
         revive:
             enable-all-rules: true
@@ -29,12 +29,16 @@ linters:
                         allow-strs: '"0"'
                         allow-ints: "0,1,2"
                         allow-floats: "0.0,0.,1.0,1.,2.0,2."
-                      - name: dot-imports
-                        severity: warning
-                        disabled: false
-                        exclude: [""]
-                        arguments:
-                            - allowed-packages: ["github.com/onsi/ginkgo/v2", "github.com/onsi/gomega"]
+                - name: dot-imports
+                  severity: warning
+                  disabled: false
+                  exclude: [""]
+                  arguments:
+                      - allowed-packages:
+                            [
+                                "github.com/onsi/ginkgo/v2",
+                                "github.com/onsi/gomega",
+                            ]
                 - name: exported
                   disabled: true
                 - name: line-length-limit

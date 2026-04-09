@@ -92,13 +92,3 @@ source $HOME/myDoc/dotfiles/zsh/conf.zsh
 # Eat (Emacs terminal emulator) shell integration
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
   source "$EAT_SHELL_INTEGRATION_DIR/zsh"
-
-# 手动加载一下环境变量
-if [ -f ~/.zshenv ]; then
-    source ~/.zshenv
-fi
-
-# Performance: Compile zshrc if newer than compiled version
-if [[ "$HOME/.zshrc" -nt "$HOME/.zshrc.zwc" ]] || [[ ! -s "$HOME/.zshrc.zwc" ]]; then
-    zcompile "$HOME/.zshrc"
-fi

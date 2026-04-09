@@ -1,8 +1,11 @@
 #!/bin/bash
+set -euo pipefail
 
-# tools
+# ============================================================================
+# Package lists
+# ============================================================================
 tools=(
-    # modern tool
+    # modern unix
     bat
     ripgrep
     eza
@@ -19,7 +22,7 @@ tools=(
 )
 
 npms=(
-    # formator
+    # formatter
     prettier
     # lsp
     yaml-language-server
@@ -28,46 +31,73 @@ npms=(
     dockerfile-language-server-nodejs # docker
 )
 
-function npmTool() {
-    for p in "${npms[@]}"; do
-        npm i -g "${p}"
-    done
+# ============================================================================
+# Helpers
+# ============================================================================
+info() { printf '\033[1;34m[INFO]\033[0m  %s\n' "$*"; }
+warn() { printf '\033[1;33m[WARN]\033[0m  %s\n' "$*" >&2; }
+error() {
+    printf '\033[1;31m[ERROR]\033[0m %s\n' "$*" >&2
+    exit 1
 }
 
-function check() {
-    # Check brew
-    if ! command -v brew &>/dev/null; then
-        xcode-select --install
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    fi
+# ============================================================================
+# macOS
+# ============================================================================
+ensure_brew() {
+    if command -v brew &>/dev/null; then return; fi
+    info "Installing Homebrew …"
+    xcode-select --install 2>/dev/null || true
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
-function brewTool() {
-    for app in "${tools[@]}"; do
-        brew install -q "${app}"
-    done
+install_brew() {
+    ensure_brew
+    info "Installing packages via brew …"
+    brew install -q "${tools[@]}"
     brew cleanup
 }
 
-# should use sudo
-function dnfTool() {
-    for app in "${tools[@]}"; do
-        dnf5 install -y "${app}"
-    done
+# ============================================================================
+# Linux (Fedora / dnf5)
+# ============================================================================
+install_dnf() {
+    info "Installing packages via dnf5 …"
+    sudo dnf install -y "${tools[@]}"
 }
 
-function main() {
-    OS=$(uname -s)
-    if [ "$OS" == "Linux" ]; then
-        echo "This is a Linux system."
-        dnfTool
-    elif [ "$OS" == "Darwin" ]; then
-        echo "This is a macOS system."
-        check
-        brewTool
-    else
-        echo "Unknown operating system."
+# ============================================================================
+# npm (cross-platform)
+# ============================================================================
+install_npm() {
+    if ! command -v npm &>/dev/null; then
+        warn "npm not found, skipping npm packages."
+        return
     fi
+    info "Installing npm global packages …"
+    npm i -g "${npms[@]}"
 }
 
-main
+# ============================================================================
+# Main
+# ============================================================================
+main() {
+    local os
+    os=$(uname -s)
+    case "$os" in
+    Darwin)
+        info "Detected macOS"
+        install_brew
+        ;;
+    Linux)
+        info "Detected Linux"
+        install_dnf
+        ;;
+    *)
+        error "Unsupported OS: $os"
+        ;;
+    esac
+    install_npm
+}
+
+main "$@"
