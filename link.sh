@@ -16,7 +16,7 @@ declare -A links=(
     ["$HOME/.golangci.yml"]="$DOTFILES/golangci.yml"
     ["$CONFIG/emacs"]="$DOTFILES/config/emacs"
     ["$CONFIG/nvim"]="$DOTFILES/config/nvim"
-    ["$CONFIG/sqlfluff"]="$DOTFILES/config/sqlfluff.cfg"
+    ["$CONFIG/sqlfluff"]="$DOTFILES/config/sqlfluff"
 )
 
 for target in "${!links[@]}"; do
