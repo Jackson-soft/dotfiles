@@ -34,7 +34,7 @@
   (vertico-cycle t)          ;; 循环选择候选项
   :init
   ;; 启用 Vertico
-  (vertico-mode 1)
+  (vertico-mode)
   :config
   ;; 目录导航扩展
   (use-package vertico-directory
@@ -49,7 +49,7 @@
 	(rfn-eshadow-update-overlay . vertico-directory-tidy))
 
   ;; 鼠标支持：滚轮滚动、点击选择候选
-  (vertico-mouse-mode 1)
+  (vertico-mouse-mode)
 
   ;; 重复上次补全会话
   (use-package vertico-repeat
@@ -59,23 +59,6 @@
 	("M-R" . vertico-repeat)
 	:hook
 	(minibuffer-setup . vertico-repeat-save))
-
-  ;; 为不同命令/类别配置不同显示模式
-  (vertico-multiform-mode 1)
-  (setq vertico-multiform-commands
-		'((consult-imenu buffer indexed)
-		  (consult-imenu-multi buffer indexed)
-		  (consult-outline buffer)
-		  (consult-grep buffer)
-		  (consult-ripgrep buffer)
-		  (consult-git-grep buffer)
-		  (consult-line buffer)
-		  (consult-line-multi buffer)
-		  (execute-extended-command unobtrusive)))
-  (setq vertico-multiform-categories
-		'((file (vertico-sort-function . vertico-sort-directories-first)
-				(:keymap . vertico-directory-map))
-		  (consult-grep buffer)))
   )
 
 (use-package consult
@@ -190,7 +173,7 @@
 (use-package marginalia
   :bind
   ("M-A" . marginalia-cycle)
-  :config
+  :init
   (marginalia-mode)
   )
 

@@ -55,7 +55,7 @@ BreakBeforeTernaryOperators: true
 PackConstructorInitializers: BinPack
 ConstructorInitializerIndentWidth: 4
 ContinuationIndentWidth: 4
-Cpp11BracedListStyle: FunctionCall
+Cpp11BracedListStyle: true
 DerivePointerAlignment: false
 IncludeBlocks: Regroup
 IndentCaseLabels: true
