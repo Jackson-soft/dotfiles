@@ -47,9 +47,9 @@ zinit lucid depth"1" light-mode for \
     ${ZI_REPO}/fast-syntax-highlighting
 
 # git extensions (deferred 1s – less urgent than completions)
-zinit wait"1" lucid depth"1" for \
+zinit lucid depth"1" light-mode for \
     as"program" src"etc/git-extras-completion.zsh" tj/git-extras \
-    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua \
+    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1; export _ZL_MAX_SCANS=50000; export _ZL_NO_PROMPT_COMMAND=1" skywind3000/z.lua \
     wfxr/forgit
 
 # Modern Unix commands
