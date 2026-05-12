@@ -47,20 +47,20 @@ zinit lucid depth"1" light-mode for \
     ${ZI_REPO}/fast-syntax-highlighting
 
 # git extensions (deferred 1s – less urgent than completions)
-zinit lucid depth"1" light-mode for \
+zinit wait"0a" lucid light-mode for \
     as"program" src"etc/git-extras-completion.zsh" tj/git-extras \
-    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1; export _ZL_MAX_SCANS=50000; export _ZL_NO_PROMPT_COMMAND=1" skywind3000/z.lua \
+    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf); export _ZL_HYPHEN=1; export _ZL_MAX_SCANS=50000; export _ZL_NO_PROMPT_COMMAND=1" skywind3000/z.lua \
     wfxr/forgit
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
-zinit wait lucid as"null" from"gh-r" for \
+zinit wait"0a" lucid as"null" from"gh-r" for \
     sbin"**/eza" if'[[ $OSTYPE != darwin* ]]' eza-community/eza \
     sbin"fzf" atload'eval "$(fzf --zsh)"' junegunn/fzf \
     sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
     sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
     sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
-    sbin"bin/lua-language-server" LuaLS/lua-language-server \
+    sbin"**/lua-language-server" LuaLS/lua-language-server \
     sbin"neocmakelsp* -> neocmakelsp" neocmakelsp/neocmakelsp \
     sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \
     sbin"marksman* -> marksman" artempyanykh/marksman

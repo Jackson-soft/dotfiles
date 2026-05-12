@@ -157,23 +157,13 @@
 ;; 表格对齐
 (use-package valign
   :hook
-  ((org-mode markdown-mode) . valign-mode)
+  ((org-mode markdown-ts-mode) . valign-mode)
   :custom
   (valign-fancy-bar t)
   )
 
 ;; dot
 (use-package graphviz-dot-mode)
-
-(use-package markdown-mode
-  :mode
-  ("README\\.md\\'" . gfm-mode)
-  :bind
-  (:map markdown-mode-map
-		("C-c C-e" . markdown-do))
-  :custom
-  (markdown-command "multimarkdown")
-  )
 
 (provide 'init-org)
 
