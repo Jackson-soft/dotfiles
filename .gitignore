@@ -38,6 +38,6 @@ devdocs
 plugin
 .luarc.json
 tree-sitter/
-lazy-lock.json
+nvim-pack-lock.json
 eln-cache
 tramp
