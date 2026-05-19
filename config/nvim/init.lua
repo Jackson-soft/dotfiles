@@ -251,7 +251,6 @@ local gh = function(x) return 'https://github.com/' .. x end
 vim.pack.add({
     -- Dependencies & Libraries
     gh('nvim-tree/nvim-web-devicons'),
-    gh('nvim-lua/plenary.nvim'),
 
     -- Git Integration
     gh('lewis6991/gitsigns.nvim'),
