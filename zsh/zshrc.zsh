@@ -48,7 +48,7 @@ zinit lucid depth"1" light-mode for \
 
 # git extensions (deferred 1s – less urgent than completions)
 zinit wait"0a" lucid light-mode for \
-    as"program" src"etc/git-extras-completion.zsh" tj/git-extras \
+    as"program" pick"bin/git-*" src"etc/git-extras-completion.zsh" tj/git-extras \
     atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf); export _ZL_HYPHEN=1; export _ZL_MAX_SCANS=50000; export _ZL_NO_PROMPT_COMMAND=1" skywind3000/z.lua \
     wfxr/forgit
 
