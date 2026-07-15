@@ -50,10 +50,10 @@
   ;; 窗口行为
   (window-combination-resize t)
 
+  (context-menu-mode 1)     ;; 右键菜单
   :init
   ;; 模式开关
   (transient-mark-mode 1)   ;; 高亮标记区域
-  (context-menu-mode 1)     ;; 右键菜单
   (setq-default tab-width 4
 				fill-column 120
 				truncate-lines t) ;; 不自动换行长行

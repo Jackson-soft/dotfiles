@@ -17,8 +17,8 @@ setopt GLOB_DOTS            # Include dotfiles in globbing.
 setopt MARK_DIRS            # Mark directories with trailing slash in filename completion.
 
 # History settings
-HISTSIZE=50000
-SAVEHIST=50000
+HISTSIZE=100000
+SAVEHIST=100000
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 setopt SHARE_HISTORY          # Share history between sessions (implies INC_APPEND_HISTORY)
 setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks from each command
@@ -35,7 +35,7 @@ alias -g ....='../../..'
 
 # NOTE: FZF_DEFAULT_COMMAND is NOT used by shell integration (CTRL-T/R/ALT-C).
 # It only applies when fzf is invoked directly without stdin pipe.
-export FZF_DEFAULT_COMMAND="fd -t f -H -L -E '.git' --strip-cwd-prefix"
+(($+commands[fd])) && export FZF_DEFAULT_COMMAND="fd -t f -H -L -E .git -E node_modules -E target -E .venv -E __pycache__ --strip-cwd-prefix"
 
 export FZF_DEFAULT_OPTS="
        --height ~60%
@@ -54,14 +54,15 @@ export FZF_DEFAULT_OPTS="
        --color 'info:#83a598,prompt:#bdae93,spinner:#fabd2f'
        --color 'pointer:#83a598,marker:#fe8019,header:#665c54'
        --bind 'ctrl-/:toggle-preview'
-       --bind 'ctrl-u:preview-page-up'
-       --bind 'ctrl-d:preview-page-down'
+       --bind 'alt-u:preview-page-up'
+       --bind 'alt-d:preview-page-down'
        --bind 'ctrl-a:select-all'
        --bind 'ctrl-t:toggle-all'
        "
 
 # CTRL-T: paste selected files/dirs onto command-line
-export FZF_CTRL_T_COMMAND="fd -H -L -E '.git' --strip-cwd-prefix"
+# NOTE: --walker-skip below is only a fallback when fd is absent; exclusions must also be in the fd command.
+(($+commands[fd])) && export FZF_CTRL_T_COMMAND="fd -H -L -E .git -E node_modules -E target -E .venv -E __pycache__ --strip-cwd-prefix"
 export FZF_CTRL_T_OPTS="
        --walker-skip .git,node_modules,target,.venv,__pycache__
        --scheme path
@@ -71,16 +72,29 @@ export FZF_CTRL_T_OPTS="
        --header 'CTRL-/ to toggle preview'
        "
 
+# Platform-aware clipboard
+if (($+commands[pbcopy])); then
+    _clip_cmd="pbcopy"
+elif (($+commands[xclip])); then
+    _clip_cmd="xclip -selection clipboard"
+elif (($+commands[xsel])); then
+    _clip_cmd="xsel --clipboard --input"
+else
+    _clip_cmd="cat > /dev/null"
+fi
+
 # CTRL-R: paste selected history command onto command-line
 export FZF_CTRL_R_OPTS="
        --scheme history
-       --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+       --wrap
+       --bind 'ctrl-y:execute-silent(echo -n {2..} | ${_clip_cmd})+abort'
        --color header:italic
        --header 'CTRL-Y to copy to clipboard'
        "
 
 # ALT-C: cd into selected directory
-export FZF_ALT_C_COMMAND="fd -t d -H -L -E '.git' --strip-cwd-prefix"
+# NOTE: --walker-skip below is only a fallback when fd is absent; exclusions must also be in the fd command.
+(($+commands[fd])) && export FZF_ALT_C_COMMAND="fd -t d -H -L -E .git -E node_modules -E target -E .venv -E __pycache__ --strip-cwd-prefix"
 export FZF_ALT_C_OPTS="
        --walker-skip .git,node_modules,target,.venv,__pycache__
        --scheme path
@@ -88,22 +102,29 @@ export FZF_ALT_C_OPTS="
        --preview-window 'right,40%'
        "
 
-# Customize fzf ** completion to use fd
-_fzf_compgen_path() {
-    fd --hidden --follow --exclude '.git' . "$1"
-}
-_fzf_compgen_dir() {
-    fd --type d --hidden --follow --exclude '.git' . "$1"
-}
+# Customize fzf ** completion to use fd (exclusions match FZF_CTRL_T_COMMAND)
+if (($+commands[fd])); then
+    _fzf_compgen_path() {
+        fd --hidden --follow -E .git -E node_modules -E target -E .venv -E __pycache__ . "$1"
+    }
+    _fzf_compgen_dir() {
+        fd --type d --hidden --follow -E .git -E node_modules -E target -E .venv -E __pycache__ . "$1"
+    }
+fi
 
 # Color man pages
-export LESS_TERMCAP_mb=$'\E[01;32m'
-export LESS_TERMCAP_md=$'\E[01;32m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;47;34m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;36m'
+if (($+commands[bat])); then
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    export MANROFFOPT='-c'
+else
+    export LESS_TERMCAP_mb=$'\E[01;32m'
+    export LESS_TERMCAP_md=$'\E[01;32m'
+    export LESS_TERMCAP_me=$'\E[0m'
+    export LESS_TERMCAP_se=$'\E[0m'
+    export LESS_TERMCAP_so=$'\E[01;47;34m'
+    export LESS_TERMCAP_ue=$'\E[0m'
+    export LESS_TERMCAP_us=$'\E[01;36m'
+fi
 export LESS=-R
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
@@ -152,43 +173,43 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' menu no
 
 # cd 补全时预览目录结构
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always "$realpath"'
 
 # 通用文件补全预览（bat 带语法高亮，目录用 eza）
 zstyle ':fzf-tab:complete:*:*' fzf-preview \
-    'if [[ -n $realpath ]]; then
-         if [[ -d $realpath ]]; then
-             eza -1 --color=always $realpath
-         elif [[ -f $realpath ]]; then
-             bat --style=numbers --color=always --line-range=:200 $realpath 2>/dev/null
+    'if [[ -n "$realpath" ]]; then
+         if [[ -d "$realpath" ]]; then
+             eza -1 --color=always "$realpath"
+         elif [[ -f "$realpath" ]]; then
+             bat --style=numbers --color=always --line-range=:200 "$realpath" 2>/dev/null
          else
-             echo $realpath
+             echo "$realpath"
          fi
      fi'
 
 # git - 按 group 区分预览
-zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff $word | delta'
-zstyle ':fzf-tab:complete:git-log:*' fzf-preview 'git log --color=always $word'
-zstyle ':fzf-tab:complete:git-help:*' fzf-preview 'git help $word | bat -plman --color=always'
+zstyle ':fzf-tab:complete:git-(add|diff|restore):*' fzf-preview 'git diff "$word" | delta'
+zstyle ':fzf-tab:complete:git-log:*' fzf-preview 'git log --color=always "$word"'
+zstyle ':fzf-tab:complete:git-help:*' fzf-preview 'git help "$word" | bat -plman --color=always'
 zstyle ':fzf-tab:complete:git-show:*' fzf-preview \
     'case "$group" in
-	"commit tag") git show --color=always $word ;;
-	*) git show --color=always $word | delta ;;
-	esac'
+        "commit tag") git show --color=always "$word" ;;
+        *) git show --color=always "$word" | delta ;;
+    esac'
 zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
     'case "$group" in
-	"modified file") git diff $word | delta ;;
-	"recent commit object name") git show --color=always $word | delta ;;
-	*) git log --color=always $word ;;
-	esac'
+        "modified file") git diff "$word" | delta ;;
+        "recent commit object name") git show --color=always "$word" | delta ;;
+        *) git log --color=always "$word" ;;
+    esac'
 
 # man
-zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man $word'
+zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man "$word"'
 
 # Kill - 进程预览（兼容 macOS BSD ps）
 zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w -w'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
-    '[[ $group == "[process ID]" ]] && ps -p $word -o command= 2>/dev/null || echo $word'
+    '[[ "$group" == "[process ID]" ]] && ps -p "$word" -o command= 2>/dev/null || echo "$word"'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
 zstyle ':completion:*:*:kill:*' force-list always
@@ -197,23 +218,23 @@ zstyle ':completion:*:*:kill:*' insert-ids single
 # Useful functions
 # Extract archives
 extract() {
-    if [ -f $1 ]; then
-        case $1 in
-        *.tar.bz2) tar xjf $1 ;;
-        *.tar.gz) tar xzf $1 ;;
-        *.bz2) bunzip2 $1 ;;
-        *.rar) unrar e $1 ;;
-        *.gz) gunzip $1 ;;
-        *.tar) tar xf $1 ;;
-        *.tbz2) tar xjf $1 ;;
-        *.tgz) tar xzf $1 ;;
-        *.zip) unzip $1 ;;
-        *.Z) uncompress $1 ;;
-        *.7z) 7z x $1 ;;
-        *.tar.xz) tar xJf $1 ;;
-        *.tar.zst) tar --zstd -xf $1 ;;
-        *.xz) xz -d $1 ;;
-        *.zst) zstd -d $1 ;;
+    if [[ -f "$1" ]]; then
+        case "$1" in
+        *.tar.bz2) tar xjf "$1" ;;
+        *.tar.gz) tar xzf "$1" ;;
+        *.bz2) bunzip2 "$1" ;;
+        *.rar) unrar e "$1" ;;
+        *.gz) gunzip "$1" ;;
+        *.tar) tar xf "$1" ;;
+        *.tbz2) tar xjf "$1" ;;
+        *.tgz) tar xzf "$1" ;;
+        *.zip) unzip "$1" ;;
+        *.Z) uncompress "$1" ;;
+        *.7z) 7z x "$1" ;;
+        *.tar.xz) tar xJf "$1" ;;
+        *.tar.zst) tar --zstd -xf "$1" ;;
+        *.xz) xz -d "$1" ;;
+        *.zst) zstd -d "$1" ;;
         *) echo "'$1' cannot be extracted via extract()" ;;
         esac
     else

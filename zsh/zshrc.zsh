@@ -1,4 +1,4 @@
-# Enable Powerlevel7k instant prompt. Should stay close to the top of ~/.zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -46,7 +46,7 @@ zinit lucid depth"1" light-mode for \
         ${ZI_REPO}/history-search-multi-word \
     ${ZI_REPO}/fast-syntax-highlighting
 
-# git extensions (deferred 1s – less urgent than completions)
+# git extensions (deferred – less urgent than completions)
 zinit wait"0a" lucid light-mode for \
     as"program" pick"bin/git-*" src"etc/git-extras-completion.zsh" tj/git-extras \
     atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf); export _ZL_HYPHEN=1; export _ZL_MAX_SCANS=50000; export _ZL_NO_PROMPT_COMMAND=1" skywind3000/z.lua \
@@ -54,16 +54,26 @@ zinit wait"0a" lucid light-mode for \
 
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
-zinit wait"0a" lucid as"null" from"gh-r" for \
-    sbin"**/eza" if'[[ $OSTYPE != darwin* ]]' eza-community/eza \
-    sbin"fzf" atload'eval "$(fzf --zsh)"' junegunn/fzf \
-    sbin"**/delta" atload"alias diff='delta -ns'" dandavison/delta \
-    sbin"**/fd" cp"**/fd.1 -> $ZPFX/man/man1" completions @sharkdp/fd \
-    sbin"buf* -> buf" atload"source <(buf completion zsh)" bufbuild/buf \
-    sbin"**/lua-language-server" LuaLS/lua-language-server \
-    sbin"neocmakelsp* -> neocmakelsp" neocmakelsp/neocmakelsp \
-    sbin"btm" atload"alias top=btm" completions ClementTsang/bottom \
-    sbin"marksman* -> marksman" artempyanykh/marksman
+# LSP / CLI tools
+zinit wait"0a" lucid from"gh-r" for \
+    sbin"**/delta" \
+        atload"alias diff='delta -ns'" \
+        dandavison/delta \
+    sbin"buf* -> buf" \
+        extract"" \
+        atload"source <(buf completion zsh)" \
+        bufbuild/buf \
+    sbin"**/lua-language-server" \
+        LuaLS/lua-language-server \
+    sbin"**/neocmakelsp" \
+        neocmakelsp/neocmakelsp \
+    sbin"**/btm" \
+        atload"alias top=btm" \
+        completions \
+        ClementTsang/bottom \
+    sbin"marksman* -> marksman" \
+        extract"" \
+        artempyanykh/marksman
 
 # Modern command aliases with fallbacks
 if (( $+commands[eza] )); then
@@ -86,6 +96,7 @@ fi
 
 (( $+commands[bat] )) && alias cat='bat -p --wrap character'
 (( $+commands[tldr] )) && alias help='tldr'
+(( $+commands[fzf] )) && source <(fzf --zsh)
 
 source $HOME/myDoc/dotfiles/zsh/conf.zsh
 
