@@ -19,7 +19,7 @@ fedora_ver=$(rpm -E %fedora)
 rpmfusion_free="https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-${fedora_ver}.noarch.rpm"
 rpmfusion_nonfree="https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${fedora_ver}.noarch.rpm"
 
-if ! rpm -q rpmfusion-free-release &>/dev/null; then
+if ! rpm -q rpmfusion-free-release &> /dev/null; then
     info "Enabling RPM Fusion repositories …"
     dnf install -y "$rpmfusion_free" "$rpmfusion_nonfree"
 else
@@ -33,7 +33,7 @@ rpm --import https://packages.microsoft.com/keys/microsoft.asc
 dnf config-manager setopt fastestmirror=1
 
 if [[ ! -f /etc/yum.repos.d/vscode.repo ]]; then
-    cat >/etc/yum.repos.d/vscode.repo <<'EOF'
+    cat > /etc/yum.repos.d/vscode.repo << 'EOF'
 [code]
 name=Visual Studio Code
 baseurl=https://packages.microsoft.com/yumrepos/vscode
@@ -42,8 +42,9 @@ gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc
 EOF
 fi
+
 if [[ ! -f /etc/yum.repos.d/microsoft-edge.repo ]]; then
-    cat >/etc/yum.repos.d/microsoft-edge.repo <<'EOF'
+    cat > /etc/yum.repos.d/microsoft-edge.repo << 'EOF'
 [microsoft-edge]
 name=Microsoft Edge
 baseurl=https://packages.microsoft.com/yumrepos/edge

@@ -2,7 +2,7 @@
 # Install essential Go development tools.
 set -euo pipefail
 
-if ! command -v go &>/dev/null; then
+if ! command -v go &> /dev/null; then
     echo "Error: go is not installed." >&2
     exit 1
 fi
