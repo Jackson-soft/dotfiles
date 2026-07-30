@@ -17,7 +17,7 @@
 (use-package c-ts-mode
   :ensure nil
   :custom
-  (c-ts-mode-indent-offset tab-width)
+  (c-ts-indent-offset tab-width)
   )
 
 ;; Highlight "#if 0" as comments
@@ -33,7 +33,7 @@
 (use-package cmake-ts-mode
   :ensure nil
   :custom
-  (cmake-ts-mode-indent-offset tab-width)
+  (cmake-ts-indent-offset tab-width)
   )
 
 (provide 'init-cpp)

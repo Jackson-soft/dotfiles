@@ -47,7 +47,9 @@
 			(sql        . ("https://github.com/derekstride/tree-sitter-sql"))
 			(vue        . ("https://github.com/tree-sitter-grammars/tree-sitter-vue"))
 			(yaml       . ("https://github.com/tree-sitter-grammars/tree-sitter-yaml"))
-			(toml       . ("https://github.com/tree-sitter/tree-sitter-toml"))))
+			(toml       . ("https://github.com/tree-sitter/tree-sitter-toml")))
+          treesit-enabled-modes t
+		  treesit-auto-install-grammar 'ask)
   )
 
 (use-package project

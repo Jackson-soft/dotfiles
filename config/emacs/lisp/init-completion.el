@@ -68,7 +68,7 @@
    ("C-c h"   . consult-history)
    ("C-c k"   . consult-kmacro)
    ("C-c m"   . consult-man)
-   ("C-c i"   . consult-info)
+   ("C-h i"   . consult-info)
 
    ;; C-x 系列
    ([remap repeat-complex-command] . consult-complex-command) ;; C-x M-:

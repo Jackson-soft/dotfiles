@@ -29,16 +29,10 @@
 
 (use-package systemd)
 
-(use-package web-mode
-  :mode
-  ("\\.html?\\'" . web-mode)
-  :custom
-  (web-mode-enable-auto-pairing t)
-  (web-mode-enable-css-colorization t)
-  (web-mode-enable-part-face t)
-  (web-mode-enable-comment-interpolation t)
-  (web-mode-enable-current-column-highlight t)
-  (web-mode-enable-current-element-highlight t)
+;; Emacs 31 内置的 tree-sitter HTML mode（内嵌 JS/CSS）
+(use-package mhtml-ts-mode
+  :ensure nil
+  :mode ("\\.html?\\'" . mhtml-ts-mode)
   )
 
 (use-package restclient

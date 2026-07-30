@@ -8,7 +8,7 @@
 (use-package go-ts-mode
   :ensure nil
   :custom
-  (go-ts-mode-indent-offset tab-width)
+  (go-ts-indent-offset tab-width)
   :config
   (use-package gotest
     :bind
@@ -32,6 +32,12 @@
     :custom
     (go-tag-args (list "-transform" "camelcase"))
     )
+  )
+
+;; go.work 文件（Emacs 31 内置）
+(use-package go-work-ts-mode
+  :ensure nil
+  :mode "go\\.work\\'"
   )
 
 (provide 'init-go)

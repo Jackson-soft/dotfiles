@@ -24,6 +24,8 @@
 ;; Org 基础配置（你的原配置）
 (use-package org
   :ensure nil
+  :hook
+  (org-mode . visual-line-mode) ;; org-mode 派生自 outline-mode，收不到 text-mode-hook
   :custom
   ;; 基础显示
   (org-startup-indented t)

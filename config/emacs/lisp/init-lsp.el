@@ -80,7 +80,7 @@
 (use-package eglot
   :ensure nil
   :hook
-  (((json-ts-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode bash-ts-mode yaml-pro-ts-mode protobuf-ts-mode graphviz-dot-mode markdown-mode) . eglot-ensure))
+  (((json-ts-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode bash-ts-mode yaml-pro-ts-mode protobuf-ts-mode graphviz-dot-mode markdown-ts-mode mhtml-ts-mode) . eglot-ensure))
   :bind
   (:map eglot-mode-map
 		("C-c e a" . eglot-code-actions)
