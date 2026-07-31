@@ -109,7 +109,7 @@ map('x', '<leader>p', [["_dP]], { desc = 'Paste without yank' })
 -- Save & Quit shortcuts
 map('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
 map('n', '<leader>q', '<cmd>q<CR>', { desc = 'Quit' })
-map('n', '<leader>Q', '<cmd>qa!<CR>', { desc = 'Quit all force' })
+map('n', '<leader>Q', '<cmd>qa<CR>', { desc = 'Quit all' })
 
 -- Buffer navigation
 map('n', '<S-h>', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
@@ -268,7 +268,7 @@ vim.pack.add({
     -- UI & Appearance
     gh('folke/tokyonight.nvim'),
     gh('lukas-reineke/indent-blankline.nvim'),
-    gh('romus204/tree-sitter-manager.nvim'),
+    gh('nvim-treesitter/nvim-treesitter'),
     gh('nvim-treesitter/nvim-treesitter-context'),
     gh('nvim-treesitter/nvim-treesitter-textobjects'),
     gh('HiPhish/rainbow-delimiters.nvim'),
@@ -375,21 +375,32 @@ map('n', '<leader>fS', '<cmd>FzfLua lsp_workspace_symbols<CR>', { desc = 'lsp_wo
 -- Indent Blankline
 require('ibl').setup()
 
--- Tree-sitter Manager (parser installer, replaces nvim-treesitter)
-require('tree-sitter-manager').setup({
-    ensure_installed = {
-        "bash", "c", "cmake", "cpp", "css", "dockerfile",
-        "dot", "doxygen", "diff", "git_config", "gitignore",
-        "go", "gomod", "gosum", "gowork",
-        "html", "http", "javascript", "json", "lua",
-        "make", "markdown", "markdown_inline",
-        "proto", "python", "query", "regex",
-        "sql", "toml", "typescript", "vim", "vimdoc", "yaml",
-    },
-    auto_install = true,
+-- Tree-sitter: install parsers up front, auto-install any others on demand
+local ts_ensure_installed = {
+    "bash", "c", "cmake", "cpp", "css", "dockerfile",
+    "dot", "doxygen", "diff", "git_config", "gitignore",
+    "go", "gomod", "gosum", "gowork",
+    "html", "http", "javascript", "json", "lua",
+    "make", "markdown", "markdown_inline",
+    "proto", "python", "query", "regex",
+    "sql", "toml", "typescript", "vim", "vimdoc", "yaml",
+}
+require('nvim-treesitter').install(ts_ensure_installed)
+
+autocmd('FileType', {
+    group = augroup('treesitter-highlight', { clear = true }),
+    callback = function(event)
+        if pcall(vim.treesitter.start) then
+            return
+        end
+        -- swallow errors: many filetypes (help, qf, NvimTree, ...) have no parser at all
+        local lang = vim.treesitter.language.get_lang(event.match) or event.match
+        pcall(function() require('nvim-treesitter').install({ lang }):wait(300000) end)
+        pcall(vim.treesitter.start)
+    end,
 })
 
--- Treesitter folding (highlighting handled by tree-sitter-manager)
+-- Treesitter folding
 vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('ts-features', { clear = true }),
     pattern = "*",
@@ -552,7 +563,7 @@ require("nvim-autopairs").setup({
         javascript = { 'template_string' },
         java = false,
     },
-    disable_filetype = { "FzfLua", "vim" },
+    disable_filetype = { "FzfLua" },
     fast_wrap = {
         map = '<M-e>',
         chars = { '{', '[', '(', '"', "'" },
@@ -636,15 +647,29 @@ require('lualine').setup({
     extensions = { "toggleterm", "nvim-tree", "fzf" },
 })
 
--- Render Markdown
-require('render-markdown').setup({
-    completions = {
-        blink = { enabled = true },
-    },
+-- Render Markdown (deferred: only needed for markdown buffers)
+autocmd('FileType', {
+    group = augroup('lazy-render-markdown', { clear = true }),
+    pattern = 'markdown',
+    once = true,
+    callback = function()
+        require('render-markdown').setup({
+            completions = {
+                blink = { enabled = true },
+            },
+        })
+    end,
 })
 
--- Kulala (HTTP Client)
-require('kulala').setup()
+-- Kulala HTTP Client (deferred: only needed for .http buffers)
+autocmd('FileType', {
+    group = augroup('lazy-kulala', { clear = true }),
+    pattern = 'http',
+    once = true,
+    callback = function()
+        require('kulala').setup()
+    end,
+})
 
 -- Toggleterm
 require("toggleterm").setup({
