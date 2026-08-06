@@ -7,7 +7,6 @@
 ;;   :hook
 ;;   (after-init . fido-vertical-mode)
 ;;   :custom
-;;   (icomplete-in-buffer t)
 ;;   (icomplete-tidy-shadowed-file-names t)
 ;;   (icomplete-show-matches-on-no-input t)
 ;;   (icomplete-scroll t)
@@ -26,15 +25,14 @@
 
 ;; Vertico 主体
 (use-package vertico
+  :hook
+  (after-init . vertico-mode)
   :custom
   ;; 行为设置
   (vertico-scroll-margin 0)  ;; 滚动边距
   (vertico-count 20)         ;; 显示候选数量
   (vertico-resize t)         ;; 自动调整 minibuffer 高度
   (vertico-cycle t)          ;; 循环选择候选项
-  :init
-  ;; 启用 Vertico
-  (vertico-mode)
   :config
   ;; 目录导航扩展
   (use-package vertico-directory
@@ -173,8 +171,8 @@
 (use-package marginalia
   :bind
   ("M-A" . marginalia-cycle)
-  :init
-  (marginalia-mode)
+  :hook
+  (after-init . marginalia-mode)
   )
 
 (use-package embark
@@ -198,9 +196,9 @@
 				 nil
 				 (window-parameters (mode-line-format . none)))))
 
-;; 如果你用 consult，强烈推荐加上这个
 (use-package embark-consult
   :ensure t
+  :after (embark consult)
   )
 
 (use-package nerd-icons-completion

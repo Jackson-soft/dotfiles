@@ -11,31 +11,26 @@
 (use-package minibuffer
   :ensure nil
   :hook
-  (minibuffer-setup . cursor-intangible-mode)
+  (minibuffer-setup . cursor-intangible-mode)  ; 防止光标进入只读提示区域
   :custom
   ;; 历史记录
   (history-delete-duplicates t)
-  (enable-recursive-minibuffers t)
+  (enable-recursive-minibuffers t)      ; 允许递归使用 minibuffer
+  (minibuffer-depth-indicate-mode t)    ; 显示递归深度
+  (minibuffer-electric-default-mode t)  ; 自动隐藏默认值
 
   ;; 补全行为
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
   (completion-pcm-complete-word-inserts-delimiters t)
   (completion-cycle-threshold 3)
-  (completion-auto-help 'visible)
   (completion-auto-select t)
-  (completion-ignore-case t)
-  (completions-format 'one-column)
-  (completions-sort 'historical)
+  (completion-ignore-case t)  ; 忽略大小写
   (completions-detailed t)
-  (completions-group t)
 
   ;; Prompt 样式
   (minibuffer-prompt-properties
    '(read-only t cursor-intangible t face minibuffer-prompt))
-  :init
-  (minibuffer-electric-default-mode 1)
-  (minibuffer-depth-indicate-mode 1)
   )
 
 ;; minibuffer history

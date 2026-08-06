@@ -9,13 +9,14 @@ linters:
         - funlen
         - gochecknoglobals
         - godot
+        - gomodguard
         - lll
         - nlreturn
         - paralleltest
         - tagliatelle
         - varnamelen
         - wrapcheck
-        - wsl_v5
+        - wsl
     settings:
         revive:
             enable-all-rules: true

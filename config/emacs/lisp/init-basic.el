@@ -113,6 +113,8 @@
   (visual-line-fringe-indicators '(nil right-curly-arrow))
   ;; 剪贴板与 kill-ring
   (kill-do-not-save-duplicates t)         ;; 不保存重复的 kill
+  ;; include '\n' when point starts at the beginning-of-line
+  (kill-whole-line t)
   (save-interprogram-paste-before-kill t) ;; 覆盖前保存外部剪贴板
   ;; 光标信息
   (what-cursor-show-names t)              ;; `what-cursor-position` 显示字符名

@@ -2,6 +2,8 @@
 Checks: "bugprone-*,\
     boost-*,\
     cert-err33-c,\
+    clang-analyzer-*,\
+    clang-diagnostic-*,\
     concurrency-*,\
     cppcoreguidelines-*,\
     misc-*,\
@@ -20,5 +22,4 @@ CheckOptions:
     cppcoreguidelines-init-variables.MathHeader: "<cmath>"
     misc-unused-parameters.StrictMode: "true"
     readability-uniqueptr-delete-release.PreferResetCall: "true"
-    readability-qualified-auto.AddConstToQualified: "true"
     readability-redundant-access-specifiers.CheckFirstDeclaration: "true"
