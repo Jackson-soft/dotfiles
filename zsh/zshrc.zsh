@@ -6,13 +6,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 ### Added by Zinit's installer
-local ZI_REPO="zdharma-continuum"
+typeset -g ZI_REPO="zdharma-continuum"
 ZI_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
 ZI_BIN="${ZI_HOME}/zinit.git"
 
-if [[ ! -e ${ZI_BIN}/zinit.zsh ]] {
-    command mkdir -p "$(dirname ${ZI_HOME})" && command git clone --depth=1 "https://github.com/${ZI_REPO}/zinit.git" ${ZI_BIN}
-    command chmod g-rwX ${ZI_HOME} && zcompile ${ZI_BIN}/zinit.zsh
+if [[ ! -e "${ZI_BIN}/zinit.zsh" ]] {
+    command mkdir -p "$(dirname "${ZI_HOME}")" && command git clone --depth=1 "https://github.com/${ZI_REPO}/zinit.git" "${ZI_BIN}"
+    command chmod g-rwX "${ZI_HOME}" && zcompile "${ZI_BIN}/zinit.zsh"
 }
 
 # Performance tuning (before sourcing zinit)
@@ -20,7 +20,7 @@ declare -A ZINIT
 ZINIT[OPTIMIZE_OUT_DISK_ACCESSES]=1
 ZINIT[COMPINIT_OPTS]="-C"
 
-source ${ZI_BIN}/zinit.zsh
+source "${ZI_BIN}/zinit.zsh"
 
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -55,7 +55,7 @@ zinit wait"0a" lucid light-mode for \
 # Modern Unix commands
 # See https://github.com/ibraheemdev/modern-unix
 # LSP / CLI tools
-zinit wait"0a" lucid from"gh-r" for \
+zinit wait"0a" lucid from"gh-r" as"program" for \
     sbin"**/delta" \
         atload"alias diff='delta -ns'" \
         dandavison/delta \
@@ -98,7 +98,7 @@ fi
 (( $+commands[tldr] )) && alias help='tldr'
 (( $+commands[fzf] )) && source <(fzf --zsh)
 
-source $HOME/myDoc/dotfiles/zsh/conf.zsh
+source "${${(%):-%x}:A:h}/conf.zsh"
 
 # Eat (Emacs terminal emulator) shell integration
 [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \

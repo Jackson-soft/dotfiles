@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 ## Options section
 setopt EXTENDED_GLOB
 setopt HIST_FCNTL_LOCK      # Use modern file-locking mechanisms, for better safety & performance.
@@ -9,10 +7,10 @@ setopt HIST_VERIFY          # Show command with history expansion to user before
 setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
 setopt ALWAYS_TO_END        # Move cursor to the end of a completed word.
 setopt PATH_DIRS            # Perform path search even on command names with slashes.
-setopt AUTO_MENU            # Show completion menu on a successive tab press.
 setopt AUTO_LIST            # Automatically list choices on ambiguous completion.
 setopt AUTO_PARAM_SLASH     # If completed parameter is a directory, add a trailing slash.
 setopt CORRECT              # Try to correct the spelling of commands.
+CORRECT_IGNORE="[_]*"       # Don't correct words beginning with an underscore.
 setopt GLOB_DOTS            # Include dotfiles in globbing.
 setopt MARK_DIRS            # Mark directories with trailing slash in filename completion.
 
@@ -21,6 +19,7 @@ HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 setopt SHARE_HISTORY          # Share history between sessions (implies INC_APPEND_HISTORY)
+setopt EXTENDED_HISTORY       # Record timestamps and durations in history.
 setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks from each command
 setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicates first when trimming history
 
@@ -37,6 +36,9 @@ alias -g ....='../../..'
 # It only applies when fzf is invoked directly without stdin pipe.
 (($+commands[fd])) && export FZF_DEFAULT_COMMAND="fd -t f -H -L -E .git -E node_modules -E target -E .venv -E __pycache__ --strip-cwd-prefix"
 
+# Gruvbox color palette (single source of truth for fzf and fzf-tab)
+typeset -g _fzf_palette='fg:#ebdbb2,bg:#282828,hl:#fabd2f,fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f,info:#83a598,prompt:#bdae93,spinner:#fabd2f,pointer:#83a598,marker:#fe8019,header:#665c54'
+
 export FZF_DEFAULT_OPTS="
        --height ~60%
        --layout reverse
@@ -49,14 +51,11 @@ export FZF_DEFAULT_OPTS="
        --marker '✓'
        --pointer '▶'
        --separator '─'
-       --color 'fg:#ebdbb2,bg:#282828,hl:#fabd2f'
-       --color 'fg+:#ebdbb2,bg+:#3c3836,hl+:#fabd2f'
-       --color 'info:#83a598,prompt:#bdae93,spinner:#fabd2f'
-       --color 'pointer:#83a598,marker:#fe8019,header:#665c54'
+       --color '${_fzf_palette}'
        --bind 'ctrl-/:toggle-preview'
        --bind 'alt-u:preview-page-up'
        --bind 'alt-d:preview-page-down'
-       --bind 'ctrl-a:select-all'
+       --bind 'ctrl-a:toggle-all'
        --bind 'ctrl-t:toggle-all'
        "
 
@@ -73,6 +72,7 @@ export FZF_CTRL_T_OPTS="
        "
 
 # Platform-aware clipboard
+typeset -g _clip_cmd
 if (($+commands[pbcopy])); then
     _clip_cmd="pbcopy"
 elif (($+commands[xclip])); then
@@ -88,7 +88,7 @@ export FZF_CTRL_R_OPTS="
        --scheme history
        --wrap
        --bind 'ctrl-y:execute-silent(echo -n {2..} | ${_clip_cmd})+abort'
-       --color header:italic
+       --color 'header:#665c54:italic'
        --header 'CTRL-Y to copy to clipboard'
        "
 
@@ -129,10 +129,9 @@ export LESS=-R
 
 # see https://thevaluable.dev/zsh-completion-guide-examples
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# Completer chain: complete → expand → match → approximate (with error limit)
-zstyle ':completion:*' completer _complete _expand _match _approximate
+# Completer chain: complete → expand → match
+zstyle ':completion:*' completer _complete _expand _match
 zstyle ':completion:*:match:*' original only
-zstyle ':completion:*:approximate:*' max-errors 2 numeric
 # Group matches and describe
 zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*' group-name ''
@@ -155,20 +154,17 @@ zstyle ':completion:*' list-dirs-first true
 zstyle ':completion:*:git-checkout:*' sort false
 # fzf-tab-specific flags (fzf-tab does NOT follow FZF_DEFAULT_OPTS by default)
 zstyle ':fzf-tab:*' fzf-flags \
-    '--color=fg:#ebdbb2,fg+:#ebdbb2,bg:#282828,bg+:#3c3836' \
-    '--color=hl:#fabd2f,hl+:#fabd2f,info:#83a598,prompt:#bdae93' \
-    '--color=pointer:#83a598,marker:#fe8019,header:#665c54' \
+    "--color=${_fzf_palette}" \
     '--bind=tab:accept'
 zstyle ':fzf-tab:*' fzf-bindings 'ctrl-a:toggle-all' 'ctrl-/:toggle-preview'
 zstyle ':fzf-tab:*' fzf-min-height 0
 zstyle ':fzf-tab:*' fzf-pad 4
 zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:*' prefix ''
 
 # 补全描述格式
 zstyle ':completion:*:descriptions' format '[%d]'
 # 文件名着色
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+(($+LS_COLORS)) && zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 # 禁用默认菜单，让 fzf-tab 接管
 zstyle ':completion:*' menu no
 
@@ -232,7 +228,7 @@ extract() {
         *.Z) uncompress "$1" ;;
         *.7z) 7z x "$1" ;;
         *.tar.xz) tar xJf "$1" ;;
-        *.tar.zst) tar --zstd -xf "$1" ;;
+        *.tar.zst) zstd -dc "$1" | tar xf - ;;
         *.xz) xz -d "$1" ;;
         *.zst) zstd -d "$1" ;;
         *) echo "'$1' cannot be extracted via extract()" ;;

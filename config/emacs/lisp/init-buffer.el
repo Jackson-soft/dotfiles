@@ -2,7 +2,7 @@
 
 ;;; Commentary:
 ;;
-;; IBuffer configurations.
+;; Minibuffer, savehist and IBuffer configurations.
 ;;
 
 ;;; Code:
@@ -12,21 +12,19 @@
   :ensure nil
   :hook
   (minibuffer-setup . cursor-intangible-mode)  ; 防止光标进入只读提示区域
+  (after-init . minibuffer-electric-default-mode)
   :custom
   ;; 历史记录
   (history-delete-duplicates t)
   (enable-recursive-minibuffers t)      ; 允许递归使用 minibuffer
   (minibuffer-depth-indicate-mode t)    ; 显示递归深度
-  (minibuffer-electric-default-mode t)  ; 自动隐藏默认值
 
   ;; 补全行为
   (read-buffer-completion-ignore-case t)
   (read-file-name-completion-ignore-case t)
   (completion-pcm-complete-word-inserts-delimiters t)
   (completion-cycle-threshold 3)
-  (completion-auto-select t)
   (completion-ignore-case t)  ; 忽略大小写
-  (completions-detailed t)
 
   ;; Prompt 样式
   (minibuffer-prompt-properties
@@ -43,8 +41,7 @@
   (savehist-additional-variables '(mark-ring
 								   global-mark-ring
 								   search-ring
-								   regexp-search-ring
-								   extended-command-history)
+								   regexp-search-ring)
 								 )
   )
 
