@@ -15,7 +15,15 @@
   ("\\.ya?ml\\'" . yaml-pro-ts-mode)
   )
 
-(use-package protobuf-ts-mode)
+(use-package protobuf-ts-mode
+  :mode
+  ("\\.proto\\'" . protobuf-ts-mode))
+
+;; Graphviz DOT 文件（dot/gv）
+(use-package graphviz-dot-mode
+  :mode
+  (("\\.dot\\'" . graphviz-dot-mode)
+   ("\\.gv\\'"  . graphviz-dot-mode)))
 
 (use-package nginx-mode
   :mode
@@ -27,12 +35,20 @@
   (dockerfile-ts-mode . flymake-hadolint-setup)
   )
 
-(use-package systemd)
+(when (memq system-type '(gnu/linux))
+  (use-package systemd :defer t))
 
 ;; Emacs 31 内置的 tree-sitter HTML mode（内嵌 JS/CSS）
 (use-package mhtml-ts-mode
   :ensure nil
   :mode ("\\.html?\\'" . mhtml-ts-mode)
+  )
+
+;; Emacs 31 内置的 tree-sitter Markdown mode（实验性，默认不启用，需手动映射）
+(use-package markdown-ts-mode
+  :ensure nil
+  :mode (("\\.md\\'" . markdown-ts-mode)
+         ("\\.markdown\\'" . markdown-ts-mode))
   )
 
 (use-package restclient

@@ -20,7 +20,6 @@
   (outline-minor-mode-cycle t)
   )
 
-
 ;; Org 基础配置（你的原配置）
 (use-package org
   :ensure nil
@@ -60,60 +59,60 @@
   :config
   ;; org-id
   (use-package org-id
-	:ensure nil
-	:custom
-	(org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
+    :ensure nil
+    :custom
+    (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
 
   ;; Org-Cite
   (use-package oc
-	:ensure nil
-	:custom
-	(org-cite-export-processors
-	 '((beamer natbib)
-	   (latex biblatex)
-	   (t csl))))
+    :ensure nil
+    :custom
+    (org-cite-export-processors
+     '((beamer natbib)
+       (latex biblatex)
+       (t csl))))
 
   ;; 表格
   (use-package org-table
-	:ensure nil
-	:custom
-	(org-table-header-line-p t))
+    :ensure nil
+    :custom
+    (org-table-header-line-p t))
 
   ;; 代码块
   (use-package org-src
-	:ensure nil
-	:hook
-	(org-babel-after-execute . org-redisplay-inline-images)
-	:custom
-	(org-src-preserve-indentation t))
+    :ensure nil
+    :hook
+    (org-babel-after-execute . org-redisplay-inline-images)
+    :custom
+    (org-src-preserve-indentation t))
 
   ;; 导出设置
   (use-package ox
-	:ensure nil
-	:custom
-	(org-export-with-tags 'not-in-toc)
-	(org-export-with-author nil)
-	(org-export-with-toc nil)
-	(org-export-with-priority t)
-	(org-export-with-smart-quotes t)
-	(org-export-with-broken-links 'mark)
-	(org-export-preserve-breaks t)
-	(org-export-headline-levels 5)
-	(org-export-default-language "zh-CN")
-	(org-export-coding-system 'utf-8))
+    :ensure nil
+    :custom
+    (org-export-with-tags 'not-in-toc)
+    (org-export-with-author nil)
+    (org-export-with-toc nil)
+    (org-export-with-priority t)
+    (org-export-with-smart-quotes t)
+    (org-export-with-broken-links 'mark)
+    (org-export-preserve-breaks t)
+    (org-export-headline-levels 5)
+    (org-export-default-language "zh-CN")
+    (org-export-coding-system 'utf-8))
 
   ;; Pandoc 导出
   (use-package ox-pandoc
-	:custom
-	(org-pandoc-format-extensions
-	 '(markdown_github+pipe_tables+raw_html)))
+    :custom
+    (org-pandoc-format-extensions
+     '(markdown_github+pipe_tables+raw_html)))
 
   ;; Babel 语言支持
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((shell . t)
-	 (dot . t)
-	 (emacs-lisp . t))))
+     (dot . t)
+     (emacs-lisp . t))))
 
 ;; Org Modern - 美化外观
 (use-package org-modern
@@ -125,8 +124,9 @@
   (org-modern-table t)                  ;; 美化表格
   (org-modern-list '((?- . "•") (?+ . "◦") (?* . "▪"))) ;; 列表符号
   (org-modern-todo-faces
-   '(("TODO"  :background "#ff6c6b" :foreground "white" :weight bold)
-	 ("DONE"  :background "#98be65" :foreground "white" :weight bold))))
+   (modus-themes-with-colors
+     `(("TODO" :background ,red-warmer :foreground "white" :weight bold)
+       ("DONE" :background ,green-warmer :foreground "white" :weight bold)))))
 
 ;; Org Appear - 光标经过时显示隐藏标记
 (use-package org-appear
@@ -163,9 +163,6 @@
   :custom
   (valign-fancy-bar t)
   )
-
-;; dot
-(use-package graphviz-dot-mode)
 
 (provide 'init-org)
 

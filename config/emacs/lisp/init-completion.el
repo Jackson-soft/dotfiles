@@ -2,24 +2,14 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (use-package icomplete
-;;   :ensure nil
-;;   :hook
-;;   (after-init . fido-vertical-mode)
-;;   :custom
-;;   (icomplete-tidy-shadowed-file-names t)
-;;   (icomplete-show-matches-on-no-input t)
-;;   (icomplete-scroll t)
-;;   )
-
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles basic partial-completion))
-								   (eglot (styles orderless))
-								   (eglot-capf (styles orderless))))
+                                   (eglot (styles orderless))
+                                   (eglot-capf (styles orderless))))
   (completion-pcm-leading-wildcard t) ;; Emacs 31: partial-completion 表现类似 substring
   )
 
@@ -36,27 +26,27 @@
   :config
   ;; 目录导航扩展
   (use-package vertico-directory
-	:ensure nil
-	:after vertico
-	:bind
-	(:map vertico-map
-		  ("RET"    . vertico-directory-enter)
-		  ("DEL"    . vertico-directory-delete-char)
-		  ("M-DEL"  . vertico-directory-delete-word))
-	:hook
-	(rfn-eshadow-update-overlay . vertico-directory-tidy))
+    :ensure nil
+    :after vertico
+    :bind
+    (:map vertico-map
+          ("RET"    . vertico-directory-enter)
+          ("DEL"    . vertico-directory-delete-char)
+          ("M-DEL"  . vertico-directory-delete-word))
+    :hook
+    (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
   ;; 鼠标支持：滚轮滚动、点击选择候选
   (vertico-mouse-mode)
 
   ;; 重复上次补全会话
   (use-package vertico-repeat
-	:ensure nil
-	:after vertico
-	:bind
-	("M-R" . vertico-repeat)
-	:hook
-	(minibuffer-setup . vertico-repeat-save))
+    :ensure nil
+    :after vertico
+    :bind
+    ("M-R" . vertico-repeat)
+    :hook
+    (minibuffer-setup . vertico-repeat-save))
   )
 
 (use-package consult
@@ -149,8 +139,8 @@
   ;; 定义常用 info 手册的搜索命令
   (consult-info-define "emacs" "efaq" "elisp" "cl" "compat")
   (consult-info-define 'completion
-					   "vertico" "consult" "marginalia" "orderless"
-					   "embark" "corfu" "cape")
+                       "vertico" "consult" "marginalia" "orderless"
+                       "embark" "corfu" "cape")
   )
 
 (use-package consult-dir
@@ -192,9 +182,9 @@
   :config
   ;; 隐藏 Embark collect buffer 的 mode-line
   (add-to-list 'display-buffer-alist
-			   '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-				 nil
-				 (window-parameters (mode-line-format . none)))))
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
   :ensure t

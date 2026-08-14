@@ -83,9 +83,9 @@
   (((json-ts-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode bash-ts-mode yaml-pro-ts-mode protobuf-ts-mode graphviz-dot-mode markdown-ts-mode mhtml-ts-mode) . eglot-ensure))
   :bind
   (:map eglot-mode-map
-		("C-c e a" . eglot-code-actions)
-		("C-c e r" . eglot-rename)
-		("C-c e f" . eglot-format))
+        ("C-c e a" . eglot-code-actions)
+        ("C-c e r" . eglot-rename)
+        ("C-c e f" . eglot-format))
   :custom
   (eglot-report-progress nil)
   (eglot-autoshutdown t)
@@ -94,23 +94,16 @@
   (add-to-list 'eglot-server-programs '(protobuf-ts-mode . ("buf" "lsp")))
   (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "--stdio")))
   (add-to-list 'eglot-server-programs '((c++-ts-mode c-ts-mode) . ("clangd"
-																   "-j=5"
-																   "--background-index"
-																   "--clang-tidy"
-																   "--compile-commands-dir=build"
-																   "--completion-style=detailed"
-																   "--pch-storage=disk"
-																   "--all-scopes-completion"
-																   "--header-insertion=iwyu"
-																   "--header-insertion-decorators")))
+                                                                   "-j=5"
+                                                                   "--background-index"
+                                                                   "--clang-tidy"
+                                                                   "--compile-commands-dir=build"
+                                                                   "--completion-style=detailed"
+                                                                   "--pch-storage=disk"
+                                                                   "--all-scopes-completion"
+                                                                   "--header-insertion=iwyu"
+                                                                   "--header-insertion-decorators")))
   )
-
-;; (use-package yasnippet
-;;   :hook
-;;   (prog-mode . yas-minor-mode)
-;;   :config
-;;   (use-package yasnippet-snippets)
-;;   )
 
 ;; Configure Tempel
 (use-package tempel
@@ -140,7 +133,8 @@
   )
 
 ;; Optional: Add tempel-collection if you want ready-made templates.
-(use-package tempel-collection)
+(use-package tempel-collection
+  :after tempel)
 
 (provide 'init-lsp)
 

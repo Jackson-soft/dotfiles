@@ -10,7 +10,7 @@
   :ensure nil
   :custom
   (c-doc-comment-style '((c-ts-mode . doxygen)
-						 (c++-ts-mode . doxygen)))
+                         (c++-ts-mode . doxygen)))
   (c-default-style "stroustrup")
   )
 

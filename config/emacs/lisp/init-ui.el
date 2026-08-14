@@ -32,22 +32,31 @@
 
 ;; Moody - 丝带与标签风格的 mode-line
 (use-package moody
+  ;; moody 的三个入口函数均已 autoload，`:commands` 声明后即可延迟加载；
+  ;; 通过 `after-init-hook` 在首帧显示前应用，避免 mode-line 闪烁。
+  :commands
+  (moody-replace-mode-line-front-space
+   moody-replace-mode-line-buffer-identification
+   moody-replace-vc-mode)
+  :hook
+  (after-init . my/moody-setup)
+  :init
+  (defun my/moody-setup ()
+    (moody-replace-mode-line-front-space)
+    (moody-replace-mode-line-buffer-identification)
+    (moody-replace-vc-mode))
   :config
-  ;; 替换默认的 mode-line 元素
-  (moody-replace-mode-line-front-space)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode)
+  ;; 去掉默认边框，让外观更干净；颜色跟随当前 modus-themes 主题调色板
+  (modus-themes-with-colors
+    (set-face-attribute 'mode-line-active nil
+                         :box 'unspecified
+                         :overline blue
+                         :underline `(:color ,blue :position t))
 
-  ;; 去掉默认边框，让外观更干净
-  (set-face-attribute 'mode-line-active nil
-					  :box 'unspecified
-					  :overline "blue"
-					  :underline `(:color "blue" :position t))
-
-  (set-face-attribute 'mode-line-inactive nil
-					  :box 'unspecified
-					  :overline "green"
-					  :underline `(:color "green" :position t))
+    (set-face-attribute 'mode-line-inactive nil
+                         :box 'unspecified
+                         :overline green
+                         :underline `(:color ,green :position t)))
   )
 
 (provide 'init-ui)

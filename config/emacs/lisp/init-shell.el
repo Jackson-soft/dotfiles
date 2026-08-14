@@ -1,8 +1,8 @@
-;;; init-shell.el --- Initialize eshell configurations.  -*- coding: utf-8; lexical-binding: t -*-
+;;; init-shell.el --- Initialize shell configurations.  -*- coding: utf-8; lexical-binding: t -*-
 ;;
 ;;; Commentary:
 ;;
-;;; Eshell configurations.
+;;; Shell configurations.
 ;;
 ;;; Code:
 
@@ -16,7 +16,7 @@
    ("\\.zshenv\\'" . sh-mode))
   :bind
   (:map sh-mode-map
-		("C-c C-e" . sh-execute-region))
+        ("C-c C-e" . sh-execute-region))
   )
 
 (use-package ghostel

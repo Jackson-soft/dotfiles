@@ -27,12 +27,12 @@
   :config
   ;; 辅助功能
   (use-package dired-aux
-	:ensure nil
-	:custom
-	(dired-isearch-filenames 'dwim)      ;; isearch 默认搜索文件名
-	(dired-create-destination-dirs 'ask) ;; 复制/移动时询问是否创建目录
-	(dired-do-revert-buffer (lambda (dir) (not (file-remote-p dir))))
-	(dired-vc-rename-file t))            ;; 支持 VC 重命名
+    :ensure nil
+    :custom
+    (dired-isearch-filenames 'dwim)      ;; isearch 默认搜索文件名
+    (dired-create-destination-dirs 'ask) ;; 复制/移动时询问是否创建目录
+    (dired-do-revert-buffer (lambda (dir) (not (file-remote-p dir))))
+    (dired-vc-rename-file t))            ;; 支持 VC 重命名
 )
 
 ;; Dired 扩展

@@ -13,11 +13,11 @@
   (after-init . global-hl-todo-mode)
   :bind
   (:map hl-todo-mode-map
-		("C-c t p" . hl-todo-previous)
-		("C-c t n" . hl-todo-next)
-		("C-c t i" . hl-todo-insert)
-		("C-c t o" . hl-todo-occur)
-		("C-c t s" . hl-todo-rgrep))
+        ("C-c t p" . hl-todo-previous)
+        ("C-c t n" . hl-todo-next)
+        ("C-c t i" . hl-todo-insert)
+        ("C-c t o" . hl-todo-occur)
+        ("C-c t s" . hl-todo-rgrep))
   )
 
 ;; 高亮当前行
@@ -30,18 +30,15 @@
 ;; 高亮未提交的更改
 (use-package diff-hl
   :hook
+  ;; 启动后再全局启用，避免拖慢 init
+  (after-init . global-diff-hl-mode)
+  (after-init . diff-hl-margin-mode)   ;; 在边距显示更改标记
+  (after-init . diff-hl-flydiff-mode)  ;; 实时更新更改标记
   ;; Magit 集成
   (magit-pre-refresh  . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh)
   ;; Dired 集成
   (dired-mode . diff-hl-dired-mode)
-  :init
-  ;; 启用全局 diff-hl
-  (global-diff-hl-mode 1)
-  ;; 在边距显示更改标记
-  (diff-hl-margin-mode 1)
-  ;; 实时更新更改标记
-  (diff-hl-flydiff-mode 1)
   :bind
   ;; 快捷键：查看当前行的 diff 详情
   (("C-c d" . diff-hl-show-hunk)

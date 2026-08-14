@@ -20,7 +20,7 @@
           ("C-c g x" . go-run))
     :custom
     (go-test-verbose t)
-	(go-test-args "-count=1")
+    (go-test-args "-count=1")
     )
 
   (use-package go-tag

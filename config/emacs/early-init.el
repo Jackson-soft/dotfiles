@@ -9,12 +9,12 @@
 ;;; Code:
 
 (setq read-process-output-max (* 1024 1024)
-	  load-prefer-newer t
-	  inhibit-compacting-font-caches t)  ;; Don’t compact font caches during GC.
+      load-prefer-newer t
+      inhibit-compacting-font-caches t)  ;; Don't compact font caches during GC.
 
 ;; Inhibit resizing frame
 (setq frame-inhibit-implied-resize t
-	  frame-resize-pixelwise t)
+      frame-resize-pixelwise t)
 
 ;; Faster to disable these here (before they've been initialized)
 (setq default-frame-alist

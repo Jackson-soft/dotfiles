@@ -1,4 +1,4 @@
-;; init-edit --- Initialize ui configurations.  -*- coding: utf-8; lexical-binding: t -*-
+;; init-edit --- Initialize editing configurations.  -*- coding: utf-8; lexical-binding: t -*-
 ;;; Commentary:
 ;;
 ;; Editing configurations.
@@ -17,14 +17,14 @@
   (display-line-numbers-width-start t)
   :config
   (defun kill-lines (begin end)
-	"Kill lines from BEGIN to END (inclusive, 1-indexed)."
-	(interactive "nFrom line: \nnTo line: ")
-	(save-excursion
-	  (goto-char (point-min))
-	  (forward-line (1- begin))
-	  (let ((start (point)))
-		(forward-line (1+ (- end begin)))
-		(kill-region start (point)))))
+    "Kill lines from BEGIN to END (inclusive, 1-indexed)."
+    (interactive "nFrom line: \nnTo line: ")
+    (save-excursion
+      (goto-char (point-min))
+      (forward-line (1- begin))
+      (let ((start (point)))
+        (forward-line (1+ (- end begin)))
+        (kill-region start (point)))))
   )
 
 ;; use zap-up-to-char instead of zap-to-char
@@ -81,10 +81,10 @@
   :ensure nil
   :bind
   (:map isearch-mode-map
-		("C-c C-o"                   . isearch-occur)
-		([escape]                    . isearch-cancel)
-		;; Edit the search string instead of jumping back
-		([remap isearch-delete-char] . isearch-del-char))
+        ("C-c C-o"                   . isearch-occur)
+        ([escape]                    . isearch-cancel)
+        ;; Edit the search string instead of jumping back
+        ([remap isearch-delete-char] . isearch-del-char))
   :custom
   (isearch-allow-motion t)  ;; M-< and M-> move to the first/last occurrence of the current search string.
   (isearch-motion-changes-direction t)

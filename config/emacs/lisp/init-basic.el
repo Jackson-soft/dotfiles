@@ -54,25 +54,8 @@
   (transient-mark-mode 1)   ;; 高亮标记区域
   (context-menu-mode 1)     ;; 右键菜单
   (setq-default tab-width 4
-				fill-column 120
-				truncate-lines t) ;; 不自动换行长行
-
-  (require-theme 'modus-themes)
-  :config
-  ;; Add all your customizations prior to loading the themes
-  (setopt modus-themes-to-toggle '(modus-operandi modus-vivendi)
-    	  modus-themes-to-rotate modus-themes-items
-    	  modus-themes-mixed-fonts t
-    	  modus-themes-variable-pitch-ui t
-    	  modus-themes-italic-constructs t
-    	  modus-themes-bold-constructs t
-    	  modus-themes-completions '((t . (bold)))
-    	  modus-themes-prompts '(bold)
-    	  modus-themes-headings '((agenda-structure . (variable-pitch light 2.2))
-    							  (agenda-date . (variable-pitch regular 1.3))
-    							  (t . (regular 1.15))))
-
-  (modus-themes-load-theme 'modus-operandi-tinted)
+                fill-column 120
+                truncate-lines t) ;; 不自动换行长行
   )
 
 (use-package window
@@ -80,6 +63,28 @@
   :custom
   (switch-to-buffer-in-dedicated-window 'pop)
   (switch-to-buffer-obey-display-actions t)
+  )
+
+;; Modus themes - 内置主题
+(use-package modus-themes
+  :ensure nil
+  :init
+  (require-theme 'modus-themes)
+  :config
+  ;; Add all your customizations prior to loading the themes
+  (setopt modus-themes-to-toggle '(modus-operandi modus-vivendi)
+          modus-themes-to-rotate modus-themes-items
+          modus-themes-mixed-fonts t
+          modus-themes-variable-pitch-ui t
+          modus-themes-italic-constructs t
+          modus-themes-bold-constructs t
+          modus-themes-completions '((t . (bold)))
+          modus-themes-prompts '(bold)
+          modus-themes-headings '((agenda-structure . (variable-pitch light 2.2))
+                                  (agenda-date . (variable-pitch regular 1.3))
+                                  (t . (regular 1.15))))
+
+  (modus-themes-load-theme 'modus-operandi-tinted)
   )
 
 (use-package ultra-scroll
