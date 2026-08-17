@@ -1,26 +1,47 @@
 #!/bin/bash
 # Symlink dotfiles to their expected locations.
-# Usage: cd /path/to/dotfiles && ./link.sh
+# Usage:    cd /path/to/dotfiles && ./link.sh
+# Requires bash (uses associative arrays) - do not run via `sh link.sh`, which
+# forces the sh interpreter regardless of this shebang. Use ./link.sh instead.
+if [ -z "${BASH_VERSION:-}" ]; then
+    echo "Error: this script requires bash. Run it as ./link.sh (not sh link.sh)." >&2
+    exit 1
+fi
+
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 # ── Symlinks ────────────────────────────────────────────────────────────────
-declare -A links=(
-    ["$HOME/.zshrc"]="$DOTFILES/zsh/zshrc.zsh"
-    ["$HOME/.prettierrc.yaml"]="$DOTFILES/prettierrc.yaml"
-    ["$HOME/.clang-format"]="$DOTFILES/clang-format.yaml"
-    ["$HOME/.clang-tidy"]="$DOTFILES/clang-tidy.yaml"
-    ["$HOME/.golangci.yml"]="$DOTFILES/golangci.yml"
-    ["$CONFIG/emacs"]="$DOTFILES/config/emacs"
-    ["$CONFIG/nvim"]="$DOTFILES/config/nvim"
-    ["$CONFIG/sqlfluff"]="$DOTFILES/config/sqlfluff"
-    ["$CONFIG/starship.toml"]="$DOTFILES/config/starship.toml"
+# Parallel arrays (not an associative array) - macOS ships bash 3.2, which
+# predates `declare -A` (bash 4.0+).
+targets=(
+    "$HOME/.zshrc"
+    "$HOME/.prettierrc.yaml"
+    "$HOME/.clang-format"
+    "$HOME/.clang-tidy"
+    "$HOME/.golangci.yml"
+    "$CONFIG/emacs"
+    "$CONFIG/nvim"
+    "$CONFIG/sqlfluff"
+    "$CONFIG/starship.toml"
+)
+sources=(
+    "$DOTFILES/zsh/zshrc.zsh"
+    "$DOTFILES/prettierrc.yaml"
+    "$DOTFILES/clang-format.yaml"
+    "$DOTFILES/clang-tidy.yaml"
+    "$DOTFILES/golangci.yml"
+    "$DOTFILES/config/emacs"
+    "$DOTFILES/config/nvim"
+    "$DOTFILES/config/sqlfluff"
+    "$DOTFILES/config/starship.toml"
 )
 
-for target in "${!links[@]}"; do
-    src="${links[$target]}"
+for i in "${!targets[@]}"; do
+    target="${targets[$i]}"
+    src="${sources[$i]}"
     mkdir -p "$(dirname "$target")"
     ln -sfn "$src" "$target"
     echo "  ${target} -> ${src}"
