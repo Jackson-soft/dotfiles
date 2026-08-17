@@ -21,6 +21,7 @@ tools=(
     ugrep
     graphviz # dot
     neovim
+    starship
 )
 
 npms=(
@@ -46,9 +47,9 @@ error() {
 # macOS
 # ============================================================================
 ensure_brew() {
-    if command -v brew &> /dev/null; then return; fi
+    if command -v brew &>/dev/null; then return; fi
     info "Installing Homebrew …"
-    xcode-select --install 2> /dev/null || true
+    xcode-select --install 2>/dev/null || true
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 }
 
@@ -71,7 +72,7 @@ install_dnf() {
 # npm (cross-platform)
 # ============================================================================
 install_npm() {
-    if ! command -v npm &> /dev/null; then
+    if ! command -v npm &>/dev/null; then
         warn "npm not found, skipping npm packages."
         return
     fi
@@ -86,17 +87,17 @@ main() {
     local os
     os=$(uname -s)
     case "$os" in
-        Darwin)
-            info "Detected macOS"
-            install_brew
-            ;;
-        Linux)
-            info "Detected Linux"
-            install_dnf
-            ;;
-        *)
-            error "Unsupported OS: $os"
-            ;;
+    Darwin)
+        info "Detected macOS"
+        install_brew
+        ;;
+    Linux)
+        info "Detected Linux"
+        install_dnf
+        ;;
+    *)
+        error "Unsupported OS: $os"
+        ;;
     esac
     install_npm
 }

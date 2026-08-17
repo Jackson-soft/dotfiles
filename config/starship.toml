@@ -1,0 +1,88 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+command_timeout = 1000
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$character"""
+
+right_format = """
+$cmd_duration\
+$jobs\
+$direnv\
+$python\
+$kubernetes\
+$terraform\
+$aws\
+$gcloud\
+$username\
+$hostname"""
+
+[character]
+success_symbol = "[❯](bold #b8bb26)"
+error_symbol = "[❯](bold #fb4934)"
+vimcmd_symbol = "[❮](bold #b8bb26)"
+
+[directory]
+style = "bold #83a598"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bold #b8bb26"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "#fabd2f"
+format = '([$all_status$ahead_behind]($style)) '
+
+[cmd_duration]
+min_time = 3000
+style = "#d3869b"
+format = " took [$duration]($style)"
+
+[jobs]
+style = "#b8bb26"
+symbol = "✦"
+
+[direnv]
+disabled = false
+style = "#8ec07c"
+
+[python]
+disabled = false
+style = "#b8bb26"
+format = ' [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
+[kubernetes]
+disabled = false
+style = "#8ec07c"
+format = ' [$symbol$context( \($namespace\))]($style)'
+
+[terraform]
+disabled = false
+style = "#83a598"
+
+[aws]
+disabled = false
+style = "#fabd2f"
+
+[gcloud]
+disabled = false
+style = "#83a598"
+
+[username]
+style_user = "bold #d3869b"
+style_root = "bold #fb4934"
+format = "[$user]($style)@"
+show_always = false
+
+[hostname]
+ssh_only = true
+style = "bold #d3869b"
+format = "[$hostname]($style) "

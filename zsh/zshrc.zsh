@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 ### Added by Zinit's installer
 typeset -g ZI_REPO="zdharma-continuum"
 ZI_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit"
@@ -30,8 +23,7 @@ autoload -Uz _zinit
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode depth"1" for \
-    ${ZI_REPO}/zinit-annex-bin-gem-node \
-    atload"[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" romkatv/powerlevel10k
+    ${ZI_REPO}/zinit-annex-bin-gem-node
 
 # Completion enhancements (wait"0" = load at first prompt for fast tab-completion)
 # Order: completions → compinit → fzf-tab (needs compinit) → autosuggestions → syntax-highlighting (last per docs)
@@ -97,6 +89,7 @@ fi
 (( $+commands[bat] )) && alias cat='bat -p --wrap character'
 (( $+commands[tldr] )) && alias help='tldr'
 (( $+commands[fzf] )) && source <(fzf --zsh)
+(( $+commands[starship] )) && eval "$(starship init zsh)"
 
 source "${${(%):-%x}:A:h}/conf.zsh"
 

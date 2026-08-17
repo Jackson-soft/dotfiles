@@ -9,7 +9,6 @@ CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}"
 # ── Symlinks ────────────────────────────────────────────────────────────────
 declare -A links=(
     ["$HOME/.zshrc"]="$DOTFILES/zsh/zshrc.zsh"
-    ["$HOME/.p10k.zsh"]="$DOTFILES/zsh/p10k.zsh"
     ["$HOME/.prettierrc.yaml"]="$DOTFILES/prettierrc.yaml"
     ["$HOME/.clang-format"]="$DOTFILES/clang-format.yaml"
     ["$HOME/.clang-tidy"]="$DOTFILES/clang-tidy.yaml"
@@ -17,6 +16,7 @@ declare -A links=(
     ["$CONFIG/emacs"]="$DOTFILES/config/emacs"
     ["$CONFIG/nvim"]="$DOTFILES/config/nvim"
     ["$CONFIG/sqlfluff"]="$DOTFILES/config/sqlfluff"
+    ["$CONFIG/starship.toml"]="$DOTFILES/config/starship.toml"
 )
 
 for target in "${!links[@]}"; do
