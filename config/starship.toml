@@ -10,7 +10,6 @@ $directory\
 $git_branch\
 $git_commit\
 $git_state\
-$git_metrics\
 $git_status\
 $character"""
 
@@ -57,12 +56,11 @@ format = '[\($state( $progress_current/$progress_total)\)]($style) '
 [git_status]
 style = "#fabd2f"
 format = '([$all_status$ahead_behind]($style)) '
-
-[git_metrics]
-disabled = false
-added_style = "#b8bb26"
-deleted_style = "#fb4934"
-format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
+staged = '[+$count](#b8bb26) '
+modified = '[!$count](#fabd2f) '
+deleted = '[✘$count](#fb4934) '
+renamed = '[»$count](#83a598) '
+untracked = '[?$count](#928374) '
 
 [cmd_duration]
 min_time = 3000
