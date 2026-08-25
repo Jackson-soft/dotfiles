@@ -30,6 +30,14 @@
   :init
   (display-time-mode 1))             ;; 启用时间显示
 
+
+;; 在终端模式下隐藏 mode-line
+(use-package mode-line-invisible
+  :ensure nil
+  :hook
+  (ghostel-mode . mode-line-invisible-mode)
+  )
+
 ;; Moody - 丝带与标签风格的 mode-line
 (use-package moody
   ;; moody 的三个入口函数均已 autoload，`:commands` 声明后即可延迟加载；
@@ -49,14 +57,14 @@
   ;; 去掉默认边框，让外观更干净；颜色跟随当前 modus-themes 主题调色板
   (modus-themes-with-colors
     (set-face-attribute 'mode-line-active nil
-                         :box 'unspecified
-                         :overline blue
-                         :underline `(:color ,blue :position t))
+                        :box 'unspecified
+                        :overline blue
+                        :underline `(:color ,blue :position t))
 
     (set-face-attribute 'mode-line-inactive nil
-                         :box 'unspecified
-                         :overline green
-                         :underline `(:color ,green :position t)))
+                        :box 'unspecified
+                        :overline green
+                        :underline `(:color ,green :position t)))
   )
 
 (provide 'init-ui)

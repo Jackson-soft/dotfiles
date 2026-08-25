@@ -44,6 +44,8 @@
   (show-paren-when-point-in-periphery t)
   (blink-matching-paren-highlight-offscreen t)
   (show-paren-context-when-offscreen 'child-frame)
+  ;; Emacs 31: 注释、字符串内的括号不高亮
+  (show-paren-not-in-comments-or-strings 'all)
   )
 
 ;; Automatic parenthesis pairing

@@ -9,18 +9,21 @@
   :ensure nil
   :custom
   (go-ts-indent-offset tab-width)
+  ;; Emacs 31: 内置测试命令的 flags，等效于原 gotest 的 verbose + -count=1
+  (go-ts-mode-test-flags '("-v" "-count=1"))
+  :bind
+  (:map go-ts-mode-map
+        ;; Emacs 31 内置测试命令，替代 gotest 的 go-test-current-{test,file,project}
+        ("C-c g t" . go-ts-mode-test-function-at-point)
+        ("C-c g f" . go-ts-mode-test-this-file)
+        ("C-c g p" . go-ts-mode-test-this-package))
   :config
+  ;; gotest 仅保留内置命令未覆盖的 benchmark 与 go run
   (use-package gotest
     :bind
     (:map go-ts-mode-map
-          ("C-c g f" . go-test-current-file)
-          ("C-c g t" . go-test-current-test)
-          ("C-c g p" . go-test-current-project)
           ("C-c g b" . go-test-current-benchmark)
           ("C-c g x" . go-run))
-    :custom
-    (go-test-verbose t)
-    (go-test-args "-count=1")
     )
 
   (use-package go-tag

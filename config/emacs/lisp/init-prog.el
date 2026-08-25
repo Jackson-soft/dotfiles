@@ -162,6 +162,9 @@ Else, call `comment-or-uncomment-region' on the current line."
   (prog-mode . hs-minor-mode)
   :bind
   ("C-<tab>" . hs-toggle-hiding)
+  :custom
+  ;; Emacs 31: 在 fringe 显示可折叠块的指示器
+  (hs-show-indicators t)
   )
 
 ;; Edit comment/string/docstring/code block in separate buffer
