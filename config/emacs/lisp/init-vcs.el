@@ -19,11 +19,6 @@
 (use-package git-modes
   :defer t)
 
-(use-package with-editor
-  :hook
-  (eat-exec . with-editor-export-editor)
-  )
-
 ;; `diff-hl' depends on `vc'
 (use-package vc
   :ensure nil
