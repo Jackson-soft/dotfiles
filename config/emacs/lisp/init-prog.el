@@ -27,7 +27,7 @@
             (elisp      . ("https://github.com/Wilfred/tree-sitter-elisp"))
             (go         . ("https://github.com/tree-sitter/tree-sitter-go"))
             (gomod      . ("https://github.com/camdencheek/tree-sitter-go-mod"))
-            (gosum      . ("https://github.com/amaanq/tree-sitter-go-sum"))
+            (gosum      . ("https://github.com/tree-sitter-grammars/tree-sitter-go-sum"))
             (gowork     . ("https://github.com/omertuc/tree-sitter-go-work"))
             (gitcommit  . ("https://github.com/gbprod/tree-sitter-gitcommit"))
             (html       . ("https://github.com/tree-sitter/tree-sitter-html"))

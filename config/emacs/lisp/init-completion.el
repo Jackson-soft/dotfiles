@@ -166,7 +166,6 @@
   )
 
 (use-package embark
-  :ensure t
   :bind
   (("C-h B" . embark-bindings)   ;; alternative for `describe-bindings'
    ("C-."   . embark-act)        ;; 主入口
@@ -187,7 +186,6 @@
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :ensure t
   :after (embark consult)
   )
 
