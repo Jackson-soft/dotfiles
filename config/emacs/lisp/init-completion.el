@@ -16,37 +16,19 @@
 ;; Vertico 主体
 (use-package vertico
   :hook
-  (after-init . vertico-mode)
+  ((after-init . vertico-mode)
+   (rfn-eshadow-update-overlay . vertico-directory-tidy))
+  :bind
+  (:map vertico-map
+        ("RET" . vertico-directory-enter)
+        ("DEL" . vertico-directory-delete-char)
+        ("M-DEL" . vertico-directory-delete-word))
   :custom
   ;; 行为设置
   (vertico-scroll-margin 0)  ;; 滚动边距
   (vertico-count 20)         ;; 显示候选数量
   (vertico-resize t)         ;; 自动调整 minibuffer 高度
   (vertico-cycle t)          ;; 循环选择候选项
-  :config
-  ;; 目录导航扩展
-  (use-package vertico-directory
-    :ensure nil
-    :after vertico
-    :bind
-    (:map vertico-map
-          ("RET"    . vertico-directory-enter)
-          ("DEL"    . vertico-directory-delete-char)
-          ("M-DEL"  . vertico-directory-delete-word))
-    :hook
-    (rfn-eshadow-update-overlay . vertico-directory-tidy))
-
-  ;; 鼠标支持：滚轮滚动、点击选择候选
-  (vertico-mouse-mode)
-
-  ;; 重复上次补全会话
-  (use-package vertico-repeat
-    :ensure nil
-    :after vertico
-    :bind
-    ("M-R" . vertico-repeat)
-    :hook
-    (minibuffer-setup . vertico-repeat-save))
   )
 
 (use-package consult
@@ -126,21 +108,6 @@
    consult-source-bookmark consult-source-file-register
    consult-source-recent-file consult-source-project-recent-file
    :preview-key '(:debounce 0.4 any))
-
-  ;; consult-line：按 M-n 自动插入光标处的 symbol 或 region
-  (consult-customize
-   consult-line
-   :add-history (seq-some #'thing-at-point '(region symbol)))
-
-  ;; 允许预览时执行 hl-todo-mode，使预览也能高亮 TODO/FIXME
-  (add-to-list 'consult-preview-allowed-hooks 'hl-todo-mode)
-  (add-to-list 'consult-preview-allowed-hooks 'elide-head-mode)
-
-  ;; 定义常用 info 手册的搜索命令
-  (consult-info-define "emacs" "efaq" "elisp" "cl" "compat")
-  (consult-info-define 'completion
-                       "vertico" "consult" "marginalia" "orderless"
-                       "embark" "corfu" "cape")
   )
 
 (use-package consult-dir
