@@ -39,6 +39,10 @@
   (ring-bell-function 'ignore)
   (display-raw-bytes-as-hex t)
   (indicate-empty-lines t)
+  ;; Emacs 31: 折叠指定 minor mode 的 mode-line lighter，替代 diminish
+  (mode-line-collapse-minor-modes
+   '(which-key-mode flyover-mode org-modern-mode org-appear-mode))
+  (mode-line-collapse-minor-modes-to "")
 
   ;; 文件与对话框
   (use-file-dialog nil)
@@ -46,16 +50,16 @@
 
   ;; 文本显示
   (word-wrap-by-category t)
+  (tab-width 4)
+  (fill-column 120)
+  (truncate-lines t)       ;; 不自动换行长行
+
+  ;; 模式开关
+  (transient-mark-mode t)  ;; 高亮标记区域
+  (context-menu-mode t)    ;; 右键菜单
 
   ;; 窗口行为
   (window-combination-resize t)
-  :init
-  ;; 模式开关
-  (transient-mark-mode 1)   ;; 高亮标记区域
-  (context-menu-mode 1)     ;; 右键菜单
-  (setq-default tab-width 4
-                fill-column 120
-                truncate-lines t) ;; 不自动换行长行
   )
 
 (use-package window
@@ -63,28 +67,6 @@
   :custom
   (switch-to-buffer-in-dedicated-window 'pop)
   (switch-to-buffer-obey-display-actions t)
-  )
-
-;; Modus themes - 内置主题
-(use-package modus-themes
-  :ensure nil
-  :init
-  (require-theme 'modus-themes)
-  :config
-  ;; Add all your customizations prior to loading the themes
-  (setopt modus-themes-to-toggle '(modus-operandi modus-vivendi)
-          modus-themes-to-rotate modus-themes-items
-          modus-themes-mixed-fonts t
-          modus-themes-variable-pitch-ui t
-          modus-themes-italic-constructs t
-          modus-themes-bold-constructs t
-          modus-themes-completions '((t . (bold)))
-          modus-themes-prompts '(bold)
-          modus-themes-headings '((agenda-structure . (variable-pitch light 2.2))
-                                  (agenda-date . (variable-pitch regular 1.3))
-                                  (t . (regular 1.15))))
-
-  (modus-themes-load-theme 'modus-operandi-tinted)
   )
 
 (use-package ultra-scroll
@@ -98,7 +80,6 @@
 (use-package files
   :ensure nil
   :custom
-  (save-abbrevs 'silently)
   (confirm-kill-processes nil)      ;; 关闭emacs 时无需额外确认
   (make-backup-files nil)          ;; Forbide to make backup files
   (create-lockfiles nil)            ;; No lock files
@@ -123,16 +104,12 @@
   (save-interprogram-paste-before-kill t) ;; 覆盖前保存外部剪贴板
   ;; 光标信息
   (what-cursor-show-names t)              ;; `what-cursor-position` 显示字符名
-  :init
-  ;; 默认缩进使用空格
-  (setq-default indent-tabs-mode nil)
-  ;; 启用列号和行号显示
-  (column-number-mode 1)
-  (line-number-mode 1)
-  ;; 启用重复模式（连续执行同类命令）
-  (repeat-mode 1)
-  ;; 启用选中即替换
-  (delete-selection-mode 1)
+  ;; 缩进与显示
+  (indent-tabs-mode nil)                  ;; 默认缩进使用空格
+  (column-number-mode t)                  ;; 启用列号显示
+  (line-number-mode t)                    ;; 启用行号显示
+  (repeat-mode t)                         ;; 启用重复模式（连续执行同类命令）
+  (delete-selection-mode t)               ;; 启用选中即替换
   )
 
 ;; abbrev mode configuration
@@ -142,6 +119,7 @@
   (after-init . abbrev-mode)
   :custom
   (abbrev-suggest t)
+  (save-abbrevs 'silently)
   )
 
 (use-package select

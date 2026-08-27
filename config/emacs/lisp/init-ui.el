@@ -12,7 +12,6 @@
 ;; Display available keybindings in popup
 (use-package which-key
   :ensure nil
-  :diminish
   :hook
   (after-init . which-key-mode)
   :custom
@@ -27,15 +26,35 @@
   (display-time-day-and-date t)      ;; 显示日期和星期
   (display-time-format "%Y-%m-%d %H:%M") ;; 自定义格式
   (display-time-default-load-average nil)
-  :init
-  (display-time-mode 1))             ;; 启用时间显示
-
+  (display-time-mode t)              ;; 启用时间显示
+  )
 
 ;; 在终端模式下隐藏 mode-line
 (use-package mode-line-invisible
   :ensure nil
   :hook
   (ghostel-mode . mode-line-invisible-mode)
+  )
+
+;; Modus themes - 内置主题
+(use-package modus-themes
+  :ensure nil
+  :init
+  (require-theme 'modus-themes)
+  :custom
+  (modus-themes-to-toggle '(modus-operandi modus-vivendi))
+  (modus-themes-to-rotate modus-themes-items)
+  (modus-themes-mixed-fonts t)
+  (modus-themes-variable-pitch-ui t)
+  (modus-themes-italic-constructs t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-completions '((t . (bold))))
+  (modus-themes-prompts '(bold))
+  (modus-themes-headings '((agenda-structure . (variable-pitch light 2.2))
+                           (agenda-date . (variable-pitch regular 1.3))
+                           (t . (regular 1.15))))
+  :config
+  (modus-themes-load-theme 'modus-operandi-tinted)
   )
 
 ;; Moody - 丝带与标签风格的 mode-line

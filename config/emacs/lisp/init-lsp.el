@@ -30,7 +30,6 @@
   )
 
 (use-package flyover
-  :diminish
   :hook
   (flymake-mode . flyover-mode)
   :custom

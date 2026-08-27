@@ -16,8 +16,8 @@
 ;; Vertico 主体
 (use-package vertico
   :hook
-  ((after-init . vertico-mode)
-   (rfn-eshadow-update-overlay . vertico-directory-tidy))
+  (after-init . vertico-mode)
+  (rfn-eshadow-update-overlay . vertico-directory-tidy)
   :bind
   (:map vertico-map
         ("RET" . vertico-directory-enter)
@@ -27,7 +27,6 @@
   ;; 行为设置
   (vertico-scroll-margin 0)  ;; 滚动边距
   (vertico-count 20)         ;; 显示候选数量
-  (vertico-resize t)         ;; 自动调整 minibuffer 高度
   (vertico-cycle t)          ;; 循环选择候选项
   )
 
@@ -142,9 +141,8 @@
   :custom
   (embark-cycle-key ".")
   (embark-help-key "?")
-  :init
   ;; 提示当前可用的 action
-  (setq prefix-help-command #'embark-prefix-help-command)
+  (prefix-help-command #'embark-prefix-help-command)
   :config
   ;; 隐藏 Embark collect buffer 的 mode-line
   (add-to-list 'display-buffer-alist
