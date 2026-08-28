@@ -13,6 +13,17 @@
   (text-mode-ispell-word-completion nil)
   )
 
+;; Emacs 31 内置的 tree-sitter Markdown mode（实验性，默认不启用，需手动映射）
+(use-package markdown-ts-mode
+  :ensure nil
+  :mode ("\\.md\\'" "\\.mdx\\'" "\\.markdown\\'")
+  :custom
+  (markdown-ts-inline-images t)
+  (markdown-ts-image-max-width 600)
+  :config
+  (require 'markdown-ts-mode-x)
+  )
+
 (use-package outline
   :ensure nil
   :custom
