@@ -17,10 +17,10 @@
   :hook
   (prog-mode . flymake-mode)
   :bind
-  (("C-c n" . flymake-goto-next-error)
-   ("C-c p" . flymake-goto-prev-error))
+  ("C-c n" . flymake-goto-next-error)
+  ("C-c p" . flymake-goto-prev-error)
   :custom
-  (flymake-show-diagnostics-at-end-of-line t)
+  (flymake-inline-diagnostics 'fancy)
   )
 
 ;; flymake linter
@@ -34,13 +34,16 @@
   (flymake-mode . flyover-mode)
   :custom
   (flyover-checkers '(flymake))
+  (flyover-border-style 'pill)
+  (flyover-debounce-interval 0.2)
+  (flyover-max-line-length 80)
   )
 
 (use-package corfu
   :hook
-  ((after-init . global-corfu-mode)
-   (global-corfu-mode . corfu-popupinfo-mode)
-   (global-corfu-mode . corfu-history-mode))
+  (after-init . global-corfu-mode)
+  (global-corfu-mode . corfu-popupinfo-mode)
+  (global-corfu-mode . corfu-history-mode)
   :custom
   (corfu-cycle t)                ;; 循环选择候选项
   (corfu-auto t)                 ;; 自动弹出补全
@@ -79,7 +82,7 @@
 (use-package eglot
   :ensure nil
   :hook
-  (((json-ts-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode bash-ts-mode yaml-pro-ts-mode protobuf-ts-mode graphviz-dot-mode markdown-ts-mode mhtml-ts-mode) . eglot-ensure))
+  ((json-ts-mode go-ts-mode dockerfile-ts-mode c-ts-mode c++-ts-mode cmake-ts-mode lua-ts-mode bash-ts-mode yaml-pro-ts-mode protobuf-ts-mode graphviz-dot-mode markdown-ts-mode mhtml-ts-mode) . eglot-ensure)
   :bind
   (:map eglot-mode-map
         ("C-c e a" . eglot-code-actions)
@@ -106,8 +109,9 @@
 
 ;; Configure Tempel
 (use-package tempel
-  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
-         ("M-*" . tempel-insert))
+  :bind
+  ("M-+" . tempel-complete) ;; Alternative tempel-expand
+  ("M-*" . tempel-insert)
   :init
   ;; Setup completion at point
   (defun tempel-setup-capf ()
@@ -124,7 +128,7 @@
     ;;             completion-at-point-functions
     ;;             (cons (cape-capf-trigger #'tempel-complete ?/)
     ;;                   completion-at-point-functions))
-  )
+    )
 
   (add-hook 'conf-mode-hook 'tempel-setup-capf)
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
@@ -133,7 +137,8 @@
 
 ;; Optional: Add tempel-collection if you want ready-made templates.
 (use-package tempel-collection
-  :after tempel)
+  :after tempel
+  )
 
 (provide 'init-lsp)
 

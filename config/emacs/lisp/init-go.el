@@ -16,25 +16,27 @@
         ;; Emacs 31 内置测试命令，替代 gotest 的 go-test-current-{test,file,project}
         ("C-c g t" . go-ts-mode-test-function-at-point)
         ("C-c g f" . go-ts-mode-test-this-file)
-        ("C-c g p" . go-ts-mode-test-this-package))
-  :config
-  ;; gotest 仅保留内置命令未覆盖的 benchmark 与 go run
-  (use-package gotest
-    :bind
-    (:map go-ts-mode-map
-          ("C-c g b" . go-test-current-benchmark)
-          ("C-c g x" . go-run))
-    )
+        ("C-c g p" . go-ts-mode-test-this-package)
+        )
+  )
 
-  (use-package go-tag
-    :ensure nil
-    :bind
-    (:map go-ts-mode-map
-          ("C-c g a" . go-tag-add)
-          ("C-c g r" . go-tag-remove))
-    :custom
-    (go-tag-args (list "-transform" "camelcase"))
-    )
+(use-package gotest
+  :bind
+  (:map go-ts-mode-map
+        ("C-c g b" . go-test-current-benchmark)
+        ("C-c g x" . go-run)
+        )
+  )
+
+(use-package go-tag
+  :ensure nil
+  :bind
+  (:map go-ts-mode-map
+        ("C-c g a" . go-tag-add)
+        ("C-c g r" . go-tag-remove)
+        )
+  :custom
+  (go-tag-args (list "-transform" "camelcase"))
   )
 
 ;; go.work 文件（Emacs 31 内置）

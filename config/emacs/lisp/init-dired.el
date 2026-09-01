@@ -24,16 +24,17 @@
   (dired-make-directory-clickable t)     ;; 路径各段可点击跳转
   (dired-movement-style 'cycle)         ;; 首尾循环移动
   (dired-clean-confirm-killing-deleted-buffers nil) ;; 删除文件后不再确认关闭 buffer
-  :config
-  ;; 辅助功能
-  (use-package dired-aux
-    :ensure nil
-    :custom
-    (dired-isearch-filenames 'dwim)      ;; isearch 默认搜索文件名
-    (dired-create-destination-dirs 'ask) ;; 复制/移动时询问是否创建目录
-    (dired-do-revert-buffer (lambda (dir) (not (file-remote-p dir))))
-    (dired-vc-rename-file t))            ;; 支持 VC 重命名
-)
+  )
+
+;; 辅助功能
+(use-package dired-aux
+  :ensure nil
+  :custom
+  (dired-isearch-filenames 'dwim)      ;; isearch 默认搜索文件名
+  (dired-create-destination-dirs 'ask) ;; 复制/移动时询问是否创建目录
+  (dired-do-revert-buffer (lambda (dir) (not (file-remote-p dir))))
+  (dired-vc-rename-file t)            ;; 支持 VC 重命名
+  )
 
 ;; Dired 扩展
 (use-package dired-x
@@ -42,7 +43,8 @@
   (dired-mode . dired-omit-mode)         ;; 启用隐藏模式
   :custom
   ;; 隐藏 dotfiles
-  (dired-omit-files (concat dired-omit-files "\\|^\\..*$")))
+  (dired-omit-files (concat dired-omit-files "\\|^\\..*$"))
+  )
 
 (provide 'init-dired)
 

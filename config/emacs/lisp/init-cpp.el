@@ -18,7 +18,6 @@
   :ensure nil
   :custom
   (c-ts-indent-offset tab-width)
-  ;; Emacs 31: 需配合 `treesit-language-source-alist' 中的 doxygen 语法
   (c-ts-mode-enable-doxygen t)
   )
 

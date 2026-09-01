@@ -41,9 +41,10 @@
   (dired-mode . diff-hl-dired-mode)
   :bind
   ;; 快捷键：查看当前行的 diff 详情
-  (("C-c d" . diff-hl-show-hunk)
-   ;; 可选：撤销当前 hunk
-   ("C-c u" . diff-hl-revert-hunk)))
+  ("C-c d" . diff-hl-show-hunk)
+  ;; 可选：撤销当前 hunk
+  ("C-c u" . diff-hl-revert-hunk)
+  )
 
 ;; 缩进标识
 (use-package indent-bars

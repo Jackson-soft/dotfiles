@@ -27,8 +27,7 @@
   (completion-ignore-case t)  ; 忽略大小写
 
   ;; Prompt 样式
-  (minibuffer-prompt-properties
-   '(read-only t cursor-intangible t face minibuffer-prompt))
+  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
   )
 
 ;; minibuffer history

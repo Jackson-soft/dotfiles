@@ -120,8 +120,8 @@
 (use-package consult-todo
   :demand t
   :bind
-  (("M-s t" . consult-todo)
-   ("M-s T" . consult-todo-all))
+  ("M-s t" . consult-todo)
+  ("M-s T" . consult-todo-all)
   )
 
 (use-package marginalia
@@ -133,11 +133,11 @@
 
 (use-package embark
   :bind
-  (("C-h B" . embark-bindings)   ;; alternative for `describe-bindings'
-   ("C-."   . embark-act)        ;; 主入口
-   ("C-;"   . embark-dwim)       ;; 上下文敏感的 act
-   ("M-n"   . embark-next-symbol)
-   ("M-p"   . embark-previous-symbol))
+  ("C-h B" . embark-bindings)   ;; alternative for `describe-bindings'
+  ("C-."   . embark-act)        ;; 主入口
+  ("C-;"   . embark-dwim)       ;; 上下文敏感的 act
+  ("M-n"   . embark-next-symbol)
+  ("M-p"   . embark-previous-symbol)
   :custom
   (embark-cycle-key ".")
   (embark-help-key "?")

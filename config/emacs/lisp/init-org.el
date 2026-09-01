@@ -44,7 +44,7 @@
   (org-hide-macro-markers t)
   (org-pretty-entities t)
   (org-fold-catch-invisible-edits 'show)
-  (org-startup-with-inline-images t)
+  (org-startup-with-link-previews t)
   (org-link-frame-setup '((file . find-file)))
   (org-return-follows-link t)
   (org-ellipsis "...#")
@@ -67,63 +67,64 @@
   (org-special-ctrl-k t)
   ;; 导出
   (org-export-backends '(md latex html icalendar odt))
-  :config
-  ;; org-id
-  (use-package org-id
-    :ensure nil
-    :custom
-    (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id))
+  (org-babel-load-languages '((shell . t)
+                              (dot . t)
+                              (emacs-lisp . t)))
+  )
 
-  ;; Org-Cite
-  (use-package oc
-    :ensure nil
-    :custom
-    (org-cite-export-processors
-     '((beamer natbib)
-       (latex biblatex)
-       (t csl))))
+;; org-id
+(use-package org-id
+  :ensure nil
+  :custom
+  (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
+  )
 
-  ;; 表格
-  (use-package org-table
-    :ensure nil
-    :custom
-    (org-table-header-line-p t))
+;; Org-Cite
+(use-package oc
+  :ensure nil
+  :custom
+  (org-cite-export-processors '((beamer natbib)
+                                (latex biblatex)
+                                (t csl)))
+  )
 
-  ;; 代码块
-  (use-package org-src
-    :ensure nil
-    :hook
-    (org-babel-after-execute . org-redisplay-inline-images)
-    :custom
-    (org-src-preserve-indentation t))
+;; 表格
+(use-package org-table
+  :ensure nil
+  :custom
+  (org-table-header-line-p t)
+  )
 
-  ;; 导出设置
-  (use-package ox
-    :ensure nil
-    :custom
-    (org-export-with-tags 'not-in-toc)
-    (org-export-with-author nil)
-    (org-export-with-toc nil)
-    (org-export-with-priority t)
-    (org-export-with-smart-quotes t)
-    (org-export-with-broken-links 'mark)
-    (org-export-preserve-breaks t)
-    (org-export-headline-levels 5)
-    (org-export-default-language "zh-CN")
-    (org-export-coding-system 'utf-8))
+;; 代码块
+(use-package org-src
+  :ensure nil
+  :hook
+  (org-babel-after-execute . org-redisplay-inline-images)
+  :custom
+  (org-src-preserve-indentation t)
+  )
 
-  ;; Pandoc 导出
-  (use-package ox-pandoc
-    :custom
-    (org-pandoc-format-extensions
-     '(markdown_github+pipe_tables+raw_html)))
+;; 导出设置
+(use-package ox
+  :ensure nil
+  :custom
+  (org-export-with-tags 'not-in-toc)
+  (org-export-with-author nil)
+  (org-export-with-toc nil)
+  (org-export-with-priority t)
+  (org-export-with-smart-quotes t)
+  (org-export-with-broken-links 'mark)
+  (org-export-preserve-breaks t)
+  (org-export-headline-levels 5)
+  (org-export-default-language "zh-CN")
+  (org-export-coding-system 'utf-8)
+  )
 
-  ;; Babel 语言支持
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((shell . t)
-     (dot . t)
-     (emacs-lisp . t))))
+;; Pandoc 导出
+(use-package ox-pandoc
+  :custom
+  (org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
+  )
 
 ;; Org Modern - 美化外观
 (use-package org-modern
@@ -136,7 +137,8 @@
   (org-modern-todo-faces
    (modus-themes-with-colors
      `(("TODO" :background ,red-warmer :foreground "white" :weight bold)
-       ("DONE" :background ,green-warmer :foreground "white" :weight bold)))))
+       ("DONE" :background ,green-warmer :foreground "white" :weight bold))))
+  )
 
 ;; Org Appear - 光标经过时显示隐藏标记
 (use-package org-appear
@@ -151,7 +153,8 @@
   (org-appear-inside-latex t)
   (org-appear-trigger 'manual)   ;; 手动触发显示隐藏标记
   (org-appear-manual-linger t)   ;; 光标离开后仍保留片刻
-  (org-appear-delay 0.5))
+  (org-appear-delay 0.5)
+  )
 
 (use-package org-make-toc
   :hook

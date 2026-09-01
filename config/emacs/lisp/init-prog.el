@@ -76,7 +76,7 @@
   :hook
   ((eglot-managed-mode emacs-lisp-mode) . eldoc-mouse-mode)
   :bind
-  (("C-h ." . eldoc-mouse-pop-doc-at-cursor))
+  ("C-h ." . eldoc-mouse-pop-doc-at-cursor)
   :custom
   (eldoc-mouse-mouse-timer 0.5) ;; 鼠标悬停延迟 0.5 秒
   )
@@ -179,8 +179,8 @@ Else, call `comment-or-uncomment-region' on the current line."
 
 (use-package expreg
   :bind
-  (("C-=" . expreg-expand)
-   ("C--" . expreg-contract))
+  ("C-=" . expreg-expand)
+  ("C--" . expreg-contract)
   )
 
 (provide 'init-prog)

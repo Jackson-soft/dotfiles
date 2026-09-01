@@ -24,6 +24,10 @@
 (use-package emacs
   :ensure nil
   :custom
+  ;; 性能调优（适合 LSP / Flymake / Tree-sitter / Canvas）
+  (gc-cons-threshold (* 64 1024 1024))   ;; 64MB
+  (gc-cons-percentage 0.2)
+
   ;; 缩进与补全
   (tab-always-indent 'complete)
   (tab-first-completion 'word-or-paren-or-punct)
@@ -54,6 +58,14 @@
   (fill-column 120)
   (truncate-lines t)       ;; 不自动换行长行
 
+  ;; Smooth scrolling
+  (scroll-margin 4)
+  (scroll-step 1)
+  (scroll-conservatively 101)
+
+  ;; Line spacing
+  (line-spacing 0.15)
+
   ;; 模式开关
   (transient-mark-mode t)  ;; 高亮标记区域
   (context-menu-mode t)    ;; 右键菜单
@@ -72,9 +84,6 @@
 (use-package ultra-scroll
   :hook
   (after-init . ultra-scroll-mode)
-  :custom
-  (scroll-conservatively 3) ; or whatever value you prefer, since v0.4
-  (scroll-margin 0)        ; important: scroll-margin>0 not yet supported
   )
 
 (use-package files
@@ -88,8 +97,8 @@
 (use-package simple
   :ensure nil  ;; 内置包，无需安装
   :bind
-  (("C-z" . undo-redo)                       ;; 撤销/重做
-   ([remap just-one-space] . cycle-spacing)) ;; 空格循环压缩
+  ("C-z" . undo-redo)                       ;; 撤销/重做
+  ([remap just-one-space] . cycle-spacing) ;; 空格循环压缩
   :custom
   ;; 命令补全过滤器
   (read-extended-command-predicate #'command-completion-default-include-p)

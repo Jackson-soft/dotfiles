@@ -22,8 +22,9 @@
 ;; Graphviz DOT 文件（dot/gv）
 (use-package graphviz-dot-mode
   :mode
-  (("\\.dot\\'" . graphviz-dot-mode)
-   ("\\.gv\\'"  . graphviz-dot-mode)))
+  ("\\.dot\\'" . graphviz-dot-mode)
+  ("\\.gv\\'"  . graphviz-dot-mode)
+  )
 
 (use-package nginx-mode
   :mode
@@ -36,12 +37,14 @@
   )
 
 (when (memq system-type '(gnu/linux))
-  (use-package systemd :defer t))
+  (use-package systemd :defer t)
+  )
 
 ;; Emacs 31 内置的 tree-sitter HTML mode（内嵌 JS/CSS）
 (use-package mhtml-ts-mode
   :ensure nil
-  :mode ("\\.html?\\'" . mhtml-ts-mode)
+  :mode
+  ("\\.html?\\'" . mhtml-ts-mode)
   )
 
 (use-package restclient

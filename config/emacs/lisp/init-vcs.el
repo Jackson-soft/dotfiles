@@ -7,9 +7,9 @@
 
 (use-package magit
   :bind
-  (("C-x g" . magit-status)
-   ("C-x M-g" . magit-dispatch)
-   ("C-c M-g" . magit-file-dispatch))
+  ("C-x g" . magit-status)
+  ("C-x M-g" . magit-dispatch)
+  ("C-c M-g" . magit-file-dispatch)
   :custom
   (magit-format-file-function #'magit-format-file-nerd-icons)
   (magit-diff-refine-hunk 'all)

@@ -10,10 +10,10 @@
 (use-package sh-script
   :ensure nil
   :mode
-  (("\\.zsh\\'" . sh-mode)
-   ("\\.sh\\'" . sh-mode)
-   ("\\.*shrc\\'" . sh-mode)
-   ("\\.zshenv\\'" . sh-mode))
+  ("\\.zsh\\'" . sh-mode)
+  ("\\.sh\\'" . sh-mode)
+  ("\\.*shrc\\'" . sh-mode)
+  ("\\.zshenv\\'" . sh-mode)
   :bind
   (:map sh-mode-map
         ("C-c C-e" . sh-execute-region))

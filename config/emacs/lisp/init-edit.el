@@ -31,9 +31,9 @@
 (use-package misc
   :ensure nil
   :bind
-  (("M-U" . upcase-char) ;; 当前光标字母变大写
-   ("M-z" . zap-up-to-char)
-   ("M-Z" . zap-to-char)) ;; M-S-z
+  ("M-U" . upcase-char) ;; 当前光标字母变大写
+  ("M-z" . zap-up-to-char)
+  ("M-Z" . zap-to-char) ;; M-S-z
   )
 
 ;; Highlight parenthesises
@@ -102,6 +102,7 @@
   :ensure nil
   :custom
   (list-matching-lines-jump-to-current-line t)
+  (query-replace-show-preview 'both)
   )
 
 (use-package visual-replace
@@ -114,19 +115,19 @@
 ;; 多块编辑
 (use-package iedit
   :bind
-  (("C-c i" . iedit-mode)      ;; 避免覆盖内置 C-x i (insert-file)
-   ("C-x r RET" . iedit-rectangle-mode))
+  ("C-c i" . iedit-mode)      ;; 避免覆盖内置 C-x i (insert-file)
+  ("C-x r RET" . iedit-rectangle-mode)
   )
 
 ;; 多光标编辑
 (use-package multiple-cursors
   :bind
-  (("C-S-c C-S-c" . mc/edit-lines)
-   ("C->"         . mc/mark-next-like-this)
-   ("C-<"         . mc/mark-previous-like-this)
-   ("C-c C-<"     . mc/mark-all-like-this)
-   ("C-M->"       . mc/skip-to-next-like-this)
-   ("C-M-<"       . mc/skip-to-previous-like-this))
+  ("C-S-c C-S-c" . mc/edit-lines)
+  ("C->"         . mc/mark-next-like-this)
+  ("C-<"         . mc/mark-previous-like-this)
+  ("C-c C-<"     . mc/mark-all-like-this)
+  ("C-M->"       . mc/skip-to-next-like-this)
+  ("C-M-<"       . mc/skip-to-previous-like-this)
   )
 
 ;; 单词拼写检查
@@ -134,8 +135,8 @@
   :hook
   (emacs-startup . global-jinx-mode)
   :bind
-  (("M-$" . jinx-correct)
-   ("C-M-$" . jinx-languages))
+  ("M-$" . jinx-correct)
+  ("C-M-$" . jinx-languages)
   :custom
   (jinx-languages "en_US")
   :config
