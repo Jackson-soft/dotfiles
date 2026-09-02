@@ -29,6 +29,29 @@ bindkey -e
 alias -g ...='../..'
 alias -g ....='../../..'
 
+# Modern command aliases with fallbacks
+if (($+commands[eza])); then
+    alias ls='eza --color=auto --icons=auto --group-directories-first'
+    alias ll='ls -lhA'
+    alias la='ls -A'
+    alias tree='ls -T -L 3'
+else
+    # Fallback to traditional ls with colors
+    if [[ $OSTYPE == darwin* ]]; then
+        alias ls='ls -G'
+        alias ll='ls -alh'
+    else
+        alias ls='ls --color=auto'
+        alias ll='ls -alh'
+    fi
+    alias la='ls -a'
+    (($+commands[tree])) && alias tree='tree' || alias tree='find . -type d | head -20'
+fi
+
+(($+commands[bat])) && alias cat='bat -p --wrap character'
+(($+commands[tldr])) && alias help='tldr'
+(($+commands[rg])) && alias rg='rg --hidden --glob "!.git" --smart-case' && alias grep='rg'
+
 # fzf
 # https://github.com/junegunn/fzf
 
@@ -150,12 +173,9 @@ zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' list-dirs-first true
 
 # ===== fzf-tab 配置 =====
-
 zstyle ':completion:*:git-checkout:*' sort false
 # fzf-tab-specific flags (fzf-tab does NOT follow FZF_DEFAULT_OPTS by default)
-zstyle ':fzf-tab:*' fzf-flags \
-    "--color=${_fzf_palette}" \
-    '--bind=tab:accept'
+zstyle ':fzf-tab:*' fzf-flags "--color=${_fzf_palette}" '--bind=tab:accept'
 zstyle ':fzf-tab:*' fzf-bindings 'ctrl-a:toggle-all' 'ctrl-/:toggle-preview'
 zstyle ':fzf-tab:*' fzf-min-height 0
 zstyle ':fzf-tab:*' fzf-pad 4
@@ -202,10 +222,10 @@ zstyle ':fzf-tab:complete:git-checkout:*' fzf-preview \
 # man
 zstyle ':fzf-tab:complete:(\\|*/|)man:*' fzf-preview 'man "$word"'
 
-# Kill - 进程预览（兼容 macOS BSD ps）
-zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w -w'
+# Kill - 进程预览（兼容 macOS BSD ps；用 command 绕开 ps->procs 别名，procs 不认识这些 flag）
+zstyle ':completion:*:*:*:*:processes' command 'command ps -u $USER -o pid,user,comm -w -w'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
-    '[[ "$group" == "[process ID]" ]] && ps -p "$word" -o command= 2>/dev/null || echo "$word"'
+    '[[ "$group" == "[process ID]" ]] && command ps -p "$word" -o command= 2>/dev/null || echo "$word"'
 zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
 zstyle ':completion:*:*:kill:*' force-list always
@@ -246,8 +266,8 @@ mkcd() {
 # Find and kill process by name
 fkill() {
     local pid sig=${1:-9}
-    pid=$(ps -u $UID -o pid,user,%cpu,%mem,start,command | sed 1d |
-        fzf -m --header='[kill process]' --preview='ps -p {1} -o command=' |
+    pid=$(command ps -u $UID -o pid,user,%cpu,%mem,start,command | sed 1d |
+        fzf -m --header='[kill process]' --preview='command ps -p {1} -o command=' |
         awk '{print $1}')
     [[ -n "$pid" ]] && echo "$pid" | xargs kill -"$sig"
 }

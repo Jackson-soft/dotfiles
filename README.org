@@ -48,67 +48,66 @@ For most users, Esc+ will be the best choice.
 [[https://github.com/sharkdp/bat][bat]] 是 ~cat~ 命令的替代品。
 
 *** ~delta~
-[[https://github.com/dandavison/delta][delta]] 是文件对比工具，主要是用来替换 ~git diff~ 用的。可以在 =~/.gitconfig= 文件中做以下配置：
+[[https://github.com/dandavison/delta][delta]] 是文件对比工具，主要是用来替换 ~git diff~ 用的。实际配置见 [[file:gitconfig.inc][gitconfig.inc]]：
 #+begin_src conf
-[pager]
-    diff = delta
-    log = delta
-    reflog = delta
-    show = delta
+[core]
+    pager = delta
 
 [interactive]
     diffFilter = delta --color-only
 
 [delta]
-    features = side-by-side line-numbers decorations
+    features = decorations
+    side-by-side = true
+    line-numbers = true
+    navigate = true
+    relative-paths = true
+    hyperlinks = true
+    true-color = always
+    syntax-theme = gruvbox-dark
     whitespace-error-style = 22 reverse
 
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
     file-style = bold yellow ul
     file-decoration-style = none
+
+[merge]
+    conflictstyle = zdiff3
 #+end_src
+
+- ~syntax-theme~ 跟 ~fzf~/~bat~ 统一用 gruvbox，视觉上保持一致；
+- ~true-color~/~hyperlinks~ 保证颜色和可点击文件链接在 ~wezterm~ 下正常显示；
+- ~relative-paths~ 在子目录下运行 git 时显示相对路径，更好读；
+- ~conflictstyle = zdiff3~ 比默认的 ~diff3~ 多显示共同祖先上下文，冲突更好排查（需要 git ≥ 2.35）。
 
 如果是使用 ~git-fuzzy~ 的话，是不用配置这些的。
 
 *** ~ripgrep~
-[[https://github.com/BurntSushi/ripgrep][ripgrep]] 是一个文本搜索工具。
+[[https://github.com/BurntSushi/ripgrep][ripgrep]] 是一个文本搜索工具，配置里用 ~alias grep='rg'~ 替换了默认的 ~grep~ 。
 
 *** ~ugrep~
-    [[https://github.com/Genivia/ugrep][ugrep]] 同样是一个搜索工具。可以是 ~grep~ 的平替，且带有 ~TUI~ 。
+[[https://github.com/Genivia/ugrep][ugrep]] 同样是一个搜索工具。可以是 ~grep~ 的平替，且带有 ~TUI~ 。
 
 *** =procs=
-[[https://github.com/dalance/procs][procs]] 是 ~ps~ 命令的替代品。
+[[https://github.com/dalance/procs][procs]] 是 ~ps~ 命令的替代品。没有别名替换 ~ps~ ：~ps~ 的经典 flag 语法（~-u~/~-o~/~-p~ 等）被 [[file:zsh/conf.zsh][conf.zsh]] 里 kill 补全和 =fkill= 依赖，跟 ~procs~ 不兼容，直接用 ~procs~ 这个命令名即可。
+
+*** ~bottom~
+[[https://github.com/ClementTsang/bottom][bottom]] 是 ~top~ 命令的替代品，通过 ~zinit~ 从 ~gh-r~ 下载二进制安装，并 ~alias top=btm~ 。
 
 *** ~eza~
 [[https://github.com/eza-community/eza][eza]] 是 ~ls~ 命令的替代品，目前有个小问题，就是官方一直没提供 ~mac~ 的二进制。它同样有一个竞品 [[https://github.com/Peltoche/lsd][lsd]] ，两者功能性上差不多，看个人口味来取舍。
 
-*** ~vivid~
-[[https://github.com/sharkdp/vivid][vivid]] 是环境变量 =LS_COLORS= 的数据源。可以做以下配置:
-#+begin_src shell
-export LS_COLORS="$(vivid generate molokai)"
-#+end_src
-
-主要是不同格式的文件显示不同的颜色，相比单一的白色会更好区分。相较于 [[https://github.com/trapd00r/LS_COLORS][LS_COLORS]] 显示颜色更丰富一些。
-
 *** ~zoxide~
-[[https://github.com/ajeetdsouza/zoxide][zoxide]] 是一个快速目录跳转工具，支持模糊匹配和历史纪录。配置如下：
+[[https://github.com/ajeetdsouza/zoxide][zoxide]] 是一个快速目录跳转工具，支持模糊匹配和历史纪录：
 #+begin_src shell
-# 快速跳转目录
-zi ice wait"2" as"null" from"gh-r" lucid sbin"**/zoxide" atload'eval "$(zoxide init zsh)"'
-zi light ajeetdsouza/zoxide
+# --cmd j: 默认的 `zi` 会跟 zinit 自己的 `zi` 别名冲突（zinit 加载时会 alias zi=zinit）
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd j)"
 #+end_src
 
-它延伸出两个命令：
-- ~z~ :: 这个应该叫 ~cd~ 命令的智能版；
-- ~zi~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
-
-*** ~z.lua~
-    [[https://github.com/skywind3000/z.lua][z.lua]] 同样是一个快速目录跳转工具，是用 ~lua~ 写的。配置如下：
-    #+begin_src shell
-zi wait"0a" lucid depth"1" for \
-    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf);export _ZL_HYPHEN=1" skywind3000/z.lua
-    #+end_src
+它延伸出两个命令（默认前缀是 ~z~ ，这里改成了 ~j~ 避免跟 zinit 冲突）：
+- ~j~ :: 这个应该叫 ~cd~ 命令的智能版；
+- ~ji~ :: 这个是配合搜索工具（ ~fzf~ ）的 ~cd~ 命令。
 
 ** 插件管理
 [[https://github.com/zdharma-continuum/zinit][zinit]] 是目前用着比较不错的一个 ~zsh~ 插件管理器。个人比较相中的几个点：

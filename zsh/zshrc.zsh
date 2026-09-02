@@ -34,14 +34,11 @@ zinit lucid depth"1" light-mode for \
         Aloxaf/fzf-tab \
     atload"ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20;ZSH_AUTOSUGGEST_STRATEGY=(history completion)" \
         zsh-users/zsh-autosuggestions \
-    trackbinds bindmap"^R -> ^H" \
-        ${ZI_REPO}/history-search-multi-word \
     ${ZI_REPO}/fast-syntax-highlighting
 
 # git extensions (deferred – less urgent than completions)
 zinit wait"0a" lucid light-mode for \
     as"program" pick"bin/git-*" src"etc/git-extras-completion.zsh" tj/git-extras \
-    atload"source <(lua $ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua --init zsh enhanced once fzf); export _ZL_HYPHEN=1; export _ZL_MAX_SCANS=50000; export _ZL_NO_PROMPT_COMMAND=1" skywind3000/z.lua \
     wfxr/forgit
 
 # Modern Unix commands
@@ -67,28 +64,10 @@ zinit wait"0a" lucid from"gh-r" as"program" for \
         extract"" \
         artempyanykh/marksman
 
-# Modern command aliases with fallbacks
-if (( $+commands[eza] )); then
-    alias ls='eza --color=auto --icons=auto --group-directories-first'
-    alias ll='ls -lhA'
-    alias la='ls -A'
-    alias tree='ls -T'
-else
-    # Fallback to traditional ls with colors
-    if [[ $OSTYPE == darwin* ]]; then
-        alias ls='ls -G'
-        alias ll='ls -alh'
-    else
-        alias ls='ls --color=auto'
-        alias ll='ls -alh'
-    fi
-    alias la='ls -a'
-    (( $+commands[tree] )) && alias tree='tree' || alias tree='find . -type d | head -20'
-fi
-
-(( $+commands[bat] )) && alias cat='bat -p --wrap character'
-(( $+commands[tldr] )) && alias help='tldr'
+# Tool integrations (aliases live in conf.zsh)
 (( $+commands[fzf] )) && source <(fzf --zsh)
+# --cmd j: default `zi` clashes with zinit's own `zi` alias
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh --cmd j)"
 (( $+commands[starship] )) && eval "$(starship init zsh)"
 
 source "${${(%):-%x}:A:h}/conf.zsh"

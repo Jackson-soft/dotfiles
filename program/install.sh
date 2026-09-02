@@ -22,6 +22,8 @@ tools=(
     graphviz # dot
     neovim
     starship
+    zoxide
+    procs
 )
 
 npms=(
